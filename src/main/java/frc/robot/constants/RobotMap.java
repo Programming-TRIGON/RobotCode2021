@@ -15,7 +15,12 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
 
     public class CAN {
+        public ShooterMap shooterMap = new ShooterMap();
 
+        public class ShooterMap {
+            public int RIGHT_MOTOR_ID;
+            public int LEFT_MOTOR_ID;
+        }
     }
 
     public class PCM {
@@ -28,7 +33,8 @@ public abstract class RobotMap {
 
     public class PWM {
         public LED led = new LED();
-        public class LED{
+
+        public class LED {
             public int LED_CONTROLLER;
         }
     }
