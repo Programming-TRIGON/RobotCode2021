@@ -11,7 +11,6 @@ public abstract class RobotConstants extends RobotMap {
     public TesterConstants testerConstants = new TesterConstants();
     public VisionConstants visionConstants = new VisionConstants();
 
-
     public class LimelightConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
         public double DISTANCE_CALCULATION_B_COEFFICIENT;
@@ -31,7 +30,5 @@ public abstract class RobotConstants extends RobotMap {
     public class VisionConstants {
         public PIDCoefs ROTATION_SETTINGS;
         public double TARGET_TIME_OUT;
-
     }
-
 }
