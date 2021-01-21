@@ -10,29 +10,32 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
 
   private TrigonTalonFX rightMotor;
   private TrigonTalonFX leftMotor;
+  private TrigonTalonFX masterMotor;
 
   public ShooterSS(RobotConstants.ShooterConstants constants) {
     this.constants = constants;
 
     rightMotor = constants.canShooterMap.RIGHT_MOTOR;
     leftMotor = constants.canShooterMap.LEFT_MOTOR;
+    masterMotor = rightMotor;
 
+    rightMotor.follow(masterMotor);
     leftMotor.follow(rightMotor);
   }
 
   public void setMotors(double power) {
-    rightMotor.set(power);
+    masterMotor.set(power);
   }
 
   public double getVelocityInRPM() {
-    return rightMotor.getSelectedSensorVelocity() * constants.CENTISECONDS_IN_MINUTE * constants.TICKS_PER_REVOLUTION;
+    return masterMotor.getSelectedSensorVelocity() * constants.CENTISECONDS_IN_MINUTE * constants.TICKS_PER_REVOLUTION;
   }
 
   public double[] getValues() {
-    return new double[] { rightMotor.getSelectedSensorPosition() };
+    return new double[] { masterMotor.getSelectedSensorPosition() };
   }
 
   public void move(double power) {
-    rightMotor.set(power);
+    masterMotor.set(power);
   }
 }
