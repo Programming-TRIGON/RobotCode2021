@@ -1,5 +1,6 @@
 package frc.robot.constants.robots;
 
+import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
 
@@ -12,6 +13,7 @@ public class RobotA extends RobotConstants {
     public RobotA() {
       
         /* Robot Map */
+        can.intakeMap.MOTOR_ID = 0;
         pwm.ledMap.LED_CONTROLLER = 0;
       
         // Limelight Constants
@@ -35,5 +37,9 @@ public class RobotA extends RobotConstants {
 
         // LED constants
         ledConstants.LED_PWM_MAP = pwm.ledMap;
+
+        //Intake constants 
+        intakeConstants.INTAKE_CAN_MAP = can.intakeMap;
+        intakeConstants.MOTOR_CONFIG = new MotorConfig();
     }
 }

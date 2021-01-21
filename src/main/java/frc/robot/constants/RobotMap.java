@@ -15,7 +15,10 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
 
     public class CAN {
-
+        public IntakeMap intakeMap = new IntakeMap();
+        public class IntakeMap{
+            public int MOTOR_ID;
+        }
     }
 
     public class PCM {
