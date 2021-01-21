@@ -20,7 +20,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     masterMotor = rightMotor;
 
     rightMotor.follow(masterMotor);
-    leftMotor.follow(rightMotor);
+    leftMotor.follow(masterMotor);
   }
 
   public void setMotors(double power) {
