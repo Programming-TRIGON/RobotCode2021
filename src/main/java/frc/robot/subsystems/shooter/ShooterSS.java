@@ -3,8 +3,9 @@ package frc.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants;
+import frc.robot.subsystems.TestableSubsystem;
 
-public class ShooterSS extends SubsystemBase {
+public class ShooterSS extends SubsystemBase implements TestableSubsystem {
   private RobotConstants.ShooterConstants constants;
 
   private TrigonTalonFX rightMotor;
@@ -27,4 +28,11 @@ public class ShooterSS extends SubsystemBase {
     return rightMotor.getSelectedSensorVelocity() * constants.CENTISECONDS_IN_MINUTE * constants.TICKS_PER_REVOLUTION;
   }
 
+  public double[] getValues() {
+    return new double[] { rightMotor.getSelectedSensorPosition() };
+  }
+
+  public void move(double power) {
+    rightMotor.set(power);
+  }
 }
