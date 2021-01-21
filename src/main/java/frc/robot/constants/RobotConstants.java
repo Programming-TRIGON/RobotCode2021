@@ -10,6 +10,7 @@ public abstract class RobotConstants extends RobotMap {
 
     public TesterConstants testerConstants = new TesterConstants();
     public VisionConstants visionConstants = new VisionConstants();
+    public LedConstants ledConstants = new LedConstants();
 
     public class LimelightConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
@@ -30,5 +31,9 @@ public abstract class RobotConstants extends RobotMap {
     public class VisionConstants {
         public PIDCoefs ROTATION_SETTINGS;
         public double TARGET_TIME_OUT;
+    }
+
+    public class LedConstants {
+        public PWM.LedMap LED_PWM_MAP;
     }
 }

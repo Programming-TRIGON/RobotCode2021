@@ -33,5 +33,7 @@ public class RobotA extends RobotConstants {
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
+        // LED constants
+        ledConstants.LED_PWM_MAP = pwm.ledMap;
     }
 }
