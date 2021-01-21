@@ -1,18 +1,23 @@
 package frc.robot.constants;
 
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import frc.robot.components.MotorConfig;
+import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.utilities.PIDCoefs;
 
 /**
  * All the constants to be uses for the robot
  */
 public abstract class RobotConstants extends RobotMap {
+
 	public LimelightConstants limelightConstants = new LimelightConstants();
 	public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
 	public TesterConstants testerConstants = new TesterConstants();
 	public VisionConstants visionConstants = new VisionConstants();
+	public ShooterConstants shooterConstants = new ShooterConstants();
+	public LedConstants ledConstants = new LedConstants();
 
 	public static class staticConstants {
 		public static final FeedbackDevice
@@ -25,6 +30,7 @@ public abstract class RobotConstants extends RobotMap {
 		public static final PIDCoefs
 				SWERVE_MODULE_SPEED_PID_COEFS = new PIDCoefs(1, 1, 1, 1, 1),
 				SWERVE_MODULE_ANGLE_PID_COEFS = new PIDCoefs(1, 1, 1, 1, 1);
+
 
 	}
 
@@ -62,10 +68,22 @@ public abstract class RobotConstants extends RobotMap {
 		public int LED_BLINK_AMOUNT;
 	}
 
+
 	public class VisionConstants {
 		public PIDCoefs ROTATION_SETTINGS;
 		public double TARGET_TIME_OUT;
-
 	}
 
+
+	public class ShooterConstants {
+		public ShooterMap canShooterMap;
+		public MotorConfig RIGHT_MOTOR_CONFIG;
+		public MotorConfig LEFT_MOTOR_CONFIG;
+		public int CENTISECONDS_IN_MINUTE;
+		public int TICKS_PER_REVOLUTION;
+	}
+
+	public class LedConstants {
+		public PWM.LedMap LED_PWM_MAP;
+	}
 }

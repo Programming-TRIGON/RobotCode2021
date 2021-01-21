@@ -1,6 +1,8 @@
 package frc.robot.constants;
 
+
 import frc.robot.components.Pigeon;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.subsystems.drivetrain.SwerveModule;
 
 /**
@@ -19,6 +21,7 @@ public abstract class RobotMap {
 
 	public class CAN {
 		public DrivetrainMap drivetrainMap = new DrivetrainMap();
+		public ShooterMap shooterMap = new ShooterMap();
 
 		public class DrivetrainMap {
 			public SwerveModule
@@ -28,9 +31,15 @@ public abstract class RobotMap {
 					REAR_LEFT;
 			public Pigeon gyro;
 		}
+
+		public class ShooterMap {
+			public TrigonTalonFX RIGHT_MOTOR;
+			public TrigonTalonFX LEFT_MOTOR;
+		}
 	}
 
 	public class PCM {
+
 
 	}
 
@@ -40,8 +49,13 @@ public abstract class RobotMap {
 
 	public class PWM {
 		public LED led = new LED();
+		public LedMap ledMap = new LedMap();
 
 		public class LED {
+			public int LED_CONTROLLER;
+		}
+
+		public class LedMap {
 			public int LED_CONTROLLER;
 		}
 	}
