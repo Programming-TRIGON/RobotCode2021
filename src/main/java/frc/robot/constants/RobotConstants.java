@@ -1,6 +1,7 @@
 package frc.robot.constants;
 
 import frc.robot.components.MotorConfig;
+import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.utilities.PIDCoefs;
 
 /**
@@ -34,9 +35,10 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class ShooterConstants {
+        public ShooterMap canShooterMap;
         public MotorConfig RIGHT_MOTOR_CONFIG;
         public MotorConfig LEFT_MOTOR_CONFIG;
-        public int MILISECONDS_IN_MINUTE;
+        public int CENTISECONDS_IN_MINUTE;
         public int TICKS_PER_REVOLUTION;
     }
 }
