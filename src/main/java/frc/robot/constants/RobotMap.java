@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import frc.robot.components.TrigonTalonFX;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -15,7 +17,12 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
 
     public class CAN {
+        public ShooterMap shooterMap = new ShooterMap();
 
+        public class ShooterMap {
+            public TrigonTalonFX RIGHT_MOTOR;
+            public TrigonTalonFX LEFT_MOTOR;
+        }
     }
 
     public class PCM {
@@ -28,6 +35,7 @@ public abstract class RobotMap {
 
     public class PWM {
         public LedMap ledMap = new LedMap();
+      
         public class LedMap{
             public int LED_CONTROLLER;
         }
