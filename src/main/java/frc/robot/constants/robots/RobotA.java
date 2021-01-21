@@ -12,7 +12,7 @@ public class RobotA extends RobotConstants {
     public RobotA() {
       
         /* Robot Map */
-        pwm.led.LED_CONTROLLER = 0;
+        pwm.ledMap.LED_CONTROLLER = 0;
       
         // Limelight Constants
         limelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
@@ -33,5 +33,7 @@ public class RobotA extends RobotConstants {
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
+        // LED constants
+        ledConstants.LED_PWM_MAP = pwm.ledMap;
     }
 }

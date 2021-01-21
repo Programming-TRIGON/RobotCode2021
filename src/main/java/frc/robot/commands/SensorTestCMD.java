@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.TestableSubsystem;
-import frc.robot.subsystems.led.LED;
-import frc.robot.subsystems.led.LEDColor;
+import frc.robot.subsystems.led.LedSS;
+import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.DriverStationLogger;
 
 import java.util.HashMap;
@@ -16,9 +16,9 @@ public class SensorTestCMD extends CommandBase {
 	private HashMap<String, double[]> initialValues;
 	private double initialTime;
 	private RobotConstants.TesterConstants constants;
-	private LED led;
+	private LedSS led;
 
-	public SensorTestCMD(RobotConstants.TesterConstants constants, LED led) {
+	public SensorTestCMD(RobotConstants.TesterConstants constants, LedSS led) {
 		addRequirements(led);
 		this.led = led;
 		subsystems = new HashMap<>();
@@ -69,6 +69,6 @@ public class SensorTestCMD extends CommandBase {
 			if (success)
 				DriverStationLogger.logToDS(name + " is working");
 		}
-		led.blinkColor(allSuccess ? LEDColor.Green : LEDColor.Red, constants.LED_BLINK_AMOUNT);
+		led.blinkColor(allSuccess ? LedColor.Green : LedColor.Red, constants.LED_BLINK_AMOUNT);
 	}
 }
