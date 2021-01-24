@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import frc.robot.components.MotorConfig;
 import frc.robot.utilities.PIDCoefs;
 
 /**
@@ -7,10 +8,9 @@ import frc.robot.utilities.PIDCoefs;
  */
 public abstract class RobotConstants extends RobotMap {
     public LimelightConstants limelightConstants = new LimelightConstants();
-
     public TesterConstants testerConstants = new TesterConstants();
     public VisionConstants visionConstants = new VisionConstants();
-
+    public TriggerConstants triggerConstants = new TriggerConstants();
 
     public class LimelightConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
@@ -32,6 +32,11 @@ public abstract class RobotConstants extends RobotMap {
         public PIDCoefs ROTATION_SETTINGS;
         public double TARGET_TIME_OUT;
 
+    }
+
+    public class TriggerConstants {
+        public CAN.TriggerMap CAN_MAP;
+        public MotorConfig MOTOR_CONFIG;
     }
 
 }
