@@ -28,9 +28,8 @@ public abstract class RobotMap {
         }
 
         public class IntakeMap{
-            public TrigonTalonSRX talonSRX;
+            public TrigonTalonSRX MOTOR;
         }
-
     }
 
     public class PCM {

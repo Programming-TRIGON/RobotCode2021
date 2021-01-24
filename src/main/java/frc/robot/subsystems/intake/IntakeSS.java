@@ -8,7 +8,7 @@ public class IntakeSS extends OverridableSubsystem {
   private TrigonTalonSRX motor;
 
   public IntakeSS(RobotConstants.IntakeConstants intakeConstants) {
-    motor = intakeConstants.INTAKE_CAN_MAP.talonSRX;
+    motor = intakeConstants.CAN_MAP.MOTOR;
   }
   
   public void overriddenMove(double power) {

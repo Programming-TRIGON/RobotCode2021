@@ -47,10 +47,10 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class LedConstants {
-        public PWM.LedMap LED_PWM_MAP;
+        public PWM.LedMap PWM_MAP;
     }
     public class IntakeConstants{
-        public CAN.IntakeMap INTAKE_CAN_MAP;
+        public CAN.IntakeMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         }
 }

@@ -23,7 +23,7 @@ public class LedSS extends SubsystemBase {
    * changing.
    */
   public LedSS(RobotConstants.LedConstants ledConstants) {
-    ledController = new Spark(ledConstants.LED_PWM_MAP.LED_CONTROLLER);
+    ledController = new Spark(ledConstants.PWM_MAP.LED_CONTROLLER);
     currentColor = LedColor.Off;
     blinkingAmount = -1;
     notifier = new Notifier(this::notifierPeriodic);

@@ -39,16 +39,16 @@ public class RobotA extends RobotConstants {
         shooterConstants.TICKS_PER_REVOLUTION = 4096;
 
         // LED constants
-        ledConstants.LED_PWM_MAP = pwm.ledMap;
+        ledConstants.PWM_MAP = pwm.ledMap;
 
         //Intake constants 
-        intakeConstants.INTAKE_CAN_MAP = can.intakeMap;
+        intakeConstants.CAN_MAP = can.intakeMap;
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
   
         /* Robot Map */
         pwm.ledMap.LED_CONTROLLER = 0;
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
-        can.intakeMap.talonSRX = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
+        can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
     }
 }
