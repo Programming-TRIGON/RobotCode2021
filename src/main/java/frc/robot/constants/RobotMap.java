@@ -19,16 +19,18 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
 
     public class CAN {
-        public IntakeMap intakeMap = new IntakeMap();
-        public class IntakeMap{
-            public TrigonTalonSRX talonSRX;
-        }
         public ShooterMap shooterMap = new ShooterMap();
+        public IntakeMap intakeMap = new IntakeMap();
 
         public class ShooterMap {
             public TrigonTalonFX RIGHT_MOTOR;
             public TrigonTalonFX LEFT_MOTOR;
         }
+
+        public class IntakeMap{
+            public TrigonTalonSRX talonSRX;
+        }
+
     }
 
     public class PCM {
