@@ -52,5 +52,5 @@ public abstract class RobotConstants extends RobotMap {
     public class IntakeConstants{
         public CAN.IntakeMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
-        }
+    }
 }
