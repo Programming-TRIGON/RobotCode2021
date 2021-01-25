@@ -23,19 +23,28 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     leftMotor.follow(masterMotor);
   }
 
-  public void setMotors(double power) {
+  /**
+   * 
+   * @param power to be set to the motors (between -1 and 1)
+   */
+  public void move(double power) {
     masterMotor.set(power);
   }
 
+  /**
+   * 
+   * @return the velocity of the motors in ticks/centiseconds
+   */
   public double getVelocity() {
     return masterMotor.getSelectedSensorVelocity();
   }
 
+  /**
+   * 
+   * @return an array of the current encoder position
+   */
   public double[] getValues() {
     return new double[] { masterMotor.getSelectedSensorPosition() };
   }
 
-  public void move(double power) {
-    masterMotor.set(power);
-  }
 }
