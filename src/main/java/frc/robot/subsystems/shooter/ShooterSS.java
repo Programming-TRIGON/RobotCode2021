@@ -46,5 +46,4 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
   public double[] getValues() {
     return new double[] { masterMotor.getSelectedSensorPosition() };
   }
-
 }
