@@ -12,8 +12,6 @@ public class RobotA extends RobotConstants {
 
     // TODO: Set Constants
     public RobotA() {
-        /* Robot Map */
-        pwm.ledMap.LED_CONTROLLER = 0;
 
         // Limelight Constants
         limelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
@@ -38,13 +36,12 @@ public class RobotA extends RobotConstants {
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
 
+        // LED constants
+        ledConstants.LED_PWM_MAP = pwm.ledMap;
+
         /* Robot Map */
         pwm.ledMap.LED_CONTROLLER = 0;
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
-
-        // LED constants
-        ledConstants.LED_PWM_MAP = pwm.ledMap;
-
     }
 }
