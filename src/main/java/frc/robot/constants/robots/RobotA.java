@@ -32,17 +32,17 @@ public class RobotA extends RobotConstants {
         visionConstants.TARGET_TIME_OUT = 0.1;
 
         // Shooter Constants
-        shooterConstants.canShooterMap = can.shooterMap;
+        shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;
 
-        //Intake constants 
+        // Intake constants
         intakeConstants.CAN_MAP = can.intakeMap;
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
-  
+
         /* Robot Map */
         pwm.ledMap.LED_CONTROLLER = 0;
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
