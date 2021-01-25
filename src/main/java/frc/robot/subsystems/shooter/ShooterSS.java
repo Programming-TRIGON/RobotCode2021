@@ -15,27 +15,35 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
   public ShooterSS(RobotConstants.ShooterConstants constants) {
     this.constants = constants;
 
-    rightMotor = constants.canShooterMap.RIGHT_MOTOR;
-    leftMotor = constants.canShooterMap.LEFT_MOTOR;
+    rightMotor = constants.CAN_MAP.RIGHT_MOTOR;
+    leftMotor = constants.CAN_MAP.LEFT_MOTOR;
     masterMotor = rightMotor;
 
     rightMotor.follow(masterMotor);
     leftMotor.follow(masterMotor);
   }
 
-  public void setMotors(double power) {
-    masterMotor.set(power);
-  }
-
-  public double getVelocityInRPM() {
-    return masterMotor.getSelectedSensorVelocity() * constants.CENTISECONDS_IN_MINUTE * constants.TICKS_PER_REVOLUTION;
-  }
-
-  public double[] getValues() {
-    return new double[] { masterMotor.getSelectedSensorPosition() };
-  }
-
+  /**
+   * 
+   * @param power to be set to the motors (between -1 and 1)
+   */
   public void move(double power) {
     masterMotor.set(power);
+  }
+
+  /**
+   * 
+   * @return the velocity of the motors in ticks/centiseconds
+   */
+  public double getVelocity() {
+    return masterMotor.getSelectedSensorVelocity();
+  }
+
+  /**
+   * 
+   * @return an array of the current encoder position
+   */
+  public double[] getValues() {
+    return new double[] { masterMotor.getSelectedSensorPosition() };
   }
 }
