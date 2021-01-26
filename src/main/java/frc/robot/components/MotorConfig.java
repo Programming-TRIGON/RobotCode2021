@@ -167,6 +167,7 @@ public class MotorConfig {
         this.rampRate = rampRate;
         this.isInverted = isInverted;
         this.isSensorInverted = isSensorInverted;
+        this.neutralMode = neutralMode;
         this.voltageCompSaturation = voltageCompSaturation;
         this.currentLimitConfig = supplyCurrentLimitConfiguration;
     }

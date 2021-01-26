@@ -1,6 +1,9 @@
 package frc.robot.constants;
 
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
+import frc.robot.constants.RobotConstants.ShooterConstants;
+import frc.robot.constants.RobotMap.CAN.TriggerMap.IntakeMap;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -18,9 +21,22 @@ public abstract class RobotMap {
 
     public class CAN {
         public TriggerMap triggerMap = new TriggerMap();
+        public ShooterMap shooterMap =new ShootMap();
+        public IntakeMap intakeMap=new IntakeMap();
+
 
         public class TriggerMap {
-            public TrigonTalonSRX motor;
+        public TrigonTalonSRX motor;
+        public ShooterMap shooterMap = new ShooterMap();
+        public IntakeMap intakeMap = new IntakeMap();
+
+        public class ShooterMap {
+            public TrigonTalonFX RIGHT_MOTOR;
+            public TrigonTalonFX LEFT_MOTOR;
+        }
+
+        public class IntakeMap{
+            public TrigonTalonSRX MOTOR;
         }
     }
 
@@ -33,9 +49,9 @@ public abstract class RobotMap {
     }
 
     public class PWM {
-        public LED led = new LED();
-
-        public class LED {
+        public LedMap ledMap = new LedMap();
+      
+        public class LedMap{
             public int LED_CONTROLLER;
         }
     }
