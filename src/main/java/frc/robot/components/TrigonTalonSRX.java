@@ -73,6 +73,16 @@ public class TrigonTalonSRX extends WPI_TalonSRX {
     }
 
     /**
+     * Sets new PID coefficients
+     * 
+     * @param pidCoefs the coefficients fot the PID
+     */
+    public void configurePID(PIDCoefs pidCoefs) {
+        this.pidCoefs = pidCoefs;
+        configurePID();
+    }
+
+    /**
      * if tuning the robot then call in periodic
      * 
      * @param name name of the key
