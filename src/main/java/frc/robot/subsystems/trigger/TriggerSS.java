@@ -15,7 +15,7 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
     motor = constants.CAN_MAP.MOTOR;
   }
 
-  public void setMotor(double power) {
+  public void overriddenMove(double power) {
     motor.set(power);
   }
 
@@ -25,10 +25,6 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
 
   public double[] getValues() {
     return new double[] { motor.getSelectedSensorPosition() };
-  }
-
-  public void overriddenMove(double power) {
-    motor.set(power);
   }
 
 }
