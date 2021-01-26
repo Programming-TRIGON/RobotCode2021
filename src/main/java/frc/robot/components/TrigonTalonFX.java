@@ -72,7 +72,13 @@ public class TrigonTalonFX extends WPI_TalonFX {
         config_kF(0, pidCoefs.getKF());
     }
 
-    public void isTuning() {
-        SmartDashboard.putData("PIDCoefs", pidCoefs);
+    /**
+     * if tuning the robot then call in periodic
+     * 
+     * @param name name of the key
+     */
+    public void isTuning(String name) {
+        SmartDashboard.putData(name + "/PIDCoefs", pidCoefs);
+        configurePID();
     }
 }
