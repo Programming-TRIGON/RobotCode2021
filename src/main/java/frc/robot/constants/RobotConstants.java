@@ -14,6 +14,7 @@ public abstract class RobotConstants extends RobotMap {
     public ShooterConstants shooterConstants = new ShooterConstants();
     public LedConstants ledConstants = new LedConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
+    public TriggerConstants triggerConstants = new TriggerConstants();
 
     public class LimelightConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
@@ -47,7 +48,6 @@ public abstract class RobotConstants extends RobotMap {
         public MotorConfig MOTOR_CONFIG;
     }
 
-}
     public class LedConstants {
         public PWM.LedMap PWM_MAP;
     }
