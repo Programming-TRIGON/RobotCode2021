@@ -15,14 +15,26 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
     motor = constants.CAN_MAP.MOTOR;
   }
 
+  /**
+   * 
+   * @param power to be set to the motor (between -1 and 1)
+   */
   public void overriddenMove(double power) {
     motor.set(power);
   }
 
+  /**
+   * 
+   * @return the velocity of the motor in ticks/centisecond
+   */
   public double getVelocity() {
     return motor.getSelectedSensorVelocity();
   }
 
+  /**
+   * 
+   * @return the position of the motor in an array
+   */
   public double[] getValues() {
     return new double[] { motor.getSelectedSensorPosition() };
   }
