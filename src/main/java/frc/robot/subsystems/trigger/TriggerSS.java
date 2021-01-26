@@ -12,7 +12,7 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
 
   public TriggerSS(RobotConstants.TriggerConstants constants) {
     this.constants = constants;
-    motor = constants.CAN_MAP.motor;
+    motor = constants.CAN_MAP.MOTOR;
   }
 
   public void setMotor(double power) {
