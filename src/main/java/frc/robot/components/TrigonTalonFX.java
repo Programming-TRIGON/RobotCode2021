@@ -30,10 +30,6 @@ public class TrigonTalonFX extends WPI_TalonFX {
         configVoltageCompSaturation(motorConfig.getVoltageCompSaturation());
         enableVoltageCompensation(motorConfig.getVoltageCompSaturation() > 0);
         configSupplyCurrentLimit(motorConfig.getSupplyCurrentLimitConfiguration());
-        config_kP(0, pidCoefs.getKP());
-        config_kI(0, pidCoefs.getKI());
-        config_kD(0, pidCoefs.getKD());
-        config_kF(0, pidCoefs.getKF());
         configurePID();
     }
 
@@ -54,8 +50,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
      * @param pidCoefs coefficients for CTRE PID
      */
     public TrigonTalonFX(int id, PIDCoefs pidCoefs) {
-        this(id, new MotorConfig(), new PIDCoefs(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD(), pidCoefs.getKF(),
-                pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance()));
+        this(id, new MotorConfig(), pidCoefs);
     }
 
     /**

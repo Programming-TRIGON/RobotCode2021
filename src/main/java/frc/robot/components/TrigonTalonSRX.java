@@ -50,8 +50,7 @@ public class TrigonTalonSRX extends WPI_TalonSRX {
      * @param pidCoefs coefficients for CTRE PID
      */
     public TrigonTalonSRX(int id, PIDCoefs pidCoefs) {
-        this(id, new MotorConfig(), new PIDCoefs(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD(), pidCoefs.getKF(),
-                pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance()));
+        this(id, new MotorConfig(), pidCoefs);
     }
 
     /**
@@ -73,7 +72,13 @@ public class TrigonTalonSRX extends WPI_TalonSRX {
         config_kF(0, pidCoefs.getKF());
     }
 
-    public void isTuning() {
-        SmartDashboard.putData("PIDCoefs", pidCoefs);
+    /**
+     * if tuning the robot then call in periodic
+     * 
+     * @param name name of the key
+     */
+    public void isTuning(String name) {
+        SmartDashboard.putData(name + "/PIDCoefs", pidCoefs);
+        configurePID();
     }
 }
