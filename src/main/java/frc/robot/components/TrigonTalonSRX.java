@@ -73,7 +73,7 @@ public class TrigonTalonSRX extends WPI_TalonSRX {
     }
 
     /**
-     * Sets new PID coefficients
+     * sets new PID coefficients
      * 
      * @param pidCoefs the coefficients fot the PID
      */
@@ -83,11 +83,11 @@ public class TrigonTalonSRX extends WPI_TalonSRX {
     }
 
     /**
-     * if tuning the robot then call in periodic
+     * if tuning the PID then call periodically
      * 
      * @param name name of the key
      */
-    public void isTuning(String name) {
+    public void tunePID(String name) {
         SmartDashboard.putData(name + "/PIDCoefs", pidCoefs);
         configurePID();
     }
