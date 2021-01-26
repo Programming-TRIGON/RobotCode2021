@@ -11,47 +11,47 @@ import frc.robot.utilities.PIDCoefs;
  */
 public class RobotA extends RobotConstants {
 
-        // TODO: Set Constants
-        public RobotA() {
-                // Limelight Constants
-                limelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
-                limelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
-                limelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-                limelightConstants.LIMELIGHT_ANGLE_OFFSET = 1;
-                limelightConstants.LIMELIGHT_OFFSET_X = 1;
-                limelightConstants.LIMELIGHT_OFFSET_Y = 1;
-                limelightConstants.DEFAULT_TABLE_KEY = "limelight";
+    // TODO: Set Constants
+    public RobotA() {
+        // Limelight Constants
+        limelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
+        limelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
+        limelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+        limelightConstants.LIMELIGHT_ANGLE_OFFSET = 1;
+        limelightConstants.LIMELIGHT_OFFSET_X = 1;
+        limelightConstants.LIMELIGHT_OFFSET_Y = 1;
+        limelightConstants.DEFAULT_TABLE_KEY = "limelight";
 
-                // Sensor check constants
-                testerConstants.MOVE_POWER = 1;
-                testerConstants.SECONDS_TO_WAIT = 3;
-                testerConstants.LED_BLINK_AMOUNT = 10;
+        // Sensor check constants
+        testerConstants.MOVE_POWER = 1;
+        testerConstants.SECONDS_TO_WAIT = 3;
+        testerConstants.LED_BLINK_AMOUNT = 10;
 
-                // Vision Constants
-                visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
-                visionConstants.TARGET_TIME_OUT = 0.1;
+        // Vision Constants
+        visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
+        visionConstants.TARGET_TIME_OUT = 0.1;
 
-                // Trigger Constants
-                triggerConstants.CAN_MAP = can.triggerMap;
-                triggerConstants.MOTOR_CONFIG = new MotorConfig();
+        // Trigger Constants
+        triggerConstants.CAN_MAP = can.triggerMap;
+        triggerConstants.MOTOR_CONFIG = new MotorConfig();
 
-                // Shooter Constants
-                shooterConstants.CAN_MAP = can.shooterMap;
-                shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
-                shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
+        // Shooter Constants
+        shooterConstants.CAN_MAP = can.shooterMap;
+        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
+        shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
 
-                // LED constants
-                ledConstants.PWM_MAP = pwm.ledMap;
+        // LED constants
+        ledConstants.PWM_MAP = pwm.ledMap;
 
-                // Intake constants
-                intakeConstants.CAN_MAP = can.intakeMap;
-                intakeConstants.MOTOR_CONFIG = new MotorConfig();
+        // Intake constants
+        intakeConstants.CAN_MAP = can.intakeMap;
+        intakeConstants.MOTOR_CONFIG = new MotorConfig();
 
-                /* Robot Map */
-                pwm.ledMap.LED_CONTROLLER = 0;
-                can.triggerMap.MOTOR = new TrigonTalonSRX(0, triggerConstants.MOTOR_CONFIG);
-                can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
-                can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
-                can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
-        }
+        /* Robot Map */
+        pwm.ledMap.LED_CONTROLLER = 0;
+        can.triggerMap.MOTOR = new TrigonTalonSRX(0, triggerConstants.MOTOR_CONFIG);
+        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(1, shooterConstants.RIGHT_MOTOR_CONFIG);
+        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(2, shooterConstants.LEFT_MOTOR_CONFIG);
+        can.intakeMap.MOTOR = new TrigonTalonSRX(3, intakeConstants.MOTOR_CONFIG);
+    }
 }

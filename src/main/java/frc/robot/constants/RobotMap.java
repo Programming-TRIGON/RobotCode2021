@@ -24,8 +24,6 @@ public abstract class RobotMap {
 
         public class TriggerMap {
             public TrigonTalonSRX MOTOR;
-            public ShooterMap shooterMap = new ShooterMap();
-            public IntakeMap intakeMap = new IntakeMap();
         }
 
         public class ShooterMap {
@@ -36,7 +34,6 @@ public abstract class RobotMap {
         public class IntakeMap {
             public TrigonTalonSRX MOTOR;
         }
-
     }
 
     public class PCM {

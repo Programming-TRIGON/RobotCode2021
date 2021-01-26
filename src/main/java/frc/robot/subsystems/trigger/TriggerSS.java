@@ -5,6 +5,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class TriggerSS extends OverridableSubsystem implements TestableSubsystem, Loggable {
   private RobotConstants.TriggerConstants constants;
@@ -27,6 +28,7 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
    * 
    * @return the velocity of the motor in ticks/centisecond
    */
+  @Log(name = "Trigger/Motor Velocity")
   public double getVelocity() {
     return motor.getSelectedSensorVelocity();
   }
@@ -38,5 +40,4 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
   public double[] getValues() {
     return new double[] { motor.getSelectedSensorPosition() };
   }
-
 }
