@@ -1,9 +1,12 @@
 package frc.robot.utilities;
 
+import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+
 /**
  * This class is used to store settings for different PIDs
  */
-public class PIDCoefs {
+public class PIDCoefs implements Sendable {
 
   private double KP;
   private double KI;
@@ -94,5 +97,16 @@ public class PIDCoefs {
 
   public void setDeltaTolerance(double deltaTolerance) {
     this.deltaTolerance = deltaTolerance;
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("PIDController");
+    builder.addDoubleProperty("p", this::getKP, this::setKP);
+    builder.addDoubleProperty("i", this::getKI, this::setKI);
+    builder.addDoubleProperty("d", this::getKD, this::setKD);
+    builder.addDoubleProperty("f", this::getKF, this::setKF);
+    builder.addDoubleProperty("tolerance", this::getTolerance, this::setTolerance);
+    builder.addDoubleProperty("delta tolerance", this::getDeltaTolerance, this::setDeltaTolerance);
   }
 }
