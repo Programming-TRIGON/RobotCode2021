@@ -2,7 +2,6 @@ package frc.robot.subsystems.trigger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.OverridableSubsystem;
@@ -26,9 +25,8 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
    * @param velocity     desired velocity of the motor
    */
   public void setVelocity(double acceleration, double velocity) {
-    if (!overridden) {
+    if (!overridden)
       motor.set(ControlMode.Velocity, acceleration, DemandType.ArbitraryFeedForward, velocity);
-    }
   }
 
   /**
