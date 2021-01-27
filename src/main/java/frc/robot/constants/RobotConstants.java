@@ -17,6 +17,8 @@ public abstract class RobotConstants extends RobotMap {
     public LedConstants ledConstants = new LedConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
     public TriggerConstants triggerConstants = new TriggerConstants();
+    public ClimberConstants leftClimberConstants = new ClimberConstants();
+    public ClimberConstants rightClimberConstants = new ClimberConstants();
 
     public class LimelightConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
@@ -59,5 +61,10 @@ public abstract class RobotConstants extends RobotMap {
     public class IntakeConstants {
         public CAN.IntakeMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
+    }
+
+    public class ClimberConstants {
+        public PWM.ClimberMap PWM_MAP;
+        public boolean IS_INVERTED;
     }
 }

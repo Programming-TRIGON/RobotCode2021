@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 
@@ -46,9 +47,15 @@ public abstract class RobotMap {
 
     public class PWM {
         public LedMap ledMap = new LedMap();
+        public ClimberMap leftClimberMap = new ClimberMap();
+        public ClimberMap rightClimberMap = new ClimberMap();
 
         public class LedMap {
             public int LED_CONTROLLER;
+        }
+
+        public class ClimberMap {
+            public PWMSparkMax MOTOR;
         }
     }
 }
