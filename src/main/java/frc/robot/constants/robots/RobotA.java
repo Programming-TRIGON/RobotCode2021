@@ -63,6 +63,7 @@ public class RobotA extends RobotConstants {
                 can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
                 can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
                 can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
+                can.triggerMap.MOTOR = new TrigonTalonSRX(3, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
 
                 // PWM
                 pwm.ledMap.LED_CONTROLLER = 0;
