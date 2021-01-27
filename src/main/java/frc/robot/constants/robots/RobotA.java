@@ -1,5 +1,6 @@
 package frc.robot.constants.robots;
 
+import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.MotorConfig;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
@@ -43,10 +44,24 @@ public class RobotA extends RobotConstants {
         intakeConstants.CAN_MAP = can.intakeMap;
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
 
+        // Left climber constants
+        leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
+        leftClimberConstants.IS_INVERTED = false;
+
+        // Right climber constants  
+        rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
+        rightClimberConstants.IS_INVERTED = false;
+
         /* Robot Map */
-        pwm.ledMap.LED_CONTROLLER = 0;
+
+        // CAN
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
+
+        // PWM
+        pwm.ledMap.LED_CONTROLLER = 0;
+        pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
+        pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
     }
 }
