@@ -34,6 +34,7 @@ public class RobotA extends RobotConstants {
         // Trigger Constants
         triggerConstants.CAN_MAP = can.triggerMap;
         triggerConstants.MOTOR_CONFIG = new MotorConfig();
+        triggerConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
@@ -49,7 +50,7 @@ public class RobotA extends RobotConstants {
 
         /* Robot Map */
         pwm.ledMap.LED_CONTROLLER = 0;
-        can.triggerMap.MOTOR = new TrigonTalonSRX(0, triggerConstants.MOTOR_CONFIG);
+        can.triggerMap.MOTOR = new TrigonTalonSRX(0, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(1, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(2, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(3, intakeConstants.MOTOR_CONFIG);

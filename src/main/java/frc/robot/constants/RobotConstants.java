@@ -46,6 +46,7 @@ public abstract class RobotConstants extends RobotMap {
     public class TriggerConstants {
         public CAN.TriggerMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
+        public PIDCoefs PID_COEFS;
     }
 
     public class LedConstants {
