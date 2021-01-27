@@ -5,11 +5,13 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 
 public class ClimberSS extends OverridableSubsystem {
-    private PWMSparkMax sparkMax;
+    private PWMSparkMax motor;
+    private RobotConstants.ClimberConstants constants;
 
-    public ClimberSS(RobotConstants.ClimberConstants climberConstants) {
-        sparkMax = climberConstants.PWM_MAP.MOTOR;
-        sparkMax.setInverted(climberConstants.IS_INVERTED);
+    public ClimberSS(RobotConstants.ClimberConstants constants) {
+        this.constants = constants;
+        motor = constants.PWM_MAP.MOTOR;
+        motor.setInverted(constants.IS_INVERTED);
     }
 
   /**
@@ -17,6 +19,6 @@ public class ClimberSS extends OverridableSubsystem {
    * @param power to be set to the motor (between -1 and 1)
    */
     public void overriddenMove(double power) {
-        sparkMax.set(power);
+        motor.set(power);
     }
 }
