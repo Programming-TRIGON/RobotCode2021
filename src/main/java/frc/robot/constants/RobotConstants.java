@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.utilities.PIDCoefs;
@@ -47,6 +49,7 @@ public abstract class RobotConstants extends RobotMap {
         public CAN.TriggerMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         public PIDCoefs PID_COEFS;
+        public ControlMode PID_MODE;
     }
 
     public class LedConstants {
