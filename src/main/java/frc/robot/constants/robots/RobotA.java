@@ -32,6 +32,11 @@ public class RobotA extends RobotConstants {
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
+        // Trigger Constants
+        triggerConstants.CAN_MAP = can.triggerMap;
+        triggerConstants.MOTOR_CONFIG = new MotorConfig();
+        triggerConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
@@ -48,7 +53,7 @@ public class RobotA extends RobotConstants {
         leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
         leftClimberConstants.IS_INVERTED = false;
 
-        // Right climber constants  
+        // Right climber constants
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
@@ -58,6 +63,7 @@ public class RobotA extends RobotConstants {
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
+        can.triggerMap.MOTOR = new TrigonTalonSRX(3, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
 
         // PWM
         pwm.ledMap.LED_CONTROLLER = 0;

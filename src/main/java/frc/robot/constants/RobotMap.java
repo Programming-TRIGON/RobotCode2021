@@ -1,6 +1,5 @@
 package frc.robot.constants;
 
-
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
@@ -20,15 +19,20 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
 
     public class CAN {
+        public TriggerMap triggerMap = new TriggerMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
+
+        public class TriggerMap {
+            public TrigonTalonSRX MOTOR;
+        }
 
         public class ShooterMap {
             public TrigonTalonFX RIGHT_MOTOR;
             public TrigonTalonFX LEFT_MOTOR;
         }
 
-        public class IntakeMap{
+        public class IntakeMap {
             public TrigonTalonSRX MOTOR;
         }
     }
@@ -45,8 +49,8 @@ public abstract class RobotMap {
         public LedMap ledMap = new LedMap();
         public ClimberMap leftClimberMap = new ClimberMap();
         public ClimberMap rightClimberMap = new ClimberMap();
-      
-        public class LedMap{
+
+        public class LedMap {
             public int LED_CONTROLLER;
         }
 
