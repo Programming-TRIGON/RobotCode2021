@@ -51,7 +51,6 @@ public abstract class RobotConstants extends RobotMap {
         public CAN.TriggerMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         public PIDCoefs PID_COEFS;
-        public ControlMode PID_MODE;
     }
 
     public class LedConstants {
