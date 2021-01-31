@@ -10,6 +10,7 @@ public class Limelight {
 
     private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
     private RobotConstants.LimelightConstants limelightConstants;
+    private boolean limelightPosition;
 
     /**
      * @param tableKey the key of the limelight - if it was changed.
@@ -196,6 +197,26 @@ public class Limelight {
     }
 
     /**
+     * sets the position of the limelight based on whether or not the shooter hood
+     * is extended or retracted
+     * 
+     * @param position of the limelight (true=extended false=retracted)
+     */
+    public void setLimelightPosition(boolean position) {
+        limelightPosition = position;
+    }
+
+    /**
+     * gets the position of the limelight based on whether or not the shooter hood
+     * is extended or retracted
+     * 
+     * @return the current position of the limelight (true=extended false=retracted)
+     */
+    public boolean getLimelightPosition() {
+        return limelightPosition;
+    }
+
+    /**
      * @return the vector between the middle of the robot and the target.
      */
     private Vector2d calculateVector() {
@@ -207,4 +228,5 @@ public class Limelight {
         return new Vector2d(limelightToTarget.x - limelightConstants.LIMELIGHT_OFFSET_X,
                 limelightToTarget.y - limelightConstants.LIMELIGHT_OFFSET_Y);
     }
+
 }

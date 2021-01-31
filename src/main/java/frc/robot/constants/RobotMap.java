@@ -1,6 +1,7 @@
 package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 
@@ -38,7 +39,11 @@ public abstract class RobotMap {
     }
 
     public class PCM {
+        public PitcherMap pitcherMap = new PitcherMap();
 
+        public class PitcherMap {
+            public TrigonDoubleSolenoid SOLENOID;
+        }
     }
 
     public class DIO {

@@ -2,6 +2,7 @@ package frc.robot.constants.robots;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.MotorConfig;
+import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants;
@@ -69,5 +70,10 @@ public class RobotA extends RobotConstants {
         pwm.ledMap.LED_CONTROLLER = 0;
         pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
+
+        // PCM
+        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 0);
+        pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
+        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
     }
 }

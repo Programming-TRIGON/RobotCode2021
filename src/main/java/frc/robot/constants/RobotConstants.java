@@ -1,7 +1,5 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.utilities.PIDCoefs;
@@ -19,6 +17,7 @@ public abstract class RobotConstants extends RobotMap {
     public TriggerConstants triggerConstants = new TriggerConstants();
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
+    public PitcherConstants pitcherConstants = new PitcherConstants();
 
     public class LimelightConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
@@ -65,5 +64,11 @@ public abstract class RobotConstants extends RobotMap {
     public class ClimberConstants {
         public PWM.ClimberMap PWM_MAP;
         public boolean IS_INVERTED;
+    }
+
+    public class PitcherConstants {
+        public PCM.PitcherMap PCM_MAP;
+        public double EXTENDED_TOGGLE_ANGLE;
+        public double RETRACTED_TOGGLE_ANGLE;
     }
 }
