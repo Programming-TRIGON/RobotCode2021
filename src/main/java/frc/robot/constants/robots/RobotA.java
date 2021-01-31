@@ -58,6 +58,10 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
+        // Pitcher constants
+        pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
+        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
+
         /* Robot Map */
 
         // CAN
@@ -73,7 +77,5 @@ public class RobotA extends RobotConstants {
 
         // PCM
         pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
-        pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
-        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
     }
 }

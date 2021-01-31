@@ -202,7 +202,7 @@ public class Limelight {
      * 
      * @param position of the limelight (true=extended false=retracted)
      */
-    public void setLimelightPosition(boolean position) {
+    public void setIsHoodExtended(boolean position) {
         limelightPosition = position;
     }
 
@@ -212,7 +212,7 @@ public class Limelight {
      * 
      * @return the current position of the limelight (true=extended false=retracted)
      */
-    public boolean getLimelightPosition() {
+    public boolean getIsHoodExtended() {
         return limelightPosition;
     }
 
