@@ -72,7 +72,7 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // PCM
-        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 0);
+        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
         pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
         pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
     }
