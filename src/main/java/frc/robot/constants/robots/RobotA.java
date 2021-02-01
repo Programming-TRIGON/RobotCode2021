@@ -61,6 +61,7 @@ public class RobotA extends RobotConstants {
         // Pitcher constants
         pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
         pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
+        pitcherConstants.NO_TARGET_BLINK_TIME = 5;
 
         /* Robot Map */
 

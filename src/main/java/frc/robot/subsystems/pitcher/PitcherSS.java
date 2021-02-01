@@ -36,14 +36,4 @@ public class PitcherSS extends SubsystemBase implements Loggable {
   public boolean getSolenoid() {
     return solenoid.getSolenoid();
   }
-
-  /**
-   * Toggles the pitcher based on the current position of the limelight (extended
-   * or retracted) and the current angle at which the limelight sees the target.
-   */
-  public void togglePitcherBasedOnDistance() {
-    solenoid.setSolenoid(limelight.getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
-        : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
-    limelight.setIsHoodExtended(solenoid.getSolenoid());
-  }
 }
