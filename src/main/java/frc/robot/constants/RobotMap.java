@@ -38,18 +38,6 @@ public abstract class RobotMap {
         }
     }
 
-    public class PCM {
-        public PitcherMap pitcherMap = new PitcherMap();
-
-        public class PitcherMap {
-            public TrigonDoubleSolenoid SOLENOID;
-        }
-    }
-
-    public class DIO {
-
-    }
-
     public class PWM {
         public LedMap ledMap = new LedMap();
         public ClimberMap leftClimberMap = new ClimberMap();
@@ -62,5 +50,17 @@ public abstract class RobotMap {
         public class ClimberMap {
             public PWMSparkMax MOTOR;
         }
+    }
+
+    public class PCM {
+        public PitcherMap pitcherMap = new PitcherMap();
+
+        public class PitcherMap {
+            public TrigonDoubleSolenoid SOLENOID;
+        }
+    }
+
+    public class DIO {
+
     }
 }

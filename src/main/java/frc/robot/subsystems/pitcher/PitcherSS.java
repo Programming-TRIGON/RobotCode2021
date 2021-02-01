@@ -6,7 +6,6 @@ import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.constants.RobotConstants;
 import frc.robot.vision.Limelight;
 import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Log;
 
 public class PitcherSS extends SubsystemBase implements Loggable {
   private TrigonDoubleSolenoid solenoid;
@@ -34,7 +33,7 @@ public class PitcherSS extends SubsystemBase implements Loggable {
    * @return the position of the solenoid (true=forward false=reverse)
    */
   public boolean getSolenoid() {
-    return solenoid.getSolenoid();
+    return solenoid.isForward();
   }
 
   /**
@@ -42,8 +41,10 @@ public class PitcherSS extends SubsystemBase implements Loggable {
    * or retracted) and the current angle at which the limelight sees the target.
    */
   public void togglePitcherBasedOnDistance() {
-    solenoid.setSolenoid(limelight.getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
-        : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
-    limelight.setIsHoodExtended(solenoid.getSolenoid());
+    if (limelight.getTv()) {
+      solenoid.setSolenoid(limelight.getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
+          : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
+      limelight.setIsHoodExtended(solenoid.isForward());
+    }
   }
 }
