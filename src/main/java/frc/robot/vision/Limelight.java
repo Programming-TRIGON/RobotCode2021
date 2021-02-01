@@ -10,7 +10,6 @@ public class Limelight {
 
     private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
     private RobotConstants.LimelightConstants limelightConstants;
-    private boolean limelightPosition;
 
     /**
      * @param tableKey the key of the limelight - if it was changed.
@@ -194,26 +193,6 @@ public class Limelight {
     public void stopVision() {
         setCamMode(CamMode.driver);
         setLedMode(LedMode.off);
-    }
-
-    /**
-     * sets the position of the limelight based on whether or not the shooter hood
-     * is extended or retracted
-     * 
-     * @param position of the limelight (true=extended false=retracted)
-     */
-    public void setIsHoodExtended(boolean position) {
-        limelightPosition = position;
-    }
-
-    /**
-     * gets the position of the limelight based on whether or not the shooter hood
-     * is extended or retracted
-     * 
-     * @return the current position of the limelight (true=extended false=retracted)
-     */
-    public boolean getIsHoodExtended() {
-        return limelightPosition;
     }
 
     /**

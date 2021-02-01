@@ -11,6 +11,7 @@ public class PitcherCMD extends CommandBase {
   private RobotConstants.PitcherConstants constants;
   private Limelight limelight;
   private LedSS ledSS;
+  private boolean hoodPosition;
 
   public PitcherCMD(PitcherSS pitcherSS, RobotConstants.PitcherConstants constants, Limelight limelight) {
     this.pitcherSS = pitcherSS;
@@ -38,14 +39,34 @@ public class PitcherCMD extends CommandBase {
   }
 
   /**
+   * sets the position of the limelight based on whether or not the shooter hood
+   * is extended or retracted
+   * 
+   * @param position of the limelight (true=extended false=retracted)
+   */
+  public void setIsHoodExtended(boolean position) {
+    hoodPosition = position;
+  }
+
+  /**
+   * gets the position of the limelight based on whether or not the shooter hood
+   * is extended or retracted
+   * 
+   * @return the current position of the limelight (true=extended false=retracted)
+   */
+  public boolean getIsHoodExtended() {
+    return hoodPosition;
+  }
+
+  /**
    * Toggles the pitcher based on the current position of the limelight (extended
    * or retracted) and the current angle at which the limelight sees the target.
    */
   public void togglePitcherBasedOnDistance() {
     if (limelight.getTv()) {
-      pitcherSS.setSolenoid(limelight.getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
+      pitcherSS.setSolenoid(getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
           : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
-      limelight.setIsHoodExtended(pitcherSS.getSolenoid());
+      setIsHoodExtended(pitcherSS.getSolenoid());
     } else {
       ledSS.blinkColor(LedColor.Black, 5);
     }
