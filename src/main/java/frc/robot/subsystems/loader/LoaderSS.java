@@ -1,4 +1,4 @@
-package frc.robot.subsystems.trigger;
+package frc.robot.subsystems.loader;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import frc.robot.components.TrigonTalonSRX;
@@ -8,11 +8,11 @@ import frc.robot.subsystems.TestableSubsystem;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class TriggerSS extends OverridableSubsystem implements TestableSubsystem, Loggable {
-    private RobotConstants.TriggerConstants constants;
+public class LoaderSS extends OverridableSubsystem implements TestableSubsystem, Loggable {
+    private RobotConstants.LoaderConstants constants;
     private TrigonTalonSRX motor;
 
-    public TriggerSS(RobotConstants.TriggerConstants constants) {
+    public LoaderSS(RobotConstants.LoaderConstants constants) {
         this.constants = constants;
         motor = constants.CAN_MAP.MOTOR;
     }
@@ -46,6 +46,6 @@ public class TriggerSS extends OverridableSubsystem implements TestableSubsystem
      * @return the position of the motor in an array
      */
     public double[] getValues() {
-        return new double[]{motor.getSelectedSensorPosition()};
+        return new double[] { motor.getSelectedSensorPosition() };
     }
 }

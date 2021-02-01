@@ -19,11 +19,11 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
 
     public class CAN {
-        public TriggerMap triggerMap = new TriggerMap();
+        public LoaderMap triggerMap = new LoaderMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
 
-        public class TriggerMap {
+        public class LoaderMap {
             public TrigonTalonSRX MOTOR;
         }
 
