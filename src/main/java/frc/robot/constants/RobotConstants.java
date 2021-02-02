@@ -6,6 +6,8 @@ import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.utilities.PIDCoefs;
 
+import java.util.function.DoubleSupplier;
+
 /**
  * All the constants to be uses for the robot
  */
@@ -60,6 +62,9 @@ public abstract class RobotConstants extends RobotMap {
     public class IntakeConstants {
         public CAN.IntakeMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
+        public double DEFAULT_MOTOR_POWER;
+        public double ON_STALL_CURRENT_LIMIT;
+        public int STALL_BLINK_AMOUNT;
     }
 
     public class ClimberConstants {

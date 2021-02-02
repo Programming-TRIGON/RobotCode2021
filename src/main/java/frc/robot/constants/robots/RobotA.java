@@ -48,6 +48,9 @@ public class RobotA extends RobotConstants {
         // Intake constants
         intakeConstants.CAN_MAP = can.intakeMap;
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
+        intakeConstants.DEFAULT_MOTOR_POWER = 0.5;
+        intakeConstants.ON_STALL_CURRENT_LIMIT = 10;
+        intakeConstants.STALL_BLINK_AMOUNT = 5;
 
         // Left climber constants
         leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
