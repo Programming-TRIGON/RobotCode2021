@@ -18,6 +18,6 @@ public class IntakeSS extends OverridableSubsystem {
     }
 
     public boolean isStalled() {
-        return motor.getStatorCurrent() > constants.ON_STALL_CURRENT_LIMIT;
+        return motor.getStatorCurrent() > constants.STALL_CURRENT_LIMIT;
     }
 }

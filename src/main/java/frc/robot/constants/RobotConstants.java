@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
+import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDCoefs;
 
 import java.util.function.DoubleSupplier;
@@ -63,7 +64,8 @@ public abstract class RobotConstants extends RobotMap {
         public CAN.IntakeMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         public double DEFAULT_MOTOR_POWER;
-        public double ON_STALL_CURRENT_LIMIT;
+        public double STALL_CHECK_DELAY;
+        public double STALL_CURRENT_LIMIT;
         public int STALL_BLINK_AMOUNT;
     }
 
