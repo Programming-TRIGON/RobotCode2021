@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants;
-import frc.robot.constants.RobotConstants.LedConstants;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.utilities.DriverStationLogger;
@@ -18,7 +17,7 @@ public class SensorTestCMD extends CommandBase {
     private RobotConstants.TesterConstants constants;
     private LedSS led;
 
-    public SensorTestCMD(RobotConstants.TesterConstants constants, LedSS led, LedConstants ledConstants) {
+    public SensorTestCMD(RobotConstants.TesterConstants constants, LedSS led) {
         addRequirements(led);
         this.led = led;
         subsystems = new HashMap<>();
