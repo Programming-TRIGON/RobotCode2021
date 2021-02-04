@@ -9,8 +9,8 @@ import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class LoaderSS extends OverridableSubsystem implements TestableSubsystem, Loggable {
-    private RobotConstants.LoaderConstants constants;
-    private TrigonTalonSRX motor;
+    private final RobotConstants.LoaderConstants constants;
+    private final TrigonTalonSRX motor;
 
     public LoaderSS(RobotConstants.LoaderConstants constants) {
         this.constants = constants;
@@ -20,11 +20,11 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     /**
      * Sets the motor's velocity using PID
      *
-     * @param velocity desired velocity of the motor
+     * @param velocity desired velocity of the motor in ticks/second
      */
     public void setVelocity(double velocity) {
         if (!overridden)
-            motor.set(ControlMode.Velocity, velocity);
+            motor.set(ControlMode.Velocity, velocity / 10);
     }
 
     /**
@@ -35,17 +35,17 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     }
 
     /**
-     * @return the velocity of the motor in ticks/centisecond
+     * @return the velocity of the motor in ticks/seconds
      */
     @Log(name = "Trigger/Motor Velocity")
     public double getVelocity() {
-        return motor.getSelectedSensorVelocity();
+        return motor.getSelectedSensorVelocity() * 10;
     }
 
     /**
      * @return the position of the motor in an array
      */
     public double[] getValues() {
-        return new double[] { motor.getSelectedSensorPosition() };
+        return new double[]{motor.getSelectedSensorPosition()};
     }
 }
