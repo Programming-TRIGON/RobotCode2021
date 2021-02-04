@@ -3,7 +3,7 @@ package frc.robot.constants;
 
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonFX;
-import frc.robot.subsystems.drivetrain.SwerveModule;
+import frc.robot.components.SwerveModule;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into

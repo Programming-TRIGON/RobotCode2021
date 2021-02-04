@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
+import frc.robot.components.SwerveModule;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.TestableSubsystem;
 
@@ -150,7 +151,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
 	public double[] getValues() {
 		double[] values = new double[modules.length * 2];
 		for (int i = 0; i < modules.length; i++) {
-			values[i * 2] = modules[i].getSpeedTicks();
+			values[i * 2] = modules[i].getSpeedMotorTicks();
 			values[i * 2 + 1] = modules[i].getAngle();
 		}
 		return values;
@@ -195,10 +196,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
 
 	private void initSwerve() {
 		kinematics = new SwerveDriveKinematics(
-				constants.FRONT_RIGHT_LOCATION,
-				constants.FRONT_LEFT_LOCATION,
-				constants.REAR_RIGHT_LOCATION,
-				constants.REAR_LEFT_LOCATION
+				constants.FRONT_RIGHT_LOCATION.getTranslation(),
+				constants.FRONT_LEFT_LOCATION.getTranslation(),
+				constants.REAR_RIGHT_LOCATION.getTranslation(),
+				constants.REAR_LEFT_LOCATION.getTranslation()
 		);
 		modules = new SwerveModule[]{
 				constants.canDrivetrainMap.FRONT_RIGHT,
