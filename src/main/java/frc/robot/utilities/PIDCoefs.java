@@ -33,7 +33,6 @@ public class PIDCoefs implements Sendable {
         this.KF = KF;
         this.tolerance = tolerance;
         this.deltaTolerance = deltaTolerance;
-
     }
 
     /**
