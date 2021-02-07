@@ -26,7 +26,6 @@ public class RobotA extends RobotConstants {
         // Sensor check constants
         testerConstants.MOVE_POWER = 1;
         testerConstants.SECONDS_TO_WAIT = 3;
-        testerConstants.LED_BLINK_AMOUNT = 10;
 
         // Vision Constants
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);

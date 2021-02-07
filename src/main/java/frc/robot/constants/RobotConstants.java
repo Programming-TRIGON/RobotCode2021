@@ -1,9 +1,8 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
+import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDCoefs;
 
@@ -36,7 +35,6 @@ public abstract class RobotConstants extends RobotMap {
     public class TesterConstants {
         public int SECONDS_TO_WAIT;
         public double MOVE_POWER;
-        public int LED_BLINK_AMOUNT;
     }
 
     public class VisionConstants {
@@ -58,6 +56,12 @@ public abstract class RobotConstants extends RobotMap {
 
     public class LedConstants {
         public PWM.LedMap PWM_MAP;
+        public final ColorMap COLOR_MAP = new ColorMap();
+
+        public class ColorMap {
+            public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
+            public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
+        }
     }
 
     public class IntakeConstants {
