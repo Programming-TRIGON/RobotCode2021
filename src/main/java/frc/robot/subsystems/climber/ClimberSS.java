@@ -14,10 +14,10 @@ public class ClimberSS extends OverridableSubsystem {
         motor.setInverted(constants.IS_INVERTED);
     }
 
-  /**
-   *
-   * @param power to be set to the motor (between -1 and 1)
-   */
+    /**
+    *
+    * @param power to be set to the motor (between -1 and 1)
+    */
     public void overriddenMove(double power) {
         motor.set(power);
     }
