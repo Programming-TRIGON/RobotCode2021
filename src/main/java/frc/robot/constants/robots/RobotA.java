@@ -22,6 +22,7 @@ public class RobotA extends RobotConstants {
         limelightConstants.LIMELIGHT_OFFSET_X = 1;
         limelightConstants.LIMELIGHT_OFFSET_Y = 1;
         limelightConstants.DEFAULT_TABLE_KEY = "limelight";
+        limelightConstants.SHOOTER_PIPELINE = 1;
 
         // Sensor check constants
         testerConstants.MOVE_POWER = 1;
@@ -40,6 +41,10 @@ public class RobotA extends RobotConstants {
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
+        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0);
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;
@@ -59,8 +64,8 @@ public class RobotA extends RobotConstants {
         /* Robot Map */
 
         // CAN
-        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
-        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
+        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG, shooterConstants.PID_COEFS);
+        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG, shooterConstants.PID_COEFS);
         can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
         can.triggerMap.MOTOR = new TrigonTalonSRX(3, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
 
