@@ -15,9 +15,9 @@ public class ClimberSS extends OverridableSubsystem {
     }
 
     /**
-     *
-     * @param power to be set to the motor (between -1 and 1)
-     */
+    *
+    * @param power to be set to the motor (between -1 and 1)
+    */
     public void overriddenMove(double power) {
         motor.set(power);
     }

@@ -58,7 +58,7 @@ public abstract class RobotConstants extends RobotMap {
 
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
-            public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, SENSOR_TEST_SUCCESS.getBlinkAmount());
+            public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
         }
     }
 
