@@ -50,7 +50,6 @@ public class RobotA extends RobotConstants {
         intakeConstants.DEFAULT_MOTOR_POWER = 0.5;
         intakeConstants.STALL_CHECK_DELAY = 0.5;
         intakeConstants.STALL_CURRENT_LIMIT = 10;
-        intakeConstants.STALL_BLINK_AMOUNT = 5;
 
         // Left climber constants
         leftClimberConstants.PWM_MAP = pwm.leftClimberMap;

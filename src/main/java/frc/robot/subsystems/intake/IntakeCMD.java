@@ -12,6 +12,7 @@ public class IntakeCMD extends CommandBase {
     private IntakeSS intakeSS;
     private RobotConstants.IntakeConstants constants;
     private LedSS ledSS;
+    private RobotConstants.LedConstants.ColorMap colorMap;
     private DoubleSupplier power;
     private double lastStall;
     private double reverseMotorStartTime;
@@ -21,6 +22,7 @@ public class IntakeCMD extends CommandBase {
         this.constants = constants;
         this.ledSS = ledSS;
         this.power = power;
+        this.colorMap = ledSS.getColorMap();
         addRequirements(intakeSS);
     }
 
@@ -44,14 +46,15 @@ public class IntakeCMD extends CommandBase {
     @Override
     public void execute() {
         if (Timer.getFPGATimestamp() - reverseMotorStartTime < constants.STALL_CHECK_DELAY) {
-            ledSS.blinkColor(LedColor.Yellow, constants.STALL_BLINK_AMOUNT);
+            ledSS.blinkColor(colorMap.INTAKE_MOTOR_STALL);
             intakeSS.move(-power.getAsDouble());
         } else {
-            if (!intakeSS.isStalled())
+            if (!intakeSS.isStalled()) {
                 intakeSS.move(power.getAsDouble());
-            else {
+                ledSS.setColor(colorMap.INTAKE_ENABLED);
+            } else {
                 reverseMotorStartTime = Timer.getFPGATimestamp();
-                ledSS.blinkColor(LedColor.Yellow, constants.STALL_BLINK_AMOUNT);
+                ledSS.blinkColor(colorMap.INTAKE_MOTOR_STALL);
                 intakeSS.move(-power.getAsDouble());
             }
         }
@@ -59,6 +62,7 @@ public class IntakeCMD extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        ledSS.turnOffLED();
         intakeSS.stopMoving();
     }
 }

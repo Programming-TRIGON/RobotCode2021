@@ -61,6 +61,8 @@ public abstract class RobotConstants extends RobotMap {
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
             public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
+            public final LedColor INTAKE_ENABLED = LedColor.Aqua;
+            public final LedBlinkColor INTAKE_MOTOR_STALL = new LedBlinkColor(LedColor.Yellow, 5);
         }
     }
 
@@ -70,7 +72,6 @@ public abstract class RobotConstants extends RobotMap {
         public double DEFAULT_MOTOR_POWER;
         public double STALL_CHECK_DELAY;
         public double STALL_CURRENT_LIMIT;
-        public int STALL_BLINK_AMOUNT;
     }
 
     public class ClimberConstants {
