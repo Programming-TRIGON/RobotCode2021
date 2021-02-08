@@ -1,19 +1,20 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.led.LedSS;
+import frc.robot.utilities.DriverStationLogger;
 import frc.robot.vision.Limelight;
 import frc.robot.vision.Target;
 
 public class ShooterCMD extends CommandBase {
     public final ShooterSS shooterSS;
-    private final RobotConstants.ShooterConstants constants;
+    private final ShooterConstants constants;
     private final Limelight limelight;
     private final LedSS ledSS;
-    private double velocity;
+    private double desiredVelocity;
 
-    public ShooterCMD(ShooterSS shooterSS, RobotConstants.ShooterConstants constants, Limelight limelight, LedSS ledSS) {
+    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, Limelight limelight, LedSS ledSS) {
         this.shooterSS = shooterSS;
         this.constants = constants;
         this.limelight = limelight;
@@ -22,9 +23,9 @@ public class ShooterCMD extends CommandBase {
     }
 
     /**
-     * Calculates the desired velocity to set the motors based on the height at which the limelight sees the target
+     * Calculates the desired desiredVelocity to set the motors based on the height at which the limelight sees the target
      *
-     * @return the desired velocity of the motors
+     * @return the desired desiredVelocity of the motors
      */
     //TODO: Set correct calculation based on function chosen for calculation.
     public double calculateVelocity() {
@@ -35,15 +36,21 @@ public class ShooterCMD extends CommandBase {
 
     @Override
     public void initialize() {
-        limelight.setPipeline(limelight.getLimelightConstants().SHOOTER_PIPELINE);
+        limelight.setPipeline(limelight.getLimelightConstants().POWER_PORT_PIPELINE);
         limelight.startVision(Target.RocketMiddle);
-        velocity = calculateVelocity();
+        desiredVelocity = calculateVelocity();
     }
 
     @Override
     public void execute() {
-        shooterSS.setDesiredVelocity(velocity);
-        ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
+        if (limelight.getTv()) {
+            shooterSS.setDesiredVelocity(desiredVelocity);
+            ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
+        }
+        else {
+            ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
+            DriverStationLogger.logToDS("No valid target, Try reposition!");
+        }
     }
 
     @Override

@@ -22,7 +22,7 @@ public class RobotA extends RobotConstants {
         limelightConstants.LIMELIGHT_OFFSET_X = 1;
         limelightConstants.LIMELIGHT_OFFSET_Y = 1;
         limelightConstants.DEFAULT_TABLE_KEY = "limelight";
-        limelightConstants.SHOOTER_PIPELINE = 1;
+        limelightConstants.POWER_PORT_PIPELINE = 1;
 
         // Sensor check constants
         testerConstants.MOVE_POWER = 1;

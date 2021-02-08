@@ -28,7 +28,7 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
         public String DEFAULT_TABLE_KEY;
-        public int SHOOTER_PIPELINE;
+        public int POWER_PORT_PIPELINE;
     }
 
     public class TesterConstants {
@@ -65,6 +65,7 @@ public abstract class RobotConstants extends RobotMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
             public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
             public final LedColor SHOOTER_ENABLED = LedColor.Gold;
+            public final LedBlinkColor NO_TARGET = new LedBlinkColor(LedColor.Orange, 2);
         }
     }
 

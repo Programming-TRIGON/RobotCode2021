@@ -4,17 +4,17 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RobotConstants.LimelightConstants;
 
 public class Limelight {
 
     private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
-    private RobotConstants.LimelightConstants limelightConstants;
+    private LimelightConstants limelightConstants;
 
     /**
      * @param tableKey the key of the limelight - if it was changed.
      */
-    public Limelight(String tableKey, RobotConstants.LimelightConstants limelightConstants) {
+    public Limelight(String tableKey, LimelightConstants limelightConstants) {
         this.limelightConstants = limelightConstants;
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable limelightTable = inst.getTable(tableKey);
@@ -29,7 +29,7 @@ public class Limelight {
         snapshot = limelightTable.getEntry("snapshot");
     }
 
-    public Limelight(RobotConstants.LimelightConstants constants) {
+    public Limelight(LimelightConstants constants) {
         this(constants.DEFAULT_TABLE_KEY, constants);
         this.limelightConstants = constants;
     }
@@ -37,7 +37,7 @@ public class Limelight {
     /**
      * @return the limelight constants
      */
-    public RobotConstants.LimelightConstants getLimelightConstants() {
+    public LimelightConstants getLimelightConstants() {
         return limelightConstants;
     }
 
