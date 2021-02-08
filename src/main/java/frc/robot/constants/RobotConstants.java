@@ -6,7 +6,6 @@ import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDCoefs;
 
-import java.util.function.DoubleSupplier;
 
 /**
  * All the constants to be uses for the robot

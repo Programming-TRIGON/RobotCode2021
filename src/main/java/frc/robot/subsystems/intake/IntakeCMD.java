@@ -5,8 +5,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants;
-import frc.robot.subsystems.led.LedColor;
 import frc.robot.subsystems.led.LedSS;
+import frc.robot.utilities.DriverStationLogger;
 
 public class IntakeCMD extends CommandBase {
     private IntakeSS intakeSS;
@@ -46,6 +46,7 @@ public class IntakeCMD extends CommandBase {
     @Override
     public void execute() {
         if (Timer.getFPGATimestamp() - reverseMotorStartTime < constants.STALL_CHECK_DELAY) {
+            reverseMotorStartTime = Timer.getFPGATimestamp();
             ledSS.blinkColor(colorMap.INTAKE_MOTOR_STALL);
             intakeSS.move(-power.getAsDouble());
         } else {
@@ -55,6 +56,7 @@ public class IntakeCMD extends CommandBase {
             } else {
                 reverseMotorStartTime = Timer.getFPGATimestamp();
                 ledSS.blinkColor(colorMap.INTAKE_MOTOR_STALL);
+                DriverStationLogger.logToDS("A ball is stuck in the intake, trying to release it!");
                 intakeSS.move(-power.getAsDouble());
             }
         }
