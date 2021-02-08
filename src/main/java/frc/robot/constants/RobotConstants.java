@@ -51,7 +51,8 @@ public abstract class RobotConstants extends RobotMap {
         public CAN.LoaderMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         public PIDCoefs PID_COEFS;
-        public double DEFAULT_VELOCITY;
+        public double DEFAULT_SHOOTING_VELOCITY;
+        public double DEFAULT_MIXING_VELOCITY;
     }
 
     public class LedConstants {

@@ -36,7 +36,8 @@ public class RobotA extends RobotConstants {
         loaderConstants.CAN_MAP = can.triggerMap;
         loaderConstants.MOTOR_CONFIG = new MotorConfig();
         loaderConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
-        loaderConstants.DEFAULT_VELOCITY = 2000;
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
+        loaderConstants.DEFAULT_MIXING_VELOCITY = 500;
 
 
         // Shooter Constants
@@ -58,7 +59,6 @@ public class RobotA extends RobotConstants {
         // Right climber constants
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
-
 
         /* Robot Map */
 

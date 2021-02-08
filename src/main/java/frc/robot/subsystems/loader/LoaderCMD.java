@@ -22,12 +22,12 @@ public class LoaderCMD extends CommandBase {
     }
 
     public LoaderCMD(LoaderSS loaderSS, RobotConstants.LoaderConstants constants) {
-        this(loaderSS, constants, () -> constants.DEFAULT_VELOCITY);
+        this(loaderSS, constants, () -> constants.DEFAULT_SHOOTING_VELOCITY);
     }
 
     @Override
     public void execute() {
-        loaderSS.setVelocity(velocity.getAsDouble());
+        loaderSS.setDesiredVelocity(velocity.getAsDouble());
     }
 
     @Override

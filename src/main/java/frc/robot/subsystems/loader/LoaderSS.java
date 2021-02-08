@@ -22,7 +22,7 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
      *
      * @param velocity desired velocity of the motor in ticks/second
      */
-    public void setVelocity(double velocity) {
+    public void setDesiredVelocity(double velocity) {
         if (!overridden)
             motor.set(ControlMode.Velocity, velocity / 10);
     }
