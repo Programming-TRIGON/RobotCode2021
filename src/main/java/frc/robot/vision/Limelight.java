@@ -35,6 +35,13 @@ public class Limelight {
     }
 
     /**
+     * @return the limelight constants
+     */
+    public RobotConstants.LimelightConstants getLimelightConstants() {
+        return limelightConstants;
+    }
+
+    /**
      * @return Whether the limelight has any valid targets (0 or 1)
      */
     public boolean getTv() {

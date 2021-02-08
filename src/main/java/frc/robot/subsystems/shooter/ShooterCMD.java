@@ -4,25 +4,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.vision.Limelight;
-import org.opencv.core.Mat;
+import frc.robot.vision.Target;
 
 public class ShooterCMD extends CommandBase {
     public final ShooterSS shooterSS;
     private final RobotConstants.ShooterConstants constants;
     private final Limelight limelight;
-    private final RobotConstants.LimelightConstants limelightConstants;
     private final LedSS ledSS;
-    private final RobotConstants.LedConstants.ColorMap colorMap;
     private double velocity;
 
-    public ShooterCMD(ShooterSS shooterSS, RobotConstants.ShooterConstants constants, RobotConstants.LimelightConstants limelightConstants,
-                      Limelight limelight, LedSS ledSS) {
+    public ShooterCMD(ShooterSS shooterSS, RobotConstants.ShooterConstants constants, Limelight limelight, LedSS ledSS) {
         this.shooterSS = shooterSS;
         this.constants = constants;
         this.limelight = limelight;
-        this.limelightConstants = limelightConstants;
         this.ledSS = ledSS;
-        this.colorMap = ledSS.getColorMap();
         addRequirements(shooterSS);
     }
 
@@ -40,20 +35,22 @@ public class ShooterCMD extends CommandBase {
 
     @Override
     public void initialize() {
-        limelight.setPipeline(limelightConstants.SHOOTER_PIPELINE);
+        limelight.setPipeline(limelight.getLimelightConstants().SHOOTER_PIPELINE);
+        limelight.startVision(Target.RocketMiddle);
         velocity = calculateVelocity();
     }
 
     @Override
     public void execute() {
-        shooterSS.setVelocity(velocity);
-        ledSS.setColor(colorMap.SHOOTER_ENABLED);
+        shooterSS.setDesiredVelocity(velocity);
+        ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
     }
 
     @Override
     public void end(boolean interrupted) {
         shooterSS.stopMoving();
         ledSS.turnOffLED();
+        limelight.stopVision();
     }
 
     @Override

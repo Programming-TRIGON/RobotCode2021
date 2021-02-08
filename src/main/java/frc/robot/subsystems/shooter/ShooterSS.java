@@ -29,7 +29,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
      *
      * @param velocity to be set to the motors
      */
-    public void setVelocity(double velocity) {
+    public void setDesiredVelocity(double velocity) {
         masterMotor.set(ControlMode.Velocity, velocity);
     }
 
