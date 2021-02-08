@@ -2,17 +2,17 @@ package frc.robot.subsystems.loader;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import frc.robot.components.TrigonTalonSRX;
-import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class LoaderSS extends OverridableSubsystem implements TestableSubsystem, Loggable {
-    private final RobotConstants.LoaderConstants constants;
+    private final LoaderConstants constants;
     private final TrigonTalonSRX motor;
 
-    public LoaderSS(RobotConstants.LoaderConstants constants) {
+    public LoaderSS(LoaderConstants constants) {
         this.constants = constants;
         motor = constants.CAN_MAP.MOTOR;
     }

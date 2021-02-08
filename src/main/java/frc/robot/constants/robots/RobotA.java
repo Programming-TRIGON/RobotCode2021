@@ -39,7 +39,6 @@ public class RobotA extends RobotConstants {
         loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
         loaderConstants.DEFAULT_MIXING_VELOCITY = 500;
 
-
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
