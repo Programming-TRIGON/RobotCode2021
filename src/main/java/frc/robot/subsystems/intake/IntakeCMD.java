@@ -47,7 +47,7 @@ public class IntakeCMD extends CommandBase {
             stillStalled = false;
         }
         else {
-            if (stillStalled) {
+            if (!stillStalled) {
                 reverseMotorStartTime = Timer.getFPGATimestamp();
                 DriverStationLogger.logToDS("A ball is stuck in the intake, trying to release it!");
             }

@@ -3,9 +3,10 @@ package frc.robot.subsystems.intake;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.constants.RobotConstants.IntakeConstants;
+import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class IntakeSS extends OverridableSubsystem {
+public class IntakeSS extends OverridableSubsystem  implements Loggable {
     private final IntakeConstants constants;
     private final TrigonTalonSRX motor;
 
