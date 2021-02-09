@@ -7,27 +7,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * This class is used to store settings for different PIDs
  */
 public class PIDCoefs implements Sendable {
-
     private double KP;
     private double KI;
     private double KD;
     private double KF;
     private double tolerance;
     private double deltaTolerance;
-
-    /**
-     * @param KP             The Proportional coefficient of the PID loop in this
-     *                       command.
-     * @param KI             The Integral coefficient of the PID loop in this
-     *                       command.
-     * @param KD             The Differential coefficient of the PID loop in this
-     *                       command.
-     * @param tolerance      The error tolerance of this command.
-     * @param deltaTolerance The tolerance of the change in error.
-     */
-    public PIDCoefs(double KP, double KI, double KD, double tolerance, double deltaTolerance) {
-        this(KP, KI, KD, 0, tolerance, deltaTolerance);
-    }
 
     /**
      * @param KP             The Proportional coefficient of the PID loop in this
@@ -48,7 +33,46 @@ public class PIDCoefs implements Sendable {
         this.KF = KF;
         this.tolerance = tolerance;
         this.deltaTolerance = deltaTolerance;
+    }
 
+    /**
+     * @param KP             The Proportional coefficient of the PID loop in this
+     *                       command.
+     * @param KI             The Integral coefficient of the PID loop in this
+     *                       command.
+     * @param KD             The Differential coefficient of the PID loop in this
+     *                       command.
+     * @param tolerance      The error tolerance of this command.
+     * @param deltaTolerance The tolerance of the change in error.
+     */
+    public PIDCoefs(double KP, double KI, double KD, double tolerance, double deltaTolerance) {
+        this(KP, KI, KD, 0, tolerance, deltaTolerance);
+    }
+
+    /**
+     * @param KP The Proportional coefficient of the PID loop in this
+     *           command.
+     * @param KI The Integral coefficient of the PID loop in this
+     *           command.
+     * @param KD The Differential coefficient of the PID loop in this
+     *           command.
+     * @param KF The Feed-Forward coefficient of the PID loop in this
+     *           command.
+     */
+    public PIDCoefs(double KP, double KI, double KD, double KF) {
+        this(KP, KI, KD, KF, 0, 0);
+    }
+
+    /**
+     * @param KP The Proportional coefficient of the PID loop in this
+     *           command.
+     * @param KI The Integral coefficient of the PID loop in this
+     *           command.
+     * @param KD The Differential coefficient of the PID loop in this
+     *           command.
+     */
+    public PIDCoefs(double KP, double KI, double KD) {
+        this(KP, KI, KD, 0, 0, 0);
     }
 
     public double getKP() {
