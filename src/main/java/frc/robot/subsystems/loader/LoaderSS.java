@@ -20,12 +20,14 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     /**
      * Sets the motor's velocity using PID
      *
-     * @param velocity desired velocity of the motor in ticks/second
+     * @param desiredVelocity desired velocity of the motor in ticks/second
      */
-    public void setDesiredVelocity(double velocity) {
+    public void setDesiredVelocity(double desiredVelocity) {
         if (!overridden)
-            motor.set(ControlMode.Velocity, velocity / 10);
+            // velocity is in ticks/seconds and is divided by 10 to convert to ticks/100ms
+            motor.set(ControlMode.Velocity, desiredVelocity / 10);
     }
+
 
     /**
      * @param power to be set to the motor (between -1 and 1)
@@ -39,6 +41,7 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
      */
     @Log(name = "Trigger/Motor Velocity")
     public double getVelocity() {
+        // motor.getSelectedSensorVelocity() returns in ticks/100ms then is multiplied by 10 to convert to ticks/second
         return motor.getSelectedSensorVelocity() * 10;
     }
 
