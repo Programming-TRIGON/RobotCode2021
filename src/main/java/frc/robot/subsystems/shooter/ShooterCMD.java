@@ -6,8 +6,10 @@ import frc.robot.subsystems.led.LedSS;
 import frc.robot.utilities.DriverStationLogger;
 import frc.robot.vision.Limelight;
 import frc.robot.vision.Target;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class ShooterCMD extends CommandBase {
+public class ShooterCMD extends CommandBase implements Loggable {
     public final ShooterSS shooterSS;
     private final ShooterConstants constants;
     private final Limelight limelight;
@@ -28,6 +30,7 @@ public class ShooterCMD extends CommandBase {
      * @return the desired desiredVelocity of the motors
      */
     //TODO: Set correct calculation based on function chosen for calculation.
+    @Log(name = "Shooter/Velocity Calculation")
     public double calculateVelocity() {
         double y = limelight.getTy();
         return constants.LIMELIGHT_VELOCITY_COEF_A * Math.pow(y, 2) + constants.LIMELIGHT_VELOCITY_COEF_B * y
