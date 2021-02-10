@@ -24,7 +24,8 @@ public class SwerveConstants {
                 ABSOLUTE_DEVICE = FeedbackDevice.CTRE_MagEncoder_Absolute,
                 RELATIVE_DEVICE = FeedbackDevice.CTRE_MagEncoder_Relative;
         public static int
-                SPEED_TICKS_PER_REVOLUTION,
+                SPEED_MOTOR_TICKS_PER_REVOLUTION,
                 ANGLE_TICKS_PER_REVOLUTION;
+        public static double SPEED_GEAR_RATION;
     }
 }

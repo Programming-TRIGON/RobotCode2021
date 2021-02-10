@@ -1,6 +1,5 @@
 package frc.robot.constants;
 
-
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
 import frc.robot.components.TrigonTalonFX;

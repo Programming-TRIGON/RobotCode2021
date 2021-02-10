@@ -1,6 +1,5 @@
 package frc.robot.constants;
 
-
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
@@ -65,7 +64,6 @@ public abstract class RobotConstants extends RobotMap {
         public PIDCoefs ROTATION_SETTINGS;
         public double TARGET_TIME_OUT;
     }
-
 
     public class ShooterConstants {
         public ShooterMap canShooterMap;

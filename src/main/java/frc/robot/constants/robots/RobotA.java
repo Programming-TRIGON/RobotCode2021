@@ -1,6 +1,5 @@
 package frc.robot.constants.robots;
 
-
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.components.MotorConfig;
@@ -36,8 +35,9 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.SPEED_MOTOR_CONFIG = new MotorConfig();
         drivetrainConstants.ANGLE_MOTOR_CONFIG = new MotorConfig();
 
-        SwerveConstants.StaticSwerveConstants.SPEED_TICKS_PER_REVOLUTION = 4096;
+        SwerveConstants.StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 4096;
         SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
+        SwerveConstants.StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Limelight Constants
         limelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
@@ -64,7 +64,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.CENTISECONDS_IN_MINUTE = 6000;
         shooterConstants.TICKS_PER_REVOLUTION = 4096;
 
-        /* Robot Map */
+        /** Robot Map **/
 
         // led map
         pwm.led.LED_CONTROLLER = 0;
@@ -113,7 +113,6 @@ public class RobotA extends RobotConstants {
         can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
         can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
-        can.drivetrainMap.GYRO = new Pigeon(0);
-
+        can.drivetrainMap.GYRO = new Pigeon(8);
     }
 }
