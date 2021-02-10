@@ -1,5 +1,6 @@
 package frc.robot.constants.robots;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -93,7 +94,8 @@ public class RobotA extends RobotConstants {
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0),
-                new TalonFXWithTalonSRXEncoder(1, 8),
+                new TalonFXWithTalonSRXEncoder(1, 8,
+                        new MotorConfig(3, false, false, NeutralMode.Coast, 0)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
@@ -101,7 +103,8 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2),
-                new TalonFXWithTalonSRXEncoder(3, 9),
+                new TalonFXWithTalonSRXEncoder(3, 9,
+                        new MotorConfig(3, false, false, NeutralMode.Coast, 0)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
@@ -109,7 +112,8 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4),
-                new TalonFXWithTalonSRXEncoder(5, 10),
+                new TalonFXWithTalonSRXEncoder(5, 10,
+                        new MotorConfig(3, false, false, NeutralMode.Coast, 0)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
@@ -117,7 +121,8 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6),
-                new TalonFXWithTalonSRXEncoder(7, 11),
+                new TalonFXWithTalonSRXEncoder(7, 11,
+                        new MotorConfig(3, false, false, NeutralMode.Coast, 0)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
