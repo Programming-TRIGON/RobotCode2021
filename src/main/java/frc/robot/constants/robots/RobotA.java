@@ -1,5 +1,6 @@
 package frc.robot.constants.robots;
 
+
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.components.MotorConfig;
@@ -30,7 +31,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.381, -0.381, Rotation2d.fromDegrees(0));
         drivetrainConstants.WHEEL_RADIUS = 0.05; // in meters
         drivetrainConstants.MAX_SPEED = 5; // in m/s
-        drivetrainConstants.MAX_ROT_SPEED = 3; // in rad/s
+        drivetrainConstants.MAX_ROT_SPEED = 3; //in rad/s
         drivetrainConstants.SPEED_MOTOR_CONFIG = new MotorConfig();
         drivetrainConstants.ANGLE_MOTOR_CONFIG = new MotorConfig();
 
@@ -59,6 +60,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.CENTISECONDS_IN_MINUTE = 6000;
         shooterConstants.TICKS_PER_REVOLUTION = 4096;
 
+
         /* Robot Map */
 
         // led map
@@ -67,6 +69,7 @@ public class RobotA extends RobotConstants {
         // Shooter map
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
+
 
         // Drivetrain map;
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(0, 1, drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees());
