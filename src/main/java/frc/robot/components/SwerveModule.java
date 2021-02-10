@@ -1,7 +1,4 @@
 package frc.robot.components;
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
@@ -9,14 +6,13 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.TrigonPIDController;
 
 public class SwerveModule {
-    private final TrigonTalonFX
-            speedMotor,
-            angleMotor;
-    private final TrigonPIDController
-            speedController,
-            angleController;
+    private final TrigonTalonFX speedMotor;
+    private final TrigonTalonFX angleMotor;
+    private final TrigonPIDController speedController;
+    private final TrigonPIDController angleController;
     private SwerveModuleState state;
-    private double wheelDiameter, angleOffset;
+    private double wheelDiameter;
+    private double angleOffset;
 
     /**
      * Constructs a swerve module that's is made of a speed motor and an angle motor.
@@ -43,7 +39,7 @@ public class SwerveModule {
      *
      * @return the speed motor's ticks
      */
-    public int getSpeedMotorTicks() {
+    public double getSpeedMotorTicks() {
         return speedMotor.getSelectedSensorPosition();
     }
 
