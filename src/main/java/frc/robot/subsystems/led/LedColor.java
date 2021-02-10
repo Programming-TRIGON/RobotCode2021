@@ -2,7 +2,7 @@ package frc.robot.subsystems.led;
 
 /**
  * Color enum for the LED class. 
- * The enum value represent the power needed for the color on Spark controller (PWM).
+ * The enum value represents the power needed for the color on Spark controller (PWM).
  */
 public enum LedColor {
     Red(0.61),

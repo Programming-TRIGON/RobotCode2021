@@ -35,7 +35,7 @@ public class SwerveModule {
      *
      * @return the speed motor's ticks
      */
-    public int getSpeedMotorTicks() {
+    public double getSpeedMotorTicks() {
         return speedMotor.getSelectedSensorPosition();
     }
 

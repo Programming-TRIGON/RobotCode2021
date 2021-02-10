@@ -1,11 +1,9 @@
 package frc.robot.constants.robots;
 
+import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import frc.robot.components.MotorConfig;
-import frc.robot.components.Pigeon;
-import frc.robot.components.SwerveModule;
-import frc.robot.components.TrigonTalonFX;
+import frc.robot.components.*;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
@@ -17,11 +15,7 @@ public class RobotA extends RobotConstants {
 
     // TODO: Set Constants
     public RobotA() {
-
         /* Robot constants */
-
-        // LED constants
-        ledConstants.LED_PWM_MAP = pwm.ledMap;
 
         // Drivetrain constants
         drivetrainConstants.canDrivetrainMap = can.drivetrainMap;
@@ -51,27 +45,49 @@ public class RobotA extends RobotConstants {
         // Sensor check constants
         testerConstants.MOVE_POWER = 1;
         testerConstants.SECONDS_TO_WAIT = 3;
-        testerConstants.LED_BLINK_AMOUNT = 10;
 
         // Vision Constants
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
+        // Trigger Constants
+        triggerConstants.CAN_MAP = can.triggerMap;
+        triggerConstants.MOTOR_CONFIG = new MotorConfig();
+        triggerConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+
         // Shooter Constants
-        shooterConstants.canShooterMap = can.shooterMap;
+        shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
-        shooterConstants.CENTISECONDS_IN_MINUTE = 6000;
-        shooterConstants.TICKS_PER_REVOLUTION = 4096;
+
+        // LED constants
+        ledConstants.PWM_MAP = pwm.ledMap;
+
+        // Intake constants
+        intakeConstants.CAN_MAP = can.intakeMap;
+        intakeConstants.MOTOR_CONFIG = new MotorConfig();
+        intakeConstants.DEFAULT_MOTOR_POWER = 0.5;
+        intakeConstants.STALL_CHECK_DELAY = 0.5;
+        intakeConstants.STALL_CURRENT_LIMIT = 10;
+
+        // Left climber constants
+        leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
+        leftClimberConstants.IS_INVERTED = false;
+
+        // Right climber constants
+        rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
+        rightClimberConstants.IS_INVERTED = false;
 
         /** Robot Map **/
 
-        // led map
-        pwm.led.LED_CONTROLLER = 0;
 
-        // Shooter map
+        // CAN
+
+        // shooter map
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
+        can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
+        can.triggerMap.MOTOR = new TrigonTalonSRX(3, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
 
 
         // Drivetrain map;
@@ -114,5 +130,10 @@ public class RobotA extends RobotConstants {
         can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
         can.drivetrainMap.GYRO = new Pigeon(8);
+
+        // PWM
+        pwm.ledMap.LED_CONTROLLER = 0;
+        pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
+        pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
     }
 }

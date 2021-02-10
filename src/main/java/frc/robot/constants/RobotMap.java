@@ -1,8 +1,10 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
 import frc.robot.components.TrigonTalonFX;
+import frc.robot.components.TrigonTalonSRX;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -20,7 +22,13 @@ public abstract class RobotMap {
 
     public class CAN {
         public DrivetrainMap drivetrainMap = new DrivetrainMap();
+        public TriggerMap triggerMap = new TriggerMap();
         public ShooterMap shooterMap = new ShooterMap();
+        public IntakeMap intakeMap = new IntakeMap();
+
+        public class TriggerMap {
+            public TrigonTalonSRX MOTOR;
+        }
 
         public class DrivetrainMap {
             public SwerveModule
@@ -35,6 +43,10 @@ public abstract class RobotMap {
             public TrigonTalonFX RIGHT_MOTOR;
             public TrigonTalonFX LEFT_MOTOR;
         }
+
+        public class IntakeMap {
+            public TrigonTalonSRX MOTOR;
+        }
     }
 
     public class PCM {
@@ -47,15 +59,16 @@ public abstract class RobotMap {
     }
 
     public class PWM {
-        public LED led = new LED();
         public LedMap ledMap = new LedMap();
-
-        public class LED {
-            public int LED_CONTROLLER;
-        }
+        public ClimberMap leftClimberMap = new ClimberMap();
+        public ClimberMap rightClimberMap = new ClimberMap();
 
         public class LedMap {
             public int LED_CONTROLLER;
+        }
+
+        public class ClimberMap {
+            public PWMSparkMax MOTOR;
         }
     }
 }
