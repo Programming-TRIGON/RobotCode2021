@@ -6,6 +6,7 @@ package frc.robot.components;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.constants.RobotConstants;
+import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 
 public class SwerveModule {
@@ -15,27 +16,22 @@ public class SwerveModule {
     private final TrigonPIDController
             speedController,
             angleController;
-    private SwerveModuleState state;
-    private double wheelDiameter, angleOffset;
+    private SwerveModuleState desiredState;
+    private SwerveConstants constants;
 
     /**
      * Constructs a swerve module that's is made of a speed motor and an angle motor.
      *
-     * @param speedID       the motor ID for the speed motor
-     * @param angleID       the motor ID for the angle motor
-     * @param wheelDiameter the diameter of the wheel of the module
-     * @param angleOffset   the angle that the encoder will give when the wheel itself is on 0
+     * @param constants the constants for this module
      */
-    public SwerveModule(int speedID, int angleID, double wheelDiameter, double angleOffset) {
-        this.wheelDiameter = wheelDiameter;
-        this.angleOffset = angleOffset;
-        speedMotor = new TrigonTalonFX(speedID, RobotConstants.swerveConstants.SWERVE_MODULE_SPEED_MOTOR_CONFIG);
-        speedController = new TrigonPIDController(RobotConstants.swerveConstants.SWERVE_MODULE_SPEED_PID_COEFS);
+    public SwerveModule(SwerveConstants constants) {
+        this.constants = constants;
+        speedMotor = new TrigonTalonFX(constants.speedID, RobotConstants.StaticSwerveConstants.SWERVE_MODULE_SPEED_MOTOR_CONFIG);
+        speedController = new TrigonPIDController(constants.speedCoefs);
 
-        angleMotor = new TrigonTalonFX(angleID, RobotConstants.swerveConstants.SWERVE_MODULE_ANGLE_MOTOR_CONFIG);
-        angleController = new TrigonPIDController(RobotConstants.swerveConstants.SWERVE_MODULE_ANGLE_PID_COEFS);
-        angleMotor.configSelectedFeedbackSensor(RobotConstants.swerveConstants.SWERVE_MODULE_ANGLE_MOTOR_FEEDBACK_DEVICE);
-
+        angleMotor = new TrigonTalonFX(constants.angleID, RobotConstants.StaticSwerveConstants.SWERVE_MODULE_ANGLE_MOTOR_CONFIG);
+        angleController = new TrigonPIDController(constants.angleCoefs);
+        angleMotor.configSelectedFeedbackSensor(RobotConstants.StaticSwerveConstants.SWERVE_MODULE_ANGLE_MOTOR_FEEDBACK_DEVICE);
     }
 
     /**
@@ -56,29 +52,36 @@ public class SwerveModule {
     }
 
     /**
-     * @return the wanted state of the module
+     * @return the desired state of the module
      */
-    public SwerveModuleState getState() {
-        return state;
+    public SwerveModuleState getDesiredState() {
+        return desiredState;
     }
 
     /**
-     * Sets the wanted state of the module.
+     * Sets the desired state of the module.
      * This won't affect the motors' power until the next periodic run
      *
-     * @param state the wanted state for the module.
+     * @param desiredState the desired state for the module.
      */
-    public void setState(SwerveModuleState state) {
-        this.state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(getAngle()));
+    public void setDesiredState(SwerveModuleState desiredState) {
+        this.desiredState = SwerveModuleState.optimize(desiredState, Rotation2d.fromDegrees(getAngle()));
         updateSetpoint();
     }
 
     /**
-     * Update the PID controllers' set point according to the wanted state
+     * @return the current state of the module
+     */
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getSpeedMotorMPS(), Rotation2d.fromDegrees(getAngle()));
+    }
+
+    /**
+     * Update the PID controllers' set point according to the desired state
      */
     public void updateSetpoint() {
-        speedController.setSetpoint(state.speedMetersPerSecond);
-        angleController.setSetpoint(state.angle.getDegrees());
+        speedController.setSetpoint(desiredState.speedMetersPerSecond);
+        angleController.setSetpoint(desiredState.angle.getDegrees());
     }
 
     /**
@@ -92,13 +95,17 @@ public class SwerveModule {
      * @return the speed of the module in m/s
      */
     public double getSpeedMotorMPS() {
-        return getSpeedMotorVelocity() / 10 / RobotConstants.swerveConstants.TALON_FX_TICKS_PER_REVOLUTION * wheelDiameter;
+        //Motor velocity in ticks/s divided by the ticks per revolution gives us the revolutions/s.
+        // Multiplying by the circumference gives us the m/s
+        return getSpeedMotorVelocity() / RobotConstants.StaticSwerveConstants.TALON_FX_TICKS_PER_REVOLUTION * constants.diameter * Math.PI;
     }
 
     /**
      * @return the angle of the module in degrees
      */
     public double getAngle() {
-        return angleMotor.getSelectedSensorPosition() / RobotConstants.swerveConstants.TALON_FX_TICKS_PER_REVOLUTION * 360 - angleOffset;
+        // The position of the sensor gives us the specific tick we are on from 0 - tpr.
+        // Dividing by tpr gives us a number between 0 and 1. multiplying by 360 gives us the degrees.
+        return angleMotor.getSelectedSensorPosition() / RobotConstants.StaticSwerveConstants.TALON_FX_TICKS_PER_REVOLUTION * 360 - constants.offset;
     }
 }

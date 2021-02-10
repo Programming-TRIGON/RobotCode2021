@@ -9,6 +9,7 @@ import frc.robot.components.SwerveModule;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
+import frc.robot.utilities.SwerveConstants;
 
 /**
  * instantiates the robot constants
@@ -29,9 +30,9 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.381, -0.381, Rotation2d.fromDegrees(0));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.381, 0.381, Rotation2d.fromDegrees(0));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.381, -0.381, Rotation2d.fromDegrees(0));
-        drivetrainConstants.WHEEL_RADIUS = 0.05; // in meters
-        drivetrainConstants.MAX_SPEED = 5; // in m/s
-        drivetrainConstants.MAX_ROT_SPEED = 3; //in rad/s
+        drivetrainConstants.WHEEL_RADIUS_M = 0.05; // in meters
+        drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
+        drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; //in rad/s
         drivetrainConstants.SPEED_MOTOR_CONFIG = new MotorConfig();
         drivetrainConstants.ANGLE_MOTOR_CONFIG = new MotorConfig();
 
@@ -60,7 +61,6 @@ public class RobotA extends RobotConstants {
         shooterConstants.CENTISECONDS_IN_MINUTE = 6000;
         shooterConstants.TICKS_PER_REVOLUTION = 4096;
 
-
         /* Robot Map */
 
         // led map
@@ -72,12 +72,45 @@ public class RobotA extends RobotConstants {
 
 
         // Drivetrain map;
-        can.drivetrainMap.FRONT_RIGHT = new SwerveModule(0, 1, drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees());
-        can.drivetrainMap.FRONT_LEFT = new SwerveModule(2, 3, drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees());
-        can.drivetrainMap.REAR_RIGHT = new SwerveModule(4, 5, drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees());
-        can.drivetrainMap.REAR_LEFT = new SwerveModule(6, 7, drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees());
+        drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
+                0,
+                1,
+                drivetrainConstants.WHEEL_RADIUS_M,
+                drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
+                new PIDCoefs(1, 1, 1, 1, 1),
+                new PIDCoefs(1, 1, 1, 1, 1)
+        );
+        drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
+                2,
+                3,
+                drivetrainConstants.WHEEL_RADIUS_M,
+                drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
+                new PIDCoefs(1, 1, 1, 1, 1),
+                new PIDCoefs(1, 1, 1, 1, 1)
+        );
+        drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
+                4,
+                5,
+                drivetrainConstants.WHEEL_RADIUS_M,
+                drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
+                new PIDCoefs(1, 1, 1, 1, 1),
+                new PIDCoefs(1, 1, 1, 1, 1)
+        );
+        drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
+                6,
+                7,
+                drivetrainConstants.WHEEL_RADIUS_M,
+                drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
+                new PIDCoefs(1, 1, 1, 1, 1),
+                new PIDCoefs(1, 1, 1, 1, 1)
+        );
 
-        can.drivetrainMap.gyro = new Pigeon(0);
+        can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);
+        can.drivetrainMap.FRONT_LEFT = new SwerveModule(drivetrainConstants.FRONT_LEFT_CONSTANTS);
+        can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
+        can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
+
+        can.drivetrainMap.GYRO = new Pigeon(0);
 
     }
 }
