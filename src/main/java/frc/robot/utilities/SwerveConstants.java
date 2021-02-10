@@ -1,6 +1,7 @@
 package frc.robot.utilities;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import frc.robot.components.TalonFXWithTalonSRXEncoder;
 import frc.robot.components.TrigonTalonFX;
 
 public class SwerveConstants {
@@ -10,7 +11,7 @@ public class SwerveConstants {
     public PIDCoefs angleCoefs, speedCoefs;
 
 
-    public SwerveConstants(TrigonTalonFX speedMotor, TrigonTalonFX angleMotor, double diameter, double offset, PIDCoefs angleCoefs, PIDCoefs speedCoefs) {
+    public SwerveConstants(TrigonTalonFX speedMotor, TalonFXWithTalonSRXEncoder angleMotor, double diameter, double offset, PIDCoefs angleCoefs, PIDCoefs speedCoefs) {
         this.speedMotor = speedMotor;
         this.angleMotor = angleMotor;
         this.diameter = diameter;

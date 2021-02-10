@@ -84,16 +84,16 @@ public class RobotA extends RobotConstants {
         // CAN
 
         // shooter map
-        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(0, shooterConstants.RIGHT_MOTOR_CONFIG);
-        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(1, shooterConstants.LEFT_MOTOR_CONFIG);
-        can.intakeMap.MOTOR = new TrigonTalonSRX(2, intakeConstants.MOTOR_CONFIG);
-        can.triggerMap.MOTOR = new TrigonTalonSRX(3, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
+        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
+        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
+        can.intakeMap.MOTOR = new TrigonTalonSRX(8, intakeConstants.MOTOR_CONFIG);
+        can.triggerMap.MOTOR = new TrigonTalonSRX(9, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
 
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0),
-                new TrigonTalonFX(1),
+                new TalonFXWithTalonSRXEncoder(1, 8),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
@@ -101,7 +101,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2),
-                new TrigonTalonFX(3),
+                new TalonFXWithTalonSRXEncoder(3, 9),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
@@ -109,7 +109,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4),
-                new TrigonTalonFX(5),
+                new TalonFXWithTalonSRXEncoder(5, 10),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
@@ -117,7 +117,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6),
-                new TrigonTalonFX(7),
+                new TalonFXWithTalonSRXEncoder(7, 11),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
@@ -129,7 +129,7 @@ public class RobotA extends RobotConstants {
         can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
         can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
-        can.drivetrainMap.GYRO = new Pigeon(8);
+        can.drivetrainMap.GYRO = new Pigeon(12);
 
         // PWM
         pwm.ledMap.LED_CONTROLLER = 0;
