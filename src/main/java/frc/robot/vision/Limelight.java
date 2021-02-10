@@ -4,19 +4,21 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RobotConstants.LimelightConstants;
+import frc.robot.subsystems.pitcher.PitcherSS;
 
 public class Limelight {
 
     private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
-    private RobotConstants.LimelightConstants limelightConstants;
-    private boolean limelightPosition;
+    private final LimelightConstants limelightConstants;
+    private final PitcherSS pitcherSS;
 
     /**
      * @param tableKey the key of the limelight - if it was changed.
      */
-    public Limelight(String tableKey, RobotConstants.LimelightConstants limelightConstants) {
+    public Limelight(String tableKey, LimelightConstants limelightConstants, PitcherSS pitcherSS) {
         this.limelightConstants = limelightConstants;
+        this.pitcherSS = pitcherSS;
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable limelightTable = inst.getTable(tableKey);
         tv = limelightTable.getEntry("tv");
@@ -30,9 +32,8 @@ public class Limelight {
         snapshot = limelightTable.getEntry("snapshot");
     }
 
-    public Limelight(RobotConstants.LimelightConstants constants) {
-        this(constants.DEFAULT_TABLE_KEY, constants);
-        this.limelightConstants = constants;
+    public Limelight(LimelightConstants constants, PitcherSS pitcherSS) {
+        this(constants.DEFAULT_TABLE_KEY, constants, pitcherSS);
     }
 
     /**
@@ -196,24 +197,15 @@ public class Limelight {
         setLedMode(LedMode.off);
     }
 
-    /**
-     * sets the position of the limelight based on whether or not the shooter hood
-     * is extended or retracted
-     * 
-     * @param position of the limelight (true=extended false=retracted)
-     */
-    public void setIsHoodExtended(boolean position) {
-        limelightPosition = position;
-    }
 
     /**
      * gets the position of the limelight based on whether or not the shooter hood
      * is extended or retracted
-     * 
+     *
      * @return the current position of the limelight (true=extended false=retracted)
      */
     public boolean getIsHoodExtended() {
-        return limelightPosition;
+        return pitcherSS.getSolenoid();
     }
 
     /**

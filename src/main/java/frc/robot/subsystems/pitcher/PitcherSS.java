@@ -1,18 +1,17 @@
 package frc.robot.subsystems.pitcher;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonDoubleSolenoid;
-import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.vision.Limelight;
 import io.github.oblarg.oblog.Loggable;
 
 public class PitcherSS extends SubsystemBase implements Loggable {
     private TrigonDoubleSolenoid solenoid;
-    private RobotConstants.PitcherConstants constants;
+    private PitcherConstants constants;
     private Limelight limelight;
 
-    public PitcherSS(RobotConstants.PitcherConstants constants, Limelight limelight) {
+    public PitcherSS(PitcherConstants constants, Limelight limelight) {
         this.constants = constants;
         this.limelight = limelight;
         this.solenoid = constants.PCM_MAP.SOLENOID;
@@ -44,7 +43,6 @@ public class PitcherSS extends SubsystemBase implements Loggable {
         if (limelight.getTv()) {
             solenoid.setSolenoid(limelight.getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
                     : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
-            limelight.setIsHoodExtended(solenoid.isForward());
         }
     }
 }
