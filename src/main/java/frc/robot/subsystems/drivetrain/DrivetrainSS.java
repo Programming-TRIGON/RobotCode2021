@@ -15,11 +15,13 @@ import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.TestableSubsystem;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * Represents a swerve drive style drivetrain.
  */
-public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
+public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Loggable {
     private final Pigeon gyro;
     private final SwerveDriveOdometry odometry;
     private DrivetrainConstants constants;
@@ -43,7 +45,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
         SwerveModuleState[] states =
                 kinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);
-        setStates(states);
+        setDesiredStates(states);
     }
 
     /**
@@ -98,9 +100,9 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
     /**
      * Returns the desired states of the swerve modules as an array
      *
-     * @return the modules' states
+     * @return the modules' desired states
      */
-    public SwerveModuleState[] getStates() {
+    public SwerveModuleState[] getDesiredStates() {
         SwerveModuleState[] states = new SwerveModuleState[modules.length];
         for (int i = 0; i < modules.length; i++) {
             states[i] = modules[i].getDesiredState();
@@ -108,13 +110,12 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
         return states;
     }
 
-
     /**
      * Sets the swerve modules' desired states
      *
-     * @param states the modules' states
+     * @param states the modules' desired states
      */
-    public void setStates(SwerveModuleState[] states) {
+    public void setDesiredStates(SwerveModuleState[] states) {
         if (states.length != modules.length)
             return;
         for (int i = 0; i < states.length; i++) {
@@ -122,6 +123,19 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
         }
     }
 
+    /**
+     * Returns the current states of the swerve modules as an array
+     *
+     * @return the modules' current states
+     */
+    @Log
+    public SwerveModuleState[] getStates() {
+        SwerveModuleState[] states = new SwerveModuleState[modules.length];
+        for (int i = 0; i < modules.length; i++) {
+            states[i] = modules[i].getState();
+        }
+        return states;
+    }
 
     /**
      * Returns the angle of the system in degrees
@@ -164,6 +178,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
      *
      * @return the pose of the system
      */
+    @Log
     public Pose2d getPose() {
         return odometry.getPoseMeters();
     }
@@ -192,7 +207,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem {
 
 
     private void updateOdometry() {
-        odometry.update(gyro.getRotation2d(), getStates());
+        odometry.update(gyro.getRotation2d(), getDesiredStates());
     }
 
 

@@ -30,11 +30,14 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.381, -0.381, Rotation2d.fromDegrees(0));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.381, 0.381, Rotation2d.fromDegrees(0));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.381, -0.381, Rotation2d.fromDegrees(0));
-        drivetrainConstants.WHEEL_RADIUS_M = 0.05; // in meters
+        drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; //in rad/s
         drivetrainConstants.SPEED_MOTOR_CONFIG = new MotorConfig();
         drivetrainConstants.ANGLE_MOTOR_CONFIG = new MotorConfig();
+
+        SwerveConstants.StaticSwerveConstants.SPEED_TICKS_PER_REVOLUTION = 4096;
+        SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
 
         // Limelight Constants
         limelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
@@ -73,33 +76,33 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
-                0,
-                1,
-                drivetrainConstants.WHEEL_RADIUS_M,
+                new TrigonTalonFX(0),
+                new TrigonTalonFX(1),
+                drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
                 new PIDCoefs(1, 1, 1, 1, 1)
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
-                2,
-                3,
-                drivetrainConstants.WHEEL_RADIUS_M,
+                new TrigonTalonFX(2),
+                new TrigonTalonFX(3),
+                drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
                 new PIDCoefs(1, 1, 1, 1, 1)
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
-                4,
-                5,
-                drivetrainConstants.WHEEL_RADIUS_M,
+                new TrigonTalonFX(4),
+                new TrigonTalonFX(5),
+                drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
                 new PIDCoefs(1, 1, 1, 1, 1)
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
-                6,
-                7,
-                drivetrainConstants.WHEEL_RADIUS_M,
+                new TrigonTalonFX(6),
+                new TrigonTalonFX(7),
+                drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 new PIDCoefs(1, 1, 1, 1, 1),
                 new PIDCoefs(1, 1, 1, 1, 1)

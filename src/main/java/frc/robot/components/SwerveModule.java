@@ -5,7 +5,6 @@ package frc.robot.components;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 
@@ -26,12 +25,14 @@ public class SwerveModule {
      */
     public SwerveModule(SwerveConstants constants) {
         this.constants = constants;
-        speedMotor = new TrigonTalonFX(constants.speedID, RobotConstants.StaticSwerveConstants.SWERVE_MODULE_SPEED_MOTOR_CONFIG);
+        speedMotor = constants.speedMotor;
+        //speedMotor = new TrigonTalonFX(constants.speedID, RobotConstants.StaticSwerveConstants.SWERVE_MODULE_SPEED_MOTOR_CONFIG);
         speedController = new TrigonPIDController(constants.speedCoefs);
 
-        angleMotor = new TrigonTalonFX(constants.angleID, RobotConstants.StaticSwerveConstants.SWERVE_MODULE_ANGLE_MOTOR_CONFIG);
+        //angleMotor = new TrigonTalonFX(constants.angleID, RobotConstants.StaticSwerveConstants.SWERVE_MODULE_ANGLE_MOTOR_CONFIG);
+        angleMotor = constants.angleMotor;
         angleController = new TrigonPIDController(constants.angleCoefs);
-        angleMotor.configSelectedFeedbackSensor(RobotConstants.StaticSwerveConstants.SWERVE_MODULE_ANGLE_MOTOR_FEEDBACK_DEVICE);
+        setAbsolute();
     }
 
     /**
@@ -97,7 +98,7 @@ public class SwerveModule {
     public double getSpeedMotorMPS() {
         //Motor velocity in ticks/s divided by the ticks per revolution gives us the revolutions/s.
         // Multiplying by the circumference gives us the m/s
-        return getSpeedMotorVelocity() / RobotConstants.StaticSwerveConstants.TALON_FX_TICKS_PER_REVOLUTION * constants.diameter * Math.PI;
+        return getSpeedMotorVelocity() / SwerveConstants.StaticSwerveConstants.SPEED_TICKS_PER_REVOLUTION * constants.diameter * Math.PI / 10;
     }
 
     /**
@@ -106,6 +107,16 @@ public class SwerveModule {
     public double getAngle() {
         // The position of the sensor gives us the specific tick we are on from 0 - tpr.
         // Dividing by tpr gives us a number between 0 and 1. multiplying by 360 gives us the degrees.
-        return angleMotor.getSelectedSensorPosition() / RobotConstants.StaticSwerveConstants.TALON_FX_TICKS_PER_REVOLUTION * 360 - constants.offset;
+        // If the result is 360 we want it to be 0 and if it's 400 we want it to be 40 so we take the remainder.
+        return (angleMotor.getSelectedSensorPosition() / SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION * 360 - constants.offset) % 360;
     }
+
+    private void setRelative() {
+        angleMotor.configSelectedFeedbackSensor(SwerveConstants.StaticSwerveConstants.RELATIVE_DEVICE);
+    }
+
+    private void setAbsolute() {
+        angleMotor.configSelectedFeedbackSensor(SwerveConstants.StaticSwerveConstants.ABSOLUTE_DEVICE);
+    }
+
 }

@@ -1,7 +1,6 @@
 package frc.robot.constants;
 
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
@@ -20,15 +19,6 @@ public abstract class RobotConstants extends RobotMap {
     public ShooterConstants shooterConstants = new ShooterConstants();
     public LedConstants ledConstants = new LedConstants();
 
-    public static class StaticSwerveConstants {
-        public static final FeedbackDevice
-                SWERVE_MODULE_ANGLE_MOTOR_FEEDBACK_DEVICE = FeedbackDevice.CTRE_MagEncoder_Absolute;
-        public static final int
-                TALON_FX_TICKS_PER_REVOLUTION = 4096;
-        public static final MotorConfig
-                SWERVE_MODULE_SPEED_MOTOR_CONFIG = new MotorConfig(),
-                SWERVE_MODULE_ANGLE_MOTOR_CONFIG = new MotorConfig();
-    }
 
     public class DrivetrainConstants {
         public CAN.DrivetrainMap canDrivetrainMap;
@@ -44,7 +34,7 @@ public abstract class RobotConstants extends RobotMap {
                 ANGLE_MOTOR_CONFIG,
                 SPEED_MOTOR_CONFIG;
 
-        public double WHEEL_RADIUS_M;
+        public double WHEEL_DIAMETER_M;
 
 
         public SwerveConstants
