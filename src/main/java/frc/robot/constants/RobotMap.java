@@ -22,7 +22,7 @@ public abstract class RobotMap {
 
     public class CAN {
         public DrivetrainMap drivetrainMap = new DrivetrainMap();
-        public TriggerMap triggerMap = new TriggerMap();
+        public LoaderMap triggerMap = new LoaderMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
 
@@ -47,6 +47,7 @@ public abstract class RobotMap {
         public class IntakeMap {
             public TrigonTalonSRX MOTOR;
         }
+
     }
 
     public class PCM {
