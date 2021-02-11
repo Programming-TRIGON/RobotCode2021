@@ -7,7 +7,7 @@ package frc.robot.vision;
  * representing what pipeline limelight should use for finding it.
  */
 public enum Target {
-    Tower(0), Ball(1);
+    PowerPort(0), Feeder(1), PowerCell(2);
 
     private final int index;
 
