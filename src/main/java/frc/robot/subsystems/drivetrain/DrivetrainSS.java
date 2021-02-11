@@ -24,7 +24,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     private SwerveDriveKinematics kinematics;
     private SwerveModule[] modules;
 
-
     public DrivetrainSS(DrivetrainConstants constants) {
         this.constants = constants;
         this.gyro = constants.canDrivetrainMap.GYRO;
@@ -92,7 +91,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         fieldSpeedDrive(new ChassisSpeeds(x, y, rot));
     }
 
-
     /**
      * Returns the desired states of the swerve modules as an array
      *
@@ -142,7 +140,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         return gyro.getAngle();
     }
 
-
     /**
      * Drives with the given power. x, y, and rotation.
      *
@@ -152,7 +149,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     public void move(double power) {
         powerDrive(power, power, power);
     }
-
 
     /**
      * Returns an array of the system's sensor values
@@ -193,7 +189,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         return getPose().getY();
     }
 
-
     @Override
     public void periodic() {
         updateOdometry();
@@ -201,11 +196,9 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
             module.periodic();
     }
 
-
     private void updateOdometry() {
         odometry.update(gyro.getRotation2d(), getDesiredStates());
     }
-
 
     private void initSwerve() {
         kinematics = new SwerveDriveKinematics(

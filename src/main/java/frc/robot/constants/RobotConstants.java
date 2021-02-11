@@ -40,7 +40,6 @@ public abstract class RobotConstants extends RobotMap {
 
         public double WHEEL_DIAMETER_M;
 
-
         public SwerveConstants
                 FRONT_LEFT_CONSTANTS,
                 FRONT_RIGHT_CONSTANTS,
