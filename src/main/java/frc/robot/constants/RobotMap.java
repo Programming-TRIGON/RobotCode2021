@@ -2,6 +2,8 @@ package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.TrigonDoubleSolenoid;
+import frc.robot.components.Pigeon;
+import frc.robot.components.SwerveModule;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 
@@ -20,12 +22,22 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
 
     public class CAN {
+        public DrivetrainMap drivetrainMap = new DrivetrainMap();
         public TriggerMap triggerMap = new TriggerMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
 
         public class TriggerMap {
             public TrigonTalonSRX MOTOR;
+        }
+
+        public class DrivetrainMap {
+            public SwerveModule
+                    FRONT_RIGHT,
+                    FRONT_LEFT,
+                    REAR_RIGHT,
+                    REAR_LEFT;
+            public Pigeon GYRO;
         }
 
         public class ShooterMap {

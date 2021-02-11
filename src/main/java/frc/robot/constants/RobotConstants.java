@@ -1,16 +1,20 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDCoefs;
+import frc.robot.utilities.SwerveConstants;
 
 /**
  * All the constants to be uses for the robot
  */
 public abstract class RobotConstants extends RobotMap {
+
     public LimelightConstants limelightConstants = new LimelightConstants();
+    public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public TesterConstants testerConstants = new TesterConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ShooterConstants shooterConstants = new ShooterConstants();
@@ -20,6 +24,29 @@ public abstract class RobotConstants extends RobotMap {
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
     public PitcherConstants pitcherConstants = new PitcherConstants();
+
+    public class DrivetrainConstants {
+        public CAN.DrivetrainMap canDrivetrainMap;
+        public Pose2d
+                FRONT_LEFT_LOCATION,
+                FRONT_RIGHT_LOCATION,
+                REAR_LEFT_LOCATION,
+                REAR_RIGHT_LOCATION;
+        public double
+                MAX_SPEED_MPS,
+                MAX_ROT_SPEED_RAD_S;
+        public MotorConfig
+                ANGLE_MOTOR_CONFIG,
+                SPEED_MOTOR_CONFIG;
+
+        public double WHEEL_DIAMETER_M;
+
+        public SwerveConstants
+                FRONT_LEFT_CONSTANTS,
+                FRONT_RIGHT_CONSTANTS,
+                REAR_LEFT_CONSTANTS,
+                REAR_RIGHT_CONSTANTS;
+    }
 
     public class LimelightConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
@@ -54,18 +81,23 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class LedConstants {
-        public PWM.LedMap PWM_MAP;
         public final ColorMap COLOR_MAP = new ColorMap();
+        public PWM.LedMap PWM_MAP;
 
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
             public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
+            public final LedColor INTAKE_ENABLED = LedColor.Aqua;
+            public final LedBlinkColor INTAKE_MOTOR_STALL = new LedBlinkColor(LedColor.Yellow, 5);
         }
     }
 
     public class IntakeConstants {
         public CAN.IntakeMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
+        public double DEFAULT_MOTOR_POWER;
+        public double STALL_CHECK_DELAY;
+        public double STALL_CURRENT_LIMIT;
     }
 
     public class ClimberConstants {
