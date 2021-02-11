@@ -40,7 +40,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
     @Override
     public void initialize() {
         limelight.setPipeline(limelight.getLimelightConstants().POWER_PORT_PIPELINE);
-        limelight.startVision(Target.RocketMiddle);
+        limelight.startVision(Target.PowerPort);
         desiredVelocity = calculateVelocity();
     }
 
