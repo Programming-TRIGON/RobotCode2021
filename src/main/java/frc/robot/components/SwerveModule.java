@@ -1,11 +1,13 @@
 package frc.robot.components;
 
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 
-public class SwerveModule {
+public class SwerveModule implements Sendable {
     private final TrigonTalonFX
             speedMotor,
             angleMotor;
@@ -96,6 +98,10 @@ public class SwerveModule {
         return getSpeedMotorVelocity() / SwerveConstants.StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION * constants.diameter * Math.PI / 10;
     }
 
+    public double getDesiredSpeed(){
+        return desiredState.speedMetersPerSecond;
+    }
+
     /**
      * @return the angle of the module in degrees
      */
@@ -114,4 +120,11 @@ public class SwerveModule {
         angleMotor.configSelectedFeedbackSensor(SwerveConstants.StaticSwerveConstants.ABSOLUTE_DEVICE);
     }
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addDoubleProperty("Angle", this::getAngle, x->{});
+        builder.addDoubleProperty("Desired Angle", this::getAngle, angle -> desiredState.angle = Rotation2d.fromDegrees(angle));
+        builder.addDoubleProperty("Speed", this::getSpeedMotorMPS, x->{});
+        builder.addDoubleProperty("Desired Speed", this::getSpeedMotorMPS, speed -> desiredState.speedMetersPerSecond = speed);
+    }
 }
