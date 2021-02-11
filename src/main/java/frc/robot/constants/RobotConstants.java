@@ -63,7 +63,6 @@ public abstract class RobotConstants extends RobotMap {
         public double MOVE_POWER;
     }
 
-
     public class VisionConstants {
         public PIDCoefs ROTATION_SETTINGS;
         public double TARGET_TIME_OUT;
@@ -82,8 +81,8 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class LedConstants {
-        public PWM.LedMap PWM_MAP;
         public final ColorMap COLOR_MAP = new ColorMap();
+        public PWM.LedMap PWM_MAP;
 
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);

@@ -1,6 +1,7 @@
 package frc.robot.utilities;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import frc.robot.components.MotorConfig;
 import frc.robot.components.TrigonTalonFX;
 
 public class SwerveConstants {
@@ -26,5 +27,6 @@ public class SwerveConstants {
                 SPEED_MOTOR_TICKS_PER_REVOLUTION,
                 ANGLE_TICKS_PER_REVOLUTION;
         public static double SPEED_GEAR_RATION;
+        public static MotorConfig DEFAULT_CONFIG;
     }
 }
