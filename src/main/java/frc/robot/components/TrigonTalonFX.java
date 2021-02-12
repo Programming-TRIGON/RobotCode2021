@@ -14,7 +14,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
 
     /**
      * constructs a new motor controller
-     * 
+     *
      * @param id          device ID of motor controller
      * @param motorConfig The configuration preset to use
      * @param pidCoefs    coefficients for CTRE PID
@@ -35,17 +35,17 @@ public class TrigonTalonFX extends WPI_TalonFX {
 
     /**
      * constructs a new motor controller with a default PID configurations
-     * 
+     *
      * @param id          device ID of motor controller
      * @param motorConfig The configuration preset to use
      */
     public TrigonTalonFX(int id, MotorConfig motorConfig) {
-        this(id, new MotorConfig(), new PIDCoefs(0, 0, 0, 0, 0, 0));
+        this(id, motorConfig, new PIDCoefs(0, 0, 0, 0, 0, 0));
     }
 
     /**
      * constructs a new motor controller with a default motor configurations
-     * 
+     *
      * @param id       device ID of motor controller
      * @param pidCoefs coefficients for CTRE PID
      */
@@ -55,7 +55,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
 
     /**
      * constructs a new motor controller with a default configurations
-     * 
+     *
      * @param id device ID of motor controller
      */
     public TrigonTalonFX(int id) {
@@ -74,7 +74,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
 
     /**
      * Sets new PID coefficients
-     * 
+     *
      * @param pidCoefs the coefficients fot the PID
      */
     public void configurePID(PIDCoefs pidCoefs) {
@@ -84,7 +84,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
 
     /**
      * if tuning the PID then call periodically
-     * 
+     *
      * @param name name of the key
      */
     public void tunePID(String name) {
