@@ -25,7 +25,7 @@ public abstract class RobotConstants extends RobotMap {
     public ClimberConstants rightClimberConstants = new ClimberConstants();
 
     public class DrivetrainConstants {
-        public CAN.DrivetrainMap canDrivetrainMap;
+        public CAN.DrivetrainMap canMap;
         public Pose2d
                 FRONT_LEFT_LOCATION,
                 FRONT_RIGHT_LOCATION,
