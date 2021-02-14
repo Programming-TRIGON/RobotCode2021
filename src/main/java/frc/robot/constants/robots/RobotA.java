@@ -1,6 +1,7 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -80,15 +81,18 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
+        // Intake opener constants
+        intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
+
         /** Robot Map **/
 
         // CAN
 
-        // shooter map
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(8, intakeConstants.MOTOR_CONFIG);
         can.triggerMap.MOTOR = new TrigonTalonSRX(9, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
+        can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(7, intakeOpenerConstants.MOTOR_CONFIG);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
@@ -139,5 +143,9 @@ public class RobotA extends RobotConstants {
         pwm.ledMap.LED_CONTROLLER = 0;
         pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
+
+        // DIO
+        dio.intakeOpenerMap.RIGHT_INPUT = new DigitalInput(0);
+        dio.intakeOpenerMap.LEFT_INPUT = new DigitalInput(1);
     }
 }

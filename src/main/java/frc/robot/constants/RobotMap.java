@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
@@ -25,6 +26,7 @@ public abstract class RobotMap {
         public TriggerMap triggerMap = new TriggerMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
+        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
 
         public class TriggerMap {
             public TrigonTalonSRX MOTOR;
@@ -47,6 +49,10 @@ public abstract class RobotMap {
         public class IntakeMap {
             public TrigonTalonSRX MOTOR;
         }
+
+        public class IntakeOpenerMap {
+            public TrigonTalonSRX MOTOR;
+        }
     }
 
     public class PCM {
@@ -54,7 +60,12 @@ public abstract class RobotMap {
     }
 
     public class DIO {
+        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
 
+        public class IntakeOpenerMap {
+            public DigitalInput RIGHT_INPUT;
+            public DigitalInput LEFT_INPUT;
+        }
     }
 
     public class PWM {
