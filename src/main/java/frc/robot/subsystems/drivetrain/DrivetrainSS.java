@@ -26,7 +26,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     public DrivetrainSS(DrivetrainConstants constants) {
         this.constants = constants;
-        this.gyro = constants.canDrivetrainMap.GYRO;
+        this.gyro = constants.CAN_MAP.GYRO;
         this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
         initSwerve();
     }
@@ -208,10 +208,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
                 constants.REAR_LEFT_LOCATION.getTranslation()
         );
         modules = new SwerveModule[]{
-                constants.canDrivetrainMap.FRONT_RIGHT,
-                constants.canDrivetrainMap.FRONT_LEFT,
-                constants.canDrivetrainMap.REAR_RIGHT,
-                constants.canDrivetrainMap.REAR_LEFT
+                constants.CAN_MAP.FRONT_RIGHT,
+                constants.CAN_MAP.FRONT_LEFT,
+                constants.CAN_MAP.REAR_RIGHT,
+                constants.CAN_MAP.REAR_LEFT
         };
     }
 }

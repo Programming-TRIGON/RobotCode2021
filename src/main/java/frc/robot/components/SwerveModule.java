@@ -27,6 +27,8 @@ public class SwerveModule {
 
         angleMotor = constants.angleMotor;
         angleController = new TrigonPIDController(constants.angleCoefs);
+        angleController.enableContinuousInput(0, 360);
+        
         setAbsolute();
     }
 
