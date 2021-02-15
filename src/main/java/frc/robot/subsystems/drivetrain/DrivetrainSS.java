@@ -136,7 +136,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @return the angle of the system
      */
-    @Log(methodName = "Angle")
+    @Log(name = "Angle")
     public double getAngle() {
         return gyro.getAngle();
     }
@@ -178,7 +178,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     /**
      * @return the x position on the field as calculated by the odometry
      */
-    @Log(methodName = "X")
+    @Log(name = "X")
     public double getX() {
         return getPose().getX();
     }
@@ -186,7 +186,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     /**
      * @return the y position on the field as calculated by the odometry
      */
-    @Log(methodName = "Y")
+    @Log(name = "Y")
     public double getY() {
         return getPose().getY();
     }
@@ -215,9 +215,13 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
                 constants.canDrivetrainMap.REAR_RIGHT,
                 constants.canDrivetrainMap.REAR_LEFT
         };
-        SmartDashboard.putData("Front Right", modules[0]);
-        SmartDashboard.putData("Front Left", modules[1]);
-        SmartDashboard.putData("Rear Right", modules[2]);
-        SmartDashboard.putData("Rear Left", modules[3]);
+        SmartDashboard.putData(configureLogName() + "/Front Right", modules[0]);
+        SmartDashboard.putData(configureLogName() + "/Front Left", modules[1]);
+        SmartDashboard.putData(configureLogName() + "/Rear Right", modules[2]);
+        SmartDashboard.putData(configureLogName() + "/Rear Left", modules[3]);
+    }
+
+    public String configureLogName(){
+        return "Drivetrain";
     }
 }

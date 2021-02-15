@@ -29,6 +29,9 @@ public class SwerveModule implements Sendable {
 
         angleMotor = constants.angleMotor;
         angleController = new TrigonPIDController(constants.angleCoefs);
+
+        desiredState = getState();
+
         setAbsolute();
     }
 
