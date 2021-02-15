@@ -1,7 +1,6 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.geometry.Pose2d;

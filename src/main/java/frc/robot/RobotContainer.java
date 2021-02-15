@@ -32,10 +32,11 @@ public class RobotContainer {
 
     public void updateDashboard() {
         dashboardController.update();
+        Logger.updateEntries();
     }
 
     /** call this method periodically */
     public void periodic() {
-
+        updateDashboard();
     }
 }
