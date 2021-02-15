@@ -52,9 +52,14 @@ public class TrigonPIDController extends PIDController {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        if (isTuning) {
-            super.initSendable(builder);
-            builder.addDoubleProperty("f", this::getF, this::setF);
-        }
+        builder.setSmartDashboardType("PIDController");
+        // sends the pid values to the dashboard but only allows them to be changed if
+        // isTuning is true
+        builder.addDoubleProperty("p", this::getP, (kP) -> setP(isTuning ? kP : getP()));
+        builder.addDoubleProperty("i", this::getI, (kI) -> setP(isTuning ? kI : getI()));
+        builder.addDoubleProperty("d", this::getD, (kD) -> setP(isTuning ? kD : getD()));
+        builder.addDoubleProperty("setpoint", this::getSetpoint,
+                (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
+        builder.addDoubleProperty("f", this::getF, (kF) -> setF(isTuning ? kF : getF()));
     }
 }
