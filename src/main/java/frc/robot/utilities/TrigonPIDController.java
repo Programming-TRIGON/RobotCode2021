@@ -1,15 +1,18 @@
 package frc.robot.utilities;
 
+import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class TrigonPIDController extends PIDController {
     private double f;
+    private boolean isTuning;
 
     public TrigonPIDController(PIDCoefs pidCoefs) {
         super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD());
         setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
         f = pidCoefs.getKF();
+        isTuning = false;
     }
 
     /**
@@ -39,13 +42,19 @@ public class TrigonPIDController extends PIDController {
         return calculate(measurement) + f * getSetpoint();
     }
 
+    public Object getIsTuning() {
+        return this.isTuning;
+    }
+
+    public void setIsTuning(boolean isTuning) {
+        this.isTuning = isTuning;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("PIDController");
-        builder.addDoubleProperty("p", this::getP, this::setP);
-        builder.addDoubleProperty("i", this::getI, this::setI);
-        builder.addDoubleProperty("d", this::getD, this::setD);
-        builder.addDoubleProperty("f", this::getF, this::setF);
-        builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
+        if (isTuning) {
+            super.initSendable(builder);
+            builder.addDoubleProperty("f", this::getF, this::setF);
+        }
     }
 }
