@@ -129,6 +129,15 @@ public class SwerveModule implements Sendable {
         angleMotor.configSelectedFeedbackSensor(SwerveConstants.StaticSwerveConstants.ABSOLUTE_DEVICE);
     }
 
+    public boolean isTuning() {
+        return speedController.isTuning();
+    }
+
+    public void setIsTuning(boolean isTuning) {
+        speedController.setIsTuning(isTuning);
+        angleController.setIsTuning(isTuning);
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addDoubleProperty("Angle", this::getAngle, x -> {});
@@ -137,5 +146,7 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("Velocity", this::getSpeedMotorMPS, x -> {});
         builder.addDoubleProperty("Desired Velocity", this::getSpeedMotorMPS,
                 speed -> desiredState.speedMetersPerSecond = speed);
+        speedController.initSendable(builder, "Speed Controller");
+        angleController.initSendable(builder, "Angle Controller");
     }
 }
