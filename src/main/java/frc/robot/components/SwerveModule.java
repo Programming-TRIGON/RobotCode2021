@@ -17,6 +17,7 @@ public class SwerveModule implements Sendable {
     private SwerveModuleState desiredState;
     private SwerveConstants constants;
 
+
     /**
      * Constructs a swerve module that's is made of a speed motor and an angle motor.
      *
@@ -101,7 +102,7 @@ public class SwerveModule implements Sendable {
         return getSpeedMotorVelocity() / SwerveConstants.StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION * constants.diameter * Math.PI / 10;
     }
 
-    public double getDesiredSpeed(){
+    public double getDesiredVelocity(){
         return desiredState.speedMetersPerSecond;
     }
 
@@ -127,7 +128,7 @@ public class SwerveModule implements Sendable {
     public void initSendable(SendableBuilder builder) {
         builder.addDoubleProperty("Angle", this::getAngle, x->{});
         builder.addDoubleProperty("Desired Angle", this::getAngle, angle -> desiredState.angle = Rotation2d.fromDegrees(angle));
-        builder.addDoubleProperty("Speed", this::getSpeedMotorMPS, x->{});
-        builder.addDoubleProperty("Desired Speed", this::getSpeedMotorMPS, speed -> desiredState.speedMetersPerSecond = speed);
+        builder.addDoubleProperty("Velocity", this::getSpeedMotorMPS, x->{});
+        builder.addDoubleProperty("Desired Velocity", this::getSpeedMotorMPS, speed -> desiredState.speedMetersPerSecond = speed);
     }
 }
