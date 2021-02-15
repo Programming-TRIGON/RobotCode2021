@@ -82,6 +82,8 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.IS_INVERTED = false;
 
         // Intake opener constants
+        intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
+        intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
         intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
 
         /** Robot Map **/
