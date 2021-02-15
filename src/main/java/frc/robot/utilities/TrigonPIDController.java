@@ -58,8 +58,8 @@ public class TrigonPIDController extends PIDController {
         builder.addDoubleProperty("p", this::getP, (kP) -> setP(isTuning ? kP : getP()));
         builder.addDoubleProperty("i", this::getI, (kI) -> setP(isTuning ? kI : getI()));
         builder.addDoubleProperty("d", this::getD, (kD) -> setP(isTuning ? kD : getD()));
+        builder.addDoubleProperty("f", this::getF, (kF) -> setF(isTuning ? kF : getF()));
         builder.addDoubleProperty("setpoint", this::getSetpoint,
                 (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
-        builder.addDoubleProperty("f", this::getF, (kF) -> setF(isTuning ? kF : getF()));
     }
 }
