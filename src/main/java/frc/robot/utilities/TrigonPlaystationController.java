@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.utilities.OIMap.Axis;
 
-public class TrigonController extends GenericHID {
+public class TrigonPlaystationController extends GenericHID {
     private static final double kIntermittentRumbleTime = 0.15;
     private JoystickButton right1;
     private JoystickButton right2;
@@ -28,7 +28,7 @@ public class TrigonController extends GenericHID {
     private int rumbleAmount;
     private Notifier notifier;
 
-    public TrigonController(int port) {
+    public TrigonPlaystationController(int port) {
         super(port);
         right1 = new JoystickButton(this, OIMap.Button.right1.getPort());
         right2 = new JoystickButton(this, OIMap.Button.right2.getPort());
