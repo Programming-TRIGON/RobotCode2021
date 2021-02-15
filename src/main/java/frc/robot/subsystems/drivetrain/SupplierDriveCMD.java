@@ -9,11 +9,13 @@ public class SupplierDriveCMD extends CommandBase {
     Supplier<Double> x, y, rot;
 
     /**
-     * Drives a drivetrain based on the given suppliers, relative to the robot itself.
+     * Drives a drivetrain based on the given suppliers, relative to the robot
+     * itself.
+     * 
      * @param drivetrain the drivetrain to drive
-     * @param x the supplier for the x velocity in m/s
-     * @param y the supplier for the y velocity in m/s
-     * @param rot the supplier for the rotation velocity in rad/s
+     * @param x          the supplier for the x power, between -1 and 1
+     * @param y          the supplier for the y power, between -1 and 1
+     * @param rot        the supplier for the rotation power, between -1 and 1
      */
     public SupplierDriveCMD(DrivetrainSS drivetrain, Supplier<Double> x, Supplier<Double> y, Supplier<Double> rot) {
         this.drivetrain = drivetrain;

@@ -9,13 +9,16 @@ public class SupplierFieldDriveCMD extends CommandBase {
     Supplier<Double> x, y, rot;
 
     /**
-     * Drives a drivetrain based on the given suppliers, relative to the field (using thr drivetrain gyro).
+     * Drives a drivetrain based on the given suppliers, relative to the field
+     * (using thr drivetrain gyro).
+     * 
      * @param drivetrain the drivetrain to drive
-     * @param x the supplier for the x velocity in m/s
-     * @param y the supplier for the y velocity in m/s
-     * @param rot the supplier for the rotation velocity in rad/s
+     * @param x          the supplier for the field x power, between -1 and 1
+     * @param y          the supplier for the field y power, between -1 and 1
+     * @param rot        the supplier for the rotation power, between -1 and 1
      */
-    public SupplierFieldDriveCMD(DrivetrainSS drivetrain, Supplier<Double> x, Supplier<Double> y, Supplier<Double> rot) {
+    public SupplierFieldDriveCMD(DrivetrainSS drivetrain, Supplier<Double> x, Supplier<Double> y,
+            Supplier<Double> rot) {
         this.drivetrain = drivetrain;
         this.x = x;
         this.y = y;
