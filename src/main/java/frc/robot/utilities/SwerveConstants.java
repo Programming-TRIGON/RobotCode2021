@@ -27,6 +27,7 @@ public class SwerveConstants {
                 SPEED_MOTOR_TICKS_PER_REVOLUTION,
                 ANGLE_TICKS_PER_REVOLUTION;
         public static double SPEED_GEAR_RATION;
-        public static MotorConfig DEFAULT_CONFIG;
+        public static MotorConfig ANGLE_DEFAULT_CONFIG;
+        public static MotorConfig SPEED_DEFAULT_CONFIG;
     }
 }

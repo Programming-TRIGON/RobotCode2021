@@ -35,9 +35,6 @@ public abstract class RobotConstants extends RobotMap {
         public double MAX_SPEED_MPS;
         public double MAX_ROT_SPEED_RAD_S;
 
-        public MotorConfig ANGLE_MOTOR_CONFIG;
-        public MotorConfig SPEED_MOTOR_CONFIG;
-
         public double WHEEL_DIAMETER_M;
 
         public SwerveConstants FRONT_LEFT_CONSTANTS;
