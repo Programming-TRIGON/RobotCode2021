@@ -30,7 +30,7 @@ public class SwerveModule implements Sendable {
         angleMotor = constants.angleMotor;
         angleController = new TrigonPIDController(constants.angleCoefs);
 
-        desiredState = getState();
+        setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(getAngle())));
 
         angleController.enableContinuousInput(0, 360);
 
@@ -71,6 +71,31 @@ public class SwerveModule implements Sendable {
      */
     public void setDesiredState(SwerveModuleState desiredState) {
         this.desiredState = SwerveModuleState.optimize(desiredState, Rotation2d.fromDegrees(getAngle()));
+        updateSetpoint();
+    }
+
+    /**
+     * Sets the desired angle of the module. This won't affect the motors' power
+     * until the next periodic run
+     *
+     * @param desiredAngle the desired angle for the module in degrees.
+     */
+    public void setDesiredAngle(double desiredAngle) {
+        SwerveModuleState newDesiredState = new SwerveModuleState(desiredState.speedMetersPerSecond,
+                Rotation2d.fromDegrees(getAngle()));
+        desiredState = SwerveModuleState.optimize(newDesiredState, Rotation2d.fromDegrees(getAngle()));
+        updateSetpoint();
+    }
+
+    /**
+     * Sets the desired speed of the module. This won't affect the motors' power
+     * until the next periodic run
+     *
+     * @param desiredSpeed the desired speed for the module in meters per second.
+     */
+    public void setDesiredSpeed(double desiredSpeed) {
+        SwerveModuleState newDesiredState = new SwerveModuleState(desiredSpeed, desiredState.angle);
+        desiredState = SwerveModuleState.optimize(newDesiredState, Rotation2d.fromDegrees(getAngle()));
         updateSetpoint();
     }
 
@@ -145,6 +170,7 @@ public class SwerveModule implements Sendable {
     public TrigonPIDController getSpeedPIDController() {
         return speedController;
     }
+
     public TrigonPIDController getAnglePIDController() {
         return angleController;
     }
@@ -154,10 +180,10 @@ public class SwerveModule implements Sendable {
         builder.setSmartDashboardType("RobotPreferences");
         builder.addDoubleProperty("Current Angle", this::getAngle, x -> {});
         builder.addDoubleProperty("Desired Angle", () -> getDesiredState().angle.getDegrees(),
-                angle -> desiredState.angle = Rotation2d.fromDegrees(angle));
+                angle -> setDesiredAngle(isTuning ? angle : getDesiredState().angle.getDegrees()));
         builder.addDoubleProperty("Current Velocity", this::getSpeedMotorMPS, x -> {});
         builder.addDoubleProperty("Desired Velocity", () -> getDesiredState().speedMetersPerSecond,
-                speed -> desiredState.speedMetersPerSecond = isTuning ? speed : desiredState.speedMetersPerSecond);
+                speed -> setDesiredSpeed(isTuning ? speed : desiredState.speedMetersPerSecond));
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
     }
 }
