@@ -30,6 +30,12 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     public DrivetrainSS(DrivetrainConstants constants) {
         this.constants = constants;
         this.gyro = constants.CAN_MAP.GYRO;
+        this.kinematics = new SwerveDriveKinematics(
+                constants.FRONT_LEFT_LOCATION.getTranslation(),
+                constants.FRONT_LEFT_LOCATION.getTranslation(),
+                constants.REAR_RIGHT_LOCATION.getTranslation(),
+                constants.REAR_LEFT_LOCATION.getTranslation()
+        );
         this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
         initSwerve();
     }

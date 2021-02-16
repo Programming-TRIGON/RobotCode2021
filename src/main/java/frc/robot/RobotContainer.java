@@ -38,5 +38,6 @@ public class RobotContainer {
     /** call this method periodically */
     public void periodic() {
         updateDashboard();
+        drivetrainSS.periodic();
     }
 }
