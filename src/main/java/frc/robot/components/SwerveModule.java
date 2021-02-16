@@ -144,9 +144,8 @@ public class SwerveModule implements Sendable {
         // Dividing by tpr gives us a number between 0 and 1. multiplying by 360 gives
         // us the degrees.
         // If the result is 360 we want it to be 0 and if it's 400 we want it to be 40
-        // so we take the remainder.
-        return (angleMotor.getSelectedSensorPosition()
-                / SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION * 360 - constants.offset) % 360;
+        return 360-(angleMotor.getSelectedSensorPosition()
+                / (SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION - 1) * 360 - constants.offset);
     }
 
     private void setRelative() {
@@ -155,6 +154,7 @@ public class SwerveModule implements Sendable {
 
     private void setAbsolute() {
         angleMotor.configSelectedFeedbackSensor(SwerveConstants.StaticSwerveConstants.ABSOLUTE_DEVICE);
+        angleMotor.configFeedbackNotContinuous(true, 0);
     }
 
     public boolean isTuning() {

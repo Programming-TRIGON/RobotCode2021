@@ -25,4 +25,9 @@ public class TalonFXWithTalonSRXEncoder extends TrigonTalonFX {
     public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice) {
         return srx.configSelectedFeedbackSensor(feedbackDevice);
     }
+
+    @Override
+    public ErrorCode configFeedbackNotContinuous(boolean feedbackNotContinuous, int timeoutMs) {
+        return srx.configFeedbackNotContinuous(feedbackNotContinuous, timeoutMs);
+    }
 }
