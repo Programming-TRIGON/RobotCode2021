@@ -178,10 +178,10 @@ public class SwerveModule implements Sendable {
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("RobotPreferences");
-        builder.addDoubleProperty("Current Angle", this::getAngle, x -> {});
+        builder.addDoubleProperty("Current Angle", this::getAngle, null);
         builder.addDoubleProperty("Desired Angle", () -> getDesiredState().angle.getDegrees(),
                 angle -> setDesiredAngle(isTuning ? angle : getDesiredState().angle.getDegrees()));
-        builder.addDoubleProperty("Current Velocity", this::getSpeedMotorMPS, x -> {});
+        builder.addDoubleProperty("Current Velocity", this::getSpeedMotorMPS, null);
         builder.addDoubleProperty("Desired Velocity", () -> getDesiredState().speedMetersPerSecond,
                 speed -> setDesiredSpeed(isTuning ? speed : desiredState.speedMetersPerSecond));
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
