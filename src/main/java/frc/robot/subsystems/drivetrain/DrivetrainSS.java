@@ -215,10 +215,16 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
                 constants.CAN_MAP.REAR_RIGHT,
                 constants.CAN_MAP.REAR_LEFT
         };
-        SmartDashboard.putData(configureLogName() + "/Front Right", modules[0]);
-        SmartDashboard.putData(configureLogName() + "/Front Left", modules[1]);
-        SmartDashboard.putData(configureLogName() + "/Rear Right", modules[2]);
-        SmartDashboard.putData(configureLogName() + "/Rear Left", modules[3]);
+        putModule(modules[0], "Front Right");
+        putModule(modules[1], "Front Left");
+        putModule(modules[2], "Rear Right");
+        putModule(modules[3], "Rear Left");
+    }
+
+    public void putModule(SwerveModule module, String name){
+        SmartDashboard.putData(configureLogName() + "/" + name, module);
+        SmartDashboard.putData(configureLogName() + "/" + name + "/Angle controller", module.getAngleController());
+        SmartDashboard.putData(configureLogName() + "/" + name + "/Speed controller", module.getSpeedController());
     }
 
     public String configureLogName(){

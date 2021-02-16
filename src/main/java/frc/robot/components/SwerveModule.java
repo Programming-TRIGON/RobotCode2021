@@ -14,7 +14,6 @@ public class SwerveModule implements Sendable {
     private final TrigonPIDController angleController;
     private SwerveModuleState desiredState;
     private SwerveConstants constants;
-
     /**
      * Constructs a swerve module that's is made of a speed motor and an angle
      * motor.
@@ -25,15 +24,24 @@ public class SwerveModule implements Sendable {
         this.constants = constants;
         speedMotor = constants.speedMotor;
         speedController = new TrigonPIDController(constants.speedCoefs);
+        speedController.setIsTuning(constants.tuning);
 
         angleMotor = constants.angleMotor;
         angleController = new TrigonPIDController(constants.angleCoefs);
-
-        desiredState = getState();
-
         angleController.enableContinuousInput(0, 360);
+        angleController.setIsTuning(constants.tuning);
+
+        setDesiredState(getState());
 
         setAbsolute();
+    }
+
+    public TrigonPIDController getSpeedController() {
+        return speedController;
+    }
+
+    public TrigonPIDController getAngleController() {
+        return angleController;
     }
 
     /**
@@ -121,6 +129,10 @@ public class SwerveModule implements Sendable {
                 / SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION * 360 - constants.offset) % 360;
     }
 
+    public double getDesiredAngle(){
+        return desiredState.angle.getDegrees();
+    }
+
     private void setRelative() {
         angleMotor.configSelectedFeedbackSensor(SwerveConstants.StaticSwerveConstants.RELATIVE_DEVICE);
     }
@@ -140,13 +152,12 @@ public class SwerveModule implements Sendable {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addDoubleProperty("Angle", this::getAngle, x -> {});
-        builder.addDoubleProperty("Desired Angle", this::getAngle,
+        builder.addDoubleProperty("Angle", this::getAngle, null);
+        builder.addDoubleProperty("Desired Angle", this::getDesiredAngle,
                 angle -> desiredState.angle = Rotation2d.fromDegrees(angle));
         builder.addDoubleProperty("Velocity", this::getSpeedMotorMPS, x -> {});
-        builder.addDoubleProperty("Desired Velocity", this::getSpeedMotorMPS,
-                speed -> desiredState.speedMetersPerSecond = speed);
-        speedController.initSendable(builder, "Speed Controller");
-        angleController.initSendable(builder, "Angle Controller");
+        builder.addDoubleProperty("Desired Velocity", this::getDesiredVelocity,
+                speed -> {desiredState.speedMetersPerSecond = speed;
+                    System.out.println("speed:\t" + speed);});
     }
 }
