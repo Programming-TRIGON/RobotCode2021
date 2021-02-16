@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
@@ -215,13 +217,19 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
                 constants.CAN_MAP.REAR_RIGHT,
                 constants.CAN_MAP.REAR_LEFT
         };
-        SmartDashboard.putData(configureLogName() + "/Front Right", modules[0]);
-        SmartDashboard.putData(configureLogName() + "/Front Left", modules[1]);
-        SmartDashboard.putData(configureLogName() + "/Rear Right", modules[2]);
-        SmartDashboard.putData(configureLogName() + "/Rear Left", modules[3]);
+        sendData("Front Right", modules[0]);
+        sendData("Front Left", modules[1]);
+        sendData("Rear Right", modules[2]);
+        sendData("Rear Left", modules[3]);
     }
 
     public String configureLogName(){
         return "Drivetrain";
+    }
+    private void sendData(String name, SwerveModule module) {
+        ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
+        layout.add(name, module);
+        layout.add("speed pid controller", module.getSpeedPIDController());
+        layout.add("angle pid controller", module.getAnglePIDController());
     }
 }

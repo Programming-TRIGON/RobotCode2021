@@ -14,6 +14,7 @@ public class SwerveModule implements Sendable {
     private final TrigonPIDController angleController;
     private SwerveModuleState desiredState;
     private SwerveConstants constants;
+    private boolean isTuning;
 
     /**
      * Constructs a swerve module that's is made of a speed motor and an angle
@@ -34,6 +35,8 @@ public class SwerveModule implements Sendable {
         angleController.enableContinuousInput(0, 360);
 
         setAbsolute();
+
+        isTuning = false;
     }
 
     /**
@@ -130,23 +133,31 @@ public class SwerveModule implements Sendable {
     }
 
     public boolean isTuning() {
-        return speedController.isTuning();
+        return isTuning;
     }
 
     public void setIsTuning(boolean isTuning) {
         speedController.setIsTuning(isTuning);
         angleController.setIsTuning(isTuning);
+        this.isTuning = isTuning;
+    }
+
+    public TrigonPIDController getSpeedPIDController() {
+        return speedController;
+    }
+    public TrigonPIDController getAnglePIDController() {
+        return angleController;
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addDoubleProperty("Angle", this::getAngle, x -> {});
-        builder.addDoubleProperty("Desired Angle", this::getAngle,
+        builder.setSmartDashboardType("RobotPreferences");
+        builder.addDoubleProperty("Current Angle", this::getAngle, x -> {});
+        builder.addDoubleProperty("Desired Angle", () -> getDesiredState().angle.getDegrees(),
                 angle -> desiredState.angle = Rotation2d.fromDegrees(angle));
-        builder.addDoubleProperty("Velocity", this::getSpeedMotorMPS, x -> {});
-        builder.addDoubleProperty("Desired Velocity", this::getSpeedMotorMPS,
-                speed -> desiredState.speedMetersPerSecond = speed);
-        speedController.initSendable(builder, "Speed Controller");
-        angleController.initSendable(builder, "Angle Controller");
+        builder.addDoubleProperty("Current Velocity", this::getSpeedMotorMPS, x -> {});
+        builder.addDoubleProperty("Desired Velocity", () -> getDesiredState().speedMetersPerSecond,
+                speed -> desiredState.speedMetersPerSecond = isTuning ? speed : desiredState.speedMetersPerSecond);
+        builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
     }
 }

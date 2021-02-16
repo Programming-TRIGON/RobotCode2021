@@ -55,8 +55,7 @@ public class TrigonPIDController extends PIDController {
     }
 
     public void initSendable(SendableBuilder builder, String name) {
-        if (!name.equals(""))
-            name += "/";
+        builder.setSmartDashboardType("PIDController");
         // sends the pid values to the dashboard but only allows them to be changed if
         // isTuning is true
         builder.addDoubleProperty(name + "p", this::getP, (kP) -> setP(isTuning ? kP : getP()));
