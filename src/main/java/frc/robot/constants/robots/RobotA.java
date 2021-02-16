@@ -30,7 +30,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; //in rad/s
-        
+
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
@@ -148,7 +148,7 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // DIO
-        dio.intakeOpenerMap.RIGHT_INPUT = new DigitalInput(0);
-        dio.intakeOpenerMap.LEFT_INPUT = new DigitalInput(1);
+        intakeOpenerConstants.DIO_MAP.OPEN_INPUT = new DigitalInput(0);
+        intakeOpenerConstants.DIO_MAP.CLOSED_INPUT = new DigitalInput(1);
     }
 }

@@ -9,14 +9,14 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
     private final TrigonTalonSRX motor;
-    private final DigitalInput rightInput;
-    private final DigitalInput leftInput;
+    private final DigitalInput closedInput;
+    private final DigitalInput openInput;
     private final IntakeOpenerConstants constants;
 
     public IntakeOpenerSS(IntakeOpenerConstants constants) {
         this.motor = constants.CAN_MAP.MOTOR;
-        this.rightInput = constants.DIO_MAP.RIGHT_INPUT;
-        this.leftInput = constants.DIO_MAP.LEFT_INPUT;
+        this.closedInput = constants.DIO_MAP.CLOSED_INPUT;
+        this.openInput = constants.DIO_MAP.OPEN_INPUT;
         this.constants = constants;
     }
 
@@ -25,35 +25,45 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
         motor.set(power);
     }
 
-    @Log(name = "IntakeOpener/Is Right Sensor Pressed")
-    public boolean isRightSensorPressed() {
-        return rightInput.get();
+    /**
+     * @return is the intake closed
+     */
+    @Log(name = "Is Closed")
+    public boolean isClosed() {
+        return closedInput.get();
     }
 
-    @Log(name = "IntakeOpener/Is Left Sensor Pressed")
-    public boolean isLeftSensorPressed() {
-        return leftInput.get();
+    /**
+     * @return is the intake open
+     */
+    @Log(name = "Is Open")
+    public boolean isOpen() {
+        return openInput.get();
     }
 
-    @Log(name = "IntakeOpener/Is Either Sensor Pressed")
-    public boolean isEitherSensorPressed() {
-        return rightInput.get() || leftInput.get();
+    /**
+     * @return is the intake is not moving (either open or closed)
+     */
+    public boolean isStill() {
+        return isClosed() || isOpen();
     }
 
-    @Log(name = "IntakeOpener/Are Both Sensors Pressed")
-    public boolean areBothSensorsPressed() {
-        return rightInput.get() && leftInput.get();
-    }
-
+    /**
+     * Sets the motor power only if the power given is appropriate
+     *
+     * @param power to be set to the motor
+     */
     public void moveWithSafety(double power) {
-        if (!isEitherSensorPressed() && power >= 0)
-            motor.set(power);
-        else if (isEitherSensorPressed() && power < 0)
-            motor.set(power);
-        else {
-            // Place holder TODO: put what needs to be put
-            return;
+        if (isStill()) {
+            if (isClosed() && power >= 0)
+                motor.set(power);
+            else if (isOpen() && power < 0)
+                motor.set(power);
+            else
+                System.out.println("moveWithSafety: invalid power given");
         }
+        else
+            System.out.println("moveWithSafety: intake was moving");
     }
 }
 
