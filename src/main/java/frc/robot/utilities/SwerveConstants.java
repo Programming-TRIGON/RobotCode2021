@@ -6,11 +6,15 @@ import frc.robot.components.TrigonTalonFX;
 
 public class SwerveConstants {
 
-    public TrigonTalonFX speedMotor, angleMotor;
-    public double diameter, offset;
-    public PIDCoefs angleCoefs, speedCoefs;
+    public TrigonTalonFX speedMotor;
+    public TrigonTalonFX angleMotor;
+    public double diameter;
+    public double offset;
+    public PIDCoefs angleCoefs;
+    public PIDCoefs speedCoefs;
 
-    public SwerveConstants(TrigonTalonFX speedMotor, TrigonTalonFX angleMotor, double diameter, double offset, PIDCoefs angleCoefs, PIDCoefs speedCoefs) {
+    public SwerveConstants(TrigonTalonFX speedMotor, TrigonTalonFX angleMotor, double diameter, double offset,
+            PIDCoefs angleCoefs, PIDCoefs speedCoefs) {
         this.speedMotor = speedMotor;
         this.angleMotor = angleMotor;
         this.diameter = diameter;
@@ -20,13 +24,12 @@ public class SwerveConstants {
     }
 
     public static class StaticSwerveConstants {
-        public static final FeedbackDevice
-                ABSOLUTE_DEVICE = FeedbackDevice.CTRE_MagEncoder_Absolute,
-                RELATIVE_DEVICE = FeedbackDevice.CTRE_MagEncoder_Relative;
-        public static int
-                SPEED_MOTOR_TICKS_PER_REVOLUTION,
-                ANGLE_TICKS_PER_REVOLUTION;
+        public static final FeedbackDevice ABSOLUTE_DEVICE = FeedbackDevice.CTRE_MagEncoder_Absolute;
+        public static final FeedbackDevice RELATIVE_DEVICE = FeedbackDevice.CTRE_MagEncoder_Relative;
+        public static int SPEED_MOTOR_TICKS_PER_REVOLUTION;
+        public static int ANGLE_TICKS_PER_REVOLUTION;
         public static double SPEED_GEAR_RATION;
-        public static MotorConfig DEFAULT_CONFIG;
+        public static MotorConfig ANGLE_DEFAULT_CONFIG;
+        public static MotorConfig SPEED_DEFAULT_CONFIG;
     }
 }

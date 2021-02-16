@@ -5,11 +5,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class TrigonPIDController extends PIDController {
     private double f;
+    private boolean isTuning;
 
     public TrigonPIDController(PIDCoefs pidCoefs) {
         super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD());
         setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
         f = pidCoefs.getKF();
+        isTuning = false;
     }
 
     /**
@@ -39,13 +41,29 @@ public class TrigonPIDController extends PIDController {
         return calculate(measurement) + f * getSetpoint();
     }
 
+    public boolean isTuning() {
+        return isTuning;
+    }
+
+    public void setIsTuning(boolean isTuning) {
+        this.isTuning = isTuning;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("PIDController");
-        builder.addDoubleProperty("p", this::getP, this::setP);
-        builder.addDoubleProperty("i", this::getI, this::setI);
-        builder.addDoubleProperty("d", this::getD, this::setD);
-        builder.addDoubleProperty("f", this::getF, this::setF);
-        builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
+        initSendable(builder, "");
+    }
+
+    public void initSendable(SendableBuilder builder, String name) {
+        if (!name.equals(""))
+            name += "/";
+        // sends the pid values to the dashboard but only allows them to be changed if
+        // isTuning is true
+        builder.addDoubleProperty(name + "p", this::getP, (kP) -> setP(isTuning ? kP : getP()));
+        builder.addDoubleProperty(name + "i", this::getI, (kI) -> setP(isTuning ? kI : getI()));
+        builder.addDoubleProperty(name + "d", this::getD, (kD) -> setP(isTuning ? kD : getD()));
+        builder.addDoubleProperty(name + "f", this::getF, (kF) -> setF(isTuning ? kF : getF()));
+        builder.addDoubleProperty(name + "setpoint", this::getSetpoint,
+                (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
     }
 }
