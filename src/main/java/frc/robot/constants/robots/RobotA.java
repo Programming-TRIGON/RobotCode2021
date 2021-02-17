@@ -29,7 +29,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; //in rad/s
-        
+
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
@@ -81,16 +81,9 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
-        /** Robot Map **/
+        //---------------------------------------------------Robot Map-------------------------------------------------\\
 
         // CAN
-
-        // shooter map
-        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
-        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
-        can.intakeMap.MOTOR = new TrigonTalonSRX(14, intakeConstants.MOTOR_CONFIG);
-        can.triggerMap.MOTOR = new TrigonTalonSRX(15, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
-
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
@@ -134,7 +127,13 @@ public class RobotA extends RobotConstants {
         can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
         can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
-        can.drivetrainMap.GYRO = new Pigeon(12);
+        can.drivetrainMap.GYRO = new Pigeon(8);
+
+        // Other Subsystems
+        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(9, shooterConstants.RIGHT_MOTOR_CONFIG);
+        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(10, shooterConstants.LEFT_MOTOR_CONFIG);
+        can.intakeMap.MOTOR = new TrigonTalonSRX(11, intakeConstants.MOTOR_CONFIG);
+        can.triggerMap.MOTOR = new TrigonTalonSRX(12, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
 
         // PWM
         pwm.ledMap.LED_CONTROLLER = 0;
