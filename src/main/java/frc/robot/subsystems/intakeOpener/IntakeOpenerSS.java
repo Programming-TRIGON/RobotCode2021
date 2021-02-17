@@ -14,15 +14,20 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
     private final IntakeOpenerConstants constants;
 
     public IntakeOpenerSS(IntakeOpenerConstants constants) {
-        this.motor = constants.CAN_MAP.MOTOR;
-        this.closedInput = constants.DIO_MAP.CLOSED_INPUT;
-        this.openInput = constants.DIO_MAP.OPEN_INPUT;
+        motor = constants.CAN_MAP.MOTOR;
+        closedInput = constants.DIO_MAP.CLOSED_INPUT;
+        openInput = constants.DIO_MAP.OPEN_INPUT;
         this.constants = constants;
     }
 
     @Override
     public void overriddenMove(double power) {
         motor.set(power);
+    }
+
+    @Override
+    public String configureLogName() {
+        return constants.LOGGABLE_NAME;
     }
 
     /**
