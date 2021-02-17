@@ -28,7 +28,7 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
     /**
      * @return is the intake closed
      */
-    @Log(name = "Is Closed")
+    @Log(name = "Is closed")
     public boolean isClosed() {
         return closedInput.get();
     }
@@ -36,7 +36,7 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
     /**
      * @return is the intake open
      */
-    @Log(name = "Is Open")
+    @Log(name = "Is open")
     public boolean isOpen() {
         return openInput.get();
     }
