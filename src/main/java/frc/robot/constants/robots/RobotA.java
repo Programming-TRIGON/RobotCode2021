@@ -145,6 +145,6 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // PCM
-        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
+        pitcherConstants.PCM_MAP.SOLENOID = new TrigonDoubleSolenoid(0, 1);
     }
 }

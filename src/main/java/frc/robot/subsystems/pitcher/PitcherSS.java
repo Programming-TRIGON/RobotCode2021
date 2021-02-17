@@ -4,25 +4,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.vision.Limelight;
+import frc.robot.vision.PitcherLimelight;
 import io.github.oblarg.oblog.Loggable;
 
 public class PitcherSS extends SubsystemBase implements Loggable {
     private TrigonDoubleSolenoid solenoid;
     private PitcherConstants constants;
-    private Limelight limelight;
+    private PitcherLimelight limelight;
 
-    public PitcherSS(PitcherConstants constants, Limelight limelight) {
+    public PitcherSS(PitcherConstants constants, PitcherLimelight limelight) {
         this.constants = constants;
         this.limelight = limelight;
         this.solenoid = constants.PCM_MAP.SOLENOID;
     }
 
     /**
-     * Sets the position of the solenoid wit a boolean
+     * Sets the position of the solenoid with a boolean
      *
      * @param position to be set to the solenoid (true=forward false=reverse)
      */
-    public void setSolenoid(boolean position) {
+    public void setSolenoidPosition(boolean position) {
         solenoid.setSolenoid(position);
     }
 
@@ -31,18 +32,7 @@ public class PitcherSS extends SubsystemBase implements Loggable {
      *
      * @return the position of the solenoid (true=forward false=reverse)
      */
-    public boolean getSolenoid() {
+    public boolean getSolenoidPosition() {
         return solenoid.isForward();
-    }
-
-    /**
-     * Toggles the pitcher based on the current position of the limelight (extended
-     * or retracted) and the current angle at which the limelight sees the target.
-     */
-    public void togglePitcherBasedOnDistance() {
-        if (limelight.getTv()) {
-            solenoid.setSolenoid(limelight.getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
-                    : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
-        }
     }
 }
