@@ -232,6 +232,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     public String configureLogName(){
         return "Drivetrain";
     }
+    
     private void sendData(String name, SwerveModule module) {
         ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
         layout.add("Module stats", module);
