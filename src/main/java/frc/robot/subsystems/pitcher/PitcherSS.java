@@ -3,19 +3,16 @@ package frc.robot.subsystems.pitcher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.constants.RobotConstants.PitcherConstants;
-import frc.robot.vision.Limelight;
-import frc.robot.vision.PitcherLimelight;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class PitcherSS extends SubsystemBase implements Loggable {
-    private TrigonDoubleSolenoid solenoid;
-    private PitcherConstants constants;
-    private PitcherLimelight limelight;
+    private final TrigonDoubleSolenoid solenoid;
+    private final PitcherConstants constants;
 
-    public PitcherSS(PitcherConstants constants, PitcherLimelight limelight) {
+    public PitcherSS(PitcherConstants constants) {
         this.constants = constants;
-        this.limelight = limelight;
-        this.solenoid = constants.PCM_MAP.SOLENOID;
+        solenoid = constants.PCM_MAP.SOLENOID;
     }
 
     /**
@@ -23,7 +20,7 @@ public class PitcherSS extends SubsystemBase implements Loggable {
      *
      * @param position to be set to the solenoid (true=forward false=reverse)
      */
-    public void setSolenoidPosition(boolean position) {
+    public void setSolenoidState(boolean position) {
         solenoid.setSolenoid(position);
     }
 
@@ -32,7 +29,8 @@ public class PitcherSS extends SubsystemBase implements Loggable {
      *
      * @return the position of the solenoid (true=forward false=reverse)
      */
-    public boolean getSolenoidPosition() {
+    @Log(name = "Solenoid state")
+    public boolean getSolenoidState() {
         return solenoid.isForward();
     }
 }

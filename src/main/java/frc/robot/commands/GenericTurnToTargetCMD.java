@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants;
-import frc.robot.vision.Limelight;
+import frc.robot.vision.limelights.Limelight;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.vision.Target;
 import edu.wpi.first.wpilibj.controller.PIDController;

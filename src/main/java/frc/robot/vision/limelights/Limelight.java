@@ -1,22 +1,24 @@
-package frc.robot.vision;
+package frc.robot.vision.limelights;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import frc.robot.constants.RobotConstants.LimelightConstants;
-import frc.robot.subsystems.pitcher.PitcherSS;
-import frc.robot.vision.Limelight;
+import frc.robot.vision.CamMode;
+import frc.robot.vision.LedMode;
+import frc.robot.vision.Target;
 
-public class PitcherLimelight extends Limelight {
-    private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
-    private LimelightConstants constants;
-    private PitcherSS pitcherSS;
+public class Limelight {
 
-    public PitcherLimelight(String tableKey, LimelightConstants constants, PitcherSS pitcherSS) {
-        super(tableKey, constants);
+    protected final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
+    private final LimelightConstants constants;
+
+    /**
+     * @param tableKey the key of the limelight - if it was changed.
+     */
+    public Limelight(String tableKey, LimelightConstants constants) {
         this.constants = constants;
-        this.pitcherSS = pitcherSS;
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable limelightTable = inst.getTable(tableKey);
         tv = limelightTable.getEntry("tv");
@@ -30,8 +32,8 @@ public class PitcherLimelight extends Limelight {
         snapshot = limelightTable.getEntry("snapshot");
     }
 
-    public PitcherLimelight(LimelightConstants constants, PitcherSS pitcherSS) {
-        this(constants.DEFAULT_TABLE_KEY, constants, pitcherSS);
+    public Limelight(LimelightConstants constants) {
+        this(constants.DEFAULT_TABLE_KEY, constants);
     }
 
     /**
@@ -196,20 +198,6 @@ public class PitcherLimelight extends Limelight {
     }
 
     /**
-     * @return is the hood is extended (true=extended false=retracted)
-     */
-    public boolean isHoodExtended() {
-        return pitcherSS.getSolenoidPosition();
-    }
-
-    /**
-     * @param position to be set to the hood (true=extended false=retracted)
-     */
-    public void setHood(boolean position) {
-        pitcherSS.setSolenoidPosition(position);
-    }
-
-    /**
      * @return the vector between the middle of the robot and the target.
      */
     private Vector2d calculateVector() {
@@ -221,4 +209,5 @@ public class PitcherLimelight extends Limelight {
         return new Vector2d(limelightToTarget.x - constants.LIMELIGHT_OFFSET_X,
                 limelightToTarget.y - constants.LIMELIGHT_OFFSET_Y);
     }
+
 }
