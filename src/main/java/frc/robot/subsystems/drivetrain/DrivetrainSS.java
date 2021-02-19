@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
@@ -26,7 +27,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     public DrivetrainSS(DrivetrainConstants constants) {
         this.constants = constants;
-        this.gyro = constants.canDrivetrainMap.GYRO;
+        this.gyro = constants.CAN_MAP.GYRO;
         this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
         initSwerve();
     }
@@ -122,7 +123,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @return the modules' current states
      */
-    @Log
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] states = new SwerveModuleState[modules.length];
         for (int i = 0; i < modules.length; i++) {
@@ -136,6 +136,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @return the angle of the system
      */
+    @Log(name = "Angle")
     public double getAngle() {
         return gyro.getAngle();
     }
@@ -170,7 +171,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @return the pose of the system
      */
-    @Log
     public Pose2d getPose() {
         return odometry.getPoseMeters();
     }
@@ -178,6 +178,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     /**
      * @return the x position on the field as calculated by the odometry
      */
+    @Log(name = "X")
     public double getX() {
         return getPose().getX();
     }
@@ -185,6 +186,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     /**
      * @return the y position on the field as calculated by the odometry
      */
+    @Log(name = "Y")
     public double getY() {
         return getPose().getY();
     }
@@ -208,10 +210,18 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
                 constants.REAR_LEFT_LOCATION.getTranslation()
         );
         modules = new SwerveModule[]{
-                constants.canDrivetrainMap.FRONT_RIGHT,
-                constants.canDrivetrainMap.FRONT_LEFT,
-                constants.canDrivetrainMap.REAR_RIGHT,
-                constants.canDrivetrainMap.REAR_LEFT
+                constants.CAN_MAP.FRONT_RIGHT,
+                constants.CAN_MAP.FRONT_LEFT,
+                constants.CAN_MAP.REAR_RIGHT,
+                constants.CAN_MAP.REAR_LEFT
         };
+        SmartDashboard.putData(configureLogName() + "/Front Right", modules[0]);
+        SmartDashboard.putData(configureLogName() + "/Front Left", modules[1]);
+        SmartDashboard.putData(configureLogName() + "/Rear Right", modules[2]);
+        SmartDashboard.putData(configureLogName() + "/Rear Left", modules[3]);
+    }
+
+    public String configureLogName(){
+        return "Drivetrain";
     }
 }

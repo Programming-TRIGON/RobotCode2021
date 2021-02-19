@@ -25,7 +25,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
         configOpenloopRamp(motorConfig.getRampRate());
         configClosedloopRamp(motorConfig.getRampRate());
         setInverted(motorConfig.isInverted());
-        setSensorPhase(motorConfig.isInverted());
+        setSensorPhase(motorConfig.isSensorInverted());
         setNeutralMode(motorConfig.getNeutralMode());
         configVoltageCompSaturation(motorConfig.getVoltageCompSaturation());
         enableVoltageCompensation(motorConfig.getVoltageCompSaturation() > 0);
@@ -40,7 +40,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
      * @param motorConfig The configuration preset to use
      */
     public TrigonTalonFX(int id, MotorConfig motorConfig) {
-        this(id, new MotorConfig(), new PIDCoefs(0, 0, 0, 0, 0, 0));
+        this(id, motorConfig, new PIDCoefs(0, 0, 0, 0, 0, 0));
     }
 
     /**
