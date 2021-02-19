@@ -25,26 +25,22 @@ public abstract class RobotConstants extends RobotMap {
     public ClimberConstants rightClimberConstants = new ClimberConstants();
 
     public class DrivetrainConstants {
-        public CAN.DrivetrainMap canDrivetrainMap;
-        public Pose2d
-                FRONT_LEFT_LOCATION,
-                FRONT_RIGHT_LOCATION,
-                REAR_LEFT_LOCATION,
-                REAR_RIGHT_LOCATION;
-        public double
-                MAX_SPEED_MPS,
-                MAX_ROT_SPEED_RAD_S;
-        public MotorConfig
-                ANGLE_MOTOR_CONFIG,
-                SPEED_MOTOR_CONFIG;
+        public CAN.DrivetrainMap CAN_MAP;
+
+        public Pose2d FRONT_LEFT_LOCATION;
+        public Pose2d FRONT_RIGHT_LOCATION;
+        public Pose2d REAR_LEFT_LOCATION;
+        public Pose2d REAR_RIGHT_LOCATION;
+
+        public double MAX_SPEED_MPS;
+        public double MAX_ROT_SPEED_RAD_S;
 
         public double WHEEL_DIAMETER_M;
 
-        public SwerveConstants
-                FRONT_LEFT_CONSTANTS,
-                FRONT_RIGHT_CONSTANTS,
-                REAR_LEFT_CONSTANTS,
-                REAR_RIGHT_CONSTANTS;
+        public SwerveConstants FRONT_LEFT_CONSTANTS;
+        public SwerveConstants FRONT_RIGHT_CONSTANTS;
+        public SwerveConstants REAR_LEFT_CONSTANTS;
+        public SwerveConstants REAR_RIGHT_CONSTANTS;
     }
 
     public class LimelightConstants {
