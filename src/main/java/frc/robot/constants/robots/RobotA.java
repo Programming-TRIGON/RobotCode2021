@@ -91,7 +91,7 @@ public class RobotA extends RobotConstants {
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(14, intakeConstants.MOTOR_CONFIG);
-        can.triggerMap.MOTOR = new TrigonTalonSRX(15, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
+        can.triggerMap.MOTOR = new TrigonTalonSRX(15, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
