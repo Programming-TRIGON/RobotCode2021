@@ -1,9 +1,12 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
+import frc.robot.subsystems.drivetrain.SupplierDriveCMD;
 import frc.robot.utilities.DashboardController;
+import frc.robot.utilities.TrigonXboxController;
 import io.github.oblarg.oblog.Logger;
 
 public class RobotContainer {
@@ -11,6 +14,8 @@ public class RobotContainer {
     private HomeField fieldConstants;
     private DashboardController dashboardController;
     private DrivetrainSS drivetrainSS;
+    private TrigonXboxController controller;
+    private SupplierDriveCMD driveCMD;
 
     /**
      * Add classes here
@@ -21,13 +26,15 @@ public class RobotContainer {
         fieldConstants = new HomeField();
         dashboardController = new DashboardController();
         drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
+        controller = new TrigonXboxController(0);
     }
 
     /**
      * initializes all commands
      */
     public void initializeCommands() {
-
+        driveCMD = new SupplierDriveCMD(drivetrainSS, () -> controller.getX(Hand.kRight), () -> controller.getY(Hand.kRight),
+                () -> controller.getX(Hand.kLeft));
     }
 
     public void updateDashboard() {
@@ -35,7 +42,9 @@ public class RobotContainer {
         Logger.updateEntries();
     }
 
-    /** call this method periodically */
+    /**
+     * call this method periodically
+     */
     public void periodic() {
         updateDashboard();
     }
