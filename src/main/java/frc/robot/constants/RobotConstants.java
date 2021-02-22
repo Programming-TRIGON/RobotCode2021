@@ -103,4 +103,9 @@ public abstract class RobotConstants extends RobotMap {
         public PWM.ClimberMap PWM_MAP;
         public boolean IS_INVERTED;
     }
+
+    public class spinnerConstants {
+        public CAN.SpinnerMap CAN_MAP;
+        public PCM.SpinnerMap PCM_MAP;
+    }
 }
