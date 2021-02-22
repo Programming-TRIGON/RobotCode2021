@@ -82,8 +82,8 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.IS_INVERTED = false;
 
         // Pitcher constants
-        pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
-        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
+        pitcherConstants.EXTENDED_ANGLE = 20;
+        pitcherConstants.RETRACTED_ANGLE = 10;
 
         /* Robot Map */
 

@@ -16,20 +16,20 @@ public class PitcherSS extends SubsystemBase implements Loggable {
     }
 
     /**
-     * Sets the position of the solenoid with a boolean
+     * Sets the state of the solenoid with a boolean
      *
-     * @param position to be set to the solenoid (true=forward false=reverse)
+     * @param state to be set to the solenoid (true=forward false=reverse)
      */
-    public void setSolenoidState(boolean position) {
-        solenoid.setSolenoid(position);
+    public void setSolenoidState(boolean state) {
+        solenoid.setSolenoid(state);
     }
 
     /**
-     * Gets the position of the solenoid as a boolean
+     * Gets the state of the solenoid as a boolean
      *
-     * @return the position of the solenoid (true=forward false=reverse)
+     * @return the state of the solenoid (true=forward false=reverse)
      */
-    @Log(name = "Solenoid state")
+    @Log(name = "Is open")
     public boolean getSolenoidState() {
         return solenoid.isForward();
     }

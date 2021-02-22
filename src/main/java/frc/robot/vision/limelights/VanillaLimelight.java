@@ -9,15 +9,15 @@ import frc.robot.vision.CamMode;
 import frc.robot.vision.LedMode;
 import frc.robot.vision.Target;
 
-public class Limelight {
+public class VanillaLimelight {
 
     protected final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
-    private final LimelightConstants constants;
+    protected final LimelightConstants constants;
 
     /**
      * @param tableKey the key of the limelight - if it was changed.
      */
-    public Limelight(String tableKey, LimelightConstants constants) {
+    public VanillaLimelight(String tableKey, LimelightConstants constants) {
         this.constants = constants;
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable limelightTable = inst.getTable(tableKey);
@@ -32,7 +32,7 @@ public class Limelight {
         snapshot = limelightTable.getEntry("snapshot");
     }
 
-    public Limelight(LimelightConstants constants) {
+    public VanillaLimelight(LimelightConstants constants) {
         this(constants.DEFAULT_TABLE_KEY, constants);
     }
 
@@ -75,7 +75,7 @@ public class Limelight {
      * @return The distance between the target and the limelight
      */
     // TODO: set real function
-    public double getDistanceFromLimelight() {
+    public double getTargetDistance() {
         double y = getTy();
         return constants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
                 + constants.DISTANCE_CALCULATION_B_COEFFICIENT * y
@@ -85,15 +85,15 @@ public class Limelight {
     /**
      * @return The distance between the target and the middle of the robot
      */
-    public double getDistance() {
-        return calculateVector().magnitude();
+    public double getRobotTargetDistance() {
+        return calculateRobotToTargetVector().magnitude();
     }
 
     /**
      * @return the angle from the middle of the robot to the target
      */
     public double getAngle() {
-        Vector2d vector = calculateVector();
+        Vector2d vector = calculateRobotToTargetVector();
         return Math.toDegrees(Math.atan(vector.y / vector.x));
     }
 
@@ -200,9 +200,9 @@ public class Limelight {
     /**
      * @return the vector between the middle of the robot and the target.
      */
-    private Vector2d calculateVector() {
+    private Vector2d calculateRobotToTargetVector() {
         // This is the vector from the limelight to the target.
-        Vector2d limelightToTarget = new Vector2d(getDistanceFromLimelight(), 0);
+        Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
         limelightToTarget.rotate(getTx() + constants.LIMELIGHT_ANGLE_OFFSET);
         // The offset is subtracted from the limelightToTarget vector in order to get
         // the final vector.
