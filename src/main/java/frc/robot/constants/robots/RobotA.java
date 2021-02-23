@@ -3,6 +3,7 @@ package frc.robot.constants.robots;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -82,6 +83,13 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
+        // Spinner constants
+        spinnerConstants.CAN_MAP = can.spinnerMap;
+        spinnerConstants.PCM_MAP = pcm.spinnerMap;
+        spinnerConstants.I2C_MAP = i2c.spinnerMap;
+        spinnerConstants.MOTOR_CONFIG = new MotorConfig();
+
+
         /** Robot Map **/
 
         // CAN
@@ -91,7 +99,7 @@ public class RobotA extends RobotConstants {
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(8, intakeConstants.MOTOR_CONFIG);
         can.triggerMap.MOTOR = new TrigonTalonSRX(9, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
-        can.spinnerMap.MOTOR = new TrigonTalonSRX(3);
+        can.spinnerMap.MOTOR = new TrigonTalonSRX(3, spinnerConstants.MOTOR_CONFIG);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
@@ -144,6 +152,9 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // PCM
-        pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0,1);
+        pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
+
+        // I2C
+        i2c.spinnerMap.COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);
     }
 }

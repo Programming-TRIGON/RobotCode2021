@@ -8,7 +8,6 @@ import frc.robot.components.SwerveModule;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
-import jdk.tools.jlink.resources.plugins;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -21,6 +20,7 @@ public abstract class RobotMap {
     public PCM pcm = new PCM();
     public DIO dio = new DIO();
     public PWM pwm = new PWM();
+    public I2C i2c = new I2C();
 
     // TODO: Set variables for hardware components
 
@@ -53,15 +53,16 @@ public abstract class RobotMap {
             public TrigonTalonSRX MOTOR;
         }
 
-        public class SpinnerMap{
+        public class SpinnerMap {
             public TrigonTalonSRX MOTOR;
             public ColorSensorV3 COLOR_SENSOR;
         }
     }
 
     public class PCM {
-        public SpinnerMap spinnerMap=new SpinnerMap();
-        public class SpinnerMap{
+        public SpinnerMap spinnerMap = new SpinnerMap();
+
+        public class SpinnerMap {
             public TrigonDoubleSolenoid SOLENOID;
         }
     }
@@ -81,6 +82,15 @@ public abstract class RobotMap {
 
         public class ClimberMap {
             public PWMSparkMax MOTOR;
+        }
+
+    }
+
+    public class I2C {
+        public SpinnerMap spinnerMap = new SpinnerMap();
+
+        public class SpinnerMap {
+            public ColorSensorV3 COLOR_SENSOR;
         }
     }
 }

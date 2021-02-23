@@ -23,6 +23,7 @@ public abstract class RobotConstants extends RobotMap {
     public TriggerConstants triggerConstants = new TriggerConstants();
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
+    public SpinnerConstants spinnerConstants = new SpinnerConstants();
 
     public class DrivetrainConstants {
         public CAN.DrivetrainMap canDrivetrainMap;
@@ -104,8 +105,10 @@ public abstract class RobotConstants extends RobotMap {
         public boolean IS_INVERTED;
     }
 
-    public class spinnerConstants {
+    public class SpinnerConstants {
         public CAN.SpinnerMap CAN_MAP;
         public PCM.SpinnerMap PCM_MAP;
+        public I2C.SpinnerMap I2C_MAP;
+        public MotorConfig MOTOR_CONFIG;
     }
 }
