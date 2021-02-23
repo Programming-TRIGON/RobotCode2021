@@ -31,9 +31,9 @@ public class RobotContainer {
 
         supplierDriveCMD = new SupplierDriveCMD(
                 drivetrainSS,
-                () -> xboxController.getY(GenericHID.Hand.kRight),
-                () -> xboxController.getX(GenericHID.Hand.kRight),
-                () -> xboxController.getX(GenericHID.Hand.kLeft)
+                () -> xboxController.getX(GenericHID.Hand.kRight)/4,
+                () -> xboxController.getY(GenericHID.Hand.kRight)/4,
+                () -> xboxController.getX(GenericHID.Hand.kLeft)/4
         );
         drivetrainSS.setDefaultCommand(supplierDriveCMD);
     }

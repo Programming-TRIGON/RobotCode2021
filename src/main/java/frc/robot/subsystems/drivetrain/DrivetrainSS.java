@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
@@ -43,6 +44,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     speedDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] states =
                 kinematics.toSwerveModuleStates(speeds);
+        for(SwerveModuleState state : states){
+            System.out.print(state);
+        }
+        System.out.println("\n");
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);
         setDesiredStates(states);
     }
@@ -76,7 +81,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        speedDrive(new ChassisSpeeds(x, y, rot));
+        speedDrive(new ChassisSpeeds(y, x, rot));
     }
 
     /**
@@ -207,21 +212,21 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     private void initSwerve() {
         kinematics = new SwerveDriveKinematics(
-                constants.FRONT_RIGHT_LOCATION.getTranslation(),
-                constants.FRONT_LEFT_LOCATION.getTranslation(),
-                constants.REAR_RIGHT_LOCATION.getTranslation(),
-                constants.REAR_LEFT_LOCATION.getTranslation()
+            constants.FRONT_LEFT_LOCATION.getTranslation(),
+            constants.FRONT_RIGHT_LOCATION.getTranslation(),
+            constants.REAR_RIGHT_LOCATION.getTranslation(),
+            constants.REAR_LEFT_LOCATION.getTranslation()
         );
         modules = new SwerveModule[]{
-                constants.CAN_MAP.FRONT_RIGHT,
-                constants.CAN_MAP.FRONT_LEFT,
-                constants.CAN_MAP.REAR_RIGHT,
-                constants.CAN_MAP.REAR_LEFT
+            constants.CAN_MAP.FRONT_LEFT,
+            constants.CAN_MAP.FRONT_RIGHT,
+            constants.CAN_MAP.REAR_RIGHT,
+            constants.CAN_MAP.REAR_LEFT
         };
-        sendData("Front Right", modules[0]);
-        sendData("Front Left", modules[1]);
-        sendData("Rear Right", modules[2]);
-        sendData("Rear Left", modules[3]);
+        sendData("Front Left", modules[0]);
+        sendData("Front Right", modules[1]);
+        sendData("Rear Left", modules[2]);
+        sendData("Rear Right", modules[3]);
     }
 
     public String configureLogName() {
