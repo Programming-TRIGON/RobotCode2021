@@ -1,9 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
+import frc.robot.subsystems.drivetrain.SupplierDriveCMD;
 import frc.robot.utilities.DashboardController;
+import frc.robot.utilities.TrigonXboxController;
 import io.github.oblarg.oblog.Logger;
 
 public class RobotContainer {
@@ -11,6 +15,8 @@ public class RobotContainer {
     private HomeField fieldConstants;
     private DashboardController dashboardController;
     private DrivetrainSS drivetrainSS;
+    private SupplierDriveCMD supplierDriveCMD;
+    private TrigonXboxController xboxController;
 
     /**
      * Add classes here
@@ -20,7 +26,16 @@ public class RobotContainer {
         robotConstants = new RobotA();
         fieldConstants = new HomeField();
         dashboardController = new DashboardController();
+        xboxController = new TrigonXboxController(0);
         drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
+
+        supplierDriveCMD = new SupplierDriveCMD(
+                drivetrainSS,
+                () -> xboxController.getY(GenericHID.Hand.kRight),
+                () -> xboxController.getX(GenericHID.Hand.kRight),
+                () -> xboxController.getX(GenericHID.Hand.kLeft)
+        );
+        drivetrainSS.setDefaultCommand(supplierDriveCMD);
     }
 
     /**
@@ -35,9 +50,11 @@ public class RobotContainer {
         Logger.updateEntries();
     }
 
-    /** call this method periodically */
+    /**
+     * call this method periodically
+     */
     public void periodic() {
         updateDashboard();
-        drivetrainSS.periodic();
+        CommandScheduler.getInstance().run();
     }
 }

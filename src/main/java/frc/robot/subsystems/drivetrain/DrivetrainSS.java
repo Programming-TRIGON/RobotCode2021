@@ -39,7 +39,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @param speeds the ChassisSpeeds object representing the desired speeds
      */
-    public void speedDrive(ChassisSpeeds speeds) {
+    public void
+    speedDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] states =
                 kinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);

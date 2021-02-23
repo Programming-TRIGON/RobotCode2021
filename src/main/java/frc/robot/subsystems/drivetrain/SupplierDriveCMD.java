@@ -11,7 +11,7 @@ public class SupplierDriveCMD extends CommandBase {
     /**
      * Drives a drivetrain based on the given suppliers, relative to the robot
      * itself.
-     * 
+     *
      * @param drivetrain the drivetrain to drive
      * @param x          the supplier for the x power, between -1 and 1
      * @param y          the supplier for the y power, between -1 and 1
