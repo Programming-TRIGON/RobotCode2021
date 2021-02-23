@@ -30,14 +30,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     public DrivetrainSS(DrivetrainConstants constants) {
         this.constants = constants;
         this.gyro = constants.CAN_MAP.GYRO;
-        this.kinematics = new SwerveDriveKinematics(
-                constants.FRONT_LEFT_LOCATION.getTranslation(),
-                constants.FRONT_LEFT_LOCATION.getTranslation(),
-                constants.REAR_RIGHT_LOCATION.getTranslation(),
-                constants.REAR_LEFT_LOCATION.getTranslation()
-        );
-        this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
         initSwerve();
+        this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
     }
 
     /**
@@ -229,14 +223,13 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         sendData("Rear Left", modules[3]);
     }
 
-    public String configureLogName(){
+    public String configureLogName() {
         return "Drivetrain";
     }
-    
+
     private void sendData(String name, SwerveModule module) {
         ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
         layout.add("Module stats", module);
-        layout.add("Speed PID Controller", module.getSpeedPIDController());
         layout.add("Angle PID Controller", module.getAnglePIDController());
     }
 }

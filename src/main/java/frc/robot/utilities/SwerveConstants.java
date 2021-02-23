@@ -10,17 +10,16 @@ public class SwerveConstants {
     public TrigonTalonFX angleMotor;
     public double diameter;
     public double offset;
+    public double maxMPS;
     public PIDCoefs angleCoefs;
-    public PIDCoefs speedCoefs;
 
-    public SwerveConstants(TrigonTalonFX speedMotor, TrigonTalonFX angleMotor, double diameter, double offset,
-            PIDCoefs angleCoefs, PIDCoefs speedCoefs) {
+    public SwerveConstants(TrigonTalonFX speedMotor, TrigonTalonFX angleMotor, double diameter, double offset, double maxMPS, PIDCoefs angleCoefs) {
         this.speedMotor = speedMotor;
         this.angleMotor = angleMotor;
         this.diameter = diameter;
         this.offset = offset;
+        this.maxMPS = maxMPS;
         this.angleCoefs = angleCoefs;
-        this.speedCoefs = speedCoefs;
     }
 
     public static class StaticSwerveConstants {

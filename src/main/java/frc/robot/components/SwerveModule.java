@@ -5,13 +5,12 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.utilities.SwerveConstants;
-import frc.robot.utilities.TrigonPIDController;
+import frc.robot.utilities.TrigonProfiledPIDController;
 
 public class SwerveModule implements Sendable {
     private final TrigonTalonFX speedMotor;
     private final TrigonTalonFX angleMotor;
-    private final TrigonPIDController speedController;
-    private final TrigonPIDController angleController;
+    private final TrigonProfiledPIDController angleController;
     private SwerveModuleState desiredState;
     private SwerveConstants constants;
     private boolean isTuning;
@@ -25,14 +24,13 @@ public class SwerveModule implements Sendable {
     public SwerveModule(SwerveConstants constants) {
         this.constants = constants;
         speedMotor = constants.speedMotor;
-        speedController = new TrigonPIDController(constants.speedCoefs);
 
         angleMotor = constants.angleMotor;
-        angleController = new TrigonPIDController(constants.angleCoefs);
+        angleController = new TrigonProfiledPIDController(constants.angleCoefs);
 
         setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(getAngle())));
 
-        angleController.enableContinuousInput(0, 360);
+        angleController.enableContinuousInput(-180, 180);
 
         setAbsolute();
 
@@ -52,7 +50,7 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        speedMotor.set(speedController.calculate(getSpeedMotorMPS()));
+        speedMotor.set(desiredState.speedMetersPerSecond / constants.maxMPS);
         angleMotor.set(angleController.calculate(getAngle()));
     }
 
@@ -81,10 +79,8 @@ public class SwerveModule implements Sendable {
      * @param desiredAngle the desired angle for the module in degrees.
      */
     public void setDesiredAngle(double desiredAngle) {
-        SwerveModuleState newDesiredState = new SwerveModuleState(desiredState.speedMetersPerSecond,
-                Rotation2d.fromDegrees(getAngle()));
-        desiredState = SwerveModuleState.optimize(newDesiredState, Rotation2d.fromDegrees(getAngle()));
-        updateSetpoint();
+        desiredState.angle = Rotation2d.fromDegrees(desiredAngle);
+        setDesiredState(desiredState);
     }
 
     /**
@@ -94,9 +90,8 @@ public class SwerveModule implements Sendable {
      * @param desiredSpeed the desired speed for the module in meters per second.
      */
     public void setDesiredSpeed(double desiredSpeed) {
-        SwerveModuleState newDesiredState = new SwerveModuleState(desiredSpeed, desiredState.angle);
-        desiredState = SwerveModuleState.optimize(newDesiredState, Rotation2d.fromDegrees(getAngle()));
-        updateSetpoint();
+        desiredState.speedMetersPerSecond = desiredSpeed;
+        setDesiredState(desiredState);
     }
 
     /**
@@ -107,11 +102,10 @@ public class SwerveModule implements Sendable {
     }
 
     /**
-     * Update the PID controllers' set point according to the desired state
+     * Update the PID controller's set point according to the desired state
      */
     public void updateSetpoint() {
-        speedController.setSetpoint(desiredState.speedMetersPerSecond);
-        angleController.setSetpoint(desiredState.angle.getDegrees());
+        angleController.setGoal(desiredState.angle.getDegrees());
     }
 
     /**
@@ -129,7 +123,7 @@ public class SwerveModule implements Sendable {
         // revolutions/s.
         // Multiplying by the circumference gives us the m/s
         return getSpeedMotorVelocity() / SwerveConstants.StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION
-                * constants.diameter * Math.PI / 10;
+                * constants.diameter * Math.PI * 10 / SwerveConstants.StaticSwerveConstants.SPEED_GEAR_RATION;
     }
 
     public double getDesiredVelocity() {
@@ -144,8 +138,10 @@ public class SwerveModule implements Sendable {
         // Dividing by tpr gives us a number between 0 and 1. multiplying by 360 gives
         // us the degrees.
         // If the result is 360 we want it to be 0 and if it's 400 we want it to be 40
-        return 360-(angleMotor.getSelectedSensorPosition()
-                / (SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION - 1) * 360 - constants.offset);
+        double pos = Math.abs(angleMotor.getSelectedSensorPosition() - 4095) - (constants.offset / 360 * (SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION - 1));
+        if (pos < 0)
+            pos += 4095;
+        return pos / (SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION - 1) * 360;
     }
 
     private void setRelative() {
@@ -162,16 +158,11 @@ public class SwerveModule implements Sendable {
     }
 
     public void setIsTuning(boolean isTuning) {
-        speedController.setIsTuning(isTuning);
         angleController.setIsTuning(isTuning);
         this.isTuning = isTuning;
     }
 
-    public TrigonPIDController getSpeedPIDController() {
-        return speedController;
-    }
-
-    public TrigonPIDController getAnglePIDController() {
+    public TrigonProfiledPIDController getAnglePIDController() {
         return angleController;
     }
 
@@ -185,5 +176,7 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("Desired Velocity", () -> getDesiredState().speedMetersPerSecond,
                 speed -> setDesiredSpeed(isTuning ? speed : desiredState.speedMetersPerSecond));
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
+        builder.addDoubleProperty("Angle PID error", this.angleController::getPositionError, null);
+        builder.addDoubleProperty("Angle motor power", this.angleMotor::get, null);
     }
 }
