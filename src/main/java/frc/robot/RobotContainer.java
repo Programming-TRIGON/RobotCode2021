@@ -35,6 +35,7 @@ public class RobotContainer {
     public void initializeCommands() {
         driveCMD = new SupplierDriveCMD(drivetrainSS, () -> controller.getX(Hand.kRight), () -> controller.getY(Hand.kRight),
                 () -> controller.getX(Hand.kLeft));
+        drivetrainSS.setDefaultCommand(driveCMD);
     }
 
     public void updateDashboard() {
