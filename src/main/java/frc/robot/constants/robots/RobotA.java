@@ -53,10 +53,12 @@ public class RobotA extends RobotConstants {
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
-        // Trigger Constants
-        triggerConstants.CAN_MAP = can.triggerMap;
-        triggerConstants.MOTOR_CONFIG = new MotorConfig();
-        triggerConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        // Loader Constants
+        loaderConstants.CAN_MAP = can.triggerMap;
+        loaderConstants.MOTOR_CONFIG = new MotorConfig();
+        loaderConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
+        loaderConstants.DEFAULT_MIXING_VELOCITY = -500;
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
@@ -89,7 +91,7 @@ public class RobotA extends RobotConstants {
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(14, intakeConstants.MOTOR_CONFIG);
-        can.triggerMap.MOTOR = new TrigonTalonSRX(15, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
+        can.triggerMap.MOTOR = new TrigonTalonSRX(15, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
