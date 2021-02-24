@@ -34,7 +34,7 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
     /**
      * Sets the state of the solenoid with a boolean
      *
-     * @param state to be set to the solenoid (true=forward false=reverse)
+     * @param state to be set to the solenoid (true=roulette false=mixer)
      */
     public void setSolenoidState(boolean state) {
         solenoid.setSolenoid(state);
@@ -43,16 +43,27 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
     /**
      * Gets the state of the solenoid as a boolean
      *
-     * @return the state of the solenoid (true=forward false=reverse)
+     * @return the state of the solenoid (true=roulette false=mixer)
      */
-    @Log(name = "Is open")
+    @Log(name = "Spinner mode")
     public boolean getSolenoidState() {
         return solenoid.isForward();
+    }
+
+    @Log(name = "Stator current")
+    public double getStatorCurrent() {
+        return motor.getStatorCurrent();
+    }
+
+    @Log(name = "Is stalled")
+    public boolean isStalled() {
+        return motor.getStatorCurrent() > constants.STALL_CURRENT_LIMIT;
     }
 
     /**
      * @return the raw color inputs from the color sensor
      */
+    @Log(name = "Raw color value")
     public RawColor getRawColor() {
         return colorSensor.getRawColor();
     }
@@ -60,8 +71,21 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
     /**
      * @return the color that the color sensor sees
      */
+    @Log(name = "Color")
     public Color getColor() {
         return colorSensor.getColor();
+    }
+
+    /**
+     * @return distance from color sensor from the target
+     * as the target is closer the values it larger (between 0 to 2047)
+     */
+    public int getProximity() {
+        return colorSensor.getProximity();
+    }
+
+    public void configureLogName(String name) {
+        configureLogName();
     }
 }
 
