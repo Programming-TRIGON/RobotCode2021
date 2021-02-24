@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
@@ -44,8 +43,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     speedDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] states =
                 kinematics.toSwerveModuleStates(speeds);
-        for(SwerveModuleState state : states){
-            System.out.print(state);
+        for (SwerveModuleState state : states) {
+            System.out.print(state + "\n");
         }
         System.out.println("\n");
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);
@@ -212,16 +211,16 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     private void initSwerve() {
         kinematics = new SwerveDriveKinematics(
-            constants.FRONT_LEFT_LOCATION.getTranslation(),
-            constants.FRONT_RIGHT_LOCATION.getTranslation(),
-            constants.REAR_RIGHT_LOCATION.getTranslation(),
-            constants.REAR_LEFT_LOCATION.getTranslation()
+                constants.FRONT_LEFT_LOCATION.getTranslation(),
+                constants.FRONT_RIGHT_LOCATION.getTranslation(),
+                constants.REAR_LEFT_LOCATION.getTranslation(),
+                constants.REAR_RIGHT_LOCATION.getTranslation()
         );
         modules = new SwerveModule[]{
-            constants.CAN_MAP.FRONT_LEFT,
-            constants.CAN_MAP.FRONT_RIGHT,
-            constants.CAN_MAP.REAR_RIGHT,
-            constants.CAN_MAP.REAR_LEFT
+                constants.CAN_MAP.FRONT_LEFT,
+                constants.CAN_MAP.FRONT_RIGHT,
+                constants.CAN_MAP.REAR_LEFT,
+                constants.CAN_MAP.REAR_RIGHT
         };
         sendData("Front Left", modules[0]);
         sendData("Front Right", modules[1]);
