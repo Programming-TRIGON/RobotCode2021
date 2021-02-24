@@ -6,6 +6,7 @@ import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierDriveCMD;
+import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.utilities.DashboardController;
 import frc.robot.utilities.TrigonXboxController;
 import io.github.oblarg.oblog.Logger;
@@ -15,7 +16,7 @@ public class RobotContainer {
     private HomeField fieldConstants;
     private DashboardController dashboardController;
     private DrivetrainSS drivetrainSS;
-    private SupplierDriveCMD supplierDriveCMD;
+    private SupplierFieldDriveCMD supplierFieldDriveCMD;
     private TrigonXboxController xboxController;
 
     /**
@@ -29,13 +30,13 @@ public class RobotContainer {
         xboxController = new TrigonXboxController(0);
         drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
 
-        supplierDriveCMD = new SupplierDriveCMD(
+        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
                 drivetrainSS,
                 () -> xboxController.getX(GenericHID.Hand.kRight)/4,
                 () -> xboxController.getY(GenericHID.Hand.kRight)/4,
                 () -> xboxController.getX(GenericHID.Hand.kLeft)/4
         );
-        drivetrainSS.setDefaultCommand(supplierDriveCMD);
+        drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
     /**

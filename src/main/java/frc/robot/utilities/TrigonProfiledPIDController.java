@@ -9,7 +9,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
     private boolean isTuning;
 
     public TrigonProfiledPIDController(PIDCoefs pidCoefs) {
-        super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD(), new TrapezoidProfile.Constraints(360, 360));
+        super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD(), new TrapezoidProfile.Constraints(360, 180));
         setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
         f = pidCoefs.getKF();
         isTuning = false;
