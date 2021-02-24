@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
+import frc.robot.utilities.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -23,11 +24,6 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
     @Override
     public void overriddenMove(double power) {
         motor.set(power);
-    }
-
-    @Override
-    public String configureLogName() {
-        return constants.LOGGABLE_NAME;
     }
 
     /**
@@ -60,15 +56,17 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
      */
     public void moveWithSafety(double power) {
         if (isStill()) {
-            if (isClosed() && power >= 0)
-                motor.set(power);
-            else if (isOpen() && power < 0)
+            if (isClosed() && power >= 0 || isOpen() && power < 0)
                 motor.set(power);
             else
-                System.out.println("moveWithSafety: invalid power given");
+                DriverStationLogger.logErrorToDS("moveWithSafety: invalid power given");
         }
         else
-            System.out.println("moveWithSafety: intake was moving");
+            DriverStationLogger.logToDS("moveWithSafety: intake was moving");
+    }
+
+    @Override
+    public String configureLogName() {
+        return constants.LOGGABLE_NAME;
     }
 }
-

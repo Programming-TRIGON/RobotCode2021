@@ -96,12 +96,12 @@ public class RobotA extends RobotConstants {
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(8, intakeConstants.MOTOR_CONFIG);
         can.triggerMap.MOTOR = new TrigonTalonSRX(9, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
-        can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(7, intakeOpenerConstants.MOTOR_CONFIG);
+        can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(10, intakeOpenerConstants.MOTOR_CONFIG);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(1, 8,
+                new TalonFXWithTalonSRXEncoder(1, can.intakeMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
@@ -110,7 +110,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
-                new TalonFXWithTalonSRXEncoder(3, 9,
+                new TalonFXWithTalonSRXEncoder(3, can.triggerMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
@@ -119,7 +119,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(5, 10,
+                new TalonFXWithTalonSRXEncoder(5, can.intakeOpenerMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
