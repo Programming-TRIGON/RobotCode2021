@@ -112,7 +112,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
-                new TalonFXWithTalonSRXEncoder(3, can.triggerMap.MOTOR,
+                new TalonFXWithTalonSRXEncoder(3, can.loaderMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
@@ -151,7 +151,7 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // DIO
-        intakeOpenerConstants.DIO_MAP.OPEN_INPUT = new DigitalInput(0);
-        intakeOpenerConstants.DIO_MAP.CLOSED_INPUT = new DigitalInput(1);
+        intakeOpenerConstants.DIO_MAP.OPEN_SWITCH = new DigitalInput(0);
+        intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
     }
 }

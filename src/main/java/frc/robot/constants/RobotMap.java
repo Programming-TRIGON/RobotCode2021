@@ -63,8 +63,8 @@ public abstract class RobotMap {
         public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
 
         public class IntakeOpenerMap {
-            public DigitalInput CLOSED_INPUT;
-            public DigitalInput OPEN_INPUT;
+            public DigitalInput CLOSED_SWITCH;
+            public DigitalInput OPEN_SWITCH;
         }
     }
 

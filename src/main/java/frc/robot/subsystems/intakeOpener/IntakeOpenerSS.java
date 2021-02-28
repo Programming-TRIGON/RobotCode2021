@@ -10,14 +10,14 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
     private final TrigonTalonSRX motor;
-    private final DigitalInput closedInput;
-    private final DigitalInput openInput;
+    private final DigitalInput closedSwitch;
+    private final DigitalInput openSwitch;
     private final IntakeOpenerConstants constants;
 
     public IntakeOpenerSS(IntakeOpenerConstants constants) {
         motor = constants.CAN_MAP.MOTOR;
-        closedInput = constants.DIO_MAP.CLOSED_INPUT;
-        openInput = constants.DIO_MAP.OPEN_INPUT;
+        closedSwitch = constants.DIO_MAP.CLOSED_SWITCH;
+        openSwitch = constants.DIO_MAP.OPEN_SWITCH;
         this.constants = constants;
     }
 
@@ -29,24 +29,17 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
     /**
      * @return is the intake closed
      */
-    @Log(name = "Is closed")
+    @Log(name = "Intake closed")
     public boolean isClosed() {
-        return closedInput.get();
+        return closedSwitch.get();
     }
 
     /**
      * @return is the intake open
      */
-    @Log(name = "Is open")
+    @Log(name = "Intake open")
     public boolean isOpen() {
-        return openInput.get();
-    }
-
-    /**
-     * @return is the intake is not moving (either open or closed)
-     */
-    public boolean isStill() {
-        return isClosed() || isOpen();
+        return openSwitch.get();
     }
 
     /**
@@ -55,14 +48,10 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
      * @param power to be set to the motor
      */
     public void moveWithSafety(double power) {
-        if (isStill()) {
-            if (isClosed() && power >= 0 || isOpen() && power < 0)
-                motor.set(power);
-            else
-                DriverStationLogger.logErrorToDS("moveWithSafety: invalid power given");
-        }
+        if (isClosed() && power >= 0 || isOpen() && power < 0)
+            motor.set(power);
         else
-            DriverStationLogger.logToDS("moveWithSafety: intake was moving");
+            DriverStationLogger.logToDS("moveWithSafety: invalid power given");
     }
 
     @Override
