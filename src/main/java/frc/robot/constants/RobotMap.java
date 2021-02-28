@@ -22,7 +22,7 @@ public abstract class RobotMap {
 
     public class CAN {
         public DrivetrainMap drivetrainMap = new DrivetrainMap();
-        public LoaderMap triggerMap = new LoaderMap();
+        public LoaderMap loaderMap = new LoaderMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
 
