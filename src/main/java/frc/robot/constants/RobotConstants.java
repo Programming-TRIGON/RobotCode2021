@@ -21,7 +21,7 @@ public abstract class RobotConstants extends RobotMap {
     public ShooterConstants shooterConstants = new ShooterConstants();
     public LedConstants ledConstants = new LedConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
-    public TriggerConstants triggerConstants = new TriggerConstants();
+    public LoaderConstants loaderConstants = new LoaderConstants();
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
     public PitcherConstants pitcherConstants = new PitcherConstants();
@@ -72,10 +72,12 @@ public abstract class RobotConstants extends RobotMap {
         public MotorConfig LEFT_MOTOR_CONFIG;
     }
 
-    public class TriggerConstants {
-        public CAN.TriggerMap CAN_MAP;
+    public class LoaderConstants {
+        public CAN.LoaderMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         public PIDCoefs PID_COEFS;
+        public double DEFAULT_SHOOTING_VELOCITY;
+        public double DEFAULT_MIXING_VELOCITY;
     }
 
     public class LedConstants {
