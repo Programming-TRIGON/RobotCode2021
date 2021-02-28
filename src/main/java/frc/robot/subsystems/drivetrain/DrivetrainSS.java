@@ -44,10 +44,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     speedDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] states =
                 kinematics.toSwerveModuleStates(speeds);
-        for (SwerveModuleState state : states) {
-            System.out.print(state + "\n");
-        }
-        System.out.println("\n");
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);
         setDesiredStates(states);
     }
@@ -81,7 +77,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        speedDrive(new ChassisSpeeds(y, x, rot));
+        speedDrive(new ChassisSpeeds(x, y, rot));
     }
 
     /**
@@ -146,7 +142,13 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      */
     @Log(name = "Angle")
     public double getAngle() {
-        return gyro.getAngle();
+        double angle = gyro.getAngle();
+        angle = Math.abs(360 - angle);
+        while (angle < 0)
+            angle += 360;
+        while (angle >= 360)
+            angle -= 360;
+        return angle;
     }
 
     /**
@@ -204,6 +206,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         updateOdometry();
         for (SwerveModule module : modules)
             module.periodic();
+        SmartDashboard.putNumber("angle", getAngle());
     }
 
     private void updateOdometry() {
@@ -229,13 +232,14 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         sendData("Rear Right", modules[3]);
     }
 
-    public String configureLogName() {
-        return "Drivetrain";
-    }
-
     private void sendData(String name, SwerveModule module) {
         ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
         layout.add("Module stats", module);
         layout.add("Angle PID Controller", module.getAnglePIDController());
+    }
+
+    @Override
+    public String configureLogName() {
+        return "Drivetrain";
     }
 }

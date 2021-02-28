@@ -1,11 +1,9 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
-import frc.robot.subsystems.drivetrain.SupplierDriveCMD;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.utilities.DashboardController;
 import frc.robot.utilities.TrigonXboxController;
@@ -23,20 +21,21 @@ public class RobotContainer {
      * Add classes here
      */
     public RobotContainer() {
-        Logger.configureLoggingAndConfig(this, false);
+        Logger.configureLoggingAndConfig(this, true);
         robotConstants = new RobotA();
         fieldConstants = new HomeField();
         dashboardController = new DashboardController();
         xboxController = new TrigonXboxController(0);
         drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
 
-        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
-                drivetrainSS,
-                () -> xboxController.getX(GenericHID.Hand.kRight)/4,
-                () -> xboxController.getY(GenericHID.Hand.kRight)/4,
-                () -> xboxController.getX(GenericHID.Hand.kLeft)/4
-        );
-        drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
+//        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
+//                drivetrainSS,
+//                () -> xboxController.getY(GenericHID.Hand.kRight) / 4,
+//                () -> xboxController.getX(GenericHID.Hand.kRight) / 4,
+//                () -> xboxController.getX(GenericHID.Hand.kLeft) / 4
+//        );
+        drivetrainSS.periodic();
+        //drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
     /**

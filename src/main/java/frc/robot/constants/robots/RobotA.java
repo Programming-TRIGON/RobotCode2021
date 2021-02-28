@@ -133,7 +133,7 @@ public class RobotA extends RobotConstants {
         can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
         can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
-        can.drivetrainMap.GYRO = new Pigeon(12);
+        can.drivetrainMap.GYRO = new Pigeon(new TrigonTalonSRX(12));
 
         // PWM
         pwm.ledMap.LED_CONTROLLER = 0;
