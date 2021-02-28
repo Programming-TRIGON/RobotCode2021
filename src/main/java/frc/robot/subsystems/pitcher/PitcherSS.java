@@ -33,4 +33,9 @@ public class PitcherSS extends SubsystemBase implements Loggable {
     public boolean getSolenoidState() {
         return solenoid.isForward();
     }
+
+    @Override
+    public String configureLogName() {
+        return this.getClass().getSimpleName();
+    }
 }
