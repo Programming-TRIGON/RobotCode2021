@@ -54,10 +54,12 @@ public class RobotA extends RobotConstants {
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
-        // Trigger Constants
-        triggerConstants.CAN_MAP = can.triggerMap;
-        triggerConstants.MOTOR_CONFIG = new MotorConfig();
-        triggerConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        // Loader Constants
+        loaderConstants.CAN_MAP = can.triggerMap;
+        loaderConstants.MOTOR_CONFIG = new MotorConfig();
+        loaderConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
+        loaderConstants.DEFAULT_MIXING_VELOCITY = -500;
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
