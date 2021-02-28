@@ -26,12 +26,12 @@ public abstract class RobotMap {
 
     public class CAN {
         public DrivetrainMap drivetrainMap = new DrivetrainMap();
-        public TriggerMap triggerMap = new TriggerMap();
+        public LoaderMap triggerMap = new LoaderMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
 
-        public class TriggerMap {
+        public class LoaderMap {
             public TrigonTalonSRX MOTOR;
         }
 
