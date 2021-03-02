@@ -51,7 +51,7 @@ public class SwerveModule implements Sendable {
      */
     public void periodic() {
         speedMotor.set(desiredState.speedMetersPerSecond / constants.maxMPS);
-        angleMotor.set(angleController.calculate(getAngle()));
+        angleMotor.set(angleController.calculate(getAngle(), desiredState.angle.getDegrees()));
     }
 
     /**
@@ -69,7 +69,6 @@ public class SwerveModule implements Sendable {
      */
     public void setDesiredState(SwerveModuleState desiredState) {
         this.desiredState = SwerveModuleState.optimize(desiredState, Rotation2d.fromDegrees(getAngle()));
-        updateSetpoint();
     }
 
     /**
@@ -99,13 +98,6 @@ public class SwerveModule implements Sendable {
      */
     public SwerveModuleState getState() {
         return new SwerveModuleState(getSpeedMotorMPS(), Rotation2d.fromDegrees(getAngle()));
-    }
-
-    /**
-     * Update the PID controller's set point according to the desired state
-     */
-    public void updateSetpoint() {
-        angleController.setGoal(desiredState.angle.getDegrees());
     }
 
     /**

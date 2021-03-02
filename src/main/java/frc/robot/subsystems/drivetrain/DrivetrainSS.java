@@ -77,7 +77,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        speedDrive(new ChassisSpeeds(x, y, rot));
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
+        speedDrive(new ChassisSpeeds(y, x, rot));
     }
 
     /**
@@ -93,7 +94,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        fieldSpeedDrive(new ChassisSpeeds(x, y, rot));
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
+        fieldSpeedDrive(new ChassisSpeeds(y, x, rot));
     }
 
     /**
@@ -143,7 +145,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     @Log(name = "Angle")
     public double getAngle() {
         double angle = gyro.getAngle();
-        angle = Math.abs(360 - angle);
+        angle = (360 - angle);
         while (angle < 0)
             angle += 360;
         while (angle >= 360)

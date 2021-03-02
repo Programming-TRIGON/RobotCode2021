@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
@@ -28,14 +29,14 @@ public class RobotContainer {
         xboxController = new TrigonXboxController(0);
         drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
 
-//        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
-//                drivetrainSS,
-//                () -> xboxController.getY(GenericHID.Hand.kRight) / 4,
-//                () -> xboxController.getX(GenericHID.Hand.kRight) / 4,
-//                () -> xboxController.getX(GenericHID.Hand.kLeft) / 4
-//        );
+        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
+                drivetrainSS,
+                () -> xboxController.getY(GenericHID.Hand.kRight) / 4,
+                () -> xboxController.getX(GenericHID.Hand.kRight) / 4,
+                () -> xboxController.getX(GenericHID.Hand.kLeft) / 4
+        );
         drivetrainSS.periodic();
-        //drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
+        drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
     /**
