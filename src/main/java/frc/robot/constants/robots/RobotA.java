@@ -9,6 +9,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 
 /**
  * instantiates the robot constants
@@ -98,7 +99,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDCoefs(0.006, 0, 0, 1, 1)
+                new PIDCoefs(0.006, 0, 0, 0, 1, 1, new Constraints(360, 360))
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
@@ -107,7 +108,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDCoefs(0.006, 0, 0, 1, 1)
+                new PIDCoefs(0.006, 0, 0, 0, 1, 1, new Constraints(360, 360))
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
@@ -116,7 +117,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDCoefs(0.006, 0, 0, 1, 1)
+                new PIDCoefs(0.006, 0, 0, 0, 1, 1, new Constraints(360, 360))
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
@@ -125,7 +126,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDCoefs(0.006, 0, 0, 1, 1)
+                new PIDCoefs(0.006, 0, 0, 0, 1, 1, new Constraints(360, 360))
         );
 
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);

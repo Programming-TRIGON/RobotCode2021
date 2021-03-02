@@ -2,6 +2,7 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 
 /**
  * This class is used to store settings for different PIDs
@@ -13,6 +14,31 @@ public class PIDCoefs implements Sendable {
     private double KF;
     private double tolerance;
     private double deltaTolerance;
+    private Constraints constraints;
+
+    /**
+     * @param KP             The Proportional coefficient of the PID loop in this
+     *                       command.
+     * @param KI             The Integral coefficient of the PID loop in this
+     *                       command.
+     * @param KD             The Differential coefficient of the PID loop in this
+     *                       command.
+     * @param KF             The Feed-Forward coefficient of the PID loop in this
+     *                       command.
+     * @param tolerance      The error tolerance of this command.
+     * @param deltaTolerance The tolerance of the change in error.
+     * @param constraints    constraints for a TrapezoidProfile
+     */
+    public PIDCoefs(double KP, double KI, double KD, double KF, double tolerance, double deltaTolerance,
+            Constraints constraints) {
+        this.KP = KP;
+        this.KI = KI;
+        this.KD = KD;
+        this.KF = KF;
+        this.tolerance = tolerance;
+        this.deltaTolerance = deltaTolerance;
+        this.constraints = constraints;
+    }
 
     /**
      * @param KP             The Proportional coefficient of the PID loop in this
@@ -27,12 +53,7 @@ public class PIDCoefs implements Sendable {
      * @param deltaTolerance The tolerance of the change in error.
      */
     public PIDCoefs(double KP, double KI, double KD, double KF, double tolerance, double deltaTolerance) {
-        this.KP = KP;
-        this.KI = KI;
-        this.KD = KD;
-        this.KF = KF;
-        this.tolerance = tolerance;
-        this.deltaTolerance = deltaTolerance;
+        this(KP, KI, KD, KF, tolerance, deltaTolerance, new Constraints(0, 0));
     }
 
     /**
@@ -50,26 +71,19 @@ public class PIDCoefs implements Sendable {
     }
 
     /**
-     * @param KP The Proportional coefficient of the PID loop in this
-     *           command.
-     * @param KI The Integral coefficient of the PID loop in this
-     *           command.
-     * @param KD The Differential coefficient of the PID loop in this
-     *           command.
-     * @param KF The Feed-Forward coefficient of the PID loop in this
-     *           command.
+     * @param KP The Proportional coefficient of the PID loop in this command.
+     * @param KI The Integral coefficient of the PID loop in this command.
+     * @param KD The Differential coefficient of the PID loop in this command.
+     * @param KF The Feed-Forward coefficient of the PID loop in this command.
      */
     public PIDCoefs(double KP, double KI, double KD, double KF) {
         this(KP, KI, KD, KF, 0, 0);
     }
 
     /**
-     * @param KP The Proportional coefficient of the PID loop in this
-     *           command.
-     * @param KI The Integral coefficient of the PID loop in this
-     *           command.
-     * @param KD The Differential coefficient of the PID loop in this
-     *           command.
+     * @param KP The Proportional coefficient of the PID loop in this command.
+     * @param KI The Integral coefficient of the PID loop in this command.
+     * @param KD The Differential coefficient of the PID loop in this command.
      */
     public PIDCoefs(double KP, double KI, double KD) {
         this(KP, KI, KD, 0, 0, 0);
@@ -123,14 +137,23 @@ public class PIDCoefs implements Sendable {
         this.deltaTolerance = deltaTolerance;
     }
 
+    public Constraints getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(Constraints constraints) {
+        this.constraints = constraints;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("PIDCoefs");
+        builder.setSmartDashboardType("RobotPreferences");
         builder.addDoubleProperty("p", this::getKP, this::setKP);
         builder.addDoubleProperty("i", this::getKI, this::setKI);
         builder.addDoubleProperty("d", this::getKD, this::setKD);
         builder.addDoubleProperty("f", this::getKF, this::setKF);
         builder.addDoubleProperty("tolerance", this::getTolerance, this::setTolerance);
         builder.addDoubleProperty("delta tolerance", this::getDeltaTolerance, this::setDeltaTolerance);
+        // TODO: add constraints
     }
 }

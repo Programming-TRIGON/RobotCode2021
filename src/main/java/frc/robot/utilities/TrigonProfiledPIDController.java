@@ -2,14 +2,13 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 
 public class TrigonProfiledPIDController extends ProfiledPIDController {
     private double f;
     private boolean isTuning;
 
     public TrigonProfiledPIDController(PIDCoefs pidCoefs) {
-        super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD(), new TrapezoidProfile.Constraints(360, 180));
+        super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD(), pidCoefs.getConstraints());
         setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
         f = pidCoefs.getKF();
         isTuning = false;
