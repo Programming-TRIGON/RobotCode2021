@@ -10,6 +10,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
+import frc.robot.utilities.TrigonPIDController;
 
 /**
  * instantiates the robot constants
@@ -29,7 +30,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; //in rad/s
-        
+
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
@@ -63,10 +64,14 @@ public class RobotA extends RobotConstants {
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
-        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0);
+        shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
+        shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
+        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
+        shooterConstants.BALL_SHOT_SPEED_DROP = 1000;
+        shooterConstants.MAX_NUMBER_OF_BALLS = 5;
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;

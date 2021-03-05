@@ -2,11 +2,13 @@ package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
+import frc.robot.components.TBHController;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
+import frc.robot.utilities.TrigonPIDController;
 
 /**
  * All the constants to be uses for the robot
@@ -68,10 +70,14 @@ public abstract class RobotConstants extends RobotMap {
         public ShooterMap CAN_MAP;
         public MotorConfig RIGHT_MOTOR_CONFIG;
         public MotorConfig LEFT_MOTOR_CONFIG;
+        public TBHController TBH_CONTROLLER;
+        public TrigonPIDController PID_CONTROLLER;
         public PIDCoefs PID_COEFS;
         public double LIMELIGHT_VELOCITY_COEF_A;
         public double LIMELIGHT_VELOCITY_COEF_B;
         public double LIMELIGHT_VELOCITY_COEF_C;
+        public double BALL_SHOT_SPEED_DROP;
+        public int MAX_NUMBER_OF_BALLS;
     }
 
     public class TriggerConstants {

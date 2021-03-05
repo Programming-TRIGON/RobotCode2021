@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.TestableSubsystem;
+import frc.robot.utilities.TrigonPIDController;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class ShooterSS extends SubsystemBase implements TestableSubsystem {
@@ -23,15 +24,6 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
      */
     public void move(double power) {
         masterMotor.set(power);
-    }
-
-    /**
-     * Sets the desired velocity of the motors
-     *
-     * @param velocity to be set to the motors
-     */
-    public void setDesiredVelocity(double velocity) {
-        masterMotor.set(ControlMode.Velocity, velocity);
     }
 
     /**
