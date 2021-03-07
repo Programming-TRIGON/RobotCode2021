@@ -2,7 +2,6 @@ package frc.robot.components;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TBHController implements Sendable {
@@ -13,11 +12,11 @@ public class TBHController implements Sendable {
     private double tbh;
     private double tolerance;
     private double lastOutput;
+    private boolean isTuning;
 
     public TBHController(double KI, double tolerance) {
         this.KI = KI;
         this.tolerance = tolerance;
-        SendableRegistry.add(this, "TBHController");
     }
 
     public double calculate(double measurement) {
@@ -84,7 +83,6 @@ public class TBHController implements Sendable {
     }
 
     public void setLastOutput(double output) {
-        this.output = output;
         lastOutput = output;
     }
 
@@ -92,10 +90,27 @@ public class TBHController implements Sendable {
         return value > 0;
     }
 
+    public boolean isTuning() {
+        return isTuning;
+    }
+
+    public void setIsTuning(boolean isTuning) {
+        this.isTuning = isTuning;
+    }
+
+    public void initSendable(SendableBuilder builder, String name) {
+        if (!name.equals(""))
+            name += "/";
+        // sends the pid values to the dashboard but only allows them to be changed if
+        // isTuning is true
+        builder.setSmartDashboardType("RobotPreferences");
+        builder.addDoubleProperty(name + "KI", this::getKI, this::setKI);
+        builder.addDoubleProperty(name + "setpoint", this::getSetpoint,
+                (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("TBHController");
-        builder.addDoubleProperty("KI", this::getKI, this::setKI);
-        builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
+        initSendable(builder, "");
     }
 }

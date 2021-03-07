@@ -27,6 +27,13 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     }
 
     /**
+     * @return current power of the motor (between -1 and 1)
+     */
+    public double getPower(){
+        return masterMotor.get();
+    }
+
+    /**
      * @return the velocity of the motors in ticks/seconds
      */
     @Log(name = "Shooter/Velocity")

@@ -76,7 +76,8 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_VELOCITY_COEF_A;
         public double LIMELIGHT_VELOCITY_COEF_B;
         public double LIMELIGHT_VELOCITY_COEF_C;
-        public double BALL_SHOT_SPEED_DROP;
+        public double BALL_SHOT_VELOCITY_DROP;
+        public double DEFAULT_DESIRED_VELOCITY;
         public int MAX_NUMBER_OF_BALLS;
     }
 
@@ -93,7 +94,7 @@ public abstract class RobotConstants extends RobotMap {
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
             public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
-            public final LedColor SHOOTER_ENABLED = LedColor.Gold;
+            public final LedColor SHOOTER_ENABLED = LedColor.Blue;
             public final LedBlinkColor NO_TARGET = new LedBlinkColor(LedColor.Orange, 2);
             public final LedColor INTAKE_ENABLED = LedColor.Aqua;
             public final LedBlinkColor INTAKE_MOTOR_STALL = new LedBlinkColor(LedColor.Yellow, 5);

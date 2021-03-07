@@ -70,7 +70,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
-        shooterConstants.BALL_SHOT_SPEED_DROP = 1000;
+        shooterConstants.BALL_SHOT_VELOCITY_DROP = 1000;
+        shooterConstants.DEFAULT_DESIRED_VELOCITY = 3000;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
 
         // LED constants
