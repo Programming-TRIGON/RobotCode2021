@@ -36,6 +36,6 @@ public class PitcherSS extends SubsystemBase implements Loggable {
 
     @Override
     public String configureLogName() {
-        return this.getClass().getSimpleName();
+        return "Pitcher";
     }
 }

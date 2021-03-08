@@ -65,9 +65,9 @@ public class PitcherLimelight extends VanillaLimelight {
      * @return the vector between the middle of the robot and the target.
      */
     private Vector2d calculateVector() {
+        // This is the vector from the limelight to the target.
+        Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
         if (isHoodExtended()) {
-            // This is the vector from the limelight to the target.
-            Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
             limelightToTarget.rotate(getTx() + constants.LIMELIGHT_ANGLE_OFFSET);
             // The offset is subtracted from the limelightToTarget vector in order to get
             // the final vector.
@@ -75,8 +75,6 @@ public class PitcherLimelight extends VanillaLimelight {
                     limelightToTarget.y - constants.LIMELIGHT_OFFSET_Y);
         }
         else {
-            // This is the vector from the limelight to the target.
-            Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
             limelightToTarget.rotate(getTx() + retractedConstants.LIMELIGHT_ANGLE_OFFSET);
             // The offset is subtracted from the limelightToTarget vector in order to get
             // the final vector.
