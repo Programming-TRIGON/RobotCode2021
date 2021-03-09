@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
 import frc.robot.components.TBHController;
@@ -72,6 +73,7 @@ public abstract class RobotConstants extends RobotMap {
         public MotorConfig LEFT_MOTOR_CONFIG;
         public TBHController TBH_CONTROLLER;
         public TrigonPIDController PID_CONTROLLER;
+        public SimpleMotorFeedforward SIMPLE_MOTOR_FEEDFORWARD;
         public PIDCoefs PID_COEFS;
         public double LIMELIGHT_VELOCITY_COEF_A;
         public double LIMELIGHT_VELOCITY_COEF_B;

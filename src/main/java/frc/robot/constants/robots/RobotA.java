@@ -3,6 +3,7 @@ package frc.robot.constants.robots;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.components.*;
@@ -66,7 +67,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
         shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
-        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0, 0);
+        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(1, 1, 1);
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
