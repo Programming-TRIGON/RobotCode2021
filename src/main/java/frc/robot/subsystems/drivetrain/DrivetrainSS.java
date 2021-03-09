@@ -33,6 +33,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         this.gyro = constants.CAN_MAP.GYRO;
         initSwerve();
         this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
+        gyro.calibrate();
+        gyro.reset();
     }
 
     /**

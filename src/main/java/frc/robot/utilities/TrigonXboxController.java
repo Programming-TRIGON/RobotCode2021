@@ -120,7 +120,14 @@ public class TrigonXboxController extends XboxController {
 
     @Override
     public double getY(Hand hand) {
+        if (Math.abs(super.getY(hand)) < 0.1) return 0;
         return -super.getY(hand);
+    }
+
+    @Override
+    public double getX(Hand hand) {
+        if (Math.abs(super.getX(hand)) < 0.1) return 0;
+        return super.getX(hand);
     }
 
     public void notifierPeriodic() {

@@ -1,6 +1,7 @@
 package frc.robot.components;
 
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -8,11 +9,14 @@ import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonProfiledPIDController;
 
 public class SwerveModule implements Sendable {
-    private final TrigonTalonFX speedMotor;
+    private final SwerveConstants constants;
     private final TrigonTalonFX angleMotor;
+    private final TrigonTalonFX speedMotor;
     private final TrigonProfiledPIDController angleController;
+    private final TrigonProfiledPIDController speedController;
+    private final SimpleMotorFeedforward angleFeedforward;
+    private final SimpleMotorFeedforward speedFeedforward;
     private SwerveModuleState desiredState;
-    private SwerveConstants constants;
     private boolean isTuning;
 
     /**
@@ -24,17 +28,18 @@ public class SwerveModule implements Sendable {
     public SwerveModule(SwerveConstants constants) {
         this.constants = constants;
         speedMotor = constants.speedMotor;
+        speedController = new TrigonProfiledPIDController(constants.speedCoefs);
+        speedFeedforward = new SimpleMotorFeedforward(constants.speedCoefs.getKS(), constants.speedCoefs.getKV(), constants.speedCoefs.getKA());
 
         angleMotor = constants.angleMotor;
         angleController = new TrigonProfiledPIDController(constants.angleCoefs);
+        angleFeedforward = new SimpleMotorFeedforward(constants.speedCoefs.getKS(), constants.speedCoefs.getKV(), constants.speedCoefs.getKA());
 
         setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(getAngle())));
 
         angleController.enableContinuousInput(-180, 180);
 
         setAbsolute();
-
-        isTuning = false;
     }
 
     /**
@@ -50,7 +55,7 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        speedMotor.set(desiredState.speedMetersPerSecond / constants.maxMPS);
+        speedMotor.set(speedController.calculate(getSpeedMotorVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
         angleMotor.set(angleController.calculate(getAngle(), desiredState.angle.getDegrees()));
     }
 
