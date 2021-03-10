@@ -23,12 +23,13 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private final TrigonPIDController PIDController;
     private final SimpleMotorFeedforward simpleMotorFeedforward;
     private ShooterState currentState;
+    @Log(name = "Shooter/Desired Velocity")
     private DoubleSupplier desiredVelocity;
     private final boolean isUsingLimelight;
     private double lastVelocity;
     private int ballsShotCount;
 
-    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, boolean isUsingLimelight) {
+    private ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, boolean isUsingLimelight) {
         this.shooterSS = shooterSS;
         this.constants = constants;
         this.ledSS = ledSS;
@@ -56,7 +57,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
      * @return the desired desiredVelocity of the motors
      */
     //TODO: Set correct calculation based on function chosen for calculation.
-    @Log(name = "Shooter/Velocity Calculation")
     public double calculateDesiredVelocity() {
         double y = limelight.getTy();
         return constants.LIMELIGHT_VELOCITY_COEF_A * Math.pow(y, 2) + constants.LIMELIGHT_VELOCITY_COEF_B * y
@@ -69,12 +69,14 @@ public class ShooterCMD extends CommandBase implements Loggable {
         ballsShotCount = 0;
         TBHController.reset();
         PIDController.reset();
-        if (limelight.getTv() && !isUsingLimelight) {
-            limelight.startVision(Target.PowerPort);
-        }
-        else {
-            ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
-            DriverStationLogger.logToDS("No valid target, Try reposition!");
+        if (isUsingLimelight) {
+            if (limelight.getTv()) {
+                limelight.startVision(Target.PowerPort);
+            }
+            else {
+                ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
+                DriverStationLogger.logToDS("No valid target, Try reposition!");
+            }
         }
     }
 
