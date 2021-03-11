@@ -52,12 +52,13 @@ public class ShooterCMD extends CommandBase implements Loggable {
     }
 
     /**
-     * Calculates the desired desiredVelocity to set the motors based on the height at which the limelight sees the target
+     * Calculates the desired desiredVelocity to set the motors based on the height
+     * at which the limelight sees the target
      *
      * @return the desired desiredVelocity of the motors
      */
-    //TODO: Set correct calculation based on function chosen for calculation.
-    public double calculateDesiredVelocity() {
+    // TODO: Set correct calculation based on function chosen for calculation.
+    private double calculateDesiredVelocity() {
         double y = limelight.getTy();
         return constants.LIMELIGHT_VELOCITY_COEF_A * Math.pow(y, 2) + constants.LIMELIGHT_VELOCITY_COEF_B * y
                 + constants.LIMELIGHT_VELOCITY_COEF_C;
@@ -69,34 +70,42 @@ public class ShooterCMD extends CommandBase implements Loggable {
         ballsShotCount = 0;
         TBHController.reset();
         PIDController.reset();
-        if (isUsingLimelight) {
-            if (limelight.getTv()) {
-                limelight.startVision(Target.PowerPort);
-            }
-            else {
-                ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
-                DriverStationLogger.logToDS("No valid target, Try reposition!");
-            }
-        }
+        if (isUsingLimelight)
+            limelight.startVision(Target.PowerPort);
     }
 
     @Override
     public void execute() {
+        if (isUsingLimelight) {
+            if (limelight.getTv())
+                Shoot();
+            else {
+                ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
+                DriverStationLogger.logToDS("ShooterCMD: No valid target, Try reposition!");
+            }
+        }
+        else
+            Shoot();
+    }
+
+    private void Shoot() {
         TBHController.setSetpoint(desiredVelocity.getAsDouble());
         PIDController.setSetpoint(desiredVelocity.getAsDouble());
         ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
 
-        // changes the state of the shooter based on if a ball was just shot and if the PIDF has gotten the velocity back to its target
+        // changes the state of the shooter based on if a ball was just shot and if the
+        // PIDF has gotten the velocity back to its target
         if (ballWasShot() && currentState == ShooterState.Default) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
-        }
-        else if ((PIDController.atSetpoint() || PIDController.getPositionError() <= 0) && currentState == ShooterState.AfterShot) {
+        } else if ((PIDController.atSetpoint() || PIDController.getPositionError() <= 0)
+                && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
             TBHController.setLastOutput(shooterSS.getPower());
         }
 
-        // switches between using TBH and PIDF to control the velocity based on if a ball was just shot
+        // switches between using TBH and PIDF to control the velocity based on if a
+        // ball was just shot
         switch (currentState) {
             case Default:
                 shooterSS.move(TBHController.calculate(shooterSS.getVelocity())
@@ -109,7 +118,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 break;
         }
     }
-
 
     public boolean ballWasShot() {
         return lastVelocity - shooterSS.getVelocity() >= constants.BALL_SHOT_VELOCITY_DROP;
@@ -134,6 +142,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     public enum ShooterState {
         Default, // default mode of the shooter, controls motors using TBH
-        AfterShot; // mode for after a ball is shot and when first running the command, returns the shooter to target velocity using PIDF
+        AfterShot; // mode for after a ball is shot and when first running the command, returns the
+                   // shooter to target velocity using PIDF
     }
 }
