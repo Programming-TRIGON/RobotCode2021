@@ -41,6 +41,9 @@ public abstract class RobotConstants extends RobotMap {
         public SwerveConstants FRONT_RIGHT_CONSTANTS;
         public SwerveConstants REAR_LEFT_CONSTANTS;
         public SwerveConstants REAR_RIGHT_CONSTANTS;
+
+        public PIDCoefs SPEED_COEFS;
+        public PIDCoefs ANGLE_COEFS;
     }
 
     public class LimelightConstants {
