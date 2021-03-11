@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.utilities.SwerveConstants;
+import frc.robot.utilities.TrigonPIDController;
 import frc.robot.utilities.TrigonProfiledPIDController;
 
 public class SwerveModule implements Sendable {
@@ -13,7 +14,7 @@ public class SwerveModule implements Sendable {
     private final TrigonTalonFX angleMotor;
     private final TrigonTalonFX speedMotor;
     private final TrigonProfiledPIDController angleController;
-    private final TrigonProfiledPIDController speedController;
+    private final TrigonPIDController speedController;
     private final SimpleMotorFeedforward angleFeedforward;
     private final SimpleMotorFeedforward speedFeedforward;
     private SwerveModuleState desiredState;
@@ -28,7 +29,7 @@ public class SwerveModule implements Sendable {
     public SwerveModule(SwerveConstants constants) {
         this.constants = constants;
         speedMotor = constants.speedMotor;
-        speedController = new TrigonProfiledPIDController(constants.speedCoefs);
+        speedController = new TrigonPIDController(constants.speedCoefs);
         speedFeedforward = new SimpleMotorFeedforward(constants.speedCoefs.getKS(), constants.speedCoefs.getKV(), constants.speedCoefs.getKA());
 
         angleMotor = constants.angleMotor;
@@ -55,8 +56,13 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        speedMotor.set(speedController.calculate(getSpeedMotorVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
-        angleMotor.set(angleController.calculate(getAngle(), desiredState.angle.getDegrees()));
+        speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
+        angleMotor.setVoltage(
+            angleController.calculate(
+                getAngle(),
+                 desiredState.angle.getDegrees())
+                 +
+                 angleFeedforward.calculate(getAngleMotorAPS()));
     }
 
     /**
@@ -125,6 +131,14 @@ public class SwerveModule implements Sendable {
 
     public double getDesiredVelocity() {
         return desiredState.speedMetersPerSecond;
+    }
+
+    public double getAngleMotorVelocity(){
+        return angleMotor.getSelectedSensorVelocity();
+    }
+
+    public double getAngleMotorAPS(){
+        return getAngleMotorVelocity() * 10 / 2048 / 12.8 * 360;
     }
 
     /**

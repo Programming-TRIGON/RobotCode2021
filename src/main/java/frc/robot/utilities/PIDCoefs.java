@@ -77,6 +77,30 @@ public class PIDCoefs implements Sendable {
      *                       command.
      * @param KD             The Differential coefficient of the PID loop in this
      *                       command.
+     * @param KS             The static gain.
+     * @param KV             The velocity gain.
+     * @param KA             The acceleration gain.
+     * @param tolerance      The error tolerance of this command.
+     * @param deltaTolerance The tolerance of the change in error.
+     */
+    public PIDCoefs(double KP, double KI, double KD, double KS, double KV, double KA, double tolerance, double deltaTolerance) {
+        this.KP = KP;
+        this.KI = KI;
+        this.KD = KD;
+        this.KS = KS;
+        this.KV = KV;
+        this.KA = KA;
+        this.tolerance = tolerance;
+        this.deltaTolerance = deltaTolerance;
+    }
+
+    /**
+     * @param KP             The Proportional coefficient of the PID loop in this
+     *                       command.
+     * @param KI             The Integral coefficient of the PID loop in this
+     *                       command.
+     * @param KD             The Differential coefficient of the PID loop in this
+     *                       command.
      * @param KF             The Feed-Forward coefficient of the PID loop in this
      *                       command.
      * @param tolerance      The error tolerance of this command.

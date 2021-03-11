@@ -96,7 +96,7 @@ public class RobotA extends RobotConstants {
 
                 // Drivetrain map;
                 drivetrainConstants.SPEED_COEFS = new PIDCoefs(0, 0, 0, 0.557, 2.35, 0.0749, 1, 1, new Constraints(2400, 999999));
-                drivetrainConstants.ANGLE_COEFS = new PIDCoefs(0, 0, 0, 0, 0, 0, 0, 0, new Constraints(2400, 999999));
+                drivetrainConstants.ANGLE_COEFS = new PIDCoefs(0.000797, 0, 0, 0.7, 0.00384, 4.36e-5, 1, 1);
 
                 drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                                 new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
