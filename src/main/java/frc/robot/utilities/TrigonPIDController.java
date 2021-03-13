@@ -7,7 +7,7 @@ public class TrigonPIDController extends PIDController {
     private double f;
     private boolean isTuning;
 
-    public TrigonPIDController(PIDCoefs pidCoefs) {
+    public TrigonPIDController(PIDFCoefs pidCoefs) {
         super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD());
         setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
         f = pidCoefs.getKF();

@@ -29,12 +29,12 @@ public class SwerveModule implements Sendable {
     public SwerveModule(SwerveConstants constants) {
         this.constants = constants;
         speedMotor = constants.speedMotor;
-        speedController = new TrigonPIDController(constants.speedCoefs);
-        speedFeedforward = new SimpleMotorFeedforward(constants.speedCoefs.getKS(), constants.speedCoefs.getKV(), constants.speedCoefs.getKA());
+        speedController = new TrigonPIDController(constants.speedPidfCoefs);
+        speedFeedforward = new SimpleMotorFeedforward(constants.speedSvaCoefs.getKS(), constants.speedSvaCoefs.getKV(), constants.speedSvaCoefs.getKA());
 
         angleMotor = constants.angleMotor;
-        angleController = new TrigonProfiledPIDController(constants.angleCoefs);
-        angleFeedforward = new SimpleMotorFeedforward(constants.speedCoefs.getKS(), constants.speedCoefs.getKV(), constants.speedCoefs.getKA());
+        angleController = new TrigonProfiledPIDController(constants.anglePidfCoefs);
+        angleFeedforward = new SimpleMotorFeedforward(constants.angleSvaCoefs.getKS(), constants.angleSvaCoefs.getKV(), constants.angleSvaCoefs.getKA());
 
         setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(getAngle())));
 
@@ -58,11 +58,11 @@ public class SwerveModule implements Sendable {
     public void periodic() {
         speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
         angleMotor.setVoltage(
-            angleController.calculate(
-                getAngle(),
-                 desiredState.angle.getDegrees())
-                 +
-                 angleFeedforward.calculate(getAngleMotorAPS()));
+                angleController.calculate(
+                        getAngle(),
+                        desiredState.angle.getDegrees())
+                        +
+                        angleFeedforward.calculate(getAngleMotorAPS()));
     }
 
     /**
@@ -133,11 +133,11 @@ public class SwerveModule implements Sendable {
         return desiredState.speedMetersPerSecond;
     }
 
-    public double getAngleMotorVelocity(){
+    public double getAngleMotorVelocity() {
         return angleMotor.getSelectedSensorVelocity();
     }
 
-    public double getAngleMotorAPS(){
+    public double getAngleMotorAPS() {
         return getAngleMotorVelocity() * 10 / 2048 / 12.8 * 360;
     }
 
