@@ -38,10 +38,12 @@ public class TBHController implements Sendable {
     }
 
     /**
-     * Returns true if the error is within the percentage of the total input range, determined by
-     * SetTolerance. This assumes that the maximum and minimum input were set using SetInput.
+     * Returns true if the error is within the percentage of the total input range,
+     * determined by SetTolerance. This assumes that the maximum and minimum input
+     * were set using SetInput.
      *
-     * <p>This will return false until at least one input value has been computed.
+     * <p>
+     * This will return false until at least one input value has been computed.
      *
      * @return Is the error is within the acceptable bounds.
      */
@@ -104,7 +106,7 @@ public class TBHController implements Sendable {
         // sends the pid values to the dashboard but only allows them to be changed if
         // isTuning is true
         builder.setSmartDashboardType("RobotPreferences");
-        builder.addDoubleProperty(name + "KI", this::getKI, this::setKI);
+        builder.addDoubleProperty(name + "KI", this::getKI, (kI) -> setKI(isTuning ? kI : getKI()));
         builder.addDoubleProperty(name + "setpoint", this::getSetpoint,
                 (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
     }
