@@ -1,11 +1,9 @@
 package frc.robot.subsystems.shooter;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.TestableSubsystem;
-import frc.robot.utilities.TrigonPIDController;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class ShooterSS extends SubsystemBase implements TestableSubsystem {

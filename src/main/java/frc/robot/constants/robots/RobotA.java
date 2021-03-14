@@ -102,57 +102,57 @@ public class RobotA extends RobotConstants {
         // shooter map
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
-        can.intakeMap.MOTOR = new TrigonTalonSRX(14, intakeConstants.MOTOR_CONFIG);
-        can.loaderMap.MOTOR = new TrigonTalonSRX(15, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
+        // can.intakeMap.MOTOR = new TrigonTalonSRX(14, intakeConstants.MOTOR_CONFIG);
+        // can.loaderMap.MOTOR = new TrigonTalonSRX(15, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
 
-        // Drivetrain map;
-        drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(1, 8,
-                        new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
-                drivetrainConstants.WHEEL_DIAMETER_M,
-                drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
-                new PIDCoefs(1, 1, 1, 1, 1),
-                new PIDCoefs(1, 1, 1, 1, 1)
-        );
-        drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(2, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
-                new TalonFXWithTalonSRXEncoder(3, 9,
-                        new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
-                drivetrainConstants.WHEEL_DIAMETER_M,
-                drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
-                new PIDCoefs(1, 1, 1, 1, 1),
-                new PIDCoefs(1, 1, 1, 1, 1)
-        );
-        drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(5, 10,
-                        new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
-                drivetrainConstants.WHEEL_DIAMETER_M,
-                drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
-                new PIDCoefs(1, 1, 1, 1, 1),
-                new PIDCoefs(1, 1, 1, 1, 1)
-        );
-        drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(6, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
-                new TalonFXWithTalonSRXEncoder(7, 11,
-                        new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
-                drivetrainConstants.WHEEL_DIAMETER_M,
-                drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
-                new PIDCoefs(1, 1, 1, 1, 1),
-                new PIDCoefs(1, 1, 1, 1, 1)
-        );
+        // // Drivetrain map;
+        // drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
+        //         new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
+        //         new TalonFXWithTalonSRXEncoder(1, 8,
+        //                 new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
+        //         drivetrainConstants.WHEEL_DIAMETER_M,
+        //         drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
+        //         new PIDCoefs(1, 1, 1, 1, 1),
+        //         new PIDCoefs(1, 1, 1, 1, 1)
+        // );
+        // drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
+        //         new TrigonTalonFX(2, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
+        //         new TalonFXWithTalonSRXEncoder(3, 9,
+        //                 new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
+        //         drivetrainConstants.WHEEL_DIAMETER_M,
+        //         drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
+        //         new PIDCoefs(1, 1, 1, 1, 1),
+        //         new PIDCoefs(1, 1, 1, 1, 1)
+        // );
+        // drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
+        //         new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
+        //         new TalonFXWithTalonSRXEncoder(5, 10,
+        //                 new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
+        //         drivetrainConstants.WHEEL_DIAMETER_M,
+        //         drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
+        //         new PIDCoefs(1, 1, 1, 1, 1),
+        //         new PIDCoefs(1, 1, 1, 1, 1)
+        // );
+        // drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
+        //         new TrigonTalonFX(6, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
+        //         new TalonFXWithTalonSRXEncoder(7, 11,
+        //                 new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
+        //         drivetrainConstants.WHEEL_DIAMETER_M,
+        //         drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
+        //         new PIDCoefs(1, 1, 1, 1, 1),
+        //         new PIDCoefs(1, 1, 1, 1, 1)
+        // );
 
-        can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);
-        can.drivetrainMap.FRONT_LEFT = new SwerveModule(drivetrainConstants.FRONT_LEFT_CONSTANTS);
-        can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
-        can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
+        // can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);
+        // can.drivetrainMap.FRONT_LEFT = new SwerveModule(drivetrainConstants.FRONT_LEFT_CONSTANTS);
+        // can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
+        // can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
-        can.drivetrainMap.GYRO = new Pigeon(12);
+        // can.drivetrainMap.GYRO = new Pigeon(12);
 
-        // PWM
-        pwm.ledMap.LED_CONTROLLER = 0;
-        pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
-        pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
+        // // PWM
+        // pwm.ledMap.LED_CONTROLLER = 0;
+        // pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
+        // pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
     }
 }
