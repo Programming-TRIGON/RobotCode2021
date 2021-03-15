@@ -66,7 +66,7 @@ public class RobotA extends RobotConstants {
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
-        shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
+        shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, true, false);
         shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
         shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0, 0);
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
