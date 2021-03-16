@@ -27,7 +27,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     /**
      * @return current power of the motor (between -1 and 1)
      */
-    public double getPower(){
+    public double getPower() {
         return masterMotor.get();
     }
 
@@ -39,10 +39,17 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
         return masterMotor.getSelectedSensorVelocity();
     }
 
+    public void setRampRate(double rampRate) {
+        constants.CAN_MAP.RIGHT_MOTOR.configClosedloopRamp(rampRate);
+        constants.CAN_MAP.LEFT_MOTOR.configClosedloopRamp(rampRate);
+        constants.CAN_MAP.RIGHT_MOTOR.configOpenloopRamp(rampRate);
+        constants.CAN_MAP.LEFT_MOTOR.configOpenloopRamp(rampRate);
+    }
+
     /**
      * @return an array of the current encoder position
      */
     public double[] getValues() {
-        return new double[]{masterMotor.getSelectedSensorPosition()};
+        return new double[] { masterMotor.getSelectedSensorPosition() };
     }
 }

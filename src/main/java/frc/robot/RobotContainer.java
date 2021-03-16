@@ -28,8 +28,6 @@ public class RobotContainer {
         dashboardController = new DashboardController();
         // drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
         shooterSS = new ShooterSS(robotConstants.shooterConstants);
-        SmartDashboard.putNumber("Motor Velocity", shooterSS.getVelocity());
-
 
         initializeCommands();
 
@@ -55,6 +53,5 @@ public class RobotContainer {
      */
     public void periodic() {
         updateDashboard();
-        SmartDashboard.putNumber("Motor Velocity", shooterSS.getVelocity());
     }
 }

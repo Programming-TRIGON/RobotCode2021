@@ -67,6 +67,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     @Override
     public void initialize() {
+        shooterSS.setRampRate(0);
         currentState = ShooterState.AfterShot;
         ballsShotCount = 0;
         TBHController.reset();
@@ -135,6 +136,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     @Override
     public void end(boolean interrupted) {
+        shooterSS.setRampRate(constants.RIGHT_MOTOR_CONFIG.getRampRate());
         shooterSS.stopMoving();
         ledSS.turnOffLED();
         if (isUsingLimelight)
