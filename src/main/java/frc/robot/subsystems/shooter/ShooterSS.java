@@ -32,11 +32,11 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     }
 
     /**
-     * @return the velocity of the motors in ticks/seconds
+     * @return the velocity of the motors in ticks/100 milliseconds
      */
     @Log(name = "Shooter/Velocity")
     public double getVelocity() {
-        return masterMotor.getSelectedSensorVelocity() * 10;
+        return masterMotor.getSelectedSensorVelocity();
     }
 
     /**

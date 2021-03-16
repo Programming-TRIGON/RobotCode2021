@@ -68,9 +68,9 @@ public class RobotA extends RobotConstants {
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, true, false);
         shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
-        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0, 0);
+        shooterConstants.PID_COEFS = new PIDCoefs(0, 0, 0, 0, 0, 0);
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
-        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(1, 1, 1);
+        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.782, 0.0303, 0.00287);
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;

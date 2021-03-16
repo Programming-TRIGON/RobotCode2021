@@ -1,7 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
+import frc.robot.subsystems.led.LedSS;
+import frc.robot.subsystems.shooter.ShooterCMD;
 import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.utilities.DashboardController;
 import io.github.oblarg.oblog.Logger;
@@ -11,6 +14,8 @@ public class RobotContainer {
     private HomeField fieldConstants;
     private DashboardController dashboardController;
     private ShooterSS shooterSS;
+    private LedSS ledSS;
+    private ShooterCMD shooterCMD;
     // private DrivetrainSS drivetrainSS;
 
     /**
@@ -23,13 +28,21 @@ public class RobotContainer {
         dashboardController = new DashboardController();
         // drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
         shooterSS = new ShooterSS(robotConstants.shooterConstants);
+        SmartDashboard.putNumber("Motor Velocity", shooterSS.getVelocity());
+
+
+        initializeCommands();
+
+        SmartDashboard.putData("Shooter Command", shooterCMD);
     }
 
     /**
      * initializes all commands
      */
     public void initializeCommands() {
-
+        SmartDashboard.putNumber("Desired Velocity", 0);
+        shooterCMD = new ShooterCMD(shooterSS, robotConstants.shooterConstants, ledSS,
+                () -> SmartDashboard.getNumber("Desired Velocity", 0));
     }
 
     public void updateDashboard() {
@@ -37,8 +50,11 @@ public class RobotContainer {
         Logger.updateEntries();
     }
 
-    /** call this method periodically */
+    /**
+     * call this method periodically
+     */
     public void periodic() {
         updateDashboard();
+        SmartDashboard.putNumber("Motor Velocity", shooterSS.getVelocity());
     }
 }
