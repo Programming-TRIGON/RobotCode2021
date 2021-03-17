@@ -27,7 +27,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
     @Log(name = "Shooter/Desired Velocity")
     private DoubleSupplier desiredVelocity;
     private final boolean isUsingLimelight;
-    private double lastVelocity;
     private int ballsShotCount;
 
     private ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, boolean isUsingLimelight) {
@@ -67,7 +66,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     @Override
     public void initialize() {
-        lastVelocity = shooterSS.getVelocity();
         shooterSS.setRampRate(constants.SHOOTING_RAMP_RATE);
         currentState = ShooterState.AfterShot;
         ballsShotCount = 0;
@@ -98,17 +96,12 @@ public class ShooterCMD extends CommandBase implements Loggable {
         TBHController.setSetpoint(desiredVelocity.getAsDouble());
         PIDController.setSetpoint(desiredVelocity.getAsDouble());
 
-        SmartDashboard.putNumber("Shooter/lastVelocity - shooterSS.getVelocity()",
-                lastVelocity - shooterSS.getVelocity());
-
-        System.out.println(lastVelocity - shooterSS.getVelocity());
-
         if (ledSS != null)
             ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
 
         // changes the state of the shooter based on if a ball was just shot and if the
         // PIDF has gotten the velocity back to its target
-        if (ballWasShot() && currentState == ShooterState.Default) {
+        if (!PIDController.atSetpoint() && PIDController.getPositionError() >= 0 && currentState == ShooterState.Default) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
         } else if ((PIDController.atSetpoint() || PIDController.getPositionError() <= 0)
@@ -132,11 +125,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
             SmartDashboard.putBoolean("isPID", true);
             break;
         }
-        lastVelocity = shooterSS.getVelocity();
-    }
-
-    public boolean ballWasShot() {
-        return lastVelocity - shooterSS.getVelocity() >= constants.BALL_SHOT_VELOCITY_DROP;
     }
 
     public int getBallsShotCount() {
