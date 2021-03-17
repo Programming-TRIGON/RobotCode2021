@@ -2,7 +2,6 @@ package frc.robot.components;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TBHController implements Sendable {
     private double output;
@@ -111,5 +110,6 @@ public class TBHController implements Sendable {
         builder.addDoubleProperty("KI", this::getKI, (kI) -> setKI(isTuning ? kI : getKI()));
         builder.addDoubleProperty("setpoint", this::getSetpoint,
                 (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
+        builder.addBooleanProperty("isTuning", this::isTuning, (tuning) -> setIsTuning(tuning));
     }
 }

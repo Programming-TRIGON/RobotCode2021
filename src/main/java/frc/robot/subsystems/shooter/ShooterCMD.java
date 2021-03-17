@@ -73,6 +73,11 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
+
+
+            //TODO: delete me!!!!!!
+            SmartDashboard.putData("Shooter/TBH", TBHController);
+            SmartDashboard.putData("Shooter/PID", PIDController);
     }
 
     @Override
@@ -101,7 +106,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
         // changes the state of the shooter based on if a ball was just shot and if the
         // PIDF has gotten the velocity back to its target
-        if (!PIDController.atSetpoint() && PIDController.getPositionError() >= 0 && currentState == ShooterState.Default) {
+        if (!TBHController.atSetpoint() && desiredVelocity.getAsDouble() - shooterSS.getVelocity() >= 0 && currentState == ShooterState.Default) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
         } else if ((PIDController.atSetpoint() || PIDController.getPositionError() <= 0)
