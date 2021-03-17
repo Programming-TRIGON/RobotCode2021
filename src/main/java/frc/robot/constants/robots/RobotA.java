@@ -65,7 +65,7 @@ public class RobotA extends RobotConstants {
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
-        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(10, false, false, NeutralMode.Coast, 0);
+        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(15, false, false, NeutralMode.Coast, 0);
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, true, false);
         shooterConstants.TBH_CONTROLLER = new TBHController(0, 0);
         shooterConstants.PID_COEFS = new PIDCoefs(0, 0, 0, 0, 0, 0);
@@ -75,6 +75,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
         shooterConstants.BALL_SHOT_VELOCITY_DROP = 1000;
+        shooterConstants.SHOOTING_RAMP_RATE = 2;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
 
         // LED constants

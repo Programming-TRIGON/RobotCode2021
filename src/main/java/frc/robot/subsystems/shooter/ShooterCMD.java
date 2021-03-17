@@ -68,7 +68,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
     @Override
     public void initialize() {
         lastVelocity = shooterSS.getVelocity();
-        shooterSS.setRampRate(0);
+        shooterSS.setRampRate(constants.SHOOTING_RAMP_RATE);
         currentState = ShooterState.AfterShot;
         ballsShotCount = 0;
         TBHController.reset();
