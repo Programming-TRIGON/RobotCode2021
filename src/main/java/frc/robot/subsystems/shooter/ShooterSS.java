@@ -4,9 +4,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.TestableSubsystem;
+import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class ShooterSS extends SubsystemBase implements TestableSubsystem {
+public class ShooterSS extends SubsystemBase implements TestableSubsystem, Loggable {
     private final ShooterConstants constants;
     private final TrigonTalonFX masterMotor;
 
@@ -18,10 +19,10 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     }
 
     /**
-     * @param power to be set to the motors (between -1 and 1)
+     * @param voltage to be set to the motors
      */
-    public void move(double power) {
-        masterMotor.set(power);
+    public void move(double voltage) {
+        masterMotor.setVoltage(voltage);
     }
 
     /**
@@ -36,7 +37,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
      */
     @Log(name = "Shooter/Velocity")
     public double getVelocity() {
-        return masterMotor.getSelectedSensorVelocity();
+        return masterMotor.getSelectedSensorVelocity() * 600 / 2048;
     }
 
     public void setRampRate(double rampRate) {

@@ -22,7 +22,6 @@ public class TBHController implements Sendable {
     public double calculate(double measurement) {
         double error = setpoint - measurement;
         output += KI * error;
-        output = MathUtil.clamp(output, -1, 1);
         if (isPositive(error) != isPositive(lastError)) {
             tbh = lastOutput;
             output = 0.5 * (output + tbh);
@@ -84,6 +83,10 @@ public class TBHController implements Sendable {
         this.setpoint = setpoint;
     }
 
+    public void setOutput(double output){
+        this.output = output;
+    }
+
     public void setLastOutput(double output) {
         lastOutput = output;
     }
@@ -100,19 +103,13 @@ public class TBHController implements Sendable {
         this.isTuning = isTuning;
     }
 
-    public void initSendable(SendableBuilder builder, String name) {
-        if (!name.equals(""))
-            name += "/";
+    @Override
+    public void initSendable(SendableBuilder builder) {
         // sends the pid values to the dashboard but only allows them to be changed if
         // isTuning is true
         builder.setSmartDashboardType("RobotPreferences");
-        builder.addDoubleProperty(name + "KI", this::getKI, (kI) -> setKI(isTuning ? kI : getKI()));
-        builder.addDoubleProperty(name + "setpoint", this::getSetpoint,
+        builder.addDoubleProperty("KI", this::getKI, (kI) -> setKI(isTuning ? kI : getKI()));
+        builder.addDoubleProperty("setpoint", this::getSetpoint,
                 (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
-    }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        initSendable(builder, "");
     }
 }

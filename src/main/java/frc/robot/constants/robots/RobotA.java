@@ -65,12 +65,12 @@ public class RobotA extends RobotConstants {
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
-        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(4, false, false, NeutralMode.Coast, 0);
+        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(10, false, false, NeutralMode.Coast, 0);
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, true, false);
-        shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
+        shooterConstants.TBH_CONTROLLER = new TBHController(0, 0);
         shooterConstants.PID_COEFS = new PIDCoefs(0, 0, 0, 0, 0, 0);
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
-        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.782, 0.0303, 0.00287);
+        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.122, 0.00984);
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;

@@ -37,7 +37,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
         this.isUsingLimelight = isUsingLimelight;
         TBHController = constants.TBH_CONTROLLER;
         PIDController = constants.PID_CONTROLLER;
-        this.simpleMotorFeedforward = constants.SIMPLE_MOTOR_FEEDFORWARD;
+        simpleMotorFeedforward = constants.SIMPLE_MOTOR_FEEDFORWARD;
         addRequirements(shooterSS);
     }
 
@@ -49,7 +49,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, DoubleSupplier desiredVelocity) {
         this(shooterSS, constants, ledSS, false);
-        this.desiredVelocity = desiredVelocity;
+        this.desiredVelocity = () -> desiredVelocity.getAsDouble();
     }
 
     /**
@@ -67,6 +67,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     @Override
     public void initialize() {
+        lastVelocity = shooterSS.getVelocity();
         shooterSS.setRampRate(0);
         currentState = ShooterState.AfterShot;
         ballsShotCount = 0;
@@ -82,18 +83,28 @@ public class ShooterCMD extends CommandBase implements Loggable {
             if (limelight.getTv())
                 Shoot();
             else {
-                ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
+                if (ledSS != null)
+                    ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
                 DriverStationLogger.logToDS("ShooterCMD: No valid target, Try reposition!");
             }
-        }
-        else
+        } else
             Shoot();
+
+        // TODO: del
+        SmartDashboard.putNumber("Shooter/Output", constants.CAN_MAP.RIGHT_MOTOR.get());
     }
 
     private void Shoot() {
         TBHController.setSetpoint(desiredVelocity.getAsDouble());
         PIDController.setSetpoint(desiredVelocity.getAsDouble());
-        ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
+
+        SmartDashboard.putNumber("Shooter/lastVelocity - shooterSS.getVelocity()",
+                lastVelocity - shooterSS.getVelocity());
+
+        System.out.println(lastVelocity - shooterSS.getVelocity());
+
+        if (ledSS != null)
+            ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
 
         // changes the state of the shooter based on if a ball was just shot and if the
         // PIDF has gotten the velocity back to its target
@@ -103,22 +114,25 @@ public class ShooterCMD extends CommandBase implements Loggable {
         } else if ((PIDController.atSetpoint() || PIDController.getPositionError() <= 0)
                 && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
-            TBHController.setLastOutput(shooterSS.getPower());
+            TBHController.reset();
+            TBHController.setOutput(PIDController.calculate(shooterSS.getVelocity()));
         }
 
         // switches between using TBH and PIDF to control the velocity based on if a
         // ball was just shot
         switch (currentState) {
-            case Default:
-                shooterSS.move(TBHController.calculate(shooterSS.getVelocity())
-                        + simpleMotorFeedforward.calculate(shooterSS.getVelocity()));
-                lastVelocity = shooterSS.getVelocity();
-                break;
-            case AfterShot:
-                shooterSS.move(PIDController.calculate(shooterSS.getVelocity())
-                        + simpleMotorFeedforward.calculate(shooterSS.getVelocity()));
-                break;
+        case Default:
+            shooterSS.move(TBHController.calculate(shooterSS.getVelocity())
+                    + simpleMotorFeedforward.calculate(desiredVelocity.getAsDouble() / 60));
+            SmartDashboard.putBoolean("isPID", false);
+            break;
+        case AfterShot:
+            shooterSS.move(PIDController.calculate(shooterSS.getVelocity())
+                    + simpleMotorFeedforward.calculate(desiredVelocity.getAsDouble() / 60));
+            SmartDashboard.putBoolean("isPID", true);
+            break;
         }
+        lastVelocity = shooterSS.getVelocity();
     }
 
     public boolean ballWasShot() {
@@ -138,7 +152,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
     public void end(boolean interrupted) {
         shooterSS.setRampRate(constants.RIGHT_MOTOR_CONFIG.getRampRate());
         shooterSS.stopMoving();
-        ledSS.turnOffLED();
+        if (ledSS != null)
+            ledSS.turnOffLED();
         if (isUsingLimelight)
             limelight.stopVision();
     }

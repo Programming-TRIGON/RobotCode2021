@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.led.LedSS;
@@ -38,9 +39,9 @@ public class RobotContainer {
      * initializes all commands
      */
     public void initializeCommands() {
-        SmartDashboard.putNumber("Desired Velocity", 0);
-        shooterCMD = new ShooterCMD(shooterSS, robotConstants.shooterConstants, ledSS,
-                () -> SmartDashboard.getNumber("Desired Velocity", 0));
+        SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
+        shooterCMD = new ShooterCMD(shooterSS, robotConstants.shooterConstants, null,
+                () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
     }
 
     public void updateDashboard() {
@@ -53,5 +54,6 @@ public class RobotContainer {
      */
     public void periodic() {
         updateDashboard();
+        SmartDashboard.putNumber("Shooter/Velocity", shooterSS.getVelocity());
     }
 }
