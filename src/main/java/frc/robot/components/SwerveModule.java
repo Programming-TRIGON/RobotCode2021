@@ -57,7 +57,7 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
+        speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity(), getDesiredVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
         double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
         angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
         if (angleMotor.getDeviceID() == 3) {
@@ -159,10 +159,11 @@ public class SwerveModule implements Sendable {
         // Dividing by tpr gives us a number between 0 and 1. multiplying by 360 gives
         // us the degrees.
         // If the result is 360 we want it to be 0 and if it's 400 we want it to be 40
-        double pos = Math.abs(angleMotor.getSelectedSensorPosition() - 4095) - (constants.offset / 360 * (SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION - 1));
+        int tpr = SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION;
+        double pos = Math.abs(angleMotor.getSelectedSensorPosition() - tpr) - (constants.offset / 360 * tpr);
         if (pos < 0)
-            pos += 4095;
-        return pos / (SwerveConstants.StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION - 1) * 360;
+            pos += tpr;
+        return pos / tpr * 360;
     }
 
     private void setRelative() {
