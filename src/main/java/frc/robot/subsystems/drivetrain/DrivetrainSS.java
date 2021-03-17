@@ -119,6 +119,18 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      * @param states the modules' desired states
      */
     public void setDesiredStates(SwerveModuleState[] states) {
+        boolean hasError = false;
+        for (SwerveModule module : modules) {
+            if (module.getAngleError() > 40) {
+                hasError = true;
+                break;
+            }
+        }
+        if (hasError) {
+            for (int i = 0; i < modules.length; i++) {
+                states[i].speedMetersPerSecond = 0;
+            }
+        }
         if (states.length != modules.length)
             return;
         for (int i = 0; i < states.length; i++) {

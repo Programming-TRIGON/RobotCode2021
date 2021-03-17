@@ -110,6 +110,10 @@ public class PIDFCoefs implements Sendable {
         this(KP, KI, KD, 0, 0, 0);
     }
 
+    public PIDFCoefs(double KP, Constraints constraints) {
+        this(KP, 0, 0, 0, 0, 0, constraints);
+    }
+
     public double getKP() {
         return KP;
     }

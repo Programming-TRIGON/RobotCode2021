@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 import frc.robot.utilities.TrigonProfiledPIDController;
@@ -38,7 +39,7 @@ public class SwerveModule implements Sendable {
 
         setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(getAngle())));
 
-        angleController.enableContinuousInput(-180, 180);
+        angleController.enableContinuousInput(-90, 90);
 
         setAbsolute();
     }
@@ -57,12 +58,17 @@ public class SwerveModule implements Sendable {
      */
     public void periodic() {
         speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
-        angleMotor.setVoltage(
-                angleController.calculate(
-                        getAngle(),
-                        desiredState.angle.getDegrees())
-                        +
-                        angleFeedforward.calculate(getAngleMotorAPS()));
+        double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
+        angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
+        if (angleMotor.getDeviceID() == 3) {
+            SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity", angleController.getSetpoint().velocity);
+            SmartDashboard.putNumber("Front Left angleFeedforward.calculate(angleController.getSetpoint().velocity)", angleFeedforward.calculate(angleController.getSetpoint().velocity));
+            SmartDashboard.putNumber("Front Left pid", pid);
+            SmartDashboard.putNumber("Front Left error", getAngleError());
+        }
+        if (desiredState.angle.getDegrees() == 0) {
+            desiredState.angle = Rotation2d.fromDegrees(getAngle());
+        }
     }
 
     /**
@@ -80,6 +86,10 @@ public class SwerveModule implements Sendable {
      */
     public void setDesiredState(SwerveModuleState desiredState) {
         this.desiredState = SwerveModuleState.optimize(desiredState, Rotation2d.fromDegrees(getAngle()));
+    }
+
+    public double getAngleError() {
+        return Math.abs(getAngle() - angleController.getGoal().position);
     }
 
     /**
