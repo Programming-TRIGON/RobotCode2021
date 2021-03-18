@@ -67,15 +67,20 @@ public class RobotA extends RobotConstants {
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(15, false, false, NeutralMode.Coast, 0);
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, true, false);
-        shooterConstants.TBH_CONTROLLER = new TBHController(0.00005, 15);
-        shooterConstants.PID_COEFS = new PIDCoefs(0, 0.0003, 0, 0, 15, 0);
+        shooterConstants.PID_COEFS = new PIDCoefs(0, 0, 0.0003, 30, 0);
+        // Tolerance and delta tolerance in the PIDCoefs are for deciding when to change to TBH
+        // and the tolerance and delta tolerance constants are for deciding when we are ready to shoot
+        shooterConstants.TBH_CONTROLLER = new TBHController(0.00005, shooterConstants.PID_COEFS.getTolerance());
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
         shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.122, 0.00984);
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
         shooterConstants.SHOOTING_RAMP_RATE = 2;
+        shooterConstants.TOLERANCE = 5;
+        shooterConstants.DELTA_TOLERANCE = 0.5;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
+        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 5;
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;

@@ -79,7 +79,10 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_VELOCITY_COEF_B;
         public double LIMELIGHT_VELOCITY_COEF_C;
         public double SHOOTING_RAMP_RATE;
+        public double TOLERANCE;
+        public double DELTA_TOLERANCE;
         public int MAX_NUMBER_OF_BALLS;
+        public int KF_CALCULATION_SAMPLE_AMOUNT;
     }
 
     public class LoaderConstants {
