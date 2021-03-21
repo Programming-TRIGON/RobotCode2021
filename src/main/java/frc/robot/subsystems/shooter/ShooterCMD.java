@@ -77,7 +77,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
-        f = constants.KF * desiredVelocity.getAsDouble();
+        f = constants.KF_COEF_A * desiredVelocity.getAsDouble() + constants.KF_COEF_B;
 
         // TODO: delete me!!!!!!
         SmartDashboard.putData("Shooter/TBH", TBHController);

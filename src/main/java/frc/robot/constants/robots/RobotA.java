@@ -74,7 +74,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
-        shooterConstants.KF = 5;
+        shooterConstants.KF_COEF_A = 0.0019;
+        shooterConstants.KF_COEF_B = 0.7729;
         shooterConstants.SHOOTING_RAMP_RATE = 2;
         shooterConstants.TOLERANCE = 10;
         shooterConstants.DELTA_TOLERANCE = 4;

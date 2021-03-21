@@ -32,7 +32,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
     this.constants = constants;
     this.tbhController = new TBHController(constants.TBH_CONTROLLER);
     this.feedforward = constants.SIMPLE_MOTOR_FEEDFORWARD;
-    desiredVelocity = 0; 
+    desiredVelocity = 0;
     endVelocity = 1;
   }
 
@@ -63,10 +63,10 @@ public class CalibrateShooterKfCMD extends CommandBase {
         tbhController.reset();
         postTest = false;
       }
-    } 
-    else {
+    } else {
 
-      double output = tbhController.calculate(shooterSS.getVelocity()) + feedforward.calculate(desiredVelocity / 60);
+      double output = tbhController.calculate(shooterSS.getVelocity()) + constants.KF_COEF_A * desiredVelocity
+          + constants.KF_COEF_B;
       shooterSS.move(output);
       if (atSetpoint()) {
         outputSum += output;
