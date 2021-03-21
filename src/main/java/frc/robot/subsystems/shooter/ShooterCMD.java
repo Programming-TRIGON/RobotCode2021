@@ -82,7 +82,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
             limelight.startVision(Target.PowerPort);
         f = simpleMotorFeedforward.calculate(desiredVelocity.getAsDouble() / 60);
 
-        //TODO: delete me!!!!!!
+        // TODO: delete me!!!!!!
         SmartDashboard.putData("Shooter/TBH", TBHController);
         SmartDashboard.putData("Shooter/PID", PIDController);
         SmartDashboard.putNumber("KF", f);
@@ -106,8 +106,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
                     ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
                 DriverStationLogger.logToDS("ShooterCMD: No valid target, Try reposition!");
             }
-        }
-        else
+        } else
             Shoot();
     }
 
@@ -121,11 +120,11 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
         // changes the state of the shooter based on if a ball was just shot and if the
         // PIDF has gotten the velocity back to its target
-        if (!TBHController.atSetpoint() && desiredVelocity.getAsDouble() - shooterSS.getVelocity() >= 0 && currentState == ShooterState.Default) {
+        if (desiredVelocity.getAsDouble() - shooterSS.getVelocity() >= constants.PID_COEFS.getTolerance()
+                && currentState == ShooterState.Default) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
-        }
-        else if ((PIDController.atSetpoint() || PIDController.getPositionError() <= 0)
+        } else if (desiredVelocity.getAsDouble() - shooterSS.getVelocity() < constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
             TBHController.reset();
@@ -135,30 +134,29 @@ public class ShooterCMD extends CommandBase implements Loggable {
         // switches between using TBH and PIDF to control the velocity based on if a
         // ball was just shot
         switch (currentState) {
-            case Default:
-                output = TBHController.calculate(shooterSS.getVelocity()) + f;
-                if (ballsShotCount == 0 && atSetpoint()) {
-                    outputSum += output;
-                    sampleCount++;
-                }
-                else {
-                    outputSum = 0;
-                    sampleCount = 0;
-                }
-                if (sampleCount == constants.KF_CALCULATION_SAMPLE_AMOUNT) {
-                    f = outputSum / sampleCount;
-                    TBHController.reset();
-                }
-                shooterSS.move(output);
-                lastVelocity = shooterSS.getVelocity();
-                SmartDashboard.putBoolean("isPID", false);
-                break;
-            case AfterShot:
-                output = PIDController.calculate(shooterSS.getVelocity()) + f;
-                shooterSS.move(output);
-                lastVelocity = shooterSS.getVelocity();
-                SmartDashboard.putBoolean("isPID", true);
-                break;
+        case Default:
+            output = TBHController.calculate(shooterSS.getVelocity()) + f;
+            shooterSS.move(output);
+            if (ballsShotCount == 0 && atSetpoint()) {
+                outputSum += output;
+                sampleCount++;
+            } else {
+                outputSum = 0;
+                sampleCount = 0;
+            }
+            if (ballsShotCount == 0 && sampleCount == constants.KF_CALCULATION_SAMPLE_AMOUNT) {
+                f = outputSum / sampleCount;
+                TBHController.reset();
+            }
+            lastVelocity = shooterSS.getVelocity();
+            SmartDashboard.putBoolean("isPID", false);
+            break;
+        case AfterShot:
+            output = PIDController.calculate(shooterSS.getVelocity()) + f;
+            shooterSS.move(output);
+            lastVelocity = shooterSS.getVelocity();
+            SmartDashboard.putBoolean("isPID", true);
+            break;
         }
     }
 
