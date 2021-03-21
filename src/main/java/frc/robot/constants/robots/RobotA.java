@@ -2,14 +2,12 @@ package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.components.*;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
-import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 
@@ -76,11 +74,18 @@ public class RobotA extends RobotConstants {
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
+        shooterConstants.KF = 5;
         shooterConstants.SHOOTING_RAMP_RATE = 2;
         shooterConstants.TOLERANCE = 10;
         shooterConstants.DELTA_TOLERANCE = 4;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
         shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 30;
+        shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
+        shooterConstants.KF_TESTING_TOLERANCE = 10;
+        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 100;
+        shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
+        shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
+        shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.led.LedSS;
+import frc.robot.subsystems.shooter.CalibrateShooterKfCMD;
 import frc.robot.subsystems.shooter.ShooterCMD;
 import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.utilities.DashboardController;
@@ -17,6 +18,7 @@ public class RobotContainer {
     private ShooterSS shooterSS;
     private LedSS ledSS;
     private ShooterCMD shooterCMD;
+    private CalibrateShooterKfCMD calibrateShooterKfCMD;
     // private DrivetrainSS drivetrainSS;
 
     /**
@@ -33,6 +35,7 @@ public class RobotContainer {
         initializeCommands();
 
         SmartDashboard.putData("Shooter Command", shooterCMD);
+        SmartDashboard.putData("CalibrateShooterKfCMD" , calibrateShooterKfCMD);
     }
 
     /**
@@ -42,6 +45,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
         shooterCMD = new ShooterCMD(shooterSS, robotConstants.shooterConstants, null,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
+        calibrateShooterKfCMD = new CalibrateShooterKfCMD(shooterSS, robotConstants.shooterConstants);
     }
 
     public void updateDashboard() {

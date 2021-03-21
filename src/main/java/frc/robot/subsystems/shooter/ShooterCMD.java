@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.components.TBHController;
@@ -22,7 +21,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private final LedSS ledSS;
     private final TBHController TBHController;
     private final TrigonPIDController PIDController;
-    private final SimpleMotorFeedforward simpleMotorFeedforward;
     private ShooterState currentState;
     @Log(name = "Shooter/Desired Velocity")
     private DoubleSupplier desiredVelocity;
@@ -40,7 +38,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
         this.isUsingLimelight = isUsingLimelight;
         TBHController = constants.TBH_CONTROLLER;
         PIDController = constants.PID_CONTROLLER;
-        simpleMotorFeedforward = constants.SIMPLE_MOTOR_FEEDFORWARD;
         addRequirements(shooterSS);
     }
 
@@ -80,7 +77,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
-        f = simpleMotorFeedforward.calculate(desiredVelocity.getAsDouble() / 60);
+        f = constants.KF * desiredVelocity.getAsDouble();
 
         // TODO: delete me!!!!!!
         SmartDashboard.putData("Shooter/TBH", TBHController);
@@ -140,6 +137,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
             if (ballsShotCount == 0 && atSetpoint()) {
                 outputSum += output;
                 sampleCount++;
+                
             } else {
                 outputSum = 0;
                 sampleCount = 0;

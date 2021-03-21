@@ -24,6 +24,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, Logga
     public void move(double voltage) {
         masterMotor.setVoltage(voltage);
     }
+    
 
     /**
      * @return current power of the motor (between -1 and 1)

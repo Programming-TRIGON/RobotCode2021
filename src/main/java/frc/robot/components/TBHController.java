@@ -18,6 +18,10 @@ public class TBHController implements Sendable {
         this.tolerance = tolerance;
     }
 
+    public TBHController(TBHController tbhController) {
+        this(tbhController.getKI(), tbhController.getTolerance());
+    }
+
     public double calculate(double measurement) {
         double error = setpoint - measurement;
         output += KI * error;
@@ -100,6 +104,10 @@ public class TBHController implements Sendable {
 
     public void setIsTuning(boolean isTuning) {
         this.isTuning = isTuning;
+    }
+
+    public double getTolerance() {
+        return tolerance;
     }
 
     @Override
