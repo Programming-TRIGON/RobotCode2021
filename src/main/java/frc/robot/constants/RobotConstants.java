@@ -5,6 +5,7 @@ import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
+import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.PIDFCoefs;
 import frc.robot.utilities.SVACoefs;
 import frc.robot.utilities.SwerveConstants;
@@ -44,10 +45,10 @@ public abstract class RobotConstants extends RobotMap {
         public SwerveConstants REAR_RIGHT_CONSTANTS;
 
 
-        public SVACoefs SPEED_SVA_COEFS;
-        public SVACoefs ANGLE_SVA_COEFS;
+
         public PIDFCoefs SPEED_PIDF_COEFS;
         public PIDFCoefs ANGLE_PIDF_COEFS;
+
     }
 
     public class LimelightConstants {
