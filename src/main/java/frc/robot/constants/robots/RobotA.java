@@ -98,10 +98,10 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain map
 
-        final FeedforwardConstants frontRightAngleConstants = new FeedforwardConstants(1, 1, 1, 1, 0.2, 50, 10);
-        final FeedforwardConstants frontLeftAngleConstants = new FeedforwardConstants(1, 1, frontRightAngleConstants);
-        final FeedforwardConstants rearRightAngleConstants = new FeedforwardConstants(1, 1, frontRightAngleConstants);
-        final FeedforwardConstants rearLeftAngleConstants = new FeedforwardConstants(1, 1, frontRightAngleConstants);
+        final FeedforwardConstants frontRightAngleConstants = new FeedforwardConstants(0.0036, 1.229, 1, 0.5, 60, 10, 17);
+        final FeedforwardConstants frontLeftAngleConstants = new FeedforwardConstants(0.004, 1.233, frontRightAngleConstants);
+        final FeedforwardConstants rearRightAngleConstants = new FeedforwardConstants(0.004, 1.2458, frontRightAngleConstants);
+        final FeedforwardConstants rearLeftAngleConstants = new FeedforwardConstants(0.0036, 1.2501, frontRightAngleConstants);
 
         final FeedforwardConstants frontRightSpeedConstants = new FeedforwardConstants(1, 1, 1, 1, 0.2, 50, 10);
         final FeedforwardConstants frontLeftSpeedConstants = new FeedforwardConstants(1, 1, frontRightSpeedConstants);
@@ -110,7 +110,7 @@ public class RobotA extends RobotConstants {
         
 
         drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0.000797, 0, 0);
-        drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(800, 1600));
+        drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.17, 0.15, 0.000002, 0, 0, new TrapezoidProfile.Constraints(3000, 5000));
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),

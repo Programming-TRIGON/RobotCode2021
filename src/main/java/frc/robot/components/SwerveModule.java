@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 import frc.robot.utilities.TrigonProfiledPIDController;
@@ -52,16 +53,16 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity(), getDesiredVelocity())
-                + constants.speedFeedForwardConstants.mCoef * getDesiredVelocity()
-                + constants.speedFeedForwardConstants.mCoef);
+        // speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity(), getDesiredVelocity())
+        //         + constants.speedFeedForwardConstants.mCoef * getDesiredVelocity()
+        //         + constants.speedFeedForwardConstants.mCoef);
         double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
         angleMotor.setVoltage(pid + constants.angleFeedForwardConstants.mCoef * angleController.getSetpoint().velocity
                 + constants.angleFeedForwardConstants.bCoef);
         if (angleMotor.getDeviceID() == 3) {
             SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity",
                     angleController.getSetpoint().velocity);
-            SmartDashboard.putNumber("Front Left pid", pid);
+        //    SmartDashboard.putNumber("Front Left pid", pid);
             SmartDashboard.putNumber("Front Left error", getAngleError());
         }
         if (desiredState.angle.getDegrees() == 0) {
@@ -218,6 +219,14 @@ public class SwerveModule implements Sendable {
      */
     public void setSpeedMotorVoltage(double outputVolts) {
         speedMotor.setVoltage(outputVolts);
+    }
+
+    public FeedforwardConstants getAngleFeedforwardConstants() {
+        return constants.angleFeedForwardConstants;
+    }
+
+    public FeedforwardConstants getSpeedFeedforwardConstants() {
+        return constants.speedFeedForwardConstants;
     }
 
     @Override

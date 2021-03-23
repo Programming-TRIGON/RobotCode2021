@@ -3,17 +3,17 @@ package frc.robot.utilities;
 public class FeedforwardConstants {
 	public final double mCoef;
 	public final double bCoef;
-	public final double initialVoltage;
+	public final double initialOutput;
 	public final double accelerationPerTest;
 	public final double accelerationTolerance;
 	public final int sampleAmount;
 	public final int testAmount;
 
-	public FeedforwardConstants(double mCoef, double bCoef, double initialVoltage, double accelerationPerTest,
+	public FeedforwardConstants(double mCoef, double bCoef, double initialOutput, double accelerationPerTest,
 			double accelerationTolerance, int sampleAmount, int testAmount) {
 		this.mCoef = mCoef;
 		this.bCoef = bCoef;
-		this.initialVoltage = initialVoltage;
+		this.initialOutput = initialOutput;
 		this.accelerationPerTest = accelerationPerTest;
 		this.accelerationTolerance = accelerationTolerance;
 		this.sampleAmount = sampleAmount;
@@ -21,7 +21,7 @@ public class FeedforwardConstants {
 	}
 
 	public FeedforwardConstants(double aCoef, double bCoef, FeedforwardConstants feedforwardConstants) {
-		this(aCoef, bCoef, feedforwardConstants.initialVoltage, feedforwardConstants.accelerationPerTest,
+		this(aCoef, bCoef, feedforwardConstants.initialOutput, feedforwardConstants.accelerationPerTest,
 				feedforwardConstants.accelerationTolerance, feedforwardConstants.sampleAmount,
 				feedforwardConstants.testAmount);
 	}

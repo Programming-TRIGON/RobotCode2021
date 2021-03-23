@@ -1,12 +1,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
+import frc.robot.subsystems.drivetrain.CalibrateAngleKf;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.utilities.DashboardController;
+import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.TrigonXboxController;
 import io.github.oblarg.oblog.Logger;
 
@@ -17,6 +20,7 @@ public class RobotContainer {
     private DrivetrainSS drivetrainSS;
     private SupplierFieldDriveCMD supplierFieldDriveCMD;
     private TrigonXboxController xboxController;
+    private CalibrateAngleKf calibrateAngleKf;
 
     /**
      * Add classes here
@@ -36,7 +40,9 @@ public class RobotContainer {
                 () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft)) * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 3
         );
 
-        drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
+        //drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
+        calibrateAngleKf = new CalibrateAngleKf(drivetrainSS);
+        SmartDashboard.putData("CalibrateAngleKf", calibrateAngleKf);
     }
 
     /**

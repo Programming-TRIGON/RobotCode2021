@@ -15,6 +15,7 @@ import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.TestableSubsystem;
+import frc.robot.utilities.FeedforwardConstants;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -201,6 +202,14 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         }
     }
 
+    public double[] getAngleMotorAPS() {
+        double[] velocity = new double[4];
+        for (int i = 0; i < 4; i++) {
+            velocity[i] = modules[i].getAngleMotorAPS();
+        }
+        return velocity;
+    }
+
     /**
      * Returns an array of the system's sensor values
      *
@@ -239,6 +248,22 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     @Log(name = "Y")
     public double getY() {
         return getPose().getY();
+    }
+
+    public FeedforwardConstants[] getAngleFeedforwardConstants() {
+        FeedforwardConstants[] fConstants = new FeedforwardConstants[4];
+        for (int i = 0; i < 4; i++) {
+            fConstants[i] = modules[i].getAngleFeedforwardConstants();
+        }
+        return fConstants;
+    }
+
+    public FeedforwardConstants[] getSpeedFeedforwardConstants() {
+        FeedforwardConstants[] fConstants = new FeedforwardConstants[4];
+        for (int i = 0; i < 4; i++) {
+            fConstants[i] = modules[i].getSpeedFeedforwardConstants();
+        }
+        return fConstants;
     }
 
     @Override
