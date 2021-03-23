@@ -7,6 +7,7 @@ import frc.robot.components.TBHController;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
+import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
@@ -86,6 +87,7 @@ public abstract class RobotConstants extends RobotMap {
         public CAN.LoaderMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         public PIDCoefs PID_COEFS;
+        public FeedforwardConstants FEEDFORWARD_CONSTANTS;
         public double DEFAULT_SHOOTING_VELOCITY;
         public double DEFAULT_MIXING_VELOCITY;
     }

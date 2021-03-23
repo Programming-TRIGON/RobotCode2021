@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.components.*;
 import frc.robot.constants.RobotConstants;
+import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
@@ -60,6 +61,8 @@ public class RobotA extends RobotConstants {
         loaderConstants.CAN_MAP = can.loaderMap;
         loaderConstants.MOTOR_CONFIG = new MotorConfig();
         loaderConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants
+                (0.1, 0.1, 0.1, 5, 8);
         loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
         loaderConstants.DEFAULT_MIXING_VELOCITY = -500;
 
