@@ -100,9 +100,10 @@ public class RobotA extends RobotConstants {
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.PCM_MAP = pcm.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
-        spinnerConstants.MOTOR_CONFIG = new MotorConfig();
-        spinnerConstants.STALL_CURRENT_LIMIT = 10;
+        spinnerConstants.MOTOR_CONFIG = new MotorConfig(5, NeutralMode.Coast, 0);
         spinnerConstants.DEFAULT_MOTOR_POWER = 0.5;
+        intakeConstants.STALL_CHECK_DELAY = 0.5;
+        spinnerConstants.STALL_CURRENT_LIMIT = 10;
 
 
         /** Robot Map **/
