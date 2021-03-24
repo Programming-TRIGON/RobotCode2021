@@ -174,14 +174,14 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     /**
      * Moves all angle motors at a specified voltage in volts.
-     * 
+     * <p>
      * NOTE: This function *must* be called regularly in order for voltage
      * compensation to work properly - unlike the ordinary set function, it is not
      * "set it and forget it."
-     * 
+     *
      * @param outputVolts to apply to angle motors in volts.
      */
-    public void setAngleVoltage(double outputVolts) {
+    public void setAngleMotorsVoltage(double outputVolts) {
         for (SwerveModule module : modules) {
             module.setAngleMotorVoltage(outputVolts);
         }
@@ -189,25 +189,21 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     /**
      * Moves all speed motors at a specified voltage in volts.
-     * 
+     * <p>
      * NOTE: This function *must* be called regularly in order for voltage
      * compensation to work properly - unlike the ordinary set function, it is not
      * "set it and forget it."
-     * 
+     *
      * @param outputVolts to apply to angle motors in volts.
      */
-    public void setSpeedVoltage(double outputVolts) {
+    public void setSpeedMotorsVoltage(double outputVolts) {
         for (SwerveModule module : modules) {
             module.setSpeedMotorVoltage(outputVolts);
         }
     }
 
-    public double[] getAngleMotorAPS() {
-        double[] velocity = new double[4];
-        for (int i = 0; i < 4; i++) {
-            velocity[i] = modules[i].getAngleMotorAPS();
-        }
-        return velocity;
+    public double getAngleMotorsAPS(int i) {
+        return modules[i].getAngleMotorAPS();
     }
 
     /**
@@ -270,7 +266,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     public void periodic() {
         updateOdometry();
         for (SwerveModule module : modules)
-            module.periodic();
+            if (getCurrentCommand() != null &&
+                    !getCurrentCommand().getName().equals("CalibrateAngleKf") && !getCurrentCommand().getName().equals("CalibratesSpeedKf"))
+                module.periodic(getCurrentCommand());
+
         SmartDashboard.putNumber("angle", getAngle());
     }
 
@@ -282,8 +281,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         kinematics = new SwerveDriveKinematics(constants.FRONT_LEFT_LOCATION.getTranslation(),
                 constants.FRONT_RIGHT_LOCATION.getTranslation(), constants.REAR_LEFT_LOCATION.getTranslation(),
                 constants.REAR_RIGHT_LOCATION.getTranslation());
-        modules = new SwerveModule[] { constants.CAN_MAP.FRONT_LEFT, constants.CAN_MAP.FRONT_RIGHT,
-                constants.CAN_MAP.REAR_LEFT, constants.CAN_MAP.REAR_RIGHT };
+        modules = new SwerveModule[]{constants.CAN_MAP.FRONT_LEFT, constants.CAN_MAP.FRONT_RIGHT,
+                constants.CAN_MAP.REAR_LEFT, constants.CAN_MAP.REAR_RIGHT};
         sendData("Front Left", modules[0]);
         sendData("Front Right", modules[1]);
         sendData("Rear Left", modules[2]);
@@ -300,5 +299,9 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     @Override
     public String configureLogName() {
         return "Drivetrain";
+    }
+
+    public double getSpeedMotorsMPS(int i) {
+        return modules[i].getSpeedMotorMPS();
     }
 }

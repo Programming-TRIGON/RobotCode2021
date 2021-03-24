@@ -9,7 +9,6 @@ import frc.robot.components.*;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.PIDFCoefs;
-import frc.robot.utilities.SVACoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
 
@@ -35,7 +34,7 @@ public class RobotA extends RobotConstants {
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.80, NeutralMode.Brake, 0);
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.80, NeutralMode.Coast, 0);
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Limelight Constants
@@ -103,13 +102,13 @@ public class RobotA extends RobotConstants {
         final FeedforwardConstants rearRightAngleConstants = new FeedforwardConstants(0.004, 1.2458, frontRightAngleConstants);
         final FeedforwardConstants rearLeftAngleConstants = new FeedforwardConstants(0.0036, 1.2501, frontRightAngleConstants);
 
-        final FeedforwardConstants frontRightSpeedConstants = new FeedforwardConstants(1, 1, 1, 1, 0.2, 50, 10);
-        final FeedforwardConstants frontLeftSpeedConstants = new FeedforwardConstants(1, 1, frontRightSpeedConstants);
-        final FeedforwardConstants rearRightSpeedConstants = new FeedforwardConstants(1, 1, frontRightSpeedConstants);
-        final FeedforwardConstants rearLeftSpeedConstants = new FeedforwardConstants(1, 1, frontRightSpeedConstants);
-        
+        final FeedforwardConstants frontRightSpeedConstants = new FeedforwardConstants(5.5469, 1.129, 3, 0.5, 0.45, 25, 15);
+        final FeedforwardConstants frontLeftSpeedConstants = new FeedforwardConstants(5.2944, 1.6496, frontRightSpeedConstants);
+        final FeedforwardConstants rearRightSpeedConstants = new FeedforwardConstants(4.989, 1.2561, frontRightSpeedConstants);
+        final FeedforwardConstants rearLeftSpeedConstants = new FeedforwardConstants(4.5947, 0.9707, frontRightSpeedConstants);
 
-        drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0.000797, 0, 0);
+
+        drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0, 0, 0);
         drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.17, 0.15, 0.000002, 0, 0, new TrapezoidProfile.Constraints(3000, 5000));
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
