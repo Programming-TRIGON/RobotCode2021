@@ -124,5 +124,7 @@ public abstract class RobotConstants extends RobotMap {
         public I2C.SpinnerMap I2C_MAP;
         public MotorConfig MOTOR_CONFIG;
         public double STALL_CURRENT_LIMIT;
+        public double STALL_CHECK_DELAY;
+        public double DEFAULT_MOTOR_POWER;
     }
 }

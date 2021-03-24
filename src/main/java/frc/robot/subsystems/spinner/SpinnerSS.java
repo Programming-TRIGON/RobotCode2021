@@ -13,14 +13,18 @@ import io.github.oblarg.oblog.annotations.Log;
 public class SpinnerSS extends OverridableSubsystem implements Loggable {
     private final SpinnerConstants constants;
     private final TrigonTalonSRX motor;
-    private final TrigonDoubleSolenoid solenoid;
-    private final ColorSensorV3 colorSensor;
+//    private final TrigonDoubleSolenoid solenoid;
+//    private final ColorSensorV3 colorSensor;
 
+    /*
+    The code for the roulette is not relevant for the current challenges therefore have been commented out.
+    Will be used when coding for the competition
+     */
     public SpinnerSS(SpinnerConstants constants) {
         this.constants = constants;
         motor = constants.CAN_MAP.MOTOR;
-        solenoid = constants.PCM_MAP.SOLENOID;
-        colorSensor = constants.I2C_MAP.COLOR_SENSOR;
+//        solenoid = constants.PCM_MAP.SOLENOID;
+//        colorSensor = constants.I2C_MAP.COLOR_SENSOR;
     }
 
     /**
@@ -31,24 +35,24 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
         motor.set(power);
     }
 
-    /**
-     * Sets the state of the solenoid with a boolean
-     *
-     * @param state to be set to the solenoid (true=roulette false=mixer)
-     */
-    public void setSolenoidState(boolean state) {
-        solenoid.setSolenoid(state);
-    }
-
-    /**
-     * Gets the state of the solenoid as a boolean
-     *
-     * @return the state of the solenoid (true=roulette false=mixer)
-     */
-    @Log(name = "Spinner mode")
-    public boolean getSolenoidState() {
-        return solenoid.isForward();
-    }
+//    /**
+//     * Sets the state of the solenoid with a boolean
+//     *
+//     * @param state to be set to the solenoid (true=roulette false=mixer)
+//     */
+//    public void setSolenoidState(boolean state) {
+//        solenoid.setSolenoid(state);
+//    }
+//
+//    /**
+//     * Gets the state of the solenoid as a boolean
+//     *
+//     * @return the state of the solenoid (true=roulette false=mixer)
+//     */
+//    @Log(name = "Spinner mode")
+//    public boolean getSolenoidState() {
+//        return solenoid.isForward();
+//    }
 
     @Log(name = "Stator current")
     public double getStatorCurrent() {
@@ -60,32 +64,32 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
         return motor.getStatorCurrent() > constants.STALL_CURRENT_LIMIT;
     }
 
-    /**
-     * @return the raw color inputs from the color sensor
-     */
-    @Log(name = "Raw color value")
-    public RawColor getRawColor() {
-        return colorSensor.getRawColor();
-    }
+//    /**
+//     * @return the raw color inputs from the color sensor
+//     */
+//    @Log(name = "Raw color value")
+//    public RawColor getRawColor() {
+//        return colorSensor.getRawColor();
+//    }
+//
+//    /**
+//     * @return the color that the color sensor sees
+//     */
+//    @Log(name = "Color")
+//    public Color getColor() {
+//        return colorSensor.getColor();
+//    }
+//
+//    /**
+//     * @return distance from color sensor from the target
+//     * as the target is closer the values it larger (between 0 to 2047)
+//     */
+//    public int getProximity() {
+//        return colorSensor.getProximity();
+//    }
 
-    /**
-     * @return the color that the color sensor sees
-     */
-    @Log(name = "Color")
-    public Color getColor() {
-        return colorSensor.getColor();
-    }
-
-    /**
-     * @return distance from color sensor from the target
-     * as the target is closer the values it larger (between 0 to 2047)
-     */
-    public int getProximity() {
-        return colorSensor.getProximity();
-    }
-
-    public void configureLogName(String name) {
-        configureLogName();
+    @Override
+    public String configureLogName() {
+        return "Spinner";
     }
 }
-
