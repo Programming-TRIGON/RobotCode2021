@@ -19,7 +19,7 @@ public class SpinnerCMD extends CommandBase {
         this.spinnerSS = spinnerSS;
         this.constants = constants;
         this.power = power;
-        addRequirements(this.spinnerSS);
+        addRequirements(spinnerSS);
     }
 
     public SpinnerCMD(SpinnerSS spinnerSS, SpinnerConstants constants) {
