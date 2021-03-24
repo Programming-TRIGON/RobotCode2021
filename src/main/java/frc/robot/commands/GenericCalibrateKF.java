@@ -43,8 +43,7 @@ public class GenericCalibrateKF extends CommandBase {
             }
         }
         else {
-            double output = power;
-            subsystem.move(output);
+            subsystem.move(power);
             if (atSetpoint()) {
                 velocitySum += subsystem.getVelocity();
                 sampleCount++;
@@ -77,6 +76,6 @@ public class GenericCalibrateKF extends CommandBase {
     }
 
     public boolean atSetpoint() {
-        return Math.abs(power - subsystem.getVelocity()) < constants.accelerationTolerance;
+        return Math.abs(subsystem.getVelocity() - lastVelocity) / 0.02 < constants.accelerationTolerance;
     }
 }
