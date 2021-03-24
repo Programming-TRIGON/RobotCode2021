@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.components.*;
@@ -11,6 +12,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
+import frc.robot.utilities.TrigonPIDController;
 
 /**
  * instantiates the robot constants
@@ -45,6 +47,7 @@ public class RobotA extends RobotConstants {
         limelightConstants.LIMELIGHT_OFFSET_X = 1;
         limelightConstants.LIMELIGHT_OFFSET_Y = 1;
         limelightConstants.DEFAULT_TABLE_KEY = "limelight";
+        limelightConstants.POWER_PORT_PIPELINE = 1;
 
         // Sensor check constants
         testerConstants.MOVE_POWER = 1;
@@ -65,6 +68,15 @@ public class RobotA extends RobotConstants {
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
+        shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
+        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0, 0);
+        shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
+        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(1, 1, 1);
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
+        shooterConstants.BALL_SHOT_VELOCITY_DROP = 1000;
+        shooterConstants.MAX_NUMBER_OF_BALLS = 5;
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;
