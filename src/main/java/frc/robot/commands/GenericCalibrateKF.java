@@ -14,7 +14,9 @@ public class GenericCalibrateKF extends CommandBase {
     private double endVelocity;
     private double lastVelocity;
     private double velocitySum;
+    private double KFSum;
     private int sampleCount;
+    private int testCount;
     private boolean postTest;
 
     public GenericCalibrateKF(KFCallebratableSubsystem subsystem, FeedforwardConstants constants) {
@@ -24,7 +26,7 @@ public class GenericCalibrateKF extends CommandBase {
 
     @Override
     public void initialize() {
-        this.logger = new Logger("KF Calibration.csv", "Power", "Average Velocity");
+        KFSum = 0;
         power = constants.initialDesiredOutput;
         endVelocity = constants.initialDesiredOutput + (constants.accelerationPerTest * constants.testAmount);
         postTest = false;
@@ -54,7 +56,8 @@ public class GenericCalibrateKF extends CommandBase {
             }
             if (sampleCount == constants.sampleAmount) {
                 double averageVelocity = velocitySum / sampleCount;
-                logger.log(output, averageVelocity);
+                KFSum += (power * 1023) / averageVelocity;
+                testCount++;
                 postTest = true;
             }
         }
@@ -64,13 +67,13 @@ public class GenericCalibrateKF extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return testCount >= constants.testAmount;
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        subsystem.stopMoving();
+        System.out.println(KFSum / testCount);
     }
 
     public boolean atSetpoint() {
