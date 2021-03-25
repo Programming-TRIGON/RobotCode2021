@@ -3,6 +3,7 @@ package frc.robot.constants.robots;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.components.*;
@@ -10,6 +11,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
+import frc.robot.utilities.TrigonPIDController;
 
 /**
  * instantiates the robot constants
@@ -29,7 +31,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; //in rad/s
-        
+
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
@@ -44,6 +46,7 @@ public class RobotA extends RobotConstants {
         limelightConstants.LIMELIGHT_OFFSET_X = 1;
         limelightConstants.LIMELIGHT_OFFSET_Y = 1;
         limelightConstants.DEFAULT_TABLE_KEY = "limelight";
+        limelightConstants.POWER_PORT_PIPELINE = 1;
 
         // Sensor check constants
         testerConstants.MOVE_POWER = 1;
@@ -53,15 +56,26 @@ public class RobotA extends RobotConstants {
         visionConstants.ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
-        // Trigger Constants
-        triggerConstants.CAN_MAP = can.triggerMap;
-        triggerConstants.MOTOR_CONFIG = new MotorConfig();
-        triggerConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        // Loader Constants
+        loaderConstants.CAN_MAP = can.loaderMap;
+        loaderConstants.MOTOR_CONFIG = new MotorConfig();
+        loaderConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 1, 0, 0);
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
+        loaderConstants.DEFAULT_MIXING_VELOCITY = -500;
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
         shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
+        shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
+        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0, 0);
+        shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
+        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(1, 1, 1);
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
+        shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
+        shooterConstants.BALL_SHOT_VELOCITY_DROP = 1000;
+        shooterConstants.MAX_NUMBER_OF_BALLS = 5;
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;
@@ -82,9 +96,39 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.IS_INVERTED = false;
 
         // Pitcher constants
-        pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
-        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
+        pitcherConstants.EXTENDED_ANGLE = 20;
+        pitcherConstants.RETRACTED_ANGLE = 10;
         pitcherConstants.NO_TARGET_BLINK_TIME = 5;
+
+        /* Limelight Constants */
+
+        // vanilla limelight
+        vanillaLimelightConstants.DEFAULT_TABLE_KEY = "Limelight";
+        vanillaLimelightConstants.LIMELIGHT_OFFSET_X = 0;
+        vanillaLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
+        vanillaLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
+        vanillaLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
+        vanillaLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
+        vanillaLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+
+        // extended limelight
+        extendedLimelightConstants.DEFAULT_TABLE_KEY = vanillaLimelightConstants.DEFAULT_TABLE_KEY;
+        extendedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
+        extendedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
+        extendedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
+        extendedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
+        extendedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
+        extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+
+        // retracted limelight
+        retractedLimelightConstants.DEFAULT_TABLE_KEY = vanillaLimelightConstants.DEFAULT_TABLE_KEY;
+        retractedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
+        retractedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
+        retractedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
+        retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
+        retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
+        retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+
 
         /* Robot Map */
 
@@ -94,7 +138,7 @@ public class RobotA extends RobotConstants {
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(14, intakeConstants.MOTOR_CONFIG);
-        can.triggerMap.MOTOR = new TrigonTalonSRX(15, triggerConstants.MOTOR_CONFIG, triggerConstants.PID_COEFS);
+        can.loaderMap.MOTOR = new TrigonTalonSRX(15, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
@@ -147,6 +191,6 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // PCM
-        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
+        pitcherConstants.PCM_MAP.SOLENOID = new TrigonDoubleSolenoid(0, 1);
     }
 }

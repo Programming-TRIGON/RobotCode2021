@@ -23,15 +23,6 @@ public class TrigonDoubleSolenoid extends DoubleSolenoid {
             set(Value.kReverse);
     }
 
-    /**
-     * Gets state of solenoid with a boolean
-     * 
-     * @param state true=forward false=reverse
-     */
-    public boolean getSolenoid() {
-        return get() == Value.kForward ? true : false;
-    }
-
     public boolean isOn() {
         return get() != Value.kOff;
     }

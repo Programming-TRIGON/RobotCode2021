@@ -23,11 +23,11 @@ public abstract class RobotMap {
 
     public class CAN {
         public DrivetrainMap drivetrainMap = new DrivetrainMap();
-        public TriggerMap triggerMap = new TriggerMap();
+        public LoaderMap loaderMap = new LoaderMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
 
-        public class TriggerMap {
+        public class LoaderMap {
             public TrigonTalonSRX MOTOR;
         }
 
@@ -48,17 +48,6 @@ public abstract class RobotMap {
         public class IntakeMap {
             public TrigonTalonSRX MOTOR;
         }
-    }
-
-    public class PCM {
-        public PitcherMap pitcherMap = new PitcherMap();
-
-        public class PitcherMap {
-            public TrigonDoubleSolenoid SOLENOID;
-        }
-    }
-
-    public class DIO {
 
     }
 
@@ -74,5 +63,17 @@ public abstract class RobotMap {
         public class ClimberMap {
             public PWMSparkMax MOTOR;
         }
+    }
+
+    public class PCM {
+        public PitcherMap pitcherMap = new PitcherMap();
+
+        public class PitcherMap {
+            public TrigonDoubleSolenoid SOLENOID;
+        }
+    }
+
+    public class DIO {
+
     }
 }
