@@ -1,6 +1,7 @@
 package frc.robot.subsystems.pitcher;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.vision.limelights.PitcherLimelight;
@@ -10,6 +11,7 @@ public class PitcherCMD extends CommandBase {
     private final PitcherConstants constants;
     private final PitcherLimelight limelight;
     private final LedSS ledSS;
+    private InstantCommand instantCommand;
     private boolean hoodPosition;
 
     public PitcherCMD(PitcherSS pitcherSS, LedSS ledSS, PitcherConstants constants, PitcherLimelight limelight) {
@@ -20,53 +22,15 @@ public class PitcherCMD extends CommandBase {
         addRequirements(pitcherSS);
     }
 
-    @Override
-    public void initialize() {
-        togglePitcherBasedOnDistance();
-    }
-
-    @Override
-    public void execute() {
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    /**
-     * sets the position of the limelight based on whether or not the shooter hood
-     * is extended or retracted
-     *
-     * @param position of the limelight (true=extended false=retracted)
-     */
-    public void setIsHoodExtended(boolean position) {
-        hoodPosition = position;
-    }
-
-    /**
-     * gets the position of the limelight based on whether or not the shooter hood
-     * is extended or retracted
-     *
-     * @return the current position of the limelight (true=extended false=retracted)
-     */
-    public boolean getIsHoodExtended() {
-        return hoodPosition;
-    }
-
     /**
      * Toggles the pitcher based on the current position of the limelight (extended
      * or retracted) and the current angle at which the limelight sees the target.
      */
-    public void togglePitcherBasedOnDistance() {
+    @Override
+    public void initialize() {
         if (limelight.getTv()) {
-            pitcherSS.setSolenoidState(getIsHoodExtended() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
+            pitcherSS.setSolenoidState(pitcherSS.getSolenoidState() ? limelight.getTy() > constants.EXTENDED_TOGGLE_ANGLE
                     : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
-            setIsHoodExtended(pitcherSS.getSolenoidState());
         }
         else {
             ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
