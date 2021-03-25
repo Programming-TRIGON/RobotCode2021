@@ -87,7 +87,7 @@ public abstract class RobotMap {
 
     public class PCM {
         public PitcherMap pitcherMap = new PitcherMap();
-        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
+        public SpinnerMap spinnerMap = new SpinnerMap();
 
         public class PitcherMap {
             public TrigonDoubleSolenoid SOLENOID;
