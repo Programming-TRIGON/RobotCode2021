@@ -22,7 +22,7 @@ import frc.robot.utilities.TrigonPIDController;
  */
 public class RobotA extends RobotConstants {
 
-        // TODO: Set Constants
+    // TODO: Set Constants
     public RobotA() {
         /* Robot constants */
 
@@ -34,7 +34,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(0));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
-        drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; //in rad/s
+        drivetrainConstants.MAX_ROT_SPEED_RAD_S = 3; // in rad/s
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
@@ -71,17 +71,32 @@ public class RobotA extends RobotConstants {
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
-        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig();
-        shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, false, false);
-        shooterConstants.TBH_CONTROLLER = new TBHController(1, 0);
-        shooterConstants.PID_COEFS = new PIDCoefs(1, 1, 1, 0, 0, 0);
+        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(15, false, false, NeutralMode.Coast, 0);
+        shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, true, false);
+        /*
+         Tolerance and delta tolerance in the PIDCoefs are for deciding when to change to TBH
+         and the tolerance and delta tolerance constants are for deciding when we are ready to shoot
+         */
+        shooterConstants.PID_COEFS = new PIDCoefs(0, 0, 0.000, 30, 0);
+        shooterConstants.TBH_CONTROLLER = new TBHController(0.00005, shooterConstants.PID_COEFS.getTolerance());
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
-        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(1, 1, 1);
+        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.122, 0.00984);
         shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
         shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
-        shooterConstants.BALL_SHOT_VELOCITY_DROP = 1000;
+        shooterConstants.KF_COEF_A = 0.0019;
+        shooterConstants.KF_COEF_B = 0.7729;
+        shooterConstants.SHOOTING_RAMP_RATE = 2;
+        shooterConstants.TOLERANCE = 10;
+        shooterConstants.DELTA_TOLERANCE = 4;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
+        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 30;
+        shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
+        shooterConstants.KF_TESTING_TOLERANCE = 10;
+        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 100;
+        shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
+        shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
+        shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;
@@ -106,7 +121,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
         intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
         intakeOpenerConstants.LOGGABLE_NAME = "Intake";
-        
+
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.PCM_MAP = pcm.spinnerMap;
@@ -139,7 +154,8 @@ public class RobotA extends RobotConstants {
                 new PIDCoefs(1, 1, 1, 1, 1)
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(2, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
+                new TrigonTalonFX(2, new
+                        MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
                 new TalonFXWithTalonSRXEncoder(3, can.loaderMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -148,7 +164,8 @@ public class RobotA extends RobotConstants {
                 new PIDCoefs(1, 1, 1, 1, 1)
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
+                new TrigonTalonFX(4, new
+                        MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
                 new TalonFXWithTalonSRXEncoder(5, can.intakeOpenerMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -157,7 +174,8 @@ public class RobotA extends RobotConstants {
                 new PIDCoefs(1, 1, 1, 1, 1)
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(6, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
+                new TrigonTalonFX(6, new
+                        MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
                 new TalonFXWithTalonSRXEncoder(7, 11,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -166,10 +184,14 @@ public class RobotA extends RobotConstants {
                 new PIDCoefs(1, 1, 1, 1, 1)
         );
 
-        can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);
-        can.drivetrainMap.FRONT_LEFT = new SwerveModule(drivetrainConstants.FRONT_LEFT_CONSTANTS);
-        can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
-        can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
+        can.drivetrainMap.FRONT_RIGHT = new
+                SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);
+        can.drivetrainMap.FRONT_LEFT = new
+                SwerveModule(drivetrainConstants.FRONT_LEFT_CONSTANTS);
+        can.drivetrainMap.REAR_RIGHT = new
+                SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
+        can.drivetrainMap.REAR_LEFT = new
+                SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
         can.drivetrainMap.GYRO = new Pigeon(12);
 
@@ -181,7 +203,7 @@ public class RobotA extends RobotConstants {
         // DIO
         intakeOpenerConstants.DIO_MAP.OPEN_SWITCH = new DigitalInput(0);
         intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
-        
+
         // PCM
         pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
 
