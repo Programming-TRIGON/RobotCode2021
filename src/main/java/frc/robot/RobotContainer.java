@@ -31,9 +31,9 @@ public class RobotContainer {
 
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(
                 drivetrainSS,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kRight)) * Math.pow(xboxController.getX(GenericHID.Hand.kRight), 2) / 2,
-                () -> Math.signum(xboxController.getY(GenericHID.Hand.kRight)) * Math.pow(xboxController.getY(GenericHID.Hand.kRight), 2) / 2,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft)) * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 3
+                () -> Math.signum(xboxController.getX(GenericHID.Hand.kRight)) * Math.pow(xboxController.getX(GenericHID.Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getY(GenericHID.Hand.kRight)) * Math.pow(xboxController.getY(GenericHID.Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft)) * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 7
         );
 
         drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);

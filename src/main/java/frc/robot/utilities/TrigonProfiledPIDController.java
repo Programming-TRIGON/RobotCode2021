@@ -52,7 +52,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("PIDController");
+        builder.setSmartDashboardType("RobotPreferences");
         // sends the pid values to the dashboard but only allows them to be changed if
         // isTuning is true
         builder.addDoubleProperty("p", this::getP, kP -> setP(isTuning ? kP : getP()));
@@ -61,5 +61,6 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
         builder.addDoubleProperty("f", this::getF, kF -> setF(isTuning ? kF : getF()));
         builder.addDoubleProperty("setpoint", () -> getGoal().position,
                 setpoint -> setGoal(isTuning ? setpoint : getSetpoint().position));
+        builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
     }
 }

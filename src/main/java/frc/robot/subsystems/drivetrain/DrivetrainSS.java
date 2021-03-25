@@ -252,6 +252,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
         layout.add("Module stats", module);
         layout.add("Angle PID Controller", module.getAnglePIDController());
+        layout.add("Speed PID Controller", module.getSpeedPIDController());
     }
 
     @Override
