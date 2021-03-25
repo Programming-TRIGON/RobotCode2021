@@ -1,12 +1,15 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
+import frc.robot.components.TBHController;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
+import frc.robot.utilities.TrigonPIDController;
 
 /**
  * All the constants to be uses for the robot
@@ -53,7 +56,7 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_ANGLE_OFFSET;
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
-
+        public int POWER_PORT_PIPELINE;
     }
 
     public class TesterConstants {
@@ -70,6 +73,15 @@ public abstract class RobotConstants extends RobotMap {
         public ShooterMap CAN_MAP;
         public MotorConfig RIGHT_MOTOR_CONFIG;
         public MotorConfig LEFT_MOTOR_CONFIG;
+        public TBHController TBH_CONTROLLER;
+        public TrigonPIDController PID_CONTROLLER;
+        public SimpleMotorFeedforward SIMPLE_MOTOR_FEEDFORWARD;
+        public PIDCoefs PID_COEFS;
+        public double LIMELIGHT_VELOCITY_COEF_A;
+        public double LIMELIGHT_VELOCITY_COEF_B;
+        public double LIMELIGHT_VELOCITY_COEF_C;
+        public double BALL_SHOT_VELOCITY_DROP;
+        public int MAX_NUMBER_OF_BALLS;
     }
 
     public class LoaderConstants {
@@ -87,6 +99,8 @@ public abstract class RobotConstants extends RobotMap {
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
             public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
+            public final LedColor SHOOTER_ENABLED = LedColor.Blue;
+            public final LedBlinkColor NO_TARGET = new LedBlinkColor(LedColor.Orange, 2);
             public final LedColor INTAKE_ENABLED = LedColor.Aqua;
             public final LedBlinkColor INTAKE_MOTOR_STALL = new LedBlinkColor(LedColor.Yellow, 5);
         }

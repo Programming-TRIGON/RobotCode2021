@@ -5,9 +5,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import frc.robot.constants.RobotConstants.LimelightConstants;
-import frc.robot.vision.CamMode;
-import frc.robot.vision.LedMode;
-import frc.robot.vision.Target;
 
 public class VanillaLimelight {
 
@@ -34,6 +31,13 @@ public class VanillaLimelight {
 
     public VanillaLimelight(LimelightConstants constants) {
         this(constants.DEFAULT_TABLE_KEY, constants);
+    }
+
+    /**
+     * @return the limelight constants
+     */
+    public LimelightConstants getLimelightConstants() {
+        return limelightConstants;
     }
 
     /**
