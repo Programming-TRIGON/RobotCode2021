@@ -17,7 +17,8 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
 //    private final ColorSensorV3 colorSensor;
 
     /*
-    The code for the roulette is not relevant for the current challenges therefore have been commented out.
+    <NOTE>
+    The code for the "Colour Spinney Thing" - Krombein,N(2021) is not relevant for the current challenges therefore have been commented out.
     Will be used when coding for the competition
      */
     public SpinnerSS(SpinnerConstants constants) {
