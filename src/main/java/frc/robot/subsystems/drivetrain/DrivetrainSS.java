@@ -42,21 +42,29 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @param speeds the ChassisSpeeds object representing the desired speeds
      */
-    public void speedDrive(ChassisSpeeds speeds) {
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+    public void
+    speedDrive(ChassisSpeeds speeds) {
+        SwerveModuleState[] states =
+                kinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);
         setDesiredStates(states);
     }
 
     /**
-     * Drives the robot with the given speeds and angle relative to the field, and
-     * not relative to the robot.
+     * Drives the robot with the given speeds and angle relative to the field,
+     * and not relative to the robot.
      *
      * @param speeds the field relative speeds
      */
     public void fieldSpeedDrive(ChassisSpeeds speeds) {
-        speedDrive(ChassisSpeeds.fromFieldRelativeSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
-                speeds.omegaRadiansPerSecond, Rotation2d.fromDegrees(getAngle())));
+        speedDrive(
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                        speeds.vxMetersPerSecond,
+                        speeds.vyMetersPerSecond,
+                        speeds.omegaRadiansPerSecond,
+                        Rotation2d.fromDegrees(getAngle())
+                )
+        );
     }
 
     /**
@@ -71,14 +79,13 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        // We intentionally switch x and y because Rotation2D uses x as forward and y as
-        // sideways
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
         speedDrive(new ChassisSpeeds(y, x, rot));
     }
 
     /**
-     * Drives the robot with the given power relative to the field, and not relative
-     * to the robot.
+     * Drives the robot with the given power relative to the field,
+     * and not relative to the robot.
      *
      * @param x   field x power, between -1 and 1
      * @param y   field y power, between -1 and 1
@@ -89,8 +96,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        // We intentionally switch x and y because Rotation2D uses x as forward and y as
-        // sideways
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
         fieldSpeedDrive(new ChassisSpeeds(y, x, rot));
     }
 
@@ -172,36 +178,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     /**
-     * Moves all angle motors at a specified voltage in volts.
-     * 
-     * NOTE: This function *must* be called regularly in order for voltage
-     * compensation to work properly - unlike the ordinary set function, it is not
-     * "set it and forget it."
-     * 
-     * @param outputVolts to apply to angle motors in volts.
-     */
-    public void setAngleVoltage(double outputVolts) {
-        for (SwerveModule module : modules) {
-            module.setAngleMotorVoltage(outputVolts);
-        }
-    }
-
-    /**
-     * Moves all speed motors at a specified voltage in volts.
-     * 
-     * NOTE: This function *must* be called regularly in order for voltage
-     * compensation to work properly - unlike the ordinary set function, it is not
-     * "set it and forget it."
-     * 
-     * @param outputVolts to apply to angle motors in volts.
-     */
-    public void setSpeedVoltage(double outputVolts) {
-        for (SwerveModule module : modules) {
-            module.setSpeedMotorVoltage(outputVolts);
-        }
-    }
-
-    /**
      * Returns an array of the system's sensor values
      *
      * @return the sensor values
@@ -254,11 +230,18 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     private void initSwerve() {
-        kinematics = new SwerveDriveKinematics(constants.FRONT_LEFT_LOCATION.getTranslation(),
-                constants.FRONT_RIGHT_LOCATION.getTranslation(), constants.REAR_LEFT_LOCATION.getTranslation(),
-                constants.REAR_RIGHT_LOCATION.getTranslation());
-        modules = new SwerveModule[] { constants.CAN_MAP.FRONT_LEFT, constants.CAN_MAP.FRONT_RIGHT,
-                constants.CAN_MAP.REAR_LEFT, constants.CAN_MAP.REAR_RIGHT };
+        kinematics = new SwerveDriveKinematics(
+                constants.FRONT_LEFT_LOCATION.getTranslation(),
+                constants.FRONT_RIGHT_LOCATION.getTranslation(),
+                constants.REAR_LEFT_LOCATION.getTranslation(),
+                constants.REAR_RIGHT_LOCATION.getTranslation()
+        );
+        modules = new SwerveModule[]{
+                constants.CAN_MAP.FRONT_LEFT,
+                constants.CAN_MAP.FRONT_RIGHT,
+                constants.CAN_MAP.REAR_LEFT,
+                constants.CAN_MAP.REAR_RIGHT
+        };
         sendData("Front Left", modules[0]);
         sendData("Front Right", modules[1]);
         sendData("Rear Left", modules[2]);
@@ -266,8 +249,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     private void sendData(String name, SwerveModule module) {
-        ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name,
-                BuiltInLayouts.kList);
+        ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
         layout.add("Module stats", module);
         layout.add("Angle PID Controller", module.getAnglePIDController());
     }

@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.components.*;
 import frc.robot.constants.RobotConstants;
-import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.PIDFCoefs;
 import frc.robot.utilities.SVACoefs;
 import frc.robot.utilities.SwerveConstants;
@@ -96,20 +95,13 @@ public class RobotA extends RobotConstants {
         // can.triggerMap.MOTOR = new TrigonTalonSRX(15, triggerConstants.MOTOR_CONFIG,
         // triggerConstants.PID_COEFS);
 
-        // Drivetrain map
-
-        final FeedforwardConstants frontRightAngleConstants = new FeedforwardConstants(1, 1, 1, 1, 0.2, 50, 10);
-        final FeedforwardConstants frontLeftAngleConstants = new FeedforwardConstants(1, 1, frontRightAngleConstants);
-        final FeedforwardConstants rearRightAngleConstants = new FeedforwardConstants(1, 1, frontRightAngleConstants);
-        final FeedforwardConstants rearLeftAngleConstants = new FeedforwardConstants(1, 1, frontRightAngleConstants);
-
-        final FeedforwardConstants frontRightSpeedConstants = new FeedforwardConstants(1, 1, 1, 1, 0.2, 50, 10);
-        final FeedforwardConstants frontLeftSpeedConstants = new FeedforwardConstants(1, 1, frontRightSpeedConstants);
-        final FeedforwardConstants rearRightSpeedConstants = new FeedforwardConstants(1, 1, frontRightSpeedConstants);
-        final FeedforwardConstants rearLeftSpeedConstants = new FeedforwardConstants(1, 1, frontRightSpeedConstants);
-        
-
+        // Drivetrain map;
+        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0.557, 2.35, 0.0749);
         drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0.000797, 0, 0);
+//        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0, 0, 0);
+//        drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0, new TrapezoidProfile.Constraints(0, 0));
+
+        drivetrainConstants.ANGLE_SVA_COEFS = new SVACoefs(0.7, 0.00384, 4.36e-5);
         drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(800, 1600));
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
@@ -122,8 +114,8 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.MAX_SPEED_MPS,
                 drivetrainConstants.ANGLE_PIDF_COEFS,
                 drivetrainConstants.SPEED_PIDF_COEFS,
-                frontRightAngleConstants,
-                frontRightSpeedConstants
+                drivetrainConstants.ANGLE_SVA_COEFS,
+                drivetrainConstants.SPEED_SVA_COEFS
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
@@ -136,8 +128,8 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.MAX_SPEED_MPS,
                 drivetrainConstants.ANGLE_PIDF_COEFS,
                 drivetrainConstants.SPEED_PIDF_COEFS,
-                frontLeftAngleConstants,
-                frontLeftSpeedConstants
+                drivetrainConstants.ANGLE_SVA_COEFS,
+                drivetrainConstants.SPEED_SVA_COEFS
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
@@ -149,8 +141,8 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.MAX_SPEED_MPS,
                 drivetrainConstants.ANGLE_PIDF_COEFS,
                 drivetrainConstants.SPEED_PIDF_COEFS,
-                rearRightAngleConstants,
-                rearRightSpeedConstants
+                drivetrainConstants.ANGLE_SVA_COEFS,
+                drivetrainConstants.SPEED_SVA_COEFS
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6,
@@ -163,8 +155,8 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.MAX_SPEED_MPS,
                 drivetrainConstants.ANGLE_PIDF_COEFS,
                 drivetrainConstants.SPEED_PIDF_COEFS,
-                rearLeftAngleConstants,
-                rearLeftSpeedConstants
+                drivetrainConstants.ANGLE_SVA_COEFS,
+                drivetrainConstants.SPEED_SVA_COEFS
         );
 
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);

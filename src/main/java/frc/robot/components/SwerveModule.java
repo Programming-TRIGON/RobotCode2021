@@ -1,6 +1,7 @@
 package frc.robot.components;
 
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -15,6 +16,8 @@ public class SwerveModule implements Sendable {
     private final TrigonTalonFX speedMotor;
     private final TrigonProfiledPIDController angleController;
     private final TrigonPIDController speedController;
+    private final SimpleMotorFeedforward angleFeedforward;
+    private final SimpleMotorFeedforward speedFeedforward;
     private SwerveModuleState desiredState;
     private boolean isTuning;
 
@@ -28,9 +31,11 @@ public class SwerveModule implements Sendable {
         this.constants = constants;
         speedMotor = constants.speedMotor;
         speedController = new TrigonPIDController(constants.speedPidfCoefs);
+        speedFeedforward = new SimpleMotorFeedforward(constants.speedSvaCoefs.getKS(), constants.speedSvaCoefs.getKV(), constants.speedSvaCoefs.getKA());
 
         angleMotor = constants.angleMotor;
         angleController = new TrigonProfiledPIDController(constants.anglePidfCoefs);
+        angleFeedforward = new SimpleMotorFeedforward(constants.angleSvaCoefs.getKS(), constants.angleSvaCoefs.getKV(), constants.angleSvaCoefs.getKA());
 
         setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(getAngle())));
 
@@ -52,15 +57,12 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity(), getDesiredVelocity())
-                + constants.speedFeedForwardConstants.mCoef * getDesiredVelocity()
-                + constants.speedFeedForwardConstants.mCoef);
+        speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity(), getDesiredVelocity()) + speedFeedforward.calculate(getDesiredVelocity()));
         double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
-        angleMotor.setVoltage(pid + constants.angleFeedForwardConstants.mCoef * angleController.getSetpoint().velocity
-                + constants.angleFeedForwardConstants.bCoef);
+        angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
         if (angleMotor.getDeviceID() == 3) {
-            SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity",
-                    angleController.getSetpoint().velocity);
+            SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity", angleController.getSetpoint().velocity);
+            SmartDashboard.putNumber("Front Left angleFeedforward.calculate(angleController.getSetpoint().velocity)", angleFeedforward.calculate(angleController.getSetpoint().velocity));
             SmartDashboard.putNumber("Front Left pid", pid);
             SmartDashboard.putNumber("Front Left error", getAngleError());
         }
@@ -184,40 +186,6 @@ public class SwerveModule implements Sendable {
 
     public TrigonProfiledPIDController getAnglePIDController() {
         return angleController;
-    }
-
-    /**
-     * Sets the voltage output of the the angle motor. Compensates for the current
-     * bus voltage to ensure that the desired voltage is output even if the battery
-     * voltage is below 12V - highly useful when the voltage outputs are
-     * "meaningful" (e.g. they come from a feedforward calculation).
-     *
-     * <p>
-     * NOTE: This function *must* be called regularly in order for voltage
-     * compensation to work properly - unlike the ordinary set function, it is not
-     * "set it and forget it."
-     *
-     * @param outputVolts The voltage to output.
-     */
-    public void setAngleMotorVoltage(double outputVolts) {
-        angleMotor.setVoltage(outputVolts);
-    }
-
-    /**
-     * Sets the voltage output of the the speed motor. Compensates for the current
-     * bus voltage to ensure that the desired voltage is output even if the battery
-     * voltage is below 12V - highly useful when the voltage outputs are
-     * "meaningful" (e.g. they come from a feedforward calculation).
-     *
-     * <p>
-     * NOTE: This function *must* be called regularly in order for voltage
-     * compensation to work properly - unlike the ordinary set function, it is not
-     * "set it and forget it."
-     *
-     * @param outputVolts The voltage to output.
-     */
-    public void setSpeedMotorVoltage(double outputVolts) {
-        speedMotor.setVoltage(outputVolts);
     }
 
     @Override
