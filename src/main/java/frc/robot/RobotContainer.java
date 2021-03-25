@@ -27,7 +27,6 @@ public class RobotContainer {
      * initializes all commands
      */
     public void initializeCommands() {
-
     }
 
     public void updateDashboard() {

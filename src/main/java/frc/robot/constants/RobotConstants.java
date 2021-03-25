@@ -10,6 +10,7 @@ import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
+import frc.robot.utilities.TrigonProfiledPIDController;
 
 /**
  * All the constants to be uses for the robot
@@ -124,5 +125,9 @@ public abstract class RobotConstants extends RobotMap {
         public double MAX_CENTRIPETAL_ACCELERATION;
         public double KP;
         public double REVERSE_KP;
+
+        public TrigonPIDController X_PID_CONTROLLER;
+        public TrigonPIDController Y_PID_CONTROLLER;
+        public TrigonProfiledPIDController THETA_PROFILED_PID_CONTROLLER;
     }
 }

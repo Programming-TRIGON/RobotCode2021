@@ -191,6 +191,16 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         return getPose().getY();
     }
 
+    /**
+    * Resets the odometry to the specified pose.
+    *
+    * @param pose The pose to which to set the odometry.
+    */
+    public void resetOdometry(Pose2d pose) {
+        odometry.resetPosition(pose, gyro.getRotation2d());
+    }
+
+
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
