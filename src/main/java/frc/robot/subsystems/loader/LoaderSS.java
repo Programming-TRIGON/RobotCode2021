@@ -16,11 +16,10 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     public LoaderSS(LoaderConstants constants) {
         this.constants = constants;
         motor = constants.CAN_MAP.MOTOR;
-        motor.configurePID(constants.PID_COEFS);
     }
 
     /**
-     * Sets the motor's velocity using PID/
+     * Sets the motor's velocity using PID
      *
      * @param desiredVelocity desired velocity of the motor in ticks/100ms
      */

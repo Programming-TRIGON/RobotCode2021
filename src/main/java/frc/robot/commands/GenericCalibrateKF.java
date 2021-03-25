@@ -7,10 +7,13 @@ import frc.robot.utilities.Logger;
 
 
 public class GenericCalibrateKF extends CommandBase {
+    private final static int PIDF_MAX_OUTPUT = 1023;
+    private final static double CODE_ITERATION_RATE = 0.02;
+
     private final KFCallebratableSubsystem subsystem;
     private final FeedforwardConstants constants;
     private Logger logger;
-    private double power;
+    private double output;
     private double endVelocity;
     private double lastVelocity;
     private double velocitySum;
@@ -19,6 +22,10 @@ public class GenericCalibrateKF extends CommandBase {
     private int testCount;
     private boolean postTest;
 
+    /**
+     * This command autonomously runs tests and outputs the optimum KF
+     * value this is used to calculate the correct voltage for a given velocity in RPM
+     */
     public GenericCalibrateKF(KFCallebratableSubsystem subsystem, FeedforwardConstants constants) {
         this.subsystem = subsystem;
         this.constants = constants;
@@ -27,8 +34,8 @@ public class GenericCalibrateKF extends CommandBase {
     @Override
     public void initialize() {
         KFSum = 0;
-        power = constants.initialDesiredOutput;
-        endVelocity = constants.initialDesiredOutput + (constants.accelerationPerTest * constants.testAmount);
+        output = constants.initialOutput;
+        endVelocity = constants.initialOutput + (constants.accelerationPerTest * constants.testAmount);
         postTest = false;
         lastVelocity = subsystem.getVelocity();
     }
@@ -38,12 +45,12 @@ public class GenericCalibrateKF extends CommandBase {
         if (postTest) {
             subsystem.stopMoving();
             if (subsystem.getVelocity() == 0) {
-                power += constants.accelerationPerTest;
+                output += constants.accelerationPerTest;
                 postTest = false;
             }
         }
         else {
-            subsystem.move(power);
+            subsystem.move(output);
             if (atSetpoint()) {
                 velocitySum += subsystem.getVelocity();
                 sampleCount++;
@@ -55,7 +62,11 @@ public class GenericCalibrateKF extends CommandBase {
             }
             if (sampleCount == constants.sampleAmount) {
                 double averageVelocity = velocitySum / sampleCount;
-                KFSum += (power * 1023) / averageVelocity;
+                /*
+                Uses calculation from Ctre to calculate the KF based on the given power
+                and the velocity the motor got to (See CTRE Documentation for further explanation https://bit.ly/2QuAOFI")
+                */
+                KFSum += (output * PIDF_MAX_OUTPUT) / averageVelocity;
                 testCount++;
                 postTest = true;
             }
@@ -76,6 +87,6 @@ public class GenericCalibrateKF extends CommandBase {
     }
 
     public boolean atSetpoint() {
-        return Math.abs(subsystem.getVelocity() - lastVelocity) / 0.02 < constants.accelerationTolerance;
+        return Math.abs(subsystem.getVelocity() - lastVelocity) / CODE_ITERATION_RATE < constants.accelerationTolerance;
     }
 }
