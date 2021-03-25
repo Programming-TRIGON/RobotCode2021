@@ -1,7 +1,9 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
+import edu.wpi.first.wpilibj.DigitalInput;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -18,7 +20,7 @@ import frc.robot.utilities.TrigonPIDController;
  */
 public class RobotA extends RobotConstants {
 
-    // TODO: Set Constants
+        // TODO: Set Constants
     public RobotA() {
         /* Robot constants */
 
@@ -110,21 +112,37 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
-        /* Robot Map */
+        // Intake opener constants
+        intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
+        intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
+        intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
+        intakeOpenerConstants.LOGGABLE_NAME = "Intake";
+        
+        // Spinner constants
+        spinnerConstants.CAN_MAP = can.spinnerMap;
+        spinnerConstants.PCM_MAP = pcm.spinnerMap;
+        spinnerConstants.I2C_MAP = i2c.spinnerMap;
+        spinnerConstants.MOTOR_CONFIG = new MotorConfig(5, NeutralMode.Coast, 0);
+        spinnerConstants.DEFAULT_MOTOR_POWER = 0.5;
+        intakeConstants.STALL_CHECK_DELAY = 0.5;
+        spinnerConstants.STALL_CURRENT_LIMIT = 10;
+
+
+        /** Robot Map **/
 
         // CAN
 
-        // shooter map
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(13, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(15, intakeConstants.MOTOR_CONFIG);
-        can.loaderMap.MOTOR = new TrigonTalonSRX(16, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
+        can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(16, intakeOpenerConstants.MOTOR_CONFIG);
+        can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
+        can.spinnerMap.MOTOR = new TrigonTalonSRX(18, spinnerConstants.MOTOR_CONFIG);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(0, new
-                        MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(1, 8,
+                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
+                new TalonFXWithTalonSRXEncoder(1, can.intakeMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
@@ -177,5 +195,15 @@ public class RobotA extends RobotConstants {
         pwm.ledMap.LED_CONTROLLER = 0;
         pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
+
+        // DIO
+        intakeOpenerConstants.DIO_MAP.OPEN_SWITCH = new DigitalInput(0);
+        intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
+        
+        // PCM
+        pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
+
+        // I2C
+        i2c.spinnerMap.COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);
     }
 }
