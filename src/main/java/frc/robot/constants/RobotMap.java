@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
@@ -29,6 +30,7 @@ public abstract class RobotMap {
         public LoaderMap loaderMap = new LoaderMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
+        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
 
         public class LoaderMap {
@@ -36,11 +38,7 @@ public abstract class RobotMap {
         }
 
         public class DrivetrainMap {
-            public SwerveModule
-                    FRONT_RIGHT,
-                    FRONT_LEFT,
-                    REAR_RIGHT,
-                    REAR_LEFT;
+            public SwerveModule FRONT_RIGHT, FRONT_LEFT, REAR_RIGHT, REAR_LEFT;
             public Pigeon GYRO;
         }
 
@@ -50,6 +48,10 @@ public abstract class RobotMap {
         }
 
         public class IntakeMap {
+            public TrigonTalonSRX MOTOR;
+        }
+
+        public class IntakeOpenerMap {
             public TrigonTalonSRX MOTOR;
         }
 
@@ -68,7 +70,12 @@ public abstract class RobotMap {
     }
 
     public class DIO {
+        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
 
+        public class IntakeOpenerMap {
+            public DigitalInput CLOSED_SWITCH;
+            public DigitalInput OPEN_SWITCH;
+        }
     }
 
     public class PWM {

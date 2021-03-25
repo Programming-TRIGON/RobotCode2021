@@ -26,6 +26,7 @@ public abstract class RobotConstants extends RobotMap {
     public LoaderConstants loaderConstants = new LoaderConstants();
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
+    public IntakeOpenerConstants intakeOpenerConstants = new IntakeOpenerConstants();
     public SpinnerConstants spinnerConstants = new SpinnerConstants();
 
     public class DrivetrainConstants {
@@ -116,6 +117,13 @@ public abstract class RobotConstants extends RobotMap {
     public class ClimberConstants {
         public PWM.ClimberMap PWM_MAP;
         public boolean IS_INVERTED;
+    }
+
+    public class IntakeOpenerConstants {
+        public CAN.IntakeOpenerMap CAN_MAP;
+        public DIO.IntakeOpenerMap DIO_MAP;
+        public MotorConfig MOTOR_CONFIG;
+        public String LOGGABLE_NAME;
     }
 
     public class SpinnerConstants {

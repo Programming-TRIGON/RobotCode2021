@@ -1,6 +1,7 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PWMSparkMax;
@@ -19,7 +20,7 @@ import frc.robot.utilities.TrigonPIDController;
  */
 public class RobotA extends RobotConstants {
 
-    // TODO: Set Constants
+        // TODO: Set Constants
     public RobotA() {
         /* Robot constants */
 
@@ -96,6 +97,12 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
+        // Intake opener constants
+        intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
+        intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
+        intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
+        intakeOpenerConstants.LOGGABLE_NAME = "Intake";
+        
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.PCM_MAP = pcm.spinnerMap;
@@ -110,17 +117,17 @@ public class RobotA extends RobotConstants {
 
         // CAN
 
-        // shooter map
-        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(12, shooterConstants.RIGHT_MOTOR_CONFIG);
-        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(13, shooterConstants.LEFT_MOTOR_CONFIG);
-        can.intakeMap.MOTOR = new TrigonTalonSRX(14, intakeConstants.MOTOR_CONFIG);
-        can.loaderMap.MOTOR = new TrigonTalonSRX(15, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
-        can.spinnerMap.MOTOR = new TrigonTalonSRX(16, spinnerConstants.MOTOR_CONFIG);
+        can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(13, shooterConstants.RIGHT_MOTOR_CONFIG);
+        can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
+        can.intakeMap.MOTOR = new TrigonTalonSRX(15, intakeConstants.MOTOR_CONFIG);
+        can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(16, intakeOpenerConstants.MOTOR_CONFIG);
+        can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
+        can.spinnerMap.MOTOR = new TrigonTalonSRX(18, spinnerConstants.MOTOR_CONFIG);
 
         // Drivetrain map;
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(1, 8,
+                new TalonFXWithTalonSRXEncoder(1, can.intakeMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
@@ -129,7 +136,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
-                new TalonFXWithTalonSRXEncoder(3, 9,
+                new TalonFXWithTalonSRXEncoder(3, can.loaderMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
@@ -138,7 +145,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(5, 10,
+                new TalonFXWithTalonSRXEncoder(5, can.intakeOpenerMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
@@ -167,6 +174,10 @@ public class RobotA extends RobotConstants {
         pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
+        // DIO
+        intakeOpenerConstants.DIO_MAP.OPEN_SWITCH = new DigitalInput(0);
+        intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
+        
         // PCM
         pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
 
