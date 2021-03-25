@@ -38,16 +38,6 @@ public class RobotA extends RobotConstants {
         StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
-        // Limelight Constants
-        limelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
-        limelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
-        limelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-        limelightConstants.LIMELIGHT_ANGLE_OFFSET = 1;
-        limelightConstants.LIMELIGHT_OFFSET_X = 1;
-        limelightConstants.LIMELIGHT_OFFSET_Y = 1;
-        limelightConstants.DEFAULT_TABLE_KEY = "limelight";
-        limelightConstants.POWER_PORT_PIPELINE = 1;
-
         // Sensor check constants
         testerConstants.MOVE_POWER = 1;
         testerConstants.SECONDS_TO_WAIT = 3;
@@ -96,6 +86,7 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.IS_INVERTED = false;
 
         // Pitcher constants
+        pitcherConstants.PCM_MAP = pcm.pitcherMap;
         pitcherConstants.EXTENDED_ANGLE = 20;
         pitcherConstants.RETRACTED_ANGLE = 10;
         pitcherConstants.NO_TARGET_BLINK_TIME = 5;
@@ -191,6 +182,6 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // PCM
-        pitcherConstants.PCM_MAP.SOLENOID = new TrigonDoubleSolenoid(0, 1);
+        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
     }
 }
