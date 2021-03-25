@@ -13,7 +13,7 @@ import frc.robot.vision.Target;
 public class VanillaLimelight {
 
     protected final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
-    protected RobotConstants.LimelightConstants constants;
+    protected final LimelightConstants constants;
 
     /**
      * @param tableKey the key of the limelight - if it was changed.
@@ -40,7 +40,7 @@ public class VanillaLimelight {
     /**
      * @return the limelight constants
      */
-    public LimelightConstants getConstants() {
+    public LimelightConstants getLimelightConstants() {
         return constants;
     }
 
