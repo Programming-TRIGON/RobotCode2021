@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.LimelightConstants;
 import frc.robot.vision.CamMode;
 import frc.robot.vision.LedMode;
@@ -11,8 +12,8 @@ import frc.robot.vision.Target;
 
 public class VanillaLimelight {
 
-    private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
-    private RobotConstants.LimelightConstants limelightConstants;
+    protected final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
+    protected RobotConstants.LimelightConstants constants;
 
     /**
      * @param tableKey the key of the limelight - if it was changed.
@@ -39,7 +40,7 @@ public class VanillaLimelight {
     /**
      * @return the limelight constants
      */
-    public LimelightConstants getLimelightConstants() {
+    public LimelightConstants getConstants() {
         return constants;
     }
 

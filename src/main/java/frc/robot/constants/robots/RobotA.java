@@ -87,8 +87,8 @@ public class RobotA extends RobotConstants {
 
         // Pitcher constants
         pitcherConstants.PCM_MAP = pcm.pitcherMap;
-        pitcherConstants.EXTENDED_ANGLE = 20;
-        pitcherConstants.RETRACTED_ANGLE = 10;
+        pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
+        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
         pitcherConstants.NO_TARGET_BLINK_TIME = 5;
 
         /* Limelight Constants */
