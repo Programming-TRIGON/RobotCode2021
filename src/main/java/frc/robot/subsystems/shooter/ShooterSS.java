@@ -38,6 +38,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, Logga
      */
     @Log(name = "Shooter/Velocity")
     public double getVelocityRPM() {
+        // timed by 600 to convert to minutes and divide by 2048 to convert to revolutions
         return masterMotor.getSelectedSensorVelocity() * 600 / 2048;
     }
 
