@@ -77,14 +77,6 @@ public abstract class RobotMap {
 
     }
 
-    public class I2C {
-        public SpinnerMap spinnerMap = new SpinnerMap();
-
-        public class SpinnerMap {
-            public ColorSensorV3 COLOR_SENSOR;
-        }
-    }
-
     public class PCM {
         public PitcherMap pitcherMap = new PitcherMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
@@ -104,6 +96,14 @@ public abstract class RobotMap {
         public class IntakeOpenerMap {
             public DigitalInput CLOSED_SWITCH;
             public DigitalInput OPEN_SWITCH;
+        }
+    }
+
+    public class I2C {
+        public SpinnerMap spinnerMap = new SpinnerMap();
+
+        public class SpinnerMap {
+            public ColorSensorV3 COLOR_SENSOR;
         }
     }
 }

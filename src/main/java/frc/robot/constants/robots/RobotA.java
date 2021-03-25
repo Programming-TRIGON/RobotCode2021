@@ -127,17 +127,8 @@ public class RobotA extends RobotConstants {
 
         /* Limelight Constants */
 
-        // vanilla limelight
-        vanillaLimelightConstants.DEFAULT_TABLE_KEY = "Limelight";
-        vanillaLimelightConstants.LIMELIGHT_OFFSET_X = 0;
-        vanillaLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
-        vanillaLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
-        vanillaLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
-        vanillaLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
-        vanillaLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-
         // extended limelight
-        extendedLimelightConstants.DEFAULT_TABLE_KEY = vanillaLimelightConstants.DEFAULT_TABLE_KEY;
+        extendedLimelightConstants.DEFAULT_TABLE_KEY = "Limelight";
         extendedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
         extendedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
         extendedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
@@ -146,7 +137,7 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
 
         // retracted limelight
-        retractedLimelightConstants.DEFAULT_TABLE_KEY = vanillaLimelightConstants.DEFAULT_TABLE_KEY;
+        retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
         retractedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
         retractedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
         retractedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;

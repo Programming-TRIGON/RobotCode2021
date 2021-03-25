@@ -16,7 +16,6 @@ import frc.robot.utilities.TrigonPIDController;
  * All the constants to be uses for the robot
  */
 public abstract class RobotConstants extends RobotMap {
-    public LimelightConstants vanillaLimelightConstants = new LimelightConstants();
     public LimelightConstants extendedLimelightConstants = new LimelightConstants();
     public LimelightConstants retractedLimelightConstants = new LimelightConstants();
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
