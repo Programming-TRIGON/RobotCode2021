@@ -49,7 +49,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, DoubleSupplier desiredVelocity) {
         this(shooterSS, constants, ledSS, false);
-        this.desiredVelocity = () -> desiredVelocity.getAsDouble();
+        this.desiredVelocity = desiredVelocity;
     }
 
     /**
@@ -72,29 +72,16 @@ public class ShooterCMD extends CommandBase implements Loggable {
         ballsShotCount = 0;
         sampleCount = 0;
         outputSum = 0;
-        lastVelocity = shooterSS.getVelocity();
+        lastVelocity = shooterSS.getVelocityRPM();
         TBHController.reset();
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
         f = constants.KF_COEF_A * desiredVelocity.getAsDouble() + constants.KF_COEF_B;
-
-        // TODO: delete me!!!!!!
-        SmartDashboard.putData("Shooter/TBH", TBHController);
-        SmartDashboard.putData("Shooter/PID", PIDController);
-        SmartDashboard.putNumber("KF", f);
     }
 
     @Override
     public void execute() {
-        // TODO: del
-        SmartDashboard.putNumber("Shooter/Output", constants.CAN_MAP.RIGHT_MOTOR.get());
-        SmartDashboard.putNumber("KF", f);
-        SmartDashboard.putString("Shooter State", currentState.toString());
-        SmartDashboard.putNumber("Balls Shot", ballsShotCount);
-        SmartDashboard.putNumber("Sample Count", sampleCount);
-        SmartDashboard.putNumber("Output Sum", outputSum);
-
         if (isUsingLimelight) {
             if (limelight.getTv())
                 Shoot();
@@ -103,7 +90,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
                     ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
                 DriverStationLogger.logToDS("ShooterCMD: No valid target, Try reposition!");
             }
-        } else
+        }
+        else
             Shoot();
     }
 
@@ -117,44 +105,46 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
         // changes the state of the shooter based on if a ball was just shot and if the
         // PIDF has gotten the velocity back to its target
-        if (desiredVelocity.getAsDouble() - shooterSS.getVelocity() >= constants.PID_COEFS.getTolerance()
+        if (desiredVelocity.getAsDouble() - shooterSS.getVelocityRPM() >= constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.Default) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
-        } else if (desiredVelocity.getAsDouble() - shooterSS.getVelocity() < constants.PID_COEFS.getTolerance()
+        }
+        else if (desiredVelocity.getAsDouble() - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
             TBHController.reset();
-            TBHController.setOutput(PIDController.calculate(shooterSS.getVelocity()));
+            TBHController.setOutput(PIDController.calculate(shooterSS.getVelocityRPM()));
         }
 
         // switches between using TBH and PIDF to control the velocity based on if a
         // ball was just shot
         switch (currentState) {
-        case Default:
-            output = TBHController.calculate(shooterSS.getVelocity()) + f;
-            shooterSS.move(output);
-            if (ballsShotCount == 0 && atSetpoint()) {
-                outputSum += output;
-                sampleCount++;
-                
-            } else {
-                outputSum = 0;
-                sampleCount = 0;
-            }
-            if (ballsShotCount == 0 && sampleCount == constants.KF_CALCULATION_SAMPLE_AMOUNT) {
-                f = outputSum / sampleCount;
-                TBHController.reset();
-            }
-            lastVelocity = shooterSS.getVelocity();
-            SmartDashboard.putBoolean("isPID", false);
-            break;
-        case AfterShot:
-            output = PIDController.calculate(shooterSS.getVelocity()) + f;
-            shooterSS.move(output);
-            lastVelocity = shooterSS.getVelocity();
-            SmartDashboard.putBoolean("isPID", true);
-            break;
+            case Default:
+                output = TBHController.calculate(shooterSS.getVelocityRPM()) + f;
+                shooterSS.move(output);
+                if (ballsShotCount == 0 && atSetpoint()) {
+                    outputSum += output;
+                    sampleCount++;
+
+                }
+                else {
+                    outputSum = 0;
+                    sampleCount = 0;
+                }
+                if (ballsShotCount == 0 && sampleCount == constants.KF_CALCULATION_SAMPLE_AMOUNT) {
+                    f = outputSum / sampleCount;
+                    TBHController.reset();
+                }
+                lastVelocity = shooterSS.getVelocityRPM();
+                SmartDashboard.putBoolean("isPID", false);
+                break;
+            case AfterShot:
+                output = PIDController.calculate(shooterSS.getVelocityRPM()) + f;
+                shooterSS.move(output);
+                lastVelocity = shooterSS.getVelocityRPM();
+                SmartDashboard.putBoolean("isPID", true);
+                break;
         }
     }
 
@@ -163,8 +153,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
     }
 
     public boolean atSetpoint() {
-        return Math.abs(desiredVelocity.getAsDouble() - shooterSS.getVelocity()) < constants.TOLERANCE
-                && shooterSS.getVelocity() - lastVelocity < constants.DELTA_TOLERANCE;
+        return Math.abs(desiredVelocity.getAsDouble() - shooterSS.getVelocityRPM()) < constants.TOLERANCE
+                && shooterSS.getVelocityRPM() - lastVelocity < constants.DELTA_TOLERANCE;
     }
 
     @Override
@@ -183,8 +173,10 @@ public class ShooterCMD extends CommandBase implements Loggable {
     }
 
     public enum ShooterState {
-        Default, // default mode of the shooter, controls motors using TBH
-        AfterShot; // mode for after a ball is shot and when first running the command, returns the
-        // shooter to target velocity using PIDF
+        // default mode of the shooter, controls motors using TBH
+        Default,
+        // mode for after a ball is shot and when first running the command,
+        // returns the shooter to target velocity using PIDF
+        AfterShot;
     }
 }

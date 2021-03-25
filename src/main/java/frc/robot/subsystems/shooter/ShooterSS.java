@@ -24,7 +24,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, Logga
     public void move(double voltage) {
         masterMotor.setVoltage(voltage);
     }
-    
+
 
     /**
      * @return current power of the motor (between -1 and 1)
@@ -34,10 +34,10 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, Logga
     }
 
     /**
-     * @return the velocity of the motors in ticks/100 milliseconds
+     * @return the velocity of the motors in RPM
      */
     @Log(name = "Shooter/Velocity")
-    public double getVelocity() {
+    public double getVelocityRPM() {
         return masterMotor.getSelectedSensorVelocity() * 600 / 2048;
     }
 
@@ -52,6 +52,6 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, Logga
      * @return an array of the current encoder position
      */
     public double[] getValues() {
-        return new double[] { masterMotor.getSelectedSensorPosition() };
+        return new double[]{masterMotor.getSelectedSensorPosition()};
     }
 }

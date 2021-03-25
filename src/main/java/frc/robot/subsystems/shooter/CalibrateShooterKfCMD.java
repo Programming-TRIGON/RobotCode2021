@@ -44,7 +44,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
         + constants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST * constants.KF_TESTING_TEST_AMOUNT;
     shooterSS.setRampRate(constants.SHOOTING_RAMP_RATE);
     postTest = false;
-    lastVelocity = shooterSS.getVelocity();
+    lastVelocity = shooterSS.getVelocityRPM();
 
     tbhController.setSetpoint(desiredVelocity);
     tbhController.reset();
@@ -56,7 +56,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
     if (postTest) {
       shooterSS.setRampRate(constants.RIGHT_MOTOR_CONFIG.getRampRate());
       shooterSS.stopMoving();
-      if (shooterSS.getVelocity() == 0) {
+      if (shooterSS.getVelocityRPM() == 0) {
         shooterSS.setRampRate(constants.SHOOTING_RAMP_RATE);
         desiredVelocity += constants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST;
         tbhController.setSetpoint(desiredVelocity);
@@ -65,7 +65,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
       }
     } else {
 
-      double output = tbhController.calculate(shooterSS.getVelocity()) + constants.KF_COEF_A * desiredVelocity
+      double output = tbhController.calculate(shooterSS.getVelocityRPM()) + constants.KF_COEF_A * desiredVelocity
           + constants.KF_COEF_B;
       shooterSS.move(output);
       if (atSetpoint()) {
@@ -83,7 +83,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
       }
     }
 
-    lastVelocity = shooterSS.getVelocity();
+    lastVelocity = shooterSS.getVelocityRPM();
   }
 
   @Override
@@ -99,7 +99,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
   }
 
   public boolean atSetpoint() {
-    return Math.abs(desiredVelocity - shooterSS.getVelocity()) < constants.KF_TESTING_TOLERANCE
-        && shooterSS.getVelocity() - lastVelocity < constants.KF_TESTING_DELTA_TOLERANCE;
+    return Math.abs(desiredVelocity - shooterSS.getVelocityRPM()) < constants.KF_TESTING_TOLERANCE
+        && shooterSS.getVelocityRPM() - lastVelocity < constants.KF_TESTING_DELTA_TOLERANCE;
   }
 }
