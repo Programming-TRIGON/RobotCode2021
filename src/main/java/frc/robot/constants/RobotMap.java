@@ -106,16 +106,4 @@ public abstract class RobotMap {
             public ColorSensorV3 COLOR_SENSOR;
         }
     }
-
-    public class PCM {
-        public PitcherMap pitcherMap = new PitcherMap();
-
-        public class PitcherMap {
-            public TrigonDoubleSolenoid SOLENOID;
-        }
-    }
-
-    public class DIO {
-
-    }
 }
