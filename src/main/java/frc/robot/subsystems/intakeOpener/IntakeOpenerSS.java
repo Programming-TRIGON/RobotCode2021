@@ -58,6 +58,6 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
 
     @Override
     public String configureLogName() {
-        return constants.LOGGABLE_NAME;
+        return "Intake Opener";
     }
 }
