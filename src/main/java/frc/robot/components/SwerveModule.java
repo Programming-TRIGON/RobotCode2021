@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
@@ -53,20 +52,18 @@ public class SwerveModule implements Sendable {
     /**
      * Updates the PID controllers and sets the motors power
      */
-    public void periodic(Command currentCommand) {
-        speedMotor.setVoltage(speedController.calculate(getSpeedMotorMPS(), getDesiredVelocity())
-                + constants.speedFeedForwardConstants.mCoef * getDesiredVelocity()
-                + constants.speedFeedForwardConstants.bCoef);
-        if (!currentCommand.getName().equals("CalibratesSpeedKf")) {
-            double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
-            angleMotor.setVoltage(pid + constants.angleFeedForwardConstants.mCoef * angleController.getSetpoint().velocity
-                    + constants.angleFeedForwardConstants.bCoef);
-            if (angleMotor.getDeviceID() == 3) {
-                SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity",
-                        angleController.getSetpoint().velocity);
-                SmartDashboard.putNumber("Front Left pid", pid);
-                SmartDashboard.putNumber("Front Left error", getAngleError());
-            }
+    public void periodic() {
+        // speedMotor.setVoltage(speedController.calculate(getSpeedMotorVelocity(), getDesiredVelocity())
+        //         + constants.speedFeedForwardConstants.mCoef * getDesiredVelocity()
+        //         + constants.speedFeedForwardConstants.mCoef);
+        double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
+        angleMotor.setVoltage(pid + constants.angleFeedForwardConstants.mCoef * angleController.getSetpoint().velocity
+                + constants.angleFeedForwardConstants.bCoef);
+        if (angleMotor.getDeviceID() == 3) {
+            SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity",
+                    angleController.getSetpoint().velocity);
+        //    SmartDashboard.putNumber("Front Left pid", pid);
+            SmartDashboard.putNumber("Front Left error", getAngleError());
         }
         if (desiredState.angle.getDegrees() == 0) {
             desiredState.angle = Rotation2d.fromDegrees(getAngle());
