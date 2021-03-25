@@ -48,10 +48,12 @@ public class IntakeOpenerSS extends OverridableSubsystem implements Loggable {
      * @param power to be set to the motor
      */
     public void moveWithSafety(double power) {
-        if (isClosed() && power >= 0 || isOpen() && power < 0)
-            motor.set(power);
-        else
+        if (isClosed() && power < 0 || isOpen() && power > 0) {
             DriverStationLogger.logToDS("moveWithSafety: invalid power given");
+            motor.stopMotor();
+        }
+        else
+            motor.set(power);
     }
 
     @Override
