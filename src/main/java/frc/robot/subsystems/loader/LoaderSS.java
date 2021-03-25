@@ -3,12 +3,13 @@ package frc.robot.subsystems.loader;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.LoaderConstants;
+import frc.robot.subsystems.KFCallebratableSubsystem;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class LoaderSS extends OverridableSubsystem implements TestableSubsystem, Loggable {
+public class LoaderSS extends OverridableSubsystem implements TestableSubsystem, Loggable, KFCallebratableSubsystem {
     private final LoaderConstants constants;
     private final TrigonTalonSRX motor;
 
@@ -20,12 +21,11 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     /**
      * Sets the motor's velocity using PID
      *
-     * @param desiredVelocity desired velocity of the motor in ticks/second
+     * @param desiredVelocity desired velocity of the motor in ticks/100ms
      */
     public void setDesiredVelocity(double desiredVelocity) {
         if (!overridden)
-            // velocity is in ticks/seconds and is divided by 10 to convert to ticks/100ms
-            motor.set(ControlMode.Velocity, desiredVelocity / 10);
+            motor.set(ControlMode.Velocity, desiredVelocity);
     }
 
 
@@ -37,12 +37,12 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     }
 
     /**
-     * @return the velocity of the motor in ticks/seconds
+     * @return the velocity of the motor in ticks/100ms
      */
     @Log(name = "Trigger/Motor Velocity")
+    @Override
     public double getVelocity() {
-        // motor.getSelectedSensorVelocity() returns in ticks/100ms then is multiplied by 10 to convert to ticks/second
-        return motor.getSelectedSensorVelocity() * 10;
+        return motor.getSelectedSensorVelocity();
     }
 
     /**
