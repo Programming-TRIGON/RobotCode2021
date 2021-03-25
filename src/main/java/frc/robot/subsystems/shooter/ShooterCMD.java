@@ -7,8 +7,8 @@ import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.utilities.DriverStationLogger;
 import frc.robot.utilities.TrigonPIDController;
-import frc.robot.vision.Limelight;
 import frc.robot.vision.Target;
+import frc.robot.vision.limelights.PitcherLimelight;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -17,7 +17,7 @@ import java.util.function.DoubleSupplier;
 public class ShooterCMD extends CommandBase implements Loggable {
     public final ShooterSS shooterSS;
     private final ShooterConstants constants;
-    private Limelight limelight;
+    private PitcherLimelight limelight;
     private final LedSS ledSS;
     private final TBHController TBHController;
     private final TrigonPIDController PIDController;
@@ -41,7 +41,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
         addRequirements(shooterSS);
     }
 
-    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, Limelight limelight) {
+    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, PitcherLimelight limelight) {
         this(shooterSS, constants, ledSS, true);
         this.limelight = limelight;
         this.desiredVelocity = this::calculateDesiredVelocity;

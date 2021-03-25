@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
 import frc.robot.components.TrigonDoubleSolenoid;
@@ -61,23 +62,6 @@ public abstract class RobotMap {
         }
     }
 
-    public class PCM {
-        public SpinnerMap spinnerMap = new SpinnerMap();
-
-        public class SpinnerMap {
-            public TrigonDoubleSolenoid SOLENOID;
-        }
-    }
-
-    public class DIO {
-        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
-
-        public class IntakeOpenerMap {
-            public DigitalInput CLOSED_SWITCH;
-            public DigitalInput OPEN_SWITCH;
-        }
-    }
-
     public class PWM {
         public LedMap ledMap = new LedMap();
         public ClimberMap leftClimberMap = new ClimberMap();
@@ -91,6 +75,28 @@ public abstract class RobotMap {
             public PWMSparkMax MOTOR;
         }
 
+    }
+
+    public class PCM {
+        public PitcherMap pitcherMap = new PitcherMap();
+        public SpinnerMap spinnerMap = new SpinnerMap();
+
+        public class PitcherMap {
+            public TrigonDoubleSolenoid SOLENOID;
+        }
+
+        public class SpinnerMap {
+            public TrigonDoubleSolenoid SOLENOID;
+        }
+    }
+
+    public class DIO {
+        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
+
+        public class IntakeOpenerMap {
+            public DigitalInput CLOSED_SWITCH;
+            public DigitalInput OPEN_SWITCH;
+        }
     }
 
     public class I2C {
