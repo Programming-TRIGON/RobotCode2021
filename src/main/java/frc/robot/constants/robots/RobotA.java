@@ -95,6 +95,14 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
+        // Motion profile constants
+
+        motionProfilingConstants.MAX_VELOCITY = 0;
+        motionProfilingConstants.MAX_ACCELERATION = 0;
+        motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION =0;
+        motionProfilingConstants.KP = 0;
+        motionProfilingConstants.REVERSE_KP = 0;
+
         /** Robot Map **/
 
         // CAN

@@ -191,6 +191,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         return getPose().getY();
     }
 
+    public SwerveDriveKinematics getKinematics() {
+        return kinematics;
+    }
+
     @Override
     public void periodic() {
         updateOdometry();

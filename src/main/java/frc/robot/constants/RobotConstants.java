@@ -26,6 +26,7 @@ public abstract class RobotConstants extends RobotMap {
     public LoaderConstants loaderConstants = new LoaderConstants();
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
+    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
 
     public class DrivetrainConstants {
         public CAN.DrivetrainMap CAN_MAP;
@@ -115,5 +116,13 @@ public abstract class RobotConstants extends RobotMap {
     public class ClimberConstants {
         public PWM.ClimberMap PWM_MAP;
         public boolean IS_INVERTED;
+    }
+
+    public class MotionProfilingConstants {
+        public double MAX_VELOCITY;
+        public double MAX_ACCELERATION;
+        public double MAX_CENTRIPETAL_ACCELERATION;
+        public double KP;
+        public double REVERSE_KP;
     }
 }
