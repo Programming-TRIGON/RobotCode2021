@@ -146,7 +146,7 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("Velocity", this::getSpeedMotorMPS, x -> {});
         builder.addDoubleProperty("Desired Velocity", this::getSpeedMotorMPS,
                 speed -> desiredState.speedMetersPerSecond = speed);
-        speedController.initSendable(builder, "Speed Controller");
-        angleController.initSendable(builder, "Angle Controller");
+        // speedController.initSendable(builder, "Speed Controller");
+        // angleController.initSendable(builder, "Angle Controller");
     }
 }

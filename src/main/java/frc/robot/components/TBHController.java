@@ -2,7 +2,6 @@ package frc.robot.components;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TBHController implements Sendable {
     private double output;
@@ -19,10 +18,13 @@ public class TBHController implements Sendable {
         this.tolerance = tolerance;
     }
 
+    public TBHController(TBHController tbhController) {
+        this(tbhController.getKI(), tbhController.getTolerance());
+    }
+
     public double calculate(double measurement) {
         double error = setpoint - measurement;
         output += KI * error;
-        output = MathUtil.clamp(output, -1, 1);
         if (isPositive(error) != isPositive(lastError)) {
             tbh = lastOutput;
             output = 0.5 * (output + tbh);
@@ -84,6 +86,10 @@ public class TBHController implements Sendable {
         this.setpoint = setpoint;
     }
 
+    public void setOutput(double output){
+        this.output = output;
+    }
+
     public void setLastOutput(double output) {
         lastOutput = output;
     }
@@ -100,19 +106,18 @@ public class TBHController implements Sendable {
         this.isTuning = isTuning;
     }
 
-    public void initSendable(SendableBuilder builder, String name) {
-        if (!name.equals(""))
-            name += "/";
-        // sends the pid values to the dashboard but only allows them to be changed if
-        // isTuning is true
-        builder.setSmartDashboardType("RobotPreferences");
-        builder.addDoubleProperty(name + "KI", this::getKI, (kI) -> setKI(isTuning ? kI : getKI()));
-        builder.addDoubleProperty(name + "setpoint", this::getSetpoint,
-                (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
+    public double getTolerance() {
+        return tolerance;
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        initSendable(builder, "");
+        // sends the pid values to the dashboard but only allows them to be changed if
+        // isTuning is true
+        builder.setSmartDashboardType("RobotPreferences");
+        builder.addDoubleProperty("KI", this::getKI, (kI) -> setKI(isTuning ? kI : getKI()));
+        builder.addDoubleProperty("setpoint", this::getSetpoint,
+                (setpoint) -> setSetpoint(isTuning ? setpoint : getSetpoint()));
+        builder.addBooleanProperty("isTuning", this::isTuning, (tuning) -> setIsTuning(tuning));
     }
 }
