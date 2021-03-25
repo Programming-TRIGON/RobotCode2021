@@ -20,7 +20,7 @@ import frc.robot.utilities.TrigonPIDController;
  */
 public class RobotA extends RobotConstants {
 
-        // TODO: Set Constants
+    // TODO: Set Constants
     public RobotA() {
         /* Robot constants */
 
@@ -117,7 +117,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
         intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
         intakeOpenerConstants.LOGGABLE_NAME = "Intake";
-        
+
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.PCM_MAP = pcm.spinnerMap;
@@ -152,7 +152,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2, new
                         MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false, true)),
-                new TalonFXWithTalonSRXEncoder(3, 9,
+                new TalonFXWithTalonSRXEncoder(3, can.loaderMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
@@ -162,7 +162,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new
                         MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true, true)),
-                new TalonFXWithTalonSRXEncoder(5, 10,
+                new TalonFXWithTalonSRXEncoder(5, can.intakeOpenerMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true, true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
@@ -199,7 +199,7 @@ public class RobotA extends RobotConstants {
         // DIO
         intakeOpenerConstants.DIO_MAP.OPEN_SWITCH = new DigitalInput(0);
         intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
-        
+
         // PCM
         pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
 
