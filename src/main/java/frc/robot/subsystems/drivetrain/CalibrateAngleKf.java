@@ -1,6 +1,5 @@
 package frc.robot.subsystems.drivetrain;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.Logger;
@@ -12,10 +11,10 @@ public class CalibrateAngleKf extends CommandBase {
 	private boolean postTest[];
 	private FeedforwardConstants[] constants;
 	private double lastVelocity[];
+	private double lastPosition[];
 	private double VelocitySum[];
 	private int sampleCount[];
-	private Logger logger;
-	private double discoveredVelocity[];
+	private Logger logger[];
 
 	private final static double CODE_ITERATION_RATE_IN_SECONDS = 0.02;
 
@@ -24,18 +23,11 @@ public class CalibrateAngleKf extends CommandBase {
 	 * Kf value at different velocities this is used to find the optimal kF coefs
 	 * for calculate the correct voltage for a given velocity in RPM
 	 */
-	public CalibrateAngleKf(DrivetrainSS drivetrain) {
+	public CalibrateAngleKf(DrivetrainSS drivetrain, FeedforwardConstants constants[]) {
 		this.drivetrain = drivetrain;
 		addRequirements(drivetrain);
-		postTest = new boolean[4];
-		constants = new FeedforwardConstants[4];
-		lastVelocity = new double[4];
-		VelocitySum = new double[4];
-		sampleCount = new int[4];
-		discoveredVelocity = new double[4];
 
-		constants = drivetrain.getAngleFeedforwardConstants();
-		outputVoltage = constants[0].initialOutput;
+		outputVoltage = constants[0].initialVoltage;
 		endVoltage = outputVoltage + constants[0].accelerationPerTest * constants[0].testAmount;
 		for (int i = 0; i < 4; i++) {
 			this.constants[i] = constants[i];
@@ -45,14 +37,14 @@ public class CalibrateAngleKf extends CommandBase {
 
 	@Override
 	public void initialize() {
-		this.logger = new Logger("Angle Swerve KF Calibration", "Voltage", "Velocity - Front left",
-				"Velocity - front right", "Velocity - rear right", "Velocity - rear left");
 		for (int i = 0; i < 4; i++) {
+			this.logger[i] = new Logger(" - Angle Swerve KF Calibration", "Velocity", "Voltage");
 			postTest[i] = false;
+			lastPosition[i] = drivetrain.getStates()[i].angle.getDegrees();
 			VelocitySum[i] = 0;
 			sampleCount[i] = 0;
 		}
-		outputVoltage = constants[0].initialOutput;
+		outputVoltage = constants[0].initialVoltage;
 	}
 
 	@Override
@@ -61,22 +53,16 @@ public class CalibrateAngleKf extends CommandBase {
 		double currentVelocity[] = new double[4];
 
 		drivetrain.setAngleVoltage(outputVoltage);
-		SmartDashboard.putNumber("voltage", outputVoltage);
 		for (int i = 0; i < 4; i++) {
-			SmartDashboard.putBoolean(i + " postTest", postTest[i]);
-			currentVelocity[i] = drivetrain.getAngleMotorAPS()[i];
-			SmartDashboard.putNumber(i + " current Vel", currentVelocity[i]);
+			currentVelocity[i] = drivetrain.getStates()[i].angle.getDegrees()
+					- lastPosition[i] / CODE_ITERATION_RATE_IN_SECONDS;
 			if (!postTest[i])
 				allPostTest = false;
 		}
 		if (allPostTest) {
 			outputVoltage += constants[0].accelerationPerTest;
-
-			logger.log(outputVoltage, discoveredVelocity[0], discoveredVelocity[1], discoveredVelocity[2],
-					discoveredVelocity[3]);
 			for (int i = 0; i < 4; i++) {
 				postTest[i] = false;
-				discoveredVelocity[i] = 0;
 				VelocitySum[i] = 0;
 				sampleCount[i] = 0;
 			}
@@ -93,13 +79,14 @@ public class CalibrateAngleKf extends CommandBase {
 				}
 
 				if (sampleCount[i] == constants[i].sampleAmount) {
-					double vel = VelocitySum[i] / sampleCount[i];
-					discoveredVelocity[i] = vel;
+					double f = VelocitySum[i] / sampleCount[i];
+					logger[i].log(outputVoltage, f);
 					postTest[i] = true;
 				}
 			}
 		}
 		for (int i = 0; i < 4; i++) {
+			lastPosition[i] = drivetrain.getStates()[i].angle.getDegrees();
 			lastVelocity[i] = currentVelocity[i];
 		}
 	}
@@ -107,7 +94,9 @@ public class CalibrateAngleKf extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		drivetrain.setAngleVoltage(0);
-		logger.close();
+		for (int i = 0; i < 4; i++) {
+			logger[i].close();
+		}
 	}
 
 	@Override
