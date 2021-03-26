@@ -136,8 +136,9 @@ public abstract class RobotConstants extends RobotMap {
 
     public class PitcherConstants {
         public PCM.PitcherMap PCM_MAP;
-        public double EXTENDED_ANGLE;
-        public double RETRACTED_ANGLE;
+        public double EXTENDED_TOGGLE_ANGLE;
+        public double RETRACTED_TOGGLE_ANGLE;
+        public int NO_TARGET_BLINK_TIME;
     }
 
     public class IntakeOpenerConstants {
