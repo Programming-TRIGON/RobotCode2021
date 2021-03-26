@@ -21,9 +21,9 @@ import frc.robot.vision.limelights.PitcherLimelight;
 import io.github.oblarg.oblog.Logger;
 
 public class RobotContainer {
-    private final SubsystemContainerA subsystemContainer;
     private final RobotA robotConstants;
     private final HomeField fieldConstants;
+    private final SubsystemContainerA subsystemContainer;
     private final DashboardController dashboardController;
     private final PitcherLimelight limelight;
 
@@ -38,9 +38,9 @@ public class RobotContainer {
      */
     public RobotContainer() {
         Logger.configureLoggingAndConfig(this, false);
-        subsystemContainer = new SubsystemContainerA();
         robotConstants = new RobotA();
         fieldConstants = new HomeField();
+        subsystemContainer = new SubsystemContainerA();
         dashboardController = new DashboardController();
         limelight = new PitcherLimelight(robotConstants.extendedLimelightConstants,
                 robotConstants.retractedLimelightConstants, subsystemContainer.PITCHERSS);

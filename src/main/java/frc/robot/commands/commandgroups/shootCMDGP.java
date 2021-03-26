@@ -1,10 +1,7 @@
 package frc.robot.commands.commandgroups;
 
 
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.SubsytemContainer;
 import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.constants.RobotConstants;
@@ -20,6 +17,7 @@ public class shootCMDGP extends SequentialCommandGroup {
     private final SubsytemContainer subsystems;
     private final PitcherLimelight limelight;
     private final ShooterCMD shootCMD;
+    private ParallelCommandGroup shootParallelGroup;
 
     public shootCMDGP(SubsytemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
         this.subsystems = subsystems;
@@ -34,35 +32,35 @@ public class shootCMDGP extends SequentialCommandGroup {
     private void addCommandsToGroup() {
         addCommands(
                 new ConditionalCommand(
-                        new SequentialCommandGroup(
-                                new PitcherCMD(subsystems.PITCHERSS, subsystems.LEDSS, constants.pitcherConstants, limelight),
-                                new GenericTurnToTargetCMD(limelight, constants.visionConstants, Target.PowerPort, subsystems.DRIVETRAINSS),
-                                shootCMD,
-                                new WaitUntilCommand(shootCMD::atSetpoint),
-                                parallel(
-                                        new LoaderCMD(subsystems.LOADERSS, constants.loaderConstants),
-                                        new SpinnerCMD(subsystems.SPINNERSS, constants.spinnerConstants)
-                                )
-                        ),
+                        new InstantCommand(this::addCommandsToGroup),
                         new SequentialCommandGroup(
                                 new InstantCommand(subsystems.PITCHERSS::toggleSolenoid, subsystems.PITCHERSS),
                                 new ConditionalCommand(
-                                        new SequentialCommandGroup(
-                                                new PitcherCMD(subsystems.PITCHERSS, subsystems.LEDSS, constants.pitcherConstants, limelight),
-                                                new GenericTurnToTargetCMD(limelight, constants.visionConstants,
-                                                        Target.PowerPort, subsystems.DRIVETRAINSS),
-                                                shootCMD,
-                                                new WaitUntilCommand(shootCMD::atSetpoint),
-                                                parallel(
-                                                        new LoaderCMD(subsystems.LOADERSS, constants.loaderConstants),
-                                                        new SpinnerCMD(subsystems.SPINNERSS, constants.spinnerConstants)
-                                                )
-                                        ),
+                                        new InstantCommand(this::addCommandsToGroup),
                                         new InstantCommand(),
                                         limelight::getTv
                                 )
                         ),
                         limelight::getTv
+                )
+        );
+    }
+
+    private void addShootParallelGroup() {
+        addCommands(
+                new ParallelCommandGroup(
+                        new PitcherCMD(subsystems.PITCHERSS, subsystems.LEDSS, constants.pitcherConstants, limelight),
+                        shootCMD,
+                        new SequentialCommandGroup(
+                                new GenericTurnToTargetCMD(limelight, constants.visionConstants,
+                                        Target.PowerPort, subsystems.DRIVETRAINSS),
+                                new SequentialCommandGroup(
+                                        new WaitUntilCommand(shootCMD::atSetpoint),
+                                        new ParallelCommandGroup(
+                                                new LoaderCMD(subsystems.LOADERSS, constants.loaderConstants),
+                                                new SpinnerCMD(subsystems.SPINNERSS, constants.spinnerConstants)
+                                        ))
+                        )
                 )
         );
     }
