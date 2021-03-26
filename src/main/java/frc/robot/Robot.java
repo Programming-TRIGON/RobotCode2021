@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
   private RobotContainer robotContainer;
@@ -13,6 +14,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     robotContainer.periodic();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
