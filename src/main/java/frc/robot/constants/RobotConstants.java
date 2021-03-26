@@ -5,7 +5,8 @@ import frc.robot.components.MotorConfig;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
-import frc.robot.utilities.PIDCoefs;
+import frc.robot.utilities.PIDFCoefs;
+import frc.robot.utilities.SVACoefs;
 import frc.robot.utilities.SwerveConstants;
 
 /**
@@ -41,6 +42,12 @@ public abstract class RobotConstants extends RobotMap {
         public SwerveConstants FRONT_RIGHT_CONSTANTS;
         public SwerveConstants REAR_LEFT_CONSTANTS;
         public SwerveConstants REAR_RIGHT_CONSTANTS;
+
+
+        public SVACoefs SPEED_SVA_COEFS;
+        public SVACoefs ANGLE_SVA_COEFS;
+        public PIDFCoefs SPEED_PIDF_COEFS;
+        public PIDFCoefs ANGLE_PIDF_COEFS;
     }
 
     public class LimelightConstants {
@@ -59,7 +66,7 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class VisionConstants {
-        public PIDCoefs ROTATION_SETTINGS;
+        public PIDFCoefs ROTATION_SETTINGS;
         public double TARGET_TIME_OUT;
     }
 
@@ -72,7 +79,7 @@ public abstract class RobotConstants extends RobotMap {
     public class TriggerConstants {
         public CAN.TriggerMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
-        public PIDCoefs PID_COEFS;
+        public PIDFCoefs PID_COEFS;
     }
 
     public class LedConstants {

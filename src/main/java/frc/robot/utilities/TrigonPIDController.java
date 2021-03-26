@@ -7,7 +7,7 @@ public class TrigonPIDController extends PIDController {
     private double f;
     private boolean isTuning;
 
-    public TrigonPIDController(PIDCoefs pidCoefs) {
+    public TrigonPIDController(PIDFCoefs pidCoefs) {
         super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD());
         setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
         f = pidCoefs.getKF();
@@ -51,7 +51,7 @@ public class TrigonPIDController extends PIDController {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("PIDController");
+        builder.setSmartDashboardType("RobotPreferences");
         // sends the pid values to the dashboard but only allows them to be changed if
         // isTuning is true
         builder.addDoubleProperty("p", this::getP, kP -> setP(isTuning ? kP : getP()));
@@ -60,5 +60,7 @@ public class TrigonPIDController extends PIDController {
         builder.addDoubleProperty("f", this::getF, kF -> setF(isTuning ? kF : getF()));
         builder.addDoubleProperty("setpoint", this::getSetpoint,
                 setpoint -> setSetpoint(isTuning ? setpoint : getSetpoint()));
+        builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
+
     }
 }

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
@@ -32,6 +33,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         this.gyro = constants.CAN_MAP.GYRO;
         initSwerve();
         this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
+        gyro.calibrate();
+        gyro.reset();
     }
 
     /**
@@ -39,7 +42,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @param speeds the ChassisSpeeds object representing the desired speeds
      */
-    public void speedDrive(ChassisSpeeds speeds) {
+    public void
+    speedDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] states =
                 kinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);
@@ -75,7 +79,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        speedDrive(new ChassisSpeeds(x, y, rot));
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
+        speedDrive(new ChassisSpeeds(y, x, rot));
     }
 
     /**
@@ -91,7 +96,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        fieldSpeedDrive(new ChassisSpeeds(x, y, rot));
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
+        fieldSpeedDrive(new ChassisSpeeds(y, x, rot));
     }
 
     /**
@@ -113,6 +119,18 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      * @param states the modules' desired states
      */
     public void setDesiredStates(SwerveModuleState[] states) {
+        boolean hasError = false;
+        for (SwerveModule module : modules) {
+            if (module.getAngleError() > 40) {
+                hasError = true;
+                break;
+            }
+        }
+        if (hasError) {
+            for (int i = 0; i < modules.length; i++) {
+                states[i].speedMetersPerSecond = 0;
+            }
+        }
         if (states.length != modules.length)
             return;
         for (int i = 0; i < states.length; i++) {
@@ -140,7 +158,13 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      */
     @Log(name = "Angle")
     public double getAngle() {
-        return gyro.getAngle();
+        double angle = gyro.getAngle();
+        angle = (360 - angle);
+        while (angle < 0)
+            angle += 360;
+        while (angle >= 360)
+            angle -= 360;
+        return angle;
     }
 
     /**
@@ -198,6 +222,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         updateOdometry();
         for (SwerveModule module : modules)
             module.periodic();
+        SmartDashboard.putNumber("angle", getAngle());
     }
 
     private void updateOdometry() {
@@ -206,30 +231,32 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     private void initSwerve() {
         kinematics = new SwerveDriveKinematics(
-                constants.FRONT_RIGHT_LOCATION.getTranslation(),
                 constants.FRONT_LEFT_LOCATION.getTranslation(),
-                constants.REAR_RIGHT_LOCATION.getTranslation(),
-                constants.REAR_LEFT_LOCATION.getTranslation()
+                constants.FRONT_RIGHT_LOCATION.getTranslation(),
+                constants.REAR_LEFT_LOCATION.getTranslation(),
+                constants.REAR_RIGHT_LOCATION.getTranslation()
         );
         modules = new SwerveModule[]{
-                constants.CAN_MAP.FRONT_RIGHT,
                 constants.CAN_MAP.FRONT_LEFT,
-                constants.CAN_MAP.REAR_RIGHT,
-                constants.CAN_MAP.REAR_LEFT
+                constants.CAN_MAP.FRONT_RIGHT,
+                constants.CAN_MAP.REAR_LEFT,
+                constants.CAN_MAP.REAR_RIGHT
         };
-        sendData("Front Right", modules[0]);
-        sendData("Front Left", modules[1]);
-        sendData("Rear Right", modules[2]);
-        sendData("Rear Left", modules[3]);
-    }
-
-    public String configureLogName() {
-        return "Drivetrain";
+        sendData("Front Left", modules[0]);
+        sendData("Front Right", modules[1]);
+        sendData("Rear Left", modules[2]);
+        sendData("Rear Right", modules[3]);
     }
 
     private void sendData(String name, SwerveModule module) {
         ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
         layout.add("Module stats", module);
         layout.add("Angle PID Controller", module.getAnglePIDController());
+        layout.add("Speed PID Controller", module.getSpeedPIDController());
+    }
+
+    @Override
+    public String configureLogName() {
+        return "Drivetrain";
     }
 }
