@@ -145,7 +145,7 @@ public abstract class RobotConstants extends RobotMap {
         public CAN.IntakeOpenerMap CAN_MAP;
         public DIO.IntakeOpenerMap DIO_MAP;
         public MotorConfig MOTOR_CONFIG;
-        public String LOGGABLE_NAME;
+        public double DEFAULT_MOTOR_POWER;
     }
 
     public class SpinnerConstants {

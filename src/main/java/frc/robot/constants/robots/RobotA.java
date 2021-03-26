@@ -116,7 +116,6 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
         intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
         intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
-        intakeOpenerConstants.LOGGABLE_NAME = "Intake";
 
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
