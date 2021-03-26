@@ -16,7 +16,6 @@ public class PIDCoefs implements Sendable {
     private double deltaTolerance;
     private Constraints constraints;
 
-
     /**
      * @param KP             The Proportional coefficient of the PID loop in this
      *                       command.
@@ -31,7 +30,7 @@ public class PIDCoefs implements Sendable {
      * @param constraints    constraints for a TrapezoidProfile
      */
     public PIDCoefs(double KP, double KI, double KD, double KF, double tolerance, double deltaTolerance,
-                     Constraints constraints) {
+            Constraints constraints) {
         this.KP = KP;
         this.KI = KI;
         this.KD = KD;
