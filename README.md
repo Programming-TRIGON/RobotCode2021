@@ -2,7 +2,7 @@
 
 This is TRIGON 5990 robot code for the 2021 FRC season: GAME CHANGERS.
 
-The code is written in Java and is based of WPILib Java control system.
+The code is written in Java and is based on WPILib's Java control system.
 
 
 ## Setup Instructions
