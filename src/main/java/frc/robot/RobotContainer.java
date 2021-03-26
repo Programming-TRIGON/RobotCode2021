@@ -1,11 +1,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.led.LedSS;
+import frc.robot.subsystems.shooter.CalibrateShooterKfCMD;
+import frc.robot.subsystems.shooter.ShooterCMD;
+import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.utilities.DashboardController;
 import frc.robot.utilities.TrigonXboxController;
 import io.github.oblarg.oblog.Logger;
@@ -17,6 +21,11 @@ public class RobotContainer {
     private DrivetrainSS drivetrainSS;
     private SupplierFieldDriveCMD supplierFieldDriveCMD;
     private TrigonXboxController xboxController;
+    private final LedSS ledSS;
+    private final ShooterSS shooterSS;
+    
+    private ShooterCMD shooterCMD;
+    private CalibrateShooterKfCMD calibrateShooterKfCMD;
 
     /**
      * Add classes here
@@ -28,22 +37,31 @@ public class RobotContainer {
         dashboardController = new DashboardController();
         xboxController = new TrigonXboxController(0);
         drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
+        ledSS=new LedSS(robotConstants.ledConstants);
+        shooterSS = new ShooterSS(robotConstants.shooterConstants);
 
-        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
-                drivetrainSS,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kRight)) * Math.pow(xboxController.getX(GenericHID.Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getY(GenericHID.Hand.kRight)) * Math.pow(xboxController.getY(GenericHID.Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft)) * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 7
-        );
+        initializeCommands();
 
-        drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
+        SmartDashboard.putData("Shooter Command", shooterCMD);
+        SmartDashboard.putData("CalibrateShooterKfCMD" , calibrateShooterKfCMD);
     }
 
     /**
      * initializes all commands
      */
     public void initializeCommands() {
-
+        SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
+        shooterCMD = new ShooterCMD(shooterSS, robotConstants.shooterConstants, null,
+                () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
+        calibrateShooterKfCMD = new CalibrateShooterKfCMD(shooterSS, robotConstants.shooterConstants);
+        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
+                drivetrainSS,
+                () -> Math.signum(xboxController.getX(GenericHID.Hand.kRight)) * Math.pow(xboxController.getX(GenericHID.Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getY(GenericHID.Hand.kRight)) * Math.pow(xboxController.getY(GenericHID.Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft)) * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 7
+        );
+        
+        drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
     public void updateDashboard() {
@@ -56,6 +74,6 @@ public class RobotContainer {
      */
     public void periodic() {
         updateDashboard();
-        CommandScheduler.getInstance().run();
+        SmartDashboard.putNumber("Shooter/Velocity", shooterSS.getVelocityRPM());
     }
 }

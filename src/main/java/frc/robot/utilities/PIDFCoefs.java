@@ -16,7 +16,6 @@ public class PIDFCoefs implements Sendable {
     private double deltaTolerance;
     private Constraints constraints;
 
-
     /**
      * @param KP             The Proportional coefficient of the PID loop in this
      *                       command.

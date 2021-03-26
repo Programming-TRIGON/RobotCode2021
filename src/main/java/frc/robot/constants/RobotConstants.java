@@ -1,29 +1,38 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
+import frc.robot.components.TBHController;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
 import frc.robot.utilities.PIDFCoefs;
 import frc.robot.utilities.SVACoefs;
+import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.SwerveConstants;
+import frc.robot.utilities.TrigonPIDController;
+import frc.robot.utilities.TrigonProfiledPIDController;
 
 /**
  * All the constants to be uses for the robot
  */
 public abstract class RobotConstants extends RobotMap {
-
-    public LimelightConstants limelightConstants = new LimelightConstants();
+    public LimelightConstants extendedLimelightConstants = new LimelightConstants();
+    public LimelightConstants retractedLimelightConstants = new LimelightConstants();
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public TesterConstants testerConstants = new TesterConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ShooterConstants shooterConstants = new ShooterConstants();
     public LedConstants ledConstants = new LedConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
-    public TriggerConstants triggerConstants = new TriggerConstants();
+    public LoaderConstants loaderConstants = new LoaderConstants();
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
+    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
+    public PitcherConstants pitcherConstants = new PitcherConstants();
+    public IntakeOpenerConstants intakeOpenerConstants = new IntakeOpenerConstants();
+    public SpinnerConstants spinnerConstants = new SpinnerConstants();
 
     public class DrivetrainConstants {
         public CAN.DrivetrainMap CAN_MAP;
@@ -51,13 +60,14 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class LimelightConstants {
+        public String DEFAULT_TABLE_KEY;
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
         public double DISTANCE_CALCULATION_B_COEFFICIENT;
         public double DISTANCE_CALCULATION_C_COEFFICIENT;
         public double LIMELIGHT_ANGLE_OFFSET;
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
-        public String DEFAULT_TABLE_KEY;
+        public int POWER_PORT_PIPELINE;
     }
 
     public class TesterConstants {
@@ -74,12 +84,36 @@ public abstract class RobotConstants extends RobotMap {
         public ShooterMap CAN_MAP;
         public MotorConfig RIGHT_MOTOR_CONFIG;
         public MotorConfig LEFT_MOTOR_CONFIG;
+        public TBHController TBH_CONTROLLER;
+        public TrigonPIDController PID_CONTROLLER;
+        public SimpleMotorFeedforward SIMPLE_MOTOR_FEEDFORWARD;
+        public PIDFCoefs PID_COEFS;
+        public double LIMELIGHT_VELOCITY_COEF_A;
+        public double LIMELIGHT_VELOCITY_COEF_B;
+        public double LIMELIGHT_VELOCITY_COEF_C;
+        public double KF_COEF_A;
+        public double KF_COEF_B;
+        public double SHOOTING_RAMP_RATE;
+        public double TOLERANCE;
+        public double DELTA_TOLERANCE;
+        public int MAX_NUMBER_OF_BALLS;
+        public int KF_CALCULATION_SAMPLE_AMOUNT;
+
+        public double KF_TESTING_INITIAL_DESIRED_VELOCITY;
+        public double KF_TESTING_VELOCITY_ACCELERATION_PER_TEST;
+        public double KF_TESTING_TOLERANCE;
+        public double KF_TESTING_DELTA_TOLERANCE;
+        public int KF_TESTING_CALCULATION_SAMPLE_AMOUNT;
+        public int KF_TESTING_TEST_AMOUNT;
     }
 
-    public class TriggerConstants {
-        public CAN.TriggerMap CAN_MAP;
+    public class LoaderConstants {
+        public CAN.LoaderMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
         public PIDFCoefs PID_COEFS;
+        public FeedforwardConstants FEEDFORWARD_CONSTANTS;
+        public double DEFAULT_SHOOTING_VELOCITY;
+        public double DEFAULT_MIXING_VELOCITY;
     }
 
     public class LedConstants {
@@ -89,6 +123,8 @@ public abstract class RobotConstants extends RobotMap {
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);
             public final LedBlinkColor SENSOR_TEST_FAILURE = new LedBlinkColor(LedColor.Red, 5);
+            public final LedColor SHOOTER_ENABLED = LedColor.Blue;
+            public final LedBlinkColor NO_TARGET = new LedBlinkColor(LedColor.Orange, 2);
             public final LedColor INTAKE_ENABLED = LedColor.Aqua;
             public final LedBlinkColor INTAKE_MOTOR_STALL = new LedBlinkColor(LedColor.Yellow, 5);
         }
@@ -105,5 +141,41 @@ public abstract class RobotConstants extends RobotMap {
     public class ClimberConstants {
         public PWM.ClimberMap PWM_MAP;
         public boolean IS_INVERTED;
+    }
+
+    public class MotionProfilingConstants {
+        public double MAX_VELOCITY;
+        public double MAX_ACCELERATION;
+        public double MAX_CENTRIPETAL_ACCELERATION;
+        public double KP;
+        public double REVERSE_KP;
+
+        public TrigonPIDController X_PID_CONTROLLER;
+        public TrigonPIDController Y_PID_CONTROLLER;
+        public TrigonProfiledPIDController THETA_PROFILED_PID_CONTROLLER;
+    }
+
+    public class PitcherConstants {
+        public PCM.PitcherMap PCM_MAP;
+        public double EXTENDED_TOGGLE_ANGLE;
+        public double RETRACTED_TOGGLE_ANGLE;
+        public int NO_TARGET_BLINK_TIME;
+    }
+
+    public class IntakeOpenerConstants {
+        public CAN.IntakeOpenerMap CAN_MAP;
+        public DIO.IntakeOpenerMap DIO_MAP;
+        public MotorConfig MOTOR_CONFIG;
+        public double DEFAULT_MOTOR_POWER;
+    }
+
+    public class SpinnerConstants {
+        public CAN.SpinnerMap CAN_MAP;
+        public PCM.SpinnerMap PCM_MAP;
+        public I2C.SpinnerMap I2C_MAP;
+        public MotorConfig MOTOR_CONFIG;
+        public double STALL_CURRENT_LIMIT;
+        public double STALL_CHECK_DELAY;
+        public double DEFAULT_MOTOR_POWER;
     }
 }
