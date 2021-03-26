@@ -10,6 +10,7 @@ import frc.robot.subsystems.pitcher.PitcherSS;
  */
 public class PitcherLimelight extends VanillaLimelight {
     private final PitcherSS pitcherSS;
+    private final LimelightConstants extendedConstants = constants;
     private final LimelightConstants retractedConstants;
 
     /**
@@ -52,9 +53,9 @@ public class PitcherLimelight extends VanillaLimelight {
     public double getTargetDistance() {
         double y = getTy();
         if (isHoodExtended())
-            return constants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
-                    + constants.DISTANCE_CALCULATION_B_COEFFICIENT * y
-                    + constants.DISTANCE_CALCULATION_C_COEFFICIENT;
+            return extendedConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
+                    + extendedConstants.DISTANCE_CALCULATION_B_COEFFICIENT * y
+                    + extendedConstants.DISTANCE_CALCULATION_C_COEFFICIENT;
         else
             return retractedConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
                     + retractedConstants.DISTANCE_CALCULATION_B_COEFFICIENT * y
@@ -68,11 +69,11 @@ public class PitcherLimelight extends VanillaLimelight {
         // This is the vector from the limelight to the target.
         Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
         if (isHoodExtended()) {
-            limelightToTarget.rotate(getTx() + constants.LIMELIGHT_ANGLE_OFFSET);
+            limelightToTarget.rotate(getTx() + extendedConstants.LIMELIGHT_ANGLE_OFFSET);
             // The offset is subtracted from the limelightToTarget vector in order to get
             // the final vector.
-            return new Vector2d(limelightToTarget.x - constants.LIMELIGHT_OFFSET_X,
-                    limelightToTarget.y - constants.LIMELIGHT_OFFSET_Y);
+            return new Vector2d(limelightToTarget.x - extendedConstants.LIMELIGHT_OFFSET_X,
+                    limelightToTarget.y - extendedConstants.LIMELIGHT_OFFSET_Y);
         }
         else {
             limelightToTarget.rotate(getTx() + retractedConstants.LIMELIGHT_ANGLE_OFFSET);

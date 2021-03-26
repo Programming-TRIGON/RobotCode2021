@@ -108,8 +108,9 @@ public class RobotA extends RobotConstants {
 
         // Pitcher constants
         pitcherConstants.PCM_MAP = pcm.pitcherMap;
-        pitcherConstants.EXTENDED_ANGLE = 20;
-        pitcherConstants.RETRACTED_ANGLE = 10;
+        pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
+        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
+        pitcherConstants.NO_TARGET_BLINK_TIME = 5;
 
         // Intake opener constants
         intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
@@ -145,7 +146,7 @@ public class RobotA extends RobotConstants {
         retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
 
-        /** Robot Map **/
+        /* Robot Map */
 
         // CAN
 
