@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
-import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 

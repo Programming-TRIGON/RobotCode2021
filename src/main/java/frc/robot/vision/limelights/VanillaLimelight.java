@@ -4,7 +4,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.LimelightConstants;
 import frc.robot.vision.CamMode;
 import frc.robot.vision.LedMode;

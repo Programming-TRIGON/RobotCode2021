@@ -16,7 +16,9 @@ public class SwerveConstants {
     public SVACoefs angleSvaCoefs;
     public SVACoefs speedSvaCoefs;
 
-    public SwerveConstants(TrigonTalonFX speedMotor, TrigonTalonFX angleMotor, double diameter, double offset, double maxMPS, PIDFCoefs anglePidfCoefs, PIDFCoefs speedPidfCoefs, SVACoefs angleSvaCoefs, SVACoefs speedSvaCoefs) {
+    public SwerveConstants(TrigonTalonFX speedMotor, TrigonTalonFX angleMotor, double diameter, double offset,
+            double maxMPS, PIDFCoefs anglePidfCoefs, PIDFCoefs speedPidfCoefs, SVACoefs angleSvaCoefs,
+            SVACoefs speedSvaCoefs) {
         this.speedMotor = speedMotor;
         this.angleMotor = angleMotor;
         this.diameter = diameter;
