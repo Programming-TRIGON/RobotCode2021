@@ -26,12 +26,12 @@ public class AutoShootCMDGP extends SequentialCommandGroup {
         this.subsystems = subsystems;
         this.limelight = limelight;
 
-        shootCMD = new ShooterCMD(subsystems.SHOOTERSS, constants.shooterConstants, subsystems.LEDSS, limelight);
+        shootCMD = new ShooterCMD(subsystems.SHOOTERSS, subsystems.LEDSS, constants.shooterConstants, limelight);
 
-        addCommandToGroup();
+        addCommandsToGroup();
     }
 
-    private void addCommandToGroup() {
+    private void addCommandsToGroup() {
         addCommands(
                 new ConditionalCommand(
                         new SequentialCommandGroup(

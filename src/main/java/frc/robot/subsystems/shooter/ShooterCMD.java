@@ -31,7 +31,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private int ballsShotCount;
     private int sampleCount;
 
-    private ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, boolean isUsingLimelight) {
+    private ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, boolean isUsingLimelight) {
         this.shooterSS = shooterSS;
         this.constants = constants;
         this.ledSS = ledSS;
@@ -41,14 +41,14 @@ public class ShooterCMD extends CommandBase implements Loggable {
         addRequirements(shooterSS);
     }
 
-    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, PitcherLimelight limelight) {
-        this(shooterSS, constants, ledSS, true);
+    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, PitcherLimelight limelight) {
+        this(shooterSS, ledSS, constants, true);
         this.limelight = limelight;
         this.desiredVelocity = this::calculateDesiredVelocity;
     }
 
-    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, DoubleSupplier desiredVelocity) {
-        this(shooterSS, constants, ledSS, false);
+    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, DoubleSupplier desiredVelocity) {
+        this(shooterSS, ledSS, constants, false);
         this.desiredVelocity = desiredVelocity;
     }
 

@@ -45,7 +45,7 @@ public class RobotContainer {
      */
     public void initializeCommands() {
         SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
-        shooterCMD = new ShooterCMD(subsystemContainer.SHOOTERSS, robotConstants.shooterConstants, null,
+        shooterCMD = new ShooterCMD(subsystemContainer.SHOOTERSS, null, robotConstants.shooterConstants,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTERSS, robotConstants.shooterConstants);
     }
