@@ -31,13 +31,13 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(168));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(140));
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(288));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(72.7));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(250));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
-        drivetrainConstants.MAX_SPEED_MPS = 5; // in m/s
-        drivetrainConstants.MAX_ROT_SPEED_RAD_S = 10; // in rad/s
+        drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
+        drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
@@ -110,15 +110,15 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.IS_INVERTED = false;
 
         // Motion profile constants
-        motionProfilingConstants.MAX_VELOCITY = 0;
-        motionProfilingConstants.MAX_ACCELERATION = 0;
-        motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION =0;
+        motionProfilingConstants.MAX_VELOCITY = 5;
+        motionProfilingConstants.MAX_ACCELERATION = 1;
+        motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION = 0.5;
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
         motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0,0));
         motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0,0));
         motionProfilingConstants.THETA_PROFILED_PID_CONTROLLER = new TrigonProfiledPIDController(
-                new PIDFCoefs(0, 0, 0, 0, 0, new Constraints(0,0)));
+                new PIDFCoefs(0.5, 0, 0, 0, 0, new Constraints(100,50)));
         // Pitcher constants
         pitcherConstants.PCM_MAP = pcm.pitcherMap;
         pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;

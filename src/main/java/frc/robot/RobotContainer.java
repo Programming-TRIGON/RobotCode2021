@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
+import frc.robot.motion_profiling.AutoPath;
+import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,9 +25,11 @@ public class RobotContainer {
     private TrigonXboxController xboxController;
     private final LedSS ledSS;
     private final ShooterSS shooterSS;
-    
+
     private ShooterCMD shooterCMD;
     private CalibrateShooterKfCMD calibrateShooterKfCMD;
+
+    private TrigonSwerveControllerCMDGP motionTest;
 
     /**
      * Add classes here
@@ -37,13 +41,14 @@ public class RobotContainer {
         dashboardController = new DashboardController();
         xboxController = new TrigonXboxController(0);
         drivetrainSS = new DrivetrainSS(robotConstants.drivetrainConstants);
-        ledSS=new LedSS(robotConstants.ledConstants);
+        ledSS = new LedSS(robotConstants.ledConstants);
         shooterSS = new ShooterSS(robotConstants.shooterConstants);
 
         initializeCommands();
 
         SmartDashboard.putData("Shooter Command", shooterCMD);
-        SmartDashboard.putData("CalibrateShooterKfCMD" , calibrateShooterKfCMD);
+        SmartDashboard.putData("CalibrateShooterKfCMD", calibrateShooterKfCMD);
+        SmartDashboard.putData("motion", motionTest);
     }
 
     /**
@@ -54,13 +59,17 @@ public class RobotContainer {
         shooterCMD = new ShooterCMD(shooterSS, robotConstants.shooterConstants, null,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(shooterSS, robotConstants.shooterConstants);
-        supplierFieldDriveCMD = new SupplierFieldDriveCMD(
-                drivetrainSS,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kRight)) * Math.pow(xboxController.getX(GenericHID.Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getY(GenericHID.Hand.kRight)) * Math.pow(xboxController.getY(GenericHID.Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft)) * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 7
-        );
-        
+        supplierFieldDriveCMD = new SupplierFieldDriveCMD(drivetrainSS,
+                () -> Math.signum(xboxController.getX(GenericHID.Hand.kRight))
+                        * Math.pow(xboxController.getX(GenericHID.Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getY(GenericHID.Hand.kRight))
+                        * Math.pow(xboxController.getY(GenericHID.Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft))
+                        * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 7);
+
+        motionTest = new TrigonSwerveControllerCMDGP(drivetrainSS, robotConstants.motionProfilingConstants,
+                AutoPath.Test);
+
         drivetrainSS.setDefaultCommand(supplierFieldDriveCMD);
     }
 

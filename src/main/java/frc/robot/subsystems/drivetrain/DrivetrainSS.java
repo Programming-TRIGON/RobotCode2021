@@ -231,6 +231,21 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         return kinematics;
     }
 
+    public void SetSpeedMotorRampRates(double rampRate) {
+        for (SwerveModule swerveModule : modules) {
+            swerveModule.setSpeedMotorRampRate(rampRate);
+        }
+    }
+
+    /*
+     * Sets the ramp rate of the speed motors to the defualt ramp rate.
+     */
+    public void SetSpeedMotorRampRates() {
+        for (SwerveModule swerveModule : modules) {
+            swerveModule.setSpeedMotorRampRate();
+        }
+    }
+
     @Override
     public void periodic() {
         updateOdometry();

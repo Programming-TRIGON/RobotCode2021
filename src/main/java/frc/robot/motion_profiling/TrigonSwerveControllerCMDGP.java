@@ -25,11 +25,12 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
         constants.THETA_PROFILED_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
         addCommands(
             new InstantCommand(drivetrainSS::stopMoving, drivetrainSS),
+            new InstantCommand(() -> drivetrainSS.SetSpeedMotorRampRates(0)),
             new InstantCommand(() -> drivetrainSS.resetOdometry(
-                path.getPath().getTrajectory().getInitialPose()),
+                path.getPath(drivetrainSS, constants).getTrajectory().getInitialPose()),
                 drivetrainSS),
             new SwerveControllerCommand(
-                path.getPath().getTrajectory(),
+                path.getPath(drivetrainSS, constants).getTrajectory(),
                 drivetrainSS::getPose,
                 drivetrainSS.getKinematics(),
                 constants.X_PID_CONTROLLER,
@@ -37,6 +38,7 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
                 constants.THETA_PROFILED_PID_CONTROLLER,
                 drivetrainSS::setDesiredStates,
                 drivetrainSS),
-                new InstantCommand(drivetrainSS::stopMoving, drivetrainSS));
+            new InstantCommand(() -> drivetrainSS.SetSpeedMotorRampRates()),
+            new InstantCommand(drivetrainSS::stopMoving, drivetrainSS));
     }
 }

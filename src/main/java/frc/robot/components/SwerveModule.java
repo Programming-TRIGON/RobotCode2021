@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 import frc.robot.utilities.TrigonProfiledPIDController;
+import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
 
 public class SwerveModule implements Sendable {
     private final SwerveConstants constants;
@@ -201,6 +202,19 @@ public class SwerveModule implements Sendable {
 
     public TrigonPIDController getSpeedPIDController() {
         return speedController;
+    }
+
+    public void setSpeedMotorRampRate(double rampRate) {
+        speedMotor.configOpenloopRamp(rampRate);
+        speedMotor.configClosedloopRamp(rampRate);
+    }
+
+    /*
+     * Sets the ramp rate of the speed motor to the default ramp rate.
+     */
+    public void setSpeedMotorRampRate() {
+        speedMotor.configOpenloopRamp(StaticSwerveConstants.SPEED_DEFAULT_CONFIG.getRampRate());
+        speedMotor.configClosedloopRamp(StaticSwerveConstants.SPEED_DEFAULT_CONFIG.getRampRate());
     }
 
     @Override
