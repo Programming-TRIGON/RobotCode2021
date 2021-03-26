@@ -15,15 +15,15 @@ import frc.robot.subsystems.spinner.SpinnerCMD;
 import frc.robot.vision.Target;
 import frc.robot.vision.limelights.PitcherLimelight;
 
-public class AutoShootCMDGP extends SequentialCommandGroup {
+public class shootCMDGP extends SequentialCommandGroup {
     private final RobotConstants constants;
     private final SubsytemContainer subsystems;
     private final PitcherLimelight limelight;
     private final ShooterCMD shootCMD;
 
-    public AutoShootCMDGP(RobotConstants constants, PitcherLimelight limelight, SubsytemContainer subsystems) {
-        this.constants = constants;
+    public shootCMDGP(SubsytemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
         this.subsystems = subsystems;
+        this.constants = constants;
         this.limelight = limelight;
 
         shootCMD = new ShooterCMD(subsystems.SHOOTERSS, subsystems.LEDSS, constants.shooterConstants, limelight);

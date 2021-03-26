@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.commandgroups.shootCMDGP;
+import frc.robot.commands.commandgroups.CollectCMDGP;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
@@ -14,25 +17,33 @@ import frc.robot.subsystems.shooter.ShooterCMD;
 import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.spinner.SpinnerSS;
 import frc.robot.utilities.DashboardController;
+import frc.robot.vision.limelights.PitcherLimelight;
 import io.github.oblarg.oblog.Logger;
 
 public class RobotContainer {
+    private final SubsystemContainerA subsystemContainer;
     private final RobotA robotConstants;
     private final HomeField fieldConstants;
-    private final SubsystemContainerA subsystemContainer;
     private final DashboardController dashboardController;
+    private final PitcherLimelight limelight;
+
     private ShooterCMD shooterCMD;
     private CalibrateShooterKfCMD calibrateShooterKfCMD;
+
+    private shootCMDGP shootCMDGP;
+    private CollectCMDGP collectCMDGP;
 
     /**
      * Add classes here
      */
     public RobotContainer() {
         Logger.configureLoggingAndConfig(this, false);
+        subsystemContainer = new SubsystemContainerA();
         robotConstants = new RobotA();
         fieldConstants = new HomeField();
-        subsystemContainer = new SubsystemContainerA();
         dashboardController = new DashboardController();
+        limelight = new PitcherLimelight(robotConstants.extendedLimelightConstants,
+                robotConstants.retractedLimelightConstants, subsystemContainer.PITCHERSS);
 
         initializeCommands();
 
@@ -48,6 +59,9 @@ public class RobotContainer {
         shooterCMD = new ShooterCMD(subsystemContainer.SHOOTERSS, null, robotConstants.shooterConstants,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTERSS, robotConstants.shooterConstants);
+
+        shootCMDGP = new shootCMDGP(subsystemContainer, robotConstants, limelight);
+        collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
     }
 
     public void updateDashboard() {
