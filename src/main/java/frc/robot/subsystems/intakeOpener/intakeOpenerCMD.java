@@ -2,7 +2,6 @@ package frc.robot.subsystems.intakeOpener;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.IntakeConstants;
-import frc.robot.subsystems.intakeOpener.IntakeOpenerSS;
 
 import java.util.function.DoubleSupplier;
 
@@ -24,15 +23,14 @@ public class intakeOpenerCMD extends CommandBase {
 
     @Override
     public void execute() {
-        if (intakeOpenerSS.isOpen())
-            intakeOpenerSS.moveWithSafety(power.getAsDouble());
-        else
-            intakeOpenerSS.moveWithSafety(-power.getAsDouble());
+        intakeOpenerSS.moveWithSafety(power.getAsDouble());
     }
 
     @Override
     public boolean isFinished() {
-        return intakeOpenerSS.isOpen() || intakeOpenerSS.isClosed();
+        return power.getAsDouble() < 0 && intakeOpenerSS.isClosed()
+                || power.getAsDouble() > 0 && intakeOpenerSS.isOpen()
+                || power.getAsDouble() == 0;
     }
 
     @Override

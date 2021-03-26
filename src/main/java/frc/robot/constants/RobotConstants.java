@@ -12,8 +12,6 @@ import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 
-import java.util.function.DoubleSupplier;
-
 /**
  * All the constants to be uses for the robot
  */
