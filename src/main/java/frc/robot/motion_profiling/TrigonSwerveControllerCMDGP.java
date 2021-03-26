@@ -20,10 +20,12 @@ import frc.robot.subsystems.drivetrain.DrivetrainSS;
  * The robot angle controller does not follow the angle given by the trajectory
  * but rather goes to the angle given in the final state of the trajectory.
  */
-public class TrigonSwerveControllerCommand extends SequentialCommandGroup {
+public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
 
-    public TrigonSwerveControllerCommand(DrivetrainSS drivetrainSS, MotionProfilingConstants constants, AutoPath path) {
+    public TrigonSwerveControllerCMDGP(DrivetrainSS drivetrainSS, MotionProfilingConstants constants, AutoPath path) {
+        constants.THETA_PROFILED_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
         addCommands(
+                new InstantCommand(drivetrainSS::stopMoving, drivetrainSS),
                 new InstantCommand(() -> drivetrainSS.resetOdometry(path.getPath().getTrajectory().getInitialPose()),
                         drivetrainSS),
                 new SwerveControllerCommand(

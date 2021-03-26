@@ -109,13 +109,11 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.IS_INVERTED = false;
 
         // Motion profile constants
-
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
         motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION =0;
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
-
         motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDCoefs(0, 0,0));
         motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDCoefs(0, 0,0));
         motionProfilingConstants.THETA_PROFILED_PID_CONTROLLER = new TrigonProfiledPIDController(
