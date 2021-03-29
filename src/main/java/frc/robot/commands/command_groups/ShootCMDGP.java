@@ -23,8 +23,8 @@ public class ShootCMDGP extends SequentialCommandGroup {
                 this.constants = constants;
                 this.limelight = limelight;
 
-                // this is done to avoid the drivetrain moving after the TurnToTargetCMD is completed
-                addRequirements(subsystems.DRIVETRAIN_SS);
+                addRequirements(subsystems.DRIVETRAIN_SS, subsystems.PITCHER_SS, subsystems.LED_SS,
+                                subsystems.SHOOTER_SS, subsystems.LOADER_SS, subsystems.SPINNER_SS);
 
                 shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants,
                                 limelight);
@@ -37,7 +37,8 @@ public class ShootCMDGP extends SequentialCommandGroup {
                                 new SequentialCommandGroup(
                                                 new InstantCommand(subsystems.PITCHER_SS::toggleSolenoid,
                                                                 subsystems.PITCHER_SS),
-                                                new ConditionalCommand(new InstantCommand(this::addShootingCommandGroup),
+                                                new ConditionalCommand(
+                                                                new InstantCommand(this::addShootingCommandGroup),
                                                                 new BlinkAndLogCMD(subsystems.LED_SS,
                                                                                 "ShootCMDGP: NO TARGET FOUND! try repositioning",
                                                                                 constants.ledConstants.COLOR_MAP.NO_TARGET),

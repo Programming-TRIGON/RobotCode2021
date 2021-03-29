@@ -17,13 +17,13 @@ public class CollectCMDGP extends SequentialCommandGroup {
         this.subsystems = subsystems;
         this.constants = constants;
 
+        addRequirements(subsystems.INTAKE_OPENER_SS, subsystems.SPINNER_SS, subsystems.SPINNER_SS);
+
         addCommandsToGroup();
     }
 
     private void addCommandsToGroup() {
-        addCommands(
-                new IntakeOpenerCMD(subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants),
-                // TODO: add intake opener closing once OI is built
+        addCommands(new IntakeOpenerCMD(subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants),
                 new ParallelCommandGroup(
                         new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
                                 constants.loaderConstants.DEFAULT_MIXING_VELOCITY),
