@@ -58,7 +58,9 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_ANGLE_OFFSET;
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
-        public int POWER_PORT_PIPELINE;
+        public double SHOOTER_VELOCITY_COEF_A;
+        public double SHOOTER_VELOCITY_COEF_B;
+        public double SHOOTER_VELOCITY_COEF_C;
     }
 
     public class TesterConstants {
@@ -79,9 +81,6 @@ public abstract class RobotConstants extends RobotMap {
         public TrigonPIDController PID_CONTROLLER;
         public SimpleMotorFeedforward SIMPLE_MOTOR_FEEDFORWARD;
         public PIDCoefs PID_COEFS;
-        public double LIMELIGHT_VELOCITY_COEF_A;
-        public double LIMELIGHT_VELOCITY_COEF_B;
-        public double LIMELIGHT_VELOCITY_COEF_C;
         public double KF_COEF_A;
         public double KF_COEF_B;
         public double SHOOTING_RAMP_RATE;

@@ -1,9 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.commandgroups.shootCMDGP;
+import frc.robot.commands.commandgroups.ShootCMDGP;
 import frc.robot.commands.commandgroups.CollectCMDGP;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
@@ -30,7 +29,7 @@ public class RobotContainer {
     private ShooterCMD shooterCMD;
     private CalibrateShooterKfCMD calibrateShooterKfCMD;
 
-    private shootCMDGP shootCMDGP;
+    private ShootCMDGP shootCMDGP;
     private CollectCMDGP collectCMDGP;
 
     /**
@@ -43,7 +42,7 @@ public class RobotContainer {
         subsystemContainer = new SubsystemContainerA();
         dashboardController = new DashboardController();
         limelight = new PitcherLimelight(robotConstants.extendedLimelightConstants,
-                robotConstants.retractedLimelightConstants, subsystemContainer.PITCHERSS);
+                robotConstants.retractedLimelightConstants, subsystemContainer.PITCHER_SS);
 
         initializeCommands();
 
@@ -56,11 +55,11 @@ public class RobotContainer {
      */
     public void initializeCommands() {
         SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
-        shooterCMD = new ShooterCMD(subsystemContainer.SHOOTERSS, null, robotConstants.shooterConstants,
+        shooterCMD = new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
-        calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTERSS, robotConstants.shooterConstants);
+        calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS, robotConstants.shooterConstants);
 
-        shootCMDGP = new shootCMDGP(subsystemContainer, robotConstants, limelight);
+        shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
     }
 
@@ -74,19 +73,19 @@ public class RobotContainer {
      */
     public void periodic() {
         updateDashboard();
-        SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTERSS.getVelocityRPM());
+        SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
     }
 
     public class SubsystemContainerA extends SubsytemContainer {
         public SubsystemContainerA() {
-            LEDSS = new LedSS(robotConstants.ledConstants);
-            DRIVETRAINSS = new DrivetrainSS(robotConstants.drivetrainConstants);
-            SHOOTERSS = new ShooterSS(robotConstants.shooterConstants);
-            PITCHERSS = new PitcherSS(robotConstants.pitcherConstants);
-            LOADERSS = new LoaderSS(robotConstants.loaderConstants);
-            SPINNERSS = new SpinnerSS(robotConstants.spinnerConstants);
-            INTAKESS = new IntakeSS(robotConstants.intakeConstants);
-            INTAKEOPENERSS = new IntakeOpenerSS(robotConstants.intakeOpenerConstants);
+            LED_SS = new LedSS(robotConstants.ledConstants);
+            DRIVETRAIN_SS = new DrivetrainSS(robotConstants.drivetrainConstants);
+            SHOOTER_SS = new ShooterSS(robotConstants.shooterConstants);
+            PITCHER_SS = new PitcherSS(robotConstants.pitcherConstants);
+            LOADER_SS = new LoaderSS(robotConstants.loaderConstants);
+            SPINNER_SS = new SpinnerSS(robotConstants.spinnerConstants);
+            INTAKE_SS = new IntakeSS(robotConstants.intakeConstants);
+            INTAKE_OPENER_SS = new IntakeOpenerSS(robotConstants.intakeOpenerConstants);
         }
     }
 }

@@ -10,12 +10,12 @@ import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.spinner.SpinnerSS;
 
 public abstract class SubsytemContainer {
-    public LedSS LEDSS;
-    public DrivetrainSS DRIVETRAINSS;
-    public ShooterSS SHOOTERSS;
-    public PitcherSS PITCHERSS;
-    public LoaderSS LOADERSS;
-    public SpinnerSS SPINNERSS;
-    public IntakeSS INTAKESS;
-    public IntakeOpenerSS INTAKEOPENERSS;
+    public LedSS LED_SS;
+    public DrivetrainSS DRIVETRAIN_SS;
+    public ShooterSS SHOOTER_SS;
+    public PitcherSS PITCHER_SS;
+    public LoaderSS LOADER_SS;
+    public SpinnerSS SPINNER_SS;
+    public IntakeSS INTAKE_SS;
+    public IntakeOpenerSS INTAKE_OPENER_SS;
 }

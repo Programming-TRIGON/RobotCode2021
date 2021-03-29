@@ -21,12 +21,6 @@ public class LoaderCMD extends CommandBase {
         this(loaderSS, constants, () -> desiredVelocity);
     }
 
-    /*
-     * Constructs an instance of LoaderCMD using the default loader velocity
-     */
-    public LoaderCMD(LoaderSS loaderSS, LoaderConstants constants) {
-        this(loaderSS, constants, () -> constants.DEFAULT_SHOOTING_VELOCITY);
-    }
 
     @Override
     public void execute() {

@@ -3,15 +3,13 @@ package frc.robot.commands.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.SubsytemContainer;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.intake.IntakeCMD;
 import frc.robot.subsystems.intakeOpener.intakeOpenerCMD;
+import frc.robot.subsystems.loader.LoaderCMD;
 import frc.robot.subsystems.spinner.SpinnerCMD;
-
-import java.util.function.BooleanSupplier;
 
 public class CollectCMDGP extends SequentialCommandGroup {
     private final SubsytemContainer subsystems;
@@ -25,12 +23,13 @@ public class CollectCMDGP extends SequentialCommandGroup {
     private void addCommandsToGroup() {
         addCommands(
                 new SequentialCommandGroup(
-                        new intakeOpenerCMD(subsystems.INTAKEOPENERSS, constants.intakeOpenerConstants),
-                        new WaitUntilCommand(subsystems.INTAKEOPENERSS::isOpen),
+                        new intakeOpenerCMD(subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants),
+                        new WaitUntilCommand(subsystems.INTAKE_OPENER_SS::isOpen),
                         //TODO: add intake opener closing once OI is built
                         new ParallelCommandGroup(
-                                new SpinnerCMD(subsystems.SPINNERSS, constants.spinnerConstants),
-                                new IntakeCMD(subsystems.INTAKESS, subsystems.LEDSS, constants.intakeConstants)
+                                new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants, constants.loaderConstants.DEFAULT_MIXING_VELOCITY),
+                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants),
+                                new IntakeCMD(subsystems.INTAKE_SS, subsystems.LED_SS, constants.intakeConstants)
                         )
                 )
         );

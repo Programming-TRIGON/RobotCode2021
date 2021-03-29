@@ -44,25 +44,12 @@ public class ShooterCMD extends CommandBase implements Loggable {
     public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, PitcherLimelight limelight) {
         this(shooterSS, ledSS, constants, true);
         this.limelight = limelight;
-        this.desiredVelocity = this::calculateDesiredVelocity;
+        this.desiredVelocity = limelight::calculateDesiredShooterVelocity;
     }
 
     public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, DoubleSupplier desiredVelocity) {
         this(shooterSS, ledSS, constants, false);
         this.desiredVelocity = desiredVelocity;
-    }
-
-    /**
-     * Calculates the desired desiredVelocity to set the motors based on the height
-     * at which the limelight sees the target
-     *
-     * @return the desired desiredVelocity of the motors
-     */
-    // TODO: Set correct calculation based on function chosen for calculation.
-    private double calculateDesiredVelocity() {
-        double y = limelight.getTy();
-        return constants.LIMELIGHT_VELOCITY_COEF_A * Math.pow(y, 2) + constants.LIMELIGHT_VELOCITY_COEF_B * y
-                + constants.LIMELIGHT_VELOCITY_COEF_C;
     }
 
     @Override
