@@ -15,6 +15,8 @@ import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
+import frc.robot.utilities.TrigonProfiledPIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 
 /**
  * instantiates the robot constants
@@ -102,6 +104,16 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
         rightClimberConstants.IS_INVERTED = false;
 
+        // Motion profile constants
+        motionProfilingConstants.MAX_VELOCITY = 0;
+        motionProfilingConstants.MAX_ACCELERATION = 0;
+        motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION =0;
+        motionProfilingConstants.KP = 0;
+        motionProfilingConstants.REVERSE_KP = 0;
+        motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDCoefs(0, 0,0));
+        motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDCoefs(0, 0,0));
+        motionProfilingConstants.THETA_PROFILED_PID_CONTROLLER = new TrigonProfiledPIDController(
+                new PIDCoefs(0, 0, 0, 0, 0, new Constraints(0,0)));
         // Pitcher constants
         pitcherConstants.PCM_MAP = pcm.pitcherMap;
         pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;

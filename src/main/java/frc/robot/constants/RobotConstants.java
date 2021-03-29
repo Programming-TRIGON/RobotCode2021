@@ -11,6 +11,7 @@ import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.PIDCoefs;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
+import frc.robot.utilities.TrigonProfiledPIDController;
 
 /**
  * All the constants to be uses for the robot
@@ -27,6 +28,7 @@ public abstract class RobotConstants extends RobotMap {
     public LoaderConstants loaderConstants = new LoaderConstants();
     public ClimberConstants leftClimberConstants = new ClimberConstants();
     public ClimberConstants rightClimberConstants = new ClimberConstants();
+    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
     public PitcherConstants pitcherConstants = new PitcherConstants();
     public IntakeOpenerConstants intakeOpenerConstants = new IntakeOpenerConstants();
     public SpinnerConstants spinnerConstants = new SpinnerConstants();
@@ -131,6 +133,18 @@ public abstract class RobotConstants extends RobotMap {
     public class ClimberConstants {
         public PWM.ClimberMap PWM_MAP;
         public boolean IS_INVERTED;
+    }
+
+    public class MotionProfilingConstants {
+        public double MAX_VELOCITY;
+        public double MAX_ACCELERATION;
+        public double MAX_CENTRIPETAL_ACCELERATION;
+        public double KP;
+        public double REVERSE_KP;
+
+        public TrigonPIDController X_PID_CONTROLLER;
+        public TrigonPIDController Y_PID_CONTROLLER;
+        public TrigonProfiledPIDController THETA_PROFILED_PID_CONTROLLER;
     }
 
     public class PitcherConstants {
