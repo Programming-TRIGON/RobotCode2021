@@ -16,7 +16,7 @@ public class IntakeCMD extends CommandBase {
     private double reverseMotorStartTime;
     private boolean stillStalled;
 
-    public IntakeCMD(IntakeSS intakeSS, IntakeConstants constants, LedSS ledSS, DoubleSupplier power) {
+    public IntakeCMD(IntakeSS intakeSS, LedSS ledSS, IntakeConstants constants, DoubleSupplier power) {
         this.intakeSS = intakeSS;
         this.constants = constants;
         this.ledSS = ledSS;
@@ -24,12 +24,12 @@ public class IntakeCMD extends CommandBase {
         addRequirements(intakeSS);
     }
 
-    public IntakeCMD(IntakeSS intakeSS, IntakeConstants constants, LedSS ledSS, double power) {
-        this(intakeSS, constants, ledSS, () -> power);
+    public IntakeCMD(IntakeSS intakeSS, LedSS ledSS, IntakeConstants constants, double power) {
+        this(intakeSS, ledSS, constants, () -> power);
     }
 
-    public IntakeCMD(IntakeSS intakeSS, IntakeConstants constants, LedSS ledSS) {
-        this(intakeSS, constants, ledSS, () -> constants.DEFAULT_MOTOR_POWER);
+    public IntakeCMD(IntakeSS intakeSS, LedSS ledSS, IntakeConstants constants) {
+        this(intakeSS, ledSS, constants, () -> constants.DEFAULT_MOTOR_POWER);
     }
 
     @Override

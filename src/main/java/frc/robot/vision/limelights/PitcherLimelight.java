@@ -35,7 +35,7 @@ public class PitcherLimelight extends VanillaLimelight {
     /**
      * @return is the hood extended (true=extended false=retracted)
      */
-    public boolean isHoodExtended() {
+    public boolean hoodExtended() {
         return pitcherSS.getSolenoidState();
     }
 
@@ -52,7 +52,7 @@ public class PitcherLimelight extends VanillaLimelight {
     // TODO: set real function
     public double getTargetDistance() {
         double y = getTy();
-        if (isHoodExtended())
+        if (hoodExtended())
             return extendedConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
                     + extendedConstants.DISTANCE_CALCULATION_B_COEFFICIENT * y
                     + extendedConstants.DISTANCE_CALCULATION_C_COEFFICIENT;
@@ -63,12 +63,29 @@ public class PitcherLimelight extends VanillaLimelight {
     }
 
     /**
+     * Calculates the desired desiredVelocity to set the motors based on the height
+     * at which the limelight sees the target
+     *
+     * @return the desired desiredVelocity of the motors
+     */
+    // TODO: Set correct calculation based on function chosen for calculation.
+    public double calculateDesiredShooterVelocity() {
+        double y = getTy();
+        if (hoodExtended())
+            return extendedConstants.SHOOTER_VELOCITY_COEF_A * Math.pow(y, 2) + extendedConstants.SHOOTER_VELOCITY_COEF_B * y
+                    + extendedConstants.SHOOTER_VELOCITY_COEF_C;
+        else
+            return retractedConstants.SHOOTER_VELOCITY_COEF_A * Math.pow(y, 2) + retractedConstants.SHOOTER_VELOCITY_COEF_B * y
+                    + retractedConstants.SHOOTER_VELOCITY_COEF_C;
+    }
+
+    /**
      * @return the vector between the middle of the robot and the target.
      */
     private Vector2d calculateVector() {
         // This is the vector from the limelight to the target.
         Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
-        if (isHoodExtended()) {
+        if (hoodExtended()) {
             limelightToTarget.rotate(getTx() + extendedConstants.LIMELIGHT_ANGLE_OFFSET);
             // The offset is subtracted from the limelightToTarget vector in order to get
             // the final vector.
