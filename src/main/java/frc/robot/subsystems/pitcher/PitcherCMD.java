@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.led.LedSS;
+import frc.robot.utilities.DriverStationLogger;
 import frc.robot.vision.limelights.PitcherLimelight;
 
 public class PitcherCMD extends CommandBase {
@@ -11,8 +12,6 @@ public class PitcherCMD extends CommandBase {
     private final PitcherConstants constants;
     private final PitcherLimelight limelight;
     private final LedSS ledSS;
-    private InstantCommand instantCommand;
-    private boolean hoodPosition;
 
     public PitcherCMD(PitcherSS pitcherSS, LedSS ledSS, PitcherConstants constants, PitcherLimelight limelight) {
         this.pitcherSS = pitcherSS;
@@ -33,7 +32,9 @@ public class PitcherCMD extends CommandBase {
                     : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
         }
         else {
-            ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
+            if(ledSS != null)
+                ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
+            DriverStationLogger.logToDS("PitcherCMD: No Target Found");
         }
     }
 }

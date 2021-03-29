@@ -1,7 +1,6 @@
 package frc.robot.subsystems.intakeOpener;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 
 import java.util.function.DoubleSupplier;
