@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    robotContainer.autonomousInit();
   }
 
   @Override
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    robotContainer.teleopInit();
   }
 
   @Override

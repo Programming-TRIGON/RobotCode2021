@@ -1,4 +1,4 @@
-package frc.robot.commands.commandgroups;
+package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.SubsytemContainer;
@@ -22,6 +22,9 @@ public class ShootCMDGP extends SequentialCommandGroup {
                 this.subsystems = subsystems;
                 this.constants = constants;
                 this.limelight = limelight;
+
+                // this is done to avoid the drivetrain moving after the TurnToTargetCMD is completed
+                addRequirements(subsystems.DRIVETRAIN_SS);
 
                 shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants,
                                 limelight);
