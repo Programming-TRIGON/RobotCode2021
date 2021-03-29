@@ -74,9 +74,6 @@ public class RobotA extends RobotConstants {
         shooterConstants.TBH_CONTROLLER = new TBHController(0.00005, shooterConstants.PID_COEFS.getTolerance());
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
         shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.122, 0.00984);
-        shooterConstants.LIMELIGHT_VELOCITY_COEF_A = 1;
-        shooterConstants.LIMELIGHT_VELOCITY_COEF_B = 1;
-        shooterConstants.LIMELIGHT_VELOCITY_COEF_C = 1;
         shooterConstants.KF_COEF_A = 0.0019;
         shooterConstants.KF_COEF_B = 0.7729;
         shooterConstants.SHOOTING_RAMP_RATE = 2;
@@ -148,6 +145,9 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
+        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
+        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
@@ -157,6 +157,9 @@ public class RobotA extends RobotConstants {
         retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
+        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
+        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
 
         /* Robot Map */
 

@@ -31,7 +31,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private int ballsShotCount;
     private int sampleCount;
 
-    private ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, boolean isUsingLimelight) {
+    private ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, boolean isUsingLimelight) {
         this.shooterSS = shooterSS;
         this.constants = constants;
         this.ledSS = ledSS;
@@ -41,28 +41,15 @@ public class ShooterCMD extends CommandBase implements Loggable {
         addRequirements(shooterSS);
     }
 
-    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, PitcherLimelight limelight) {
-        this(shooterSS, constants, ledSS, true);
+    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, PitcherLimelight limelight) {
+        this(shooterSS, ledSS, constants, true);
         this.limelight = limelight;
-        this.desiredVelocity = this::calculateDesiredVelocity;
+        this.desiredVelocity = limelight::calculateDesiredShooterVelocity;
     }
 
-    public ShooterCMD(ShooterSS shooterSS, ShooterConstants constants, LedSS ledSS, DoubleSupplier desiredVelocity) {
-        this(shooterSS, constants, ledSS, false);
+    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, DoubleSupplier desiredVelocity) {
+        this(shooterSS, ledSS, constants, false);
         this.desiredVelocity = desiredVelocity;
-    }
-
-    /**
-     * Calculates the desired desiredVelocity to set the motors based on the height
-     * at which the limelight sees the target
-     *
-     * @return the desired desiredVelocity of the motors
-     */
-    // TODO: Set correct calculation based on function chosen for calculation.
-    private double calculateDesiredVelocity() {
-        double y = limelight.getTy();
-        return constants.LIMELIGHT_VELOCITY_COEF_A * Math.pow(y, 2) + constants.LIMELIGHT_VELOCITY_COEF_B * y
-                + constants.LIMELIGHT_VELOCITY_COEF_C;
     }
 
     @Override
