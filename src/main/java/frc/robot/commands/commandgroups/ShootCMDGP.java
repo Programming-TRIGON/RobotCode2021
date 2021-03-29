@@ -3,7 +3,7 @@ package frc.robot.commands.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.SubsytemContainer;
-import frc.robot.commands.GenericTurnToTargetCMD;
+import frc.robot.commands.turnToTargetCMD;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.loader.LoaderCMD;
 import frc.robot.subsystems.pitcher.PitcherCMD;
@@ -35,8 +35,8 @@ public class ShootCMDGP extends SequentialCommandGroup {
                         new PitcherCMD(subsystems.PITCHER_SS, subsystems.LED_SS, constants.pitcherConstants, limelight),
                         shootCMD,
                         new SequentialCommandGroup(
-                                new GenericTurnToTargetCMD(limelight, constants.visionConstants,
-                                        Target.PowerPort, subsystems.DRIVETRAIN_SS),
+                                new turnToTargetCMD(subsystems.DRIVETRAIN_SS, limelight,
+                                        constants.visionConstants, Target.PowerPort),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(shootCMD::atSetpoint),
                                         new ParallelCommandGroup(
