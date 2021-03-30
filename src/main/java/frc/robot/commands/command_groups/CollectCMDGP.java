@@ -17,7 +17,7 @@ public class CollectCMDGP extends SequentialCommandGroup {
         this.subsystems = subsystems;
         this.constants = constants;
 
-        addRequirements(subsystems.INTAKE_OPENER_SS, subsystems.SPINNER_SS, subsystems.SPINNER_SS);
+        addRequirements(subsystems.INTAKE_OPENER_SS, subsystems.INTAKE_SS, subsystems.SPINNER_SS, subsystems.LOADER_SS);
 
         addCommandsToGroup();
     }
