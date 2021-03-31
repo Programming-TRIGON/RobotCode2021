@@ -1,26 +1,20 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
+import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
-import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.components.*;
 import frc.robot.constants.RobotConstants;
-import frc.robot.utilities.PIDFCoefs;
-import frc.robot.utilities.SVACoefs;
-import frc.robot.utilities.FeedforwardConstants;
-import frc.robot.utilities.SwerveConstants;
+import frc.robot.utilities.*;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
-import frc.robot.utilities.TrigonPIDController;
-import frc.robot.utilities.TrigonProfiledPIDController;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 
 /**
  * instantiates the robot constants
@@ -115,10 +109,10 @@ public class RobotA extends RobotConstants {
         motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION = 0.5;
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
-        motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0,0));
-        motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0,0));
+        motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0, 0));
+        motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0, 0));
         motionProfilingConstants.THETA_PROFILED_PID_CONTROLLER = new TrigonProfiledPIDController(
-                new PIDFCoefs(0.5, 0, 0, 0, 0, new Constraints(100,50)));
+                new PIDFCoefs(0.5, 0, 0, 0, 0, new Constraints(100, 50)));
         // Pitcher constants
         pitcherConstants.PCM_MAP = pcm.pitcherMap;
         pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
@@ -170,12 +164,12 @@ public class RobotA extends RobotConstants {
 
         // CAN
 
+        can.spinnerMap.MOTOR = new TrigonTalonSRX(11, spinnerConstants.MOTOR_CONFIG);
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(13, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(15, intakeConstants.MOTOR_CONFIG);
         can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(16, intakeOpenerConstants.MOTOR_CONFIG);
         can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
-        can.spinnerMap.MOTOR = new TrigonTalonSRX(18, spinnerConstants.MOTOR_CONFIG);
 
         // Drivetrain map;
         drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0.557, 2.35, 0.0749);
