@@ -17,17 +17,19 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
-    @Override
-    public void autonomousInit() {
-    }
+  @Override
+  public void autonomousInit() {
+    robotContainer.autonomousInit();
+  }
 
     @Override
     public void autonomousPeriodic() {
     }
 
-    @Override
-    public void teleopInit() {
-    }
+  @Override
+  public void teleopInit() {
+    robotContainer.teleopInit();
+  }
 
     @Override
     public void teleopPeriodic() {

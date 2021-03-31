@@ -79,6 +79,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.SHOOTING_RAMP_RATE = 2;
         shooterConstants.TOLERANCE = 10;
         shooterConstants.DELTA_TOLERANCE = 4;
+        shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD = 0.4;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
         shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 30;
         shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
@@ -126,13 +127,14 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
         intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
         intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
+        intakeOpenerConstants.DEFAULT_OPEN_POWER = 0.6;
+        intakeOpenerConstants.DEFAULT_CLOSE_POWER = -0.6;
 
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
         spinnerConstants.MOTOR_CONFIG = new MotorConfig(5, NeutralMode.Coast, 0);
         spinnerConstants.DEFAULT_MOTOR_POWER = 0.5;
-        intakeConstants.STALL_CHECK_DELAY = 0.5;
         spinnerConstants.STALL_CURRENT_LIMIT = 10;
 
         /* Limelight Constants */

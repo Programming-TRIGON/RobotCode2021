@@ -1,4 +1,4 @@
-package frc.robot.commands.commandgroups;
+package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.SubsytemContainer;
@@ -23,6 +23,9 @@ public class ShootCMDGP extends SequentialCommandGroup {
                 this.constants = constants;
                 this.limelight = limelight;
 
+                addRequirements(subsystems.DRIVETRAIN_SS, subsystems.PITCHER_SS, subsystems.LED_SS,
+                                subsystems.SHOOTER_SS, subsystems.LOADER_SS, subsystems.SPINNER_SS);
+
                 shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants,
                                 limelight);
 
@@ -34,7 +37,8 @@ public class ShootCMDGP extends SequentialCommandGroup {
                                 new SequentialCommandGroup(
                                                 new InstantCommand(subsystems.PITCHER_SS::toggleSolenoid,
                                                                 subsystems.PITCHER_SS),
-                                                new ConditionalCommand(new InstantCommand(this::addShootingCommandGroup),
+                                                new ConditionalCommand(
+                                                                new InstantCommand(this::addShootingCommandGroup),
                                                                 new BlinkAndLogCMD(subsystems.LED_SS,
                                                                                 "ShootCMDGP: NO TARGET FOUND! try repositioning",
                                                                                 constants.ledConstants.COLOR_MAP.NO_TARGET),

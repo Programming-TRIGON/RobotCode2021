@@ -1,4 +1,4 @@
-package frc.robot.subsystems.intakeOpener;
+package frc.robot.subsystems.intake_opener;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.components.TrigonTalonSRX;

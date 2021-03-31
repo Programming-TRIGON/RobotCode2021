@@ -95,6 +95,9 @@ public abstract class RobotConstants extends RobotMap {
         public double SHOOTING_RAMP_RATE;
         public double TOLERANCE;
         public double DELTA_TOLERANCE;
+        // The value of the xbox at which it will cancel the ShootCMDGP allowing the
+        // driver to resume driving
+        public double CANCEL_CMDGP_AXIS_THRESHOLD;
         public int MAX_NUMBER_OF_BALLS;
         public int KF_CALCULATION_SAMPLE_AMOUNT;
 
@@ -165,7 +168,8 @@ public abstract class RobotConstants extends RobotMap {
         public CAN.IntakeOpenerMap CAN_MAP;
         public DIO.IntakeOpenerMap DIO_MAP;
         public MotorConfig MOTOR_CONFIG;
-        public double DEFAULT_MOTOR_POWER;
+        public double DEFAULT_OPEN_POWER;
+        public double DEFAULT_CLOSE_POWER;
     }
 
     public class SpinnerConstants {

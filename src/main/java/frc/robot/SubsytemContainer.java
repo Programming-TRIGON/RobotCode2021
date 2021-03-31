@@ -2,7 +2,7 @@ package frc.robot;
 
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.intake.IntakeSS;
-import frc.robot.subsystems.intakeOpener.IntakeOpenerSS;
+import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;

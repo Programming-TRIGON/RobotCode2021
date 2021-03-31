@@ -1,9 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.commandgroups.ShootCMDGP;
-import frc.robot.commands.commandgroups.CollectCMDGP;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.command_groups.ShootCMDGP;
+import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
@@ -11,7 +13,8 @@ import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.intake.IntakeSS;
-import frc.robot.subsystems.intakeOpener.IntakeOpenerSS;
+import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
+import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
@@ -37,7 +40,9 @@ public class RobotContainer {
     private SupplierFieldDriveCMD supplierFieldDriveCMD;
 
     private TrigonSwerveControllerCMDGP motionTest;
-    private ShootCMDGP shootCMDGP;
+    private IntakeOpenerCMD closeIntakeCMD;
+
+    private Command shootCMDGP;
     private CollectCMDGP collectCMDGP;
 
     /**
@@ -54,6 +59,7 @@ public class RobotContainer {
                 robotConstants.retractedLimelightConstants, subsystemContainer.PITCHER_SS);
 
         initializeCommands();
+        BindCommands();
 
         SmartDashboard.putData("Shooter Command", shooterCMD);
         SmartDashboard.putData("CalibrateShooterKfCMD", calibrateShooterKfCMD);
@@ -61,7 +67,7 @@ public class RobotContainer {
     }
 
     /**
-     * initializes all commands
+     * Initializes all commands.
      */
     public void initializeCommands() {
         SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
@@ -69,21 +75,34 @@ public class RobotContainer {
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS, robotConstants.shooterConstants);
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kRight))
-                        * Math.pow(xboxController.getX(GenericHID.Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getY(GenericHID.Hand.kRight))
-                        * Math.pow(xboxController.getY(GenericHID.Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getX(GenericHID.Hand.kLeft))
-                        * Math.pow(xboxController.getX(GenericHID.Hand.kLeft), 2) / 7);
+                () -> Math.signum(xboxController.getX(Hand.kRight))
+                        * Math.pow(xboxController.getX(Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getY(Hand.kRight))
+                        * Math.pow(xboxController.getY(Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getX(Hand.kLeft))
+                        * Math.pow(xboxController.getX(Hand.kLeft), 2) / 7);
 
         motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS, robotConstants.motionProfilingConstants,
                 AutoPath.Test);
 
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
-        calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS, robotConstants.shooterConstants);
+        calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
+                robotConstants.shooterConstants);
 
-        shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight);
+        shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight)
+                .withInterrupt(this::cancelShooterCMDGP);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
+        closeIntakeCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
+                () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
+    }
+
+    /**
+     * Binds all commands to the buttons that use them. Call this after initializing
+     * the commands.
+     */
+    public void BindCommands() {
+        xboxController.getButtonX().whenPressed(shootCMDGP);
+        xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
     }
 
     public void updateDashboard() {
@@ -92,11 +111,39 @@ public class RobotContainer {
     }
 
     /**
-     * call this method periodically
+     * Call this method in the autonomousInit.
+     */
+    public void autonomousInit() {
+        CommandScheduler.getInstance().schedule(closeIntakeCMD);
+    }
+
+    /**
+     * Call this method in the teleopInit.
+     */
+    public void teleopInit() {
+        CommandScheduler.getInstance().schedule(closeIntakeCMD);
+    }
+
+    /**
+     * Call this method periodically.
      */
     public void periodic() {
         updateDashboard();
         SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
+    }
+
+    /**
+     * Checks the values of the driving joysticks and if one of them is above a
+     * specified threshold. This is done incase the driver desires to continue
+     * moving before the robot is finished shooting.
+     * 
+     * @return if to interrupt the shooterCMDGP.
+     */
+    private boolean cancelShooterCMDGP() {
+        double threshold = robotConstants.shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD;
+        return Math.abs(xboxController.getX(Hand.kRight)) >= threshold
+                || Math.abs(xboxController.getY(Hand.kRight)) >= threshold
+                || Math.abs(xboxController.getX(Hand.kLeft)) >= threshold;
     }
 
     public class SubsystemContainerA extends SubsytemContainer {
