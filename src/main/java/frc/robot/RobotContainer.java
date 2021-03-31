@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.command_groups.ShootCMDGP;
+import frc.robot.commands.GenericCalibrateKF;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
@@ -37,6 +38,7 @@ public class RobotContainer {
 
     private ShooterCMD shooterCMD;
     private CalibrateShooterKfCMD calibrateShooterKfCMD;
+    private GenericCalibrateKF calibrateLoaderKfCMD;
     private SupplierFieldDriveCMD supplierFieldDriveCMD;
 
     private TrigonSwerveControllerCMDGP motionTest;
@@ -63,6 +65,7 @@ public class RobotContainer {
 
         SmartDashboard.putData("Shooter Command", shooterCMD);
         SmartDashboard.putData("CalibrateShooterKfCMD", calibrateShooterKfCMD);
+        SmartDashboard.putData("CalibrateLoaderKfCMD", calibrateLoaderKfCMD);
         SmartDashboard.putData("motion", motionTest);
     }
 
@@ -73,27 +76,28 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
         shooterCMD = new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
-        calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS, robotConstants.shooterConstants);
-        supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
-                () -> Math.signum(xboxController.getX(Hand.kRight))
-                        * Math.pow(xboxController.getX(Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getY(Hand.kRight))
-                        * Math.pow(xboxController.getY(Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getX(Hand.kLeft))
-                        * Math.pow(xboxController.getX(Hand.kLeft), 2) / 7);
-
-        motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS, robotConstants.motionProfilingConstants,
-                AutoPath.Test);
-
-        subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
                 robotConstants.shooterConstants);
+        supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
+                () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 7,
+                () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 7);
+
+        motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
+                robotConstants.motionProfilingConstants, AutoPath.Test);
+
+        calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
+                robotConstants.shooterConstants);
+        calibrateLoaderKfCMD = new GenericCalibrateKF(subsystemContainer.LOADER_SS, robotConstants.loaderConstants.FEEDFORWARD_CONSTANTS);
 
         shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight)
                 .withInterrupt(this::cancelShooterCMDGP);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
         closeIntakeCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
                 () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
+
+        //TODO: delete this:
+        robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
 
     /**
@@ -103,6 +107,7 @@ public class RobotContainer {
     public void BindCommands() {
         xboxController.getButtonX().whenPressed(shootCMDGP);
         xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
+        subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
     public void updateDashboard() {

@@ -1,6 +1,8 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -31,10 +33,10 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(140));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(288));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(72.7));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(250));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(267));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(89));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(290.7));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(144));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
@@ -55,7 +57,7 @@ public class RobotA extends RobotConstants {
 
         // Loader Constants
         loaderConstants.CAN_MAP = can.loaderMap;
-        loaderConstants.MOTOR_CONFIG = new MotorConfig();
+        loaderConstants.MOTOR_CONFIG = new MotorConfig(0, false, true, NeutralMode.Coast, 0);
         loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0, 0, 0.1, 0.1, 0.1, 5, 8);
         loaderConstants.PID_COEFS = new PIDFCoefs(1, 1, 1, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
         loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
@@ -184,7 +186,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(15000, 10000));
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
+                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
                 new TalonFXWithTalonSRXEncoder(1, 8,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
@@ -226,7 +228,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6,
                         new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
-                new TalonFXWithTalonSRXEncoder(7, 11,
+                new TalonFXWithTalonSRXEncoder(7, can.spinnerMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -255,8 +257,9 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
 
         // PCM
-        pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
-        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(2, 3);
+        pcm.compressorMap.COMPRESSOR = new Compressor(0);
+        pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(1, 2);
+        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(3, 4);
 
         // I2C
         i2c.spinnerMap.COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);

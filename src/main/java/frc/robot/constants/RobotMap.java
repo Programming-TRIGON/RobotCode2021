@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.ColorSensorV3;
 
@@ -77,8 +78,13 @@ public abstract class RobotMap {
     }
 
     public class PCM {
+        public CompressorMap compressorMap = new CompressorMap();
         public PitcherMap pitcherMap = new PitcherMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
+
+        public class CompressorMap {
+            public Compressor COMPRESSOR;
+        }
 
         public class PitcherMap {
             public TrigonDoubleSolenoid SOLENOID;

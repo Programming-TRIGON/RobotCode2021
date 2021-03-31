@@ -249,8 +249,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     @Override
     public void periodic() {
         updateOdometry();
-        for (SwerveModule module : modules)
-            module.periodic();
+       for (SwerveModule module : modules)
+           module.periodic();
         SmartDashboard.putNumber("angle", getAngle());
     }
 
