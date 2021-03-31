@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.GenericCalibrateKF;
 import frc.robot.commands.command_groups.CollectCMDGP;
@@ -44,7 +45,7 @@ public class RobotContainer {
     private TrigonSwerveControllerCMDGP motionTest;
     private IntakeOpenerCMD closeIntakeCMD;
 
-    private Command shootCMDGP;
+    private ShootCMDGP shootCMDGP;
     private CollectCMDGP collectCMDGP;
 
     /**
@@ -88,15 +89,15 @@ public class RobotContainer {
 
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
                 robotConstants.shooterConstants);
-        calibrateLoaderKfCMD = new GenericCalibrateKF(subsystemContainer.LOADER_SS, robotConstants.loaderConstants.FEEDFORWARD_CONSTANTS);
+        calibrateLoaderKfCMD = new GenericCalibrateKF(subsystemContainer.LOADER_SS,
+                robotConstants.loaderConstants.FEEDFORWARD_CONSTANTS);
 
-        shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight)
-                .withInterrupt(this::cancelShooterCMDGP);
+        shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight, xboxController);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
         closeIntakeCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
                 () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
 
-        //TODO: delete this:
+        // TODO: delete this:
         robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
 
@@ -107,7 +108,11 @@ public class RobotContainer {
     public void BindCommands() {
         xboxController.getButtonX().whenPressed(shootCMDGP);
         xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
-        subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
+        SmartDashboard.putData(" collect ", collectCMDGP);
+
+        SmartDashboard.putData(" shoot ", shootCMDGP);
+
+        // subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
     public void updateDashboard() {
@@ -135,20 +140,7 @@ public class RobotContainer {
     public void periodic() {
         updateDashboard();
         SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
-    }
-
-    /**
-     * Checks the values of the driving joysticks and if one of them is above a
-     * specified threshold. This is done incase the driver desires to continue
-     * moving before the robot is finished shooting.
-     * 
-     * @return if to interrupt the shooterCMDGP.
-     */
-    private boolean cancelShooterCMDGP() {
-        double threshold = robotConstants.shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD;
-        return Math.abs(xboxController.getX(Hand.kRight)) >= threshold
-                || Math.abs(xboxController.getY(Hand.kRight)) >= threshold
-                || Math.abs(xboxController.getX(Hand.kLeft)) >= threshold;
+        SmartDashboard.putNumber("Loader/Velocity", subsystemContainer.LOADER_SS.getVelocity());
     }
 
     public class SubsystemContainerA extends SubsytemContainer {

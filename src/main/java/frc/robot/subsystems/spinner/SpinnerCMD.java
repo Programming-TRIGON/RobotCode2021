@@ -7,11 +7,12 @@ import frc.robot.utilities.DriverStationLogger;
 
 import java.util.function.DoubleSupplier;
 
-
 public class SpinnerCMD extends CommandBase {
     private final SpinnerSS spinnerSS;
     private final SpinnerConstants constants;
-    private final DoubleSupplier power;
+    private DoubleSupplier power;
+    private double output;
+    private double initialOutput;
     private double reverseMotorStartTime;
     private boolean stillStalled;
 
@@ -30,23 +31,32 @@ public class SpinnerCMD extends CommandBase {
     public void initialize() {
         reverseMotorStartTime = 0;
         stillStalled = false;
+        output = power.getAsDouble();
+        initialOutput = output;
     }
 
     @Override
     public void execute() {
-        // Checks if motor is stalling as a result of a ball stuck in the intake and acts accordingly
+        // Checks if motor is stalling as a result of a ball stuck in the intake and
+        // acts accordingly
         if (!spinnerSS.isStalled() && Timer.getFPGATimestamp() - reverseMotorStartTime >= constants.STALL_CHECK_DELAY) {
-            spinnerSS.move(power.getAsDouble());
+            output = initialOutput;
             stillStalled = false;
-        }
-        else {
+        } else {
             if (!stillStalled) {
                 reverseMotorStartTime = Timer.getFPGATimestamp();
                 DriverStationLogger.logToDS("A ball is stuck in the spinner, trying to release it!");
+                output = -initialOutput;
             }
-            spinnerSS.move(-power.getAsDouble());
+            if (Timer.getFPGATimestamp() - reverseMotorStartTime >= constants.STALL_CHECK_DELAY
+                    && spinnerSS.isStalled()) {
+                output = -output;
+                reverseMotorStartTime = Timer.getFPGATimestamp();
+            }
             stillStalled = true;
         }
+        spinnerSS.move(output);
+        System.out.println(output);
     }
 
     @Override

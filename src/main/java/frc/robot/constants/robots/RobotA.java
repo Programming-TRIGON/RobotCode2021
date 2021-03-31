@@ -34,9 +34,9 @@ public class RobotA extends RobotConstants {
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
         drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(267));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(89));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(254));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(290.7));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(144));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(141));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
@@ -57,11 +57,11 @@ public class RobotA extends RobotConstants {
 
         // Loader Constants
         loaderConstants.CAN_MAP = can.loaderMap;
-        loaderConstants.MOTOR_CONFIG = new MotorConfig(0, false, true, NeutralMode.Coast, 0);
-        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0, 0, 0.1, 0.1, 0.1, 5, 8);
-        loaderConstants.PID_COEFS = new PIDFCoefs(1, 1, 1, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
+        loaderConstants.MOTOR_CONFIG = new MotorConfig(0.2, false, true, NeutralMode.Coast, 0);
+        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.0935726604368448, 0, 0.1, 0.1, 5000, 150, 8);
+        loaderConstants.PID_COEFS = new PIDFCoefs(0.02, 0, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
         loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
-        loaderConstants.DEFAULT_MIXING_VELOCITY = -500;
+        loaderConstants.DEFAULT_MIXING_VELOCITY = 3000;
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
@@ -136,8 +136,9 @@ public class RobotA extends RobotConstants {
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
         spinnerConstants.MOTOR_CONFIG = new MotorConfig(5, NeutralMode.Coast, 0);
-        spinnerConstants.DEFAULT_MOTOR_POWER = 0.5;
-        spinnerConstants.STALL_CURRENT_LIMIT = 10;
+        spinnerConstants.DEFAULT_MOTOR_POWER = 0.15;
+        spinnerConstants.STALL_CURRENT_LIMIT = 15;
+        spinnerConstants.STALL_CHECK_DELAY = 2;
 
         /* Limelight Constants */
 
@@ -186,7 +187,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(15000, 10000));
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
+                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
                 new TalonFXWithTalonSRXEncoder(1, 8,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
@@ -200,7 +201,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
-                        new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
+                        new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
                 new TalonFXWithTalonSRXEncoder(3, 9,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
@@ -213,7 +214,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.SPEED_SVA_COEFS
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
+                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
                 new TalonFXWithTalonSRXEncoder(5, 10,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
@@ -245,7 +246,7 @@ public class RobotA extends RobotConstants {
         can.drivetrainMap.REAR_RIGHT = new SwerveModule(drivetrainConstants.REAR_RIGHT_CONSTANTS);
         can.drivetrainMap.REAR_LEFT = new SwerveModule(drivetrainConstants.REAR_LEFT_CONSTANTS);
 
-        can.drivetrainMap.GYRO = new Pigeon(new TrigonTalonSRX(12));
+        can.drivetrainMap.GYRO = new Pigeon(12);
 
         // PWM
         pwm.ledMap.LED_CONTROLLER = 0;
