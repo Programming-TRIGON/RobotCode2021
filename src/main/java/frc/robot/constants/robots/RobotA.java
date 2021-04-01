@@ -27,10 +27,10 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(0));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(0));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(0));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(0));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(334.7));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(249.6));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(291.8));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(325.6));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
@@ -188,7 +188,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.0104, 0.2, 0.00307, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
+                new PIDFCoefs(0.04, 0.4, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
                 drivetrainConstants.SPEED_PIDF_COEFS,
                 new SVACoefs(0.742, 0.00408, 9.46e-5),
                 drivetrainConstants.SPEED_SVA_COEFS
@@ -202,7 +202,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.0123, 0.2, 0.00441, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
+                new PIDFCoefs(0.04, 0.5, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
                 drivetrainConstants.SPEED_PIDF_COEFS,
                 new SVACoefs(0.748, 0.00403, 0.000122),
                 drivetrainConstants.SPEED_SVA_COEFS
