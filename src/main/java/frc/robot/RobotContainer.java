@@ -2,12 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.GenericCalibrateKF;
 import frc.robot.commands.command_groups.CollectCMDGP;
+import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
@@ -15,8 +13,8 @@ import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.intake.IntakeSS;
-import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
+import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
@@ -112,7 +110,7 @@ public class RobotContainer {
 
         SmartDashboard.putData(" shoot ", shootCMDGP);
 
-        // subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
+        subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
     public void updateDashboard() {
@@ -141,6 +139,9 @@ public class RobotContainer {
         updateDashboard();
         SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
         SmartDashboard.putNumber("Loader/Velocity", subsystemContainer.LOADER_SS.getVelocity());
+        if (xboxController.getYButtonPressed()) {
+            subsystemContainer.DRIVETRAIN_SS.resetGyro();
+        }
     }
 
     public class SubsystemContainerA extends SubsytemContainer {
