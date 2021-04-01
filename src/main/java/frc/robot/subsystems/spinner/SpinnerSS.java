@@ -24,8 +24,8 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
     public SpinnerSS(SpinnerConstants constants) {
         this.constants = constants;
         motor = constants.CAN_MAP.MOTOR;
-//        solenoid = constants.PCM_MAP.SOLENOID;
-//        colorSensor = constants.I2C_MAP.COLOR_SENSOR;
+        // solenoid = constants.PCM_MAP.SOLENOID;
+        // colorSensor = constants.I2C_MAP.COLOR_SENSOR;
     }
 
     /**
