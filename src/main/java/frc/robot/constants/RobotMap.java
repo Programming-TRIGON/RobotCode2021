@@ -82,7 +82,8 @@ public abstract class RobotMap {
         public SpinnerMap spinnerMap = new SpinnerMap();
 
         public class PitcherMap {
-            public TrigonDoubleSolenoid SOLENOID;
+            public TrigonDoubleSolenoid RIGHT_SOLENOID;
+            public TrigonDoubleSolenoid LEFT_SOLENOID;
         }
 
         public class SpinnerMap {
