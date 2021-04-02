@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utilities.SwerveConstants;
+import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
 import frc.robot.utilities.TrigonProfiledPIDController;
-import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
 
 public class SwerveModule implements Sendable {
     private final SwerveConstants constants;
@@ -60,7 +60,7 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        if (getDesiredVelocity() != 0)
+        if (getDesiredVelocity() != 0 && true)
             speedMotor.setVoltage(speedController.calculate(getSpeedMotorMPS(), getDesiredVelocity())
                     + speedFeedforward.calculate(getDesiredVelocity()));
         else
@@ -226,8 +226,10 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("Current Velocity", this::getSpeedMotorMPS, null);
         builder.addDoubleProperty("Desired Velocity", () -> getDesiredState().speedMetersPerSecond,
                 speed -> setDesiredSpeed(isTuning ? speed : desiredState.speedMetersPerSecond));
+        builder.addDoubleProperty("PID Angle Velocity", () -> angleController.getSetpoint().velocity, null);
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
         builder.addDoubleProperty("Angle PID error", this.angleController::getPositionError, null);
+        builder.addDoubleProperty("Speed PID error", () -> getSpeedMotorMPS() - getDesiredVelocity(), null);
         builder.addDoubleProperty("Angle motor power", this.angleMotor::get, null);
     }
 }

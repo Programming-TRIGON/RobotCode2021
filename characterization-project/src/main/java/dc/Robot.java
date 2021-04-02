@@ -55,9 +55,9 @@ import java.util.ArrayList;
 
 public class Robot extends TimedRobot {
 
-    static private double ENCODER_EDGES_PER_REV = 8096 / 4.;
+    static private double ENCODER_EDGES_PER_REV = 8192 / 4.;
     static private int PIDIDX = 0;
-    static private int ENCODER_EPR = 8096;
+    static private int ENCODER_EPR = 8192;
     static private double GEARING = 6.86;
     Joystick stick;
     DifferentialDrive drive;
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
                     // set right side methods = encoder methods
 
 
-                    motor.setSensorPhase(true);
+                    motor.setSensorPhase(false);
                     rightEncoderPosition = ()
                             -> motor.getSelectedSensorPosition(PIDIDX) * encoderConstant;
                     rightEncoderRate = ()
@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
 
                     break;
                 case LEFT:
-                    motor.setSensorPhase(true);
+                    motor.setSensorPhase(false);
 
                     leftEncoderPosition = ()
                             -> motor.getSelectedSensorPosition(PIDIDX) * encoderConstant;
@@ -148,21 +148,16 @@ public class Robot extends TimedRobot {
         stick = new Joystick(0);
 
         // create left motor
-        WPI_TalonFX leftMotor = setupWPI_TalonFX(2, Sides.LEFT, false);
+        WPI_TalonFX leftMotor = setupWPI_TalonFX(6, Sides.LEFT, false);
 
-        WPI_TalonFX leftFollowerID6 = setupWPI_TalonFX(6, Sides.FOLLOWER, false);
-        leftFollowerID6.follow(leftMotor);
+        WPI_TalonFX leftFollowerID2 = setupWPI_TalonFX(2, Sides.FOLLOWER, false);
+        leftFollowerID2.follow(leftMotor);
 
-        WPI_TalonFX rightMotor = setupWPI_TalonFX(0, Sides.RIGHT, false);
-        WPI_TalonFX rightFollowerID4 = setupWPI_TalonFX(4, Sides.FOLLOWER, false);
-        rightFollowerID4.follow(rightMotor);
+        WPI_TalonFX rightMotor = setupWPI_TalonFX(4, Sides.RIGHT, false);
+        WPI_TalonFX rightFollowerID0 = setupWPI_TalonFX(0, Sides.FOLLOWER, false);
+        rightFollowerID0.follow(rightMotor);
         drive = new DifferentialDrive(leftMotor, rightMotor);
         drive.setDeadband(0);
-
-        leftMotor.setSensorPhase(false);
-        leftFollowerID6.setSensorPhase(false);
-        rightMotor.setSensorPhase(true);
-        rightFollowerID4.setSensorPhase(true);
 
         //
         // Configure gyro
@@ -226,7 +221,7 @@ public class Robot extends TimedRobot {
      * If you wish to just use your own robot program to use with the data logging
      * program, you only need to copy/paste the logic below into your code and
      * ensure it gets called periodically in autonomous mode
-     * <p>
+     *
      * Additionally, you need to set NetworkTables update rate to 10ms using the
      * setUpdateRate call.
      */
@@ -239,8 +234,8 @@ public class Robot extends TimedRobot {
         double leftPosition = leftEncoderPosition.get();
         double leftRate = leftEncoderRate.get();
 
-        double rightPosition = rightEncoderPosition.get();
-        double rightRate = rightEncoderRate.get();
+        double rightPosition = -rightEncoderPosition.get();
+        double rightRate = -rightEncoderRate.get();
 
         double battery = RobotController.getBatteryVoltage();
         double motorVolts = battery * Math.abs(priorAutospeed);

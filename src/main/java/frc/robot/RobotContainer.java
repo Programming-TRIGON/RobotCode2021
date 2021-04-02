@@ -2,12 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.command_groups.ShootCMDGP;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.GenericCalibrateKF;
 import frc.robot.commands.command_groups.CollectCMDGP;
+import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
@@ -15,8 +14,8 @@ import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.intake.IntakeSS;
-import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
+import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
@@ -82,7 +81,7 @@ public class RobotContainer {
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
                 () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 7,
                 () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 7);
+                () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 1);
 
         motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
                 robotConstants.motionProfilingConstants, AutoPath.Test);
@@ -106,18 +105,21 @@ public class RobotContainer {
      * the commands.
      */
     public void BindCommands() {
-        // Checks the values of the driving joysticks and if one of them is above a
-        // specified threshold. This is done incase the driver desires to continue
-        // moving before the robot is finished shooting.
+        xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
+        xboxController.getButtonY().whenPressed(new InstantCommand(() -> subsystemContainer.DRIVETRAIN_SS.resetGyro()));
         xboxController.getButtonX().whenPressed(shootCMDGP.withInterrupt(this::cancelShooterCMD));
-        // xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
         SmartDashboard.putData(" collect ", collectCMDGP);
 
         SmartDashboard.putData(" shoot ", shootCMDGP);
 
-        // subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
+        subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
+    /**
+     * Checks the values of the driving joysticks and if one of them is above a
+     * specified threshold. This is done incase the driver desires to continue //
+     * moving before the robot is finished shooting.
+     */
     private boolean cancelShooterCMD() {
         double threshold = robotConstants.shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD;
         return Math.abs(xboxController.getX(Hand.kRight)) >= threshold

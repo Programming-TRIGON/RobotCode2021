@@ -159,7 +159,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     @Log(name = "Angle")
     public double getAngle() {
         double angle = gyro.getAngle();
-        angle = (360 - angle);
         while (angle < 0)
             angle += 360;
         while (angle >= 360)
@@ -218,10 +217,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     /**
-    * Resets the odometry to the specified pose.
-    *
-    * @param pose The pose to which to set the odometry.
-    */
+     * Resets the odometry to the specified pose.
+     *
+     * @param pose The pose to which to set the odometry.
+     */
     public void resetOdometry(Pose2d pose) {
         odometry.resetPosition(pose, gyro.getRotation2d());
     }
@@ -249,13 +248,17 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     @Override
     public void periodic() {
         updateOdometry();
-   //    for (SwerveModule module : modules)
-      //     module.periodic();
+        for (SwerveModule module : modules)
+            module.periodic();
         SmartDashboard.putNumber("angle", getAngle());
     }
 
     private void updateOdometry() {
         odometry.update(gyro.getRotation2d(), getDesiredStates());
+    }
+
+    public void resetGyro() {
+        gyro.reset();
     }
 
     private void initSwerve() {
