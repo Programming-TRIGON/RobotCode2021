@@ -8,39 +8,34 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class PitcherSS extends SubsystemBase implements Loggable {
     private final PitcherConstants constants;
-    private final TrigonDoubleSolenoid rightSolenoid;
-    private final TrigonDoubleSolenoid leftSolenoid;
-    private final TrigonDoubleSolenoid masterSolenoid;
+    private final TrigonDoubleSolenoid solenoid;
 
     public PitcherSS(PitcherConstants constants) {
         this.constants = constants;
-        rightSolenoid = constants.PCM_MAP.RIGHT_SOLENOID;
-        leftSolenoid = constants.PCM_MAP.LEFT_SOLENOID;
-        masterSolenoid = rightSolenoid;
+        solenoid = constants.PCM_MAP.SOLENOID;
     }
 
     /**
-     * Sets the state of the rightSolenoid with a boolean
+     * Sets the state of the solenoid with a boolean
      *
-     * @param state to be set to the rightSolenoid (true=forward false=reverse)
+     * @param state to be set to the solenoid (true=forward false=reverse)
      */
     public void setSolenoidState(boolean state) {
-        rightSolenoid.setSolenoid(state);
-        leftSolenoid.setSolenoid(state);
+        solenoid.setSolenoid(state);
     }
 
     /**
-     * Gets the state of the rightSolenoid as a boolean
+     * Gets the state of the solenoid as a boolean
      *
-     * @return the state of the rightSolenoid (true=forward false=reverse)
+     * @return the state of the solenoid (true=forward false=reverse)
      */
     @Log(name = "Is open")
     public boolean getSolenoidState() {
-        return masterSolenoid.isForward();
+        return solenoid.isForward();
     }
 
     public void toggleSolenoid() {
-        setSolenoidState(!getSolenoidState());
+        solenoid.toggle();
     }
 
     @Override

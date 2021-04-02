@@ -253,9 +253,8 @@ public class RobotA extends RobotConstants {
 
         // PCM
         pcm.compressorMap.COMPRESSOR = new Compressor(0);
-        pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(1, 2);
-        pcm.pitcherMap.RIGHT_SOLENOID = new TrigonDoubleSolenoid(3, 4);
-        pcm.pitcherMap.LEFT_SOLENOID = new TrigonDoubleSolenoid(5, 6);
+        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
+        pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(2, 3);
 
         // I2C
         i2c.spinnerMap.COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);

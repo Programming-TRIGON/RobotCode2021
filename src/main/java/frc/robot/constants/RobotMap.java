@@ -87,8 +87,7 @@ public abstract class RobotMap {
         }
 
         public class PitcherMap {
-            public TrigonDoubleSolenoid RIGHT_SOLENOID;
-            public TrigonDoubleSolenoid LEFT_SOLENOID;
+            public TrigonDoubleSolenoid SOLENOID;
         }
 
         public class SpinnerMap {
