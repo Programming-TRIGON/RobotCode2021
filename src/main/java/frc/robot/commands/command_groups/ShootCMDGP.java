@@ -28,8 +28,12 @@ public class ShootCMDGP extends SequentialCommandGroup {
                 this.limelight = limelight;
                 this.genericHID = genericHID;
 
-                addRequirements(subsystems.DRIVETRAIN_SS, subsystems.PITCHER_SS, subsystems.LED_SS,
-                                subsystems.SHOOTER_SS, subsystems.LOADER_SS, subsystems.SPINNER_SS);
+                if (subsystems.LED_SS != null)
+                        addRequirements(subsystems.DRIVETRAIN_SS, subsystems.PITCHER_SS, subsystems.LED_SS,
+                                        subsystems.SHOOTER_SS, subsystems.LOADER_SS, subsystems.SPINNER_SS);
+                else
+                        addRequirements(subsystems.DRIVETRAIN_SS, subsystems.PITCHER_SS, subsystems.SHOOTER_SS,
+                                        subsystems.LOADER_SS, subsystems.SPINNER_SS);
 
                 shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants,
                                 limelight);
@@ -48,7 +52,8 @@ public class ShootCMDGP extends SequentialCommandGroup {
                                                                                 "ShootCMDGP: NO TARGET FOUND! try repositioning",
                                                                                 constants.ledConstants.COLOR_MAP.NO_TARGET),
                                                                 limelight::getTv)),
-                                limelight::getTv));
+                                limelight::getTv),
+                                new InstantCommand());
         }
 
         private void addShootingCommandGroup() {

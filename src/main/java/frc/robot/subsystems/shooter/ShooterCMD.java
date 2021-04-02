@@ -23,7 +23,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private final TrigonPIDController PIDController;
     private ShooterState currentState;
     @Log(name = "Shooter/Desired Velocity")
-    private DoubleSupplier desiredVelocity;
+    private DoubleSupplier desiredVelocitySupplier;
+    private double desiredVelocity;
     private final boolean isUsingLimelight;
     private double lastVelocity;
     private double f;
@@ -44,12 +45,12 @@ public class ShooterCMD extends CommandBase implements Loggable {
     public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, PitcherLimelight limelight) {
         this(shooterSS, ledSS, constants, true);
         this.limelight = limelight;
-        this.desiredVelocity = limelight::calculateDesiredShooterVelocity;
+        this.desiredVelocitySupplier = limelight::calculateDesiredShooterVelocity;
     }
 
-    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, DoubleSupplier desiredVelocity) {
+    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, DoubleSupplier desiredVelocitySupplier) {
         this(shooterSS, ledSS, constants, false);
-        this.desiredVelocity = desiredVelocity;
+        this.desiredVelocitySupplier = desiredVelocitySupplier;
     }
 
     @Override
@@ -64,7 +65,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
-        f = constants.KF_COEF_A * desiredVelocity.getAsDouble() + constants.KF_COEF_B;
+        desiredVelocity = desiredVelocitySupplier.getAsDouble();
+        f = constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B;
     }
 
     @Override
@@ -84,20 +86,20 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     private void Shoot() {
         double output;
-        TBHController.setSetpoint(desiredVelocity.getAsDouble());
-        PIDController.setSetpoint(desiredVelocity.getAsDouble());
+        TBHController.setSetpoint(desiredVelocity);
+        PIDController.setSetpoint(desiredVelocity);
 
         if (ledSS != null)
             ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
 
         // changes the state of the shooter based on if a ball was just shot and if the
         // PIDF has gotten the velocity back to its target
-        if (desiredVelocity.getAsDouble() - shooterSS.getVelocityRPM() >= constants.PID_COEFS.getTolerance()
+        if (desiredVelocity - shooterSS.getVelocityRPM() >= constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.Default) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
         }
-        else if (desiredVelocity.getAsDouble() - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
+        else if (desiredVelocity - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
             TBHController.reset();
@@ -113,7 +115,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 if (ballsShotCount == 0 && atSetpoint()) {
                     outputSum += output;
                     sampleCount++;
-
                 }
                 else {
                     outputSum = 0;
@@ -140,7 +141,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
     }
 
     public boolean atSetpoint() {
-        return Math.abs(desiredVelocity.getAsDouble() - shooterSS.getVelocityRPM()) < constants.TOLERANCE
+        return Math.abs(desiredVelocity - shooterSS.getVelocityRPM()) < constants.TOLERANCE
                 && shooterSS.getVelocityRPM() - lastVelocity < constants.DELTA_TOLERANCE;
     }
 
