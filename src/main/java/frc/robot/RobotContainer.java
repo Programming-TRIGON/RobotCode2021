@@ -98,7 +98,7 @@ public class RobotContainer {
                 () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
 
         // TODO: delete this:
-        robotConstants.pcm.compressorMap.COMPRESSOR.stop();
+        // robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
 
     /**
@@ -106,13 +106,23 @@ public class RobotContainer {
      * the commands.
      */
     public void BindCommands() {
-        xboxController.getButtonX().whenPressed(shootCMDGP);
-        xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
+        // Checks the values of the driving joysticks and if one of them is above a
+        // specified threshold. This is done incase the driver desires to continue
+        // moving before the robot is finished shooting.
+        xboxController.getButtonX().whenPressed(shootCMDGP.withInterrupt(this::cancelShooterCMD));
+        // xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
         SmartDashboard.putData(" collect ", collectCMDGP);
 
         SmartDashboard.putData(" shoot ", shootCMDGP);
 
         // subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
+    }
+
+    private boolean cancelShooterCMD() {
+        double threshold = robotConstants.shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD;
+        return Math.abs(xboxController.getX(Hand.kRight)) >= threshold
+                || Math.abs(xboxController.getY(Hand.kRight)) >= threshold
+                || Math.abs(xboxController.getX(Hand.kLeft)) >= threshold;
     }
 
     public void updateDashboard() {
@@ -145,7 +155,7 @@ public class RobotContainer {
 
     public class SubsystemContainerA extends SubsytemContainer {
         public SubsystemContainerA() {
-            LED_SS = new LedSS(robotConstants.ledConstants);
+            LED_SS = null;
             DRIVETRAIN_SS = new DrivetrainSS(robotConstants.drivetrainConstants);
             SHOOTER_SS = new ShooterSS(robotConstants.shooterConstants);
             PITCHER_SS = new PitcherSS(robotConstants.pitcherConstants);

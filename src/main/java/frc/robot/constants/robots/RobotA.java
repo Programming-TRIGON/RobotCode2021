@@ -66,12 +66,12 @@ public class RobotA extends RobotConstants {
          * to TBH and the tolerance and delta tolerance constants are for deciding when
          * we are ready to shoot
          */
-        shooterConstants.PID_COEFS = new PIDFCoefs(0, 0, 0.000, 30, 0);
+        shooterConstants.PID_COEFS = new PIDFCoefs(0.001, 0, 0.000, 30, 0);
         shooterConstants.TBH_CONTROLLER = new TBHController(0.00005, shooterConstants.PID_COEFS.getTolerance());
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
         shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.122, 0.00984);
         shooterConstants.KF_COEF_A = 0.0019;
-        shooterConstants.KF_COEF_B = 0.7729;
+        shooterConstants.KF_COEF_B = 0.8694;
         shooterConstants.SHOOTING_RAMP_RATE = 2;
         shooterConstants.TOLERANCE = 10;
         shooterConstants.DELTA_TOLERANCE = 4;
@@ -80,7 +80,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 30;
         shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
         shooterConstants.KF_TESTING_TOLERANCE = 10;
-        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 100;
+        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 300;
         shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
         shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
         shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
