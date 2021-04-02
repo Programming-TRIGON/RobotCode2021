@@ -1,4 +1,5 @@
 {
+    # Units per rotation: 0.31918580816 Meters
     # Ports for motors
     # If doing drive test, treat this as the left side of the drivetrain
     "motorPorts": [2, 6],
@@ -46,5 +47,6 @@
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
     "gyroPort": "",
 }
+
 
 

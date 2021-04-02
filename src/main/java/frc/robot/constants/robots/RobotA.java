@@ -27,7 +27,7 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(334.7));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(91));
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(249.6));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(291.8));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(325.6));
@@ -189,13 +189,13 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
                 new PIDFCoefs(0.04, 0.4, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                drivetrainConstants.SPEED_PIDF_COEFS,
+                new PIDFCoefs(0.731, 0, 0),
                 new SVACoefs(0.742, 0.00408, 9.46e-5),
-                drivetrainConstants.SPEED_SVA_COEFS
+                new SVACoefs(0.781, 2.49, 0.0435)
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
-                        new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
+                        new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
                 new TalonFXWithTalonSRXEncoder(3, 9,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
@@ -203,12 +203,12 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
                 new PIDFCoefs(0.04, 0.5, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                drivetrainConstants.SPEED_PIDF_COEFS,
+                new PIDFCoefs(0.616, 0, 0),
                 new SVACoefs(0.748, 0.00403, 0.000122),
-                drivetrainConstants.SPEED_SVA_COEFS
+                new SVACoefs(0.839, 2.39, 0.0373)
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
+                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
                 new TalonFXWithTalonSRXEncoder(5, 10,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
@@ -216,9 +216,9 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
                 new PIDFCoefs(0.02, 0.7, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                drivetrainConstants.SPEED_PIDF_COEFS,
+                new PIDFCoefs(2.32, 0, 0),
                 new SVACoefs(0.785, 0.00417, 0.00011),
-                drivetrainConstants.SPEED_SVA_COEFS
+                new SVACoefs(0.711, 2.53, 0.308)
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6,
@@ -230,9 +230,9 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
                 new PIDFCoefs(0.03, 0.6, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                drivetrainConstants.SPEED_PIDF_COEFS,
+                new PIDFCoefs(2.48, 0, 0),
                 new SVACoefs(0.786, 0.00411, 0.000106),
-                drivetrainConstants.SPEED_SVA_COEFS
+                new SVACoefs(0.812, 2.3, 0.339)
         );
 
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);
