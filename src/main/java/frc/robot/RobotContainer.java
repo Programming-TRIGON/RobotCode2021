@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.GenericCalibrateKF;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
@@ -107,6 +108,8 @@ public class RobotContainer {
     public void BindCommands() {
         xboxController.getButtonX().whenPressed(shootCMDGP);
         xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
+        xboxController.getButtonY().whenPressed(new InstantCommand(() -> subsystemContainer
+                .DRIVETRAIN_SS.resetGyro()));
         SmartDashboard.putData(" collect ", collectCMDGP);
 
         SmartDashboard.putData(" shoot ", shootCMDGP);
@@ -140,9 +143,6 @@ public class RobotContainer {
         updateDashboard();
         SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
         SmartDashboard.putNumber("Loader/Velocity", subsystemContainer.LOADER_SS.getVelocity());
-        if (xboxController.getYButtonPressed()) {
-            subsystemContainer.DRIVETRAIN_SS.resetGyro();
-        }
     }
 
     public class SubsystemContainerA extends SubsytemContainer {
