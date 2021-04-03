@@ -1,5 +1,6 @@
 package frc.robot.subsystems.pitcher;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.constants.RobotConstants.PitcherConstants;
@@ -35,7 +36,15 @@ public class PitcherSS extends SubsystemBase implements Loggable {
     }
 
     public void toggleSolenoid() {
-        solenoid.toggle();
+        Value value = solenoid.get();
+
+        if (value == Value.kForward) {
+            solenoid.set(Value.kReverse);
+        } else if (value == Value.kReverse) {
+            solenoid.set(Value.kForward);
+        } else if(value == Value.kOff){
+            solenoid.set(Value.kReverse);
+        }
     }
 
     @Override

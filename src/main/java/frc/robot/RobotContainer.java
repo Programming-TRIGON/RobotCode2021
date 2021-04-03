@@ -5,8 +5,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.GenericCalibrateKF;
+import frc.robot.commands.TurnToTargetCMD;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
+import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
@@ -25,6 +27,7 @@ import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.spinner.SpinnerSS;
 import frc.robot.utilities.DashboardController;
 import frc.robot.utilities.TrigonXboxController;
+import frc.robot.vision.Target;
 import frc.robot.vision.limelights.PitcherLimelight;
 import io.github.oblarg.oblog.Logger;
 
@@ -40,11 +43,13 @@ public class RobotContainer {
     private CalibrateShooterKfCMD calibrateShooterKfCMD;
     private GenericCalibrateKF calibrateLoaderKfCMD;
     private SupplierFieldDriveCMD supplierFieldDriveCMD;
+    private TurnToTargetCMD turnToTargetCMD;
 
     private TrigonSwerveControllerCMDGP motionTest;
     private IntakeOpenerCMD closeIntakeCMD;
 
     private ShootCMDGP shootCMDGP;
+    private ShootWithPitcherCMDGP ShootWithPitcherCMDGP;
     private CollectCMDGP collectCMDGP;
 
     /**
@@ -66,6 +71,7 @@ public class RobotContainer {
         SmartDashboard.putData("Shooter Command", shooterCMD);
         SmartDashboard.putData("CalibrateShooterKfCMD", calibrateShooterKfCMD);
         SmartDashboard.putData("CalibrateLoaderKfCMD", calibrateLoaderKfCMD);
+        SmartDashboard.putData("TurnToTargetCMD", turnToTargetCMD);
         SmartDashboard.putData("motion", motionTest);
     }
 
@@ -91,11 +97,13 @@ public class RobotContainer {
         calibrateLoaderKfCMD = new GenericCalibrateKF(subsystemContainer.LOADER_SS,
                 robotConstants.loaderConstants.FEEDFORWARD_CONSTANTS);
 
-        shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight, xboxController);
+        shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight);
+        ShootWithPitcherCMDGP = new ShootWithPitcherCMDGP(subsystemContainer, robotConstants, limelight);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
         closeIntakeCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
                 () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
-
+        turnToTargetCMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
+                robotConstants.visionConstants, Target.PowerPort);
         // TODO: delete this:
         // robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
@@ -107,12 +115,14 @@ public class RobotContainer {
     public void BindCommands() {
         xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
         xboxController.getButtonY().whenPressed(new InstantCommand(() -> subsystemContainer.DRIVETRAIN_SS.resetGyro()));
-        xboxController.getButtonX().whenPressed(shootCMDGP.withInterrupt(this::cancelShooterCMD));
+        xboxController.getButtonX().whenPressed(ShootWithPitcherCMDGP.withInterrupt(this::cancelShooterCMD));
         SmartDashboard.putData(" collect ", collectCMDGP);
 
-        SmartDashboard.putData(" shoot ", shootCMDGP);
-
+        SmartDashboard.putData(" shoot ", ShootWithPitcherCMDGP);
+        SmartDashboard.putData("toggle solenoid",
+                new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
+        SmartDashboard.putData("Shoot without pitcher CMDGP", shootCMDGP);
     }
 
     /**
@@ -155,7 +165,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Loader/Velocity", subsystemContainer.LOADER_SS.getVelocity());
     }
 
-    public class SubsystemContainerA extends SubsytemContainer {
+    public class SubsystemContainerA extends SubsystemContainer {
         public SubsystemContainerA() {
             LED_SS = null;
             DRIVETRAIN_SS = new DrivetrainSS(robotConstants.drivetrainConstants);

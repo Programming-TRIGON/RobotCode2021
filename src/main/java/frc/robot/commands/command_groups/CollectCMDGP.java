@@ -2,7 +2,7 @@ package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.SubsytemContainer;
+import frc.robot.SubsystemContainer;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.intake.IntakeCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
@@ -10,10 +10,10 @@ import frc.robot.subsystems.loader.LoaderCMD;
 import frc.robot.subsystems.spinner.SpinnerCMD;
 
 public class CollectCMDGP extends SequentialCommandGroup {
-    private final SubsytemContainer subsystems;
+    private final SubsystemContainer subsystems;
     private final RobotConstants constants;
 
-    public CollectCMDGP(SubsytemContainer subsystems, RobotConstants constants) {
+    public CollectCMDGP(SubsystemContainer subsystems, RobotConstants constants) {
         this.subsystems = subsystems;
         this.constants = constants;
 

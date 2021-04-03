@@ -71,8 +71,9 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     @Override
     public void execute() {
+        System.out.println("YEAH");
         if (isUsingLimelight) {
-            if (limelight.getTv())
+            if (limelight.hasTarget())
                 Shoot();
             else {
                 if (ledSS != null)

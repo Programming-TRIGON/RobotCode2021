@@ -46,7 +46,7 @@ public class RobotA extends RobotConstants {
         testerConstants.SECONDS_TO_WAIT = 3;
 
         // Vision Constants
-        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0, 0, 0, 0, 0);
+        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.005, 0, 0, 2, 2);
         visionConstants.TARGET_TIME_OUT = 0.1;
 
         // Loader Constants
@@ -137,7 +137,7 @@ public class RobotA extends RobotConstants {
         /* Limelight Constants */
 
         // extended limelight
-        extendedLimelightConstants.DEFAULT_TABLE_KEY = "Limelight";
+        extendedLimelightConstants.DEFAULT_TABLE_KEY = "limelight";
         extendedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
         extendedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
         extendedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;

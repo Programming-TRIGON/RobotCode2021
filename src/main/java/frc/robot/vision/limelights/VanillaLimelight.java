@@ -46,8 +46,8 @@ public class VanillaLimelight {
     /**
      * @return Whether the limelight has any valid targets (0 or 1)
      */
-    public boolean getTv() {
-        return tv.getDouble(0) == 1;
+    public boolean hasTarget() {
+        return tv.getDouble(0) != 0;
     }
 
     /**

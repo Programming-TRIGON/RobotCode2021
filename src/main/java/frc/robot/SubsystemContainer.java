@@ -9,7 +9,7 @@ import frc.robot.subsystems.pitcher.PitcherSS;
 import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.spinner.SpinnerSS;
 
-public abstract class SubsytemContainer {
+public abstract class SubsystemContainer {
     public LedSS LED_SS;
     public DrivetrainSS DRIVETRAIN_SS;
     public ShooterSS SHOOTER_SS;

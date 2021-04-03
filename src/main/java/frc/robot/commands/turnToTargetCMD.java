@@ -13,7 +13,7 @@ import frc.robot.utilities.TrigonPIDController;
 /**
  * Turns the drivetrain to face a given target
  */
-public class turnToTargetCMD extends CommandBase {
+public class TurnToTargetCMD extends CommandBase {
 	private VanillaLimelight limelight;
 	private VisionConstants visionConstants;
 	private DrivetrainSS drivetrain;
@@ -21,7 +21,7 @@ public class turnToTargetCMD extends CommandBase {
 	private TrigonPIDController rotationPIDController;
 	private double lastTimeSeenTarget;
 
-	public turnToTargetCMD(DrivetrainSS drivetrain, VanillaLimelight limelight, VisionConstants visionConstants,
+	public TurnToTargetCMD(DrivetrainSS drivetrain, VanillaLimelight limelight, VisionConstants visionConstants,
 			Target target) {
 
 		addRequirements(drivetrain);
@@ -31,6 +31,7 @@ public class turnToTargetCMD extends CommandBase {
 		this.target = target;
 		this.drivetrain = drivetrain;
 		rotationPIDController = new TrigonPIDController(visionConstants.ROTATION_SETTINGS);
+		SmartDashboard.putData("TurnToTargetCMD/rotation PID", rotationPIDController);
 	}
 
 	@Override
@@ -44,8 +45,8 @@ public class turnToTargetCMD extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (limelight.getTv()) {
-			drivetrain.fieldPowerDrive(0, 0, rotationPIDController.calculate(limelight.getAngle()));
+		if (limelight.hasTarget()) {
+			drivetrain.powerDrive(0, 0, -rotationPIDController.calculate(limelight.getAngle()));
 			lastTimeSeenTarget = Timer.getFPGATimestamp();
 		} else {
 			// The target wasn't found
@@ -57,7 +58,7 @@ public class turnToTargetCMD extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		drivetrain.stopMoving();
-		limelight.stopVision();
+		//	limelight.stopVision();
 	}
 
 	@Override
