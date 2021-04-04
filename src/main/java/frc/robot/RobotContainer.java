@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.GenericCalibrateKF;
+import frc.robot.commands.TurnAndPositionToTargetCMD;
 import frc.robot.commands.TurnToTargetCMD;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
@@ -44,6 +45,7 @@ public class RobotContainer {
     private GenericCalibrateKF calibrateLoaderKfCMD;
     private SupplierFieldDriveCMD supplierFieldDriveCMD;
     private TurnToTargetCMD turnToTargetCMD;
+    private TurnAndPositionToTargetCMD turnAndPositionToTargetCMD;
 
     private TrigonSwerveControllerCMDGP motionTest;
     private IntakeOpenerCMD closeIntakeCMD;
@@ -72,6 +74,7 @@ public class RobotContainer {
         SmartDashboard.putData("CalibrateShooterKfCMD", calibrateShooterKfCMD);
         SmartDashboard.putData("CalibrateLoaderKfCMD", calibrateLoaderKfCMD);
         SmartDashboard.putData("TurnToTargetCMD", turnToTargetCMD);
+        SmartDashboard.putData("TurnAndPositionToTargetCMD", turnAndPositionToTargetCMD);
         SmartDashboard.putData("motion", motionTest);
     }
 
@@ -85,9 +88,9 @@ public class RobotContainer {
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
                 robotConstants.shooterConstants);
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
-                () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 7,
-                () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 1);
+                () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 2,
+                () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 2,
+                () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 4);
 
         motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
                 robotConstants.motionProfilingConstants, AutoPath.Test);
@@ -103,6 +106,8 @@ public class RobotContainer {
         closeIntakeCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
                 () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
         turnToTargetCMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
+                robotConstants.visionConstants, Target.PowerPort);
+        turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         // TODO: delete this:
         // robotConstants.pcm.compressorMap.COMPRESSOR.stop();

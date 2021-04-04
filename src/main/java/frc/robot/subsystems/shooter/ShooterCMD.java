@@ -32,6 +32,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private int ballsShotCount;
     private int sampleCount;
     private double lastTimeAtSetpoint;
+    private boolean hasRecalculatedF;
+    private boolean hasSetpoint;
 
     private ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, boolean isUsingLimelight) {
         this.shooterSS = shooterSS;
@@ -59,11 +61,13 @@ public class ShooterCMD extends CommandBase implements Loggable {
     @Override
     public void initialize() {
         shooterSS.setRampRate(constants.SHOOTING_RAMP_RATE);
-        currentState = ShooterState.PRETBH;
+        hasRecalculatedF = false;
+        hasSetpoint = false;
         ballsShotCount = 0;
         sampleCount = 0;
         outputSum = 0;
         lastTimeAtSetpoint = Timer.getFPGATimestamp();
+        currentState = ShooterState.AfterShot;
         TBHController.reset();
         PIDController.reset();
         if (isUsingLimelight)
@@ -93,46 +97,51 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.setSetpoint(desiredVelocity);
         if (ledSS != null)
             ledSS.setColor(ledSS.getColorMap().SHOOTER_ENABLED);
+        // changes the state of the shooter based on if a ball was just shot and if the
+        // PIDF has gotten the velocity back to its target
+        if (desiredVelocity - shooterSS.getVelocityRPM() >= constants.PID_COEFS.getTolerance()
+                && currentState == ShooterState.Default && hasRecalculatedF) {
+            currentState = ShooterState.AfterShot;
+            ballsShotCount++;
+        } else if (desiredVelocity - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
+                && currentState == ShooterState.AfterShot) {
+            currentState = ShooterState.Default;
+            TBHController.reset();
+            TBHController.setOutput(PIDController.calculate(shooterSS.getVelocityRPM()));
+        }
 
         // switches between using TBH and PIDF to control the velocity based on if a
         // ball was just shot
         switch (currentState) {
-            case PRETBH:
-                output = PIDController.calculate(shooterSS.getVelocityRPM()) + f;
-                shooterSS.move(output);
-                if (Math.abs(desiredVelocity - shooterSS.getVelocityRPM()) < TBHController.getTolerance()) {
-                    TBHController.reset();
-                    currentState = ShooterState.TBH;
-                }
-                System.out.println("pre" + shooterSS.getVelocityRPM() + "skncvsdkv: " + PIDController.calculate(shooterSS.getVelocityRPM()) + f);
-                break;
-            case TBH:
+            case Default:
                 output = TBHController.calculate(shooterSS.getVelocityRPM()) + f;
                 shooterSS.move(output);
                 if (Math.abs(desiredVelocity - shooterSS.getVelocityRPM()) < constants.TOLERANCE) {
                     outputSum += output;
                     sampleCount++;
                 } else {
+                    System.out.println(Math.abs(desiredVelocity - shooterSS.getVelocityRPM()));
                     outputSum = 0;
                     sampleCount = 0;
                 }
                 if (ballsShotCount == 0 && sampleCount == constants.KF_CALCULATION_SAMPLE_AMOUNT) {
+                    System.out.println("es;lgjrsoeidgjoidrsjgbposejgbpsoe");
                     f = outputSum / sampleCount;
-                    PIDController.reset();
-                    currentState = ShooterState.PID;
+                    TBHController.reset();
+                    hasRecalculatedF = true;
                 }
                 CalculateIfAtSetpoint();
                 SmartDashboard.putBoolean("isPID", false);
-                System.out.println("TBH" + shooterSS.getVelocityRPM() + " s;mjvuisj: " + TBHController.calculate(shooterSS.getVelocityRPM()) + f);
                 break;
-            case PID:
+            case AfterShot:
                 output = PIDController.calculate(shooterSS.getVelocityRPM()) + f;
                 shooterSS.move(output);
                 CalculateIfAtSetpoint();
                 SmartDashboard.putBoolean("isPID", true);
-                System.out.println("PID" + shooterSS.getVelocityRPM() + " seiknes: " + PIDController.calculate(shooterSS.getVelocityRPM()) + f);
                 break;
         }
+        if (Timer.getFPGATimestamp() - lastTimeAtSetpoint > constants.TIME_AT_SETPOINT && hasRecalculatedF)
+            hasSetpoint = true;
     }
 
     public int getBallsShotCount() {
@@ -153,7 +162,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
 
     public boolean isAtSetpoint() {
-        return Timer.getFPGATimestamp() - lastTimeAtSetpoint > constants.TIME_AT_SETPOINT && currentState == ShooterState.PID;
+        return hasSetpoint;
     }
 
     @Override
@@ -172,11 +181,10 @@ public class ShooterCMD extends CommandBase implements Loggable {
     }
 
     public enum ShooterState {
-        PRETBH,
         // default mode of the shooter, controls motors using TBH
-        TBH,
+        Default,
         // mode for after a ball is shot and when first running the command,
         // returns the shooter to target velocity using PIDF
-        PID;
+        AfterShot;
     }
 }

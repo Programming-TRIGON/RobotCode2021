@@ -74,6 +74,8 @@ public abstract class RobotConstants extends RobotMap {
 
     public class VisionConstants {
         public PIDFCoefs ROTATION_SETTINGS;
+        public PIDFCoefs POSITION_SETTINGS;
+        public double Y_TARGET;
         public double TARGET_TIME_OUT;
     }
 

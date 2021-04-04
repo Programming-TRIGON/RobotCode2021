@@ -27,10 +27,10 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(131));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(249.6));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(291.8));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(325.6));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(177.36));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(250.4));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(290.48));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(327.39));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
@@ -38,7 +38,7 @@ public class RobotA extends RobotConstants {
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.80, NeutralMode.Brake, 0);
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.30, NeutralMode.Brake, 0);
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -46,7 +46,9 @@ public class RobotA extends RobotConstants {
         testerConstants.SECONDS_TO_WAIT = 3;
 
         // Vision Constants
-        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.0001, 0, 0.0001, 0.05, 0.005);
+        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.01, 0, 0.0, 0.16, 0.005);
+        visionConstants.POSITION_SETTINGS = new PIDFCoefs(0.05, 0, 0.0, 0.16, 0.005);
+        visionConstants.Y_TARGET = 3.75;
         visionConstants.TARGET_TIME_OUT = 4;
 
         // Loader Constants
@@ -71,14 +73,14 @@ public class RobotA extends RobotConstants {
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
         shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.140, 0.00984);
         shooterConstants.KF_COEF_A = 0.0019;
-        shooterConstants.KF_COEF_B = 0.8021;
-        shooterConstants.SHOOTING_RAMP_RATE = 2;
+        shooterConstants.KF_COEF_B = 0.8085;
+        shooterConstants.SHOOTING_RAMP_RATE = .7;
         //TODO: reset to normal value
-        shooterConstants.TOLERANCE = 10;
-        shooterConstants.TIME_AT_SETPOINT = 2;
+        shooterConstants.TOLERANCE = 250;
+        shooterConstants.TIME_AT_SETPOINT = 0.25;
         shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD = 0.4;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
-        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 150;
+        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 40;
         shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
         shooterConstants.KF_TESTING_TOLERANCE = 10;
         shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 300;

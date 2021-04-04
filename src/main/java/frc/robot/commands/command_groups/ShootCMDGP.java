@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.SubsystemContainer;
-import frc.robot.commands.TurnToTargetCMD;
+import frc.robot.commands.TurnAndPositionToTargetCMD;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.loader.LoaderCMD;
 import frc.robot.subsystems.shooter.ShooterCMD;
@@ -24,7 +24,7 @@ public class ShootCMDGP extends ParallelCommandGroup {
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
         addCommands(shootCMD,
                 new SequentialCommandGroup(
-                        new TurnToTargetCMD(subsystems.DRIVETRAIN_SS, limelight, constants.visionConstants, Target.PowerPort),
+                        new TurnAndPositionToTargetCMD(subsystems.DRIVETRAIN_SS, limelight, constants.visionConstants, Target.PowerPort),
                         new WaitUntilCommand(shootCMD::isAtSetpoint),
                         new ParallelCommandGroup(
                                 new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
