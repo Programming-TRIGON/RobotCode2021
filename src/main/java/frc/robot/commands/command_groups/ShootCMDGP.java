@@ -18,17 +18,17 @@ import frc.robot.vision.Target;
 import frc.robot.vision.limelights.PitcherLimelight;
 
 public class ShootCMDGP extends ParallelCommandGroup {
-  public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
+    public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
 
-    ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants,
-        () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
-    addCommands(shootCMD,
-        new SequentialCommandGroup(
-            new TurnToTargetCMD(subsystems.DRIVETRAIN_SS, limelight, constants.visionConstants, Target.PowerPort),
-            new WaitUntilCommand(shootCMD::atSetpoint),
-            new ParallelCommandGroup(
-                new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
-                    constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
-                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
-  }
+        ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants,
+                () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
+        addCommands(shootCMD,
+                new SequentialCommandGroup(
+                        new TurnToTargetCMD(subsystems.DRIVETRAIN_SS, limelight, constants.visionConstants, Target.PowerPort),
+                        new WaitUntilCommand(shootCMD::isAtSetpoint),
+                        new ParallelCommandGroup(
+                                new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
+                                        () -> SmartDashboard.getNumber("Loader Vel", constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY)),
+                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+    }
 }

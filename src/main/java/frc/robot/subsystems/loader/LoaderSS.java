@@ -52,4 +52,9 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     public double[] getValues() {
         return new double[]{motor.getSelectedSensorPosition()};
     }
+
+    @Override
+    public void periodic() {
+        motor.tunePID("Loader/PID");
+    }
 }

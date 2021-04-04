@@ -7,12 +7,7 @@ import frc.robot.components.TBHController;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
-import frc.robot.utilities.PIDFCoefs;
-import frc.robot.utilities.SVACoefs;
-import frc.robot.utilities.FeedforwardConstants;
-import frc.robot.utilities.SwerveConstants;
-import frc.robot.utilities.TrigonPIDController;
-import frc.robot.utilities.TrigonProfiledPIDController;
+import frc.robot.utilities.*;
 
 /**
  * All the constants to be uses for the robot
@@ -94,7 +89,7 @@ public abstract class RobotConstants extends RobotMap {
         public double KF_COEF_B;
         public double SHOOTING_RAMP_RATE;
         public double TOLERANCE;
-        public double DELTA_TOLERANCE;
+        public double TIME_AT_SETPOINT;
         // The value of the xbox at which it will cancel the ShootCMDGP allowing the
         // driver to resume driving
         public double CANCEL_CMDGP_AXIS_THRESHOLD;

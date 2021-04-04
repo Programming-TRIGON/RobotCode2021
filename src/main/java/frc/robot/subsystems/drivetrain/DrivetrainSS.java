@@ -236,6 +236,12 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         }
     }
 
+    public void stopDrive() {
+        for (SwerveModule module : modules) {
+            module.setDesiredSpeed(0);
+        }
+    }
+
     /*
      * Sets the ramp rate of the speed motors to the defualt ramp rate.
      */

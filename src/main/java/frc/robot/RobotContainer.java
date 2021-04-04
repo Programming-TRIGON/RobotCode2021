@@ -18,7 +18,7 @@ import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
-import frc.robot.subsystems.led.LedSS;
+import frc.robot.subsystems.loader.LoaderCMD;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
 import frc.robot.subsystems.shooter.CalibrateShooterKfCMD;
@@ -79,7 +79,7 @@ public class RobotContainer {
      * Initializes all commands.
      */
     public void initializeCommands() {
-        SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
+        SmartDashboard.putNumber("Shooter/Desired Velocity", 3000);
         shooterCMD = new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
@@ -115,13 +115,16 @@ public class RobotContainer {
     public void BindCommands() {
         xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
         xboxController.getButtonY().whenPressed(new InstantCommand(() -> subsystemContainer.DRIVETRAIN_SS.resetGyro()));
-        xboxController.getButtonX().whenPressed(ShootWithPitcherCMDGP.withInterrupt(this::cancelShooterCMD));
+        xboxController.getButtonX().toggleWhenPressed(new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
+        xboxController.getButtonB().whenHeld(new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
+
         SmartDashboard.putData(" collect ", collectCMDGP);
 
         SmartDashboard.putData(" shoot ", ShootWithPitcherCMDGP);
         SmartDashboard.putData("toggle solenoid",
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
+        SmartDashboard.putData("Loader/Load", new LoaderCMD(subsystemContainer.LOADER_SS, robotConstants.loaderConstants, robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY));
         SmartDashboard.putData("Shoot without pitcher CMDGP", shootCMDGP);
     }
 

@@ -56,7 +56,6 @@ public class SpinnerCMD extends CommandBase {
             stillStalled = true;
         }
         spinnerSS.move(output);
-        System.out.println(output);
     }
 
     @Override

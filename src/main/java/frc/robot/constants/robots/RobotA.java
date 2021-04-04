@@ -27,7 +27,7 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(91));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(131));
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(249.6));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(291.8));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(325.6));
@@ -46,38 +46,39 @@ public class RobotA extends RobotConstants {
         testerConstants.SECONDS_TO_WAIT = 3;
 
         // Vision Constants
-        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.005, 0, 0, 2, 2);
-        visionConstants.TARGET_TIME_OUT = 0.1;
+        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.0001, 0, 0.0001, 0.05, 0.005);
+        visionConstants.TARGET_TIME_OUT = 4;
 
         // Loader Constants
         loaderConstants.CAN_MAP = can.loaderMap;
         loaderConstants.MOTOR_CONFIG = new MotorConfig(0.2, false, true, NeutralMode.Coast, 0);
-        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.0935726604368448, 0, 0.1, 0.1, 5000, 150, 8);
-        loaderConstants.PID_COEFS = new PIDFCoefs(0.02, 0, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
-        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 2000;
-        loaderConstants.DEFAULT_MIXING_VELOCITY = 3000;
+        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.082812504229243, 0, 0.1, 0.1, 5000, 150, 8);
+        loaderConstants.PID_COEFS = new PIDFCoefs(0.02, 0.001, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 6000;
+        loaderConstants.DEFAULT_MIXING_VELOCITY = -1000;
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
-        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(15, false, false, NeutralMode.Coast, 0);
+        shooterConstants.RIGHT_MOTOR_CONFIG = new MotorConfig(3, false, false, NeutralMode.Coast, 0);
         shooterConstants.LEFT_MOTOR_CONFIG = new MotorConfig(shooterConstants.RIGHT_MOTOR_CONFIG, true, false);
         /*
          * Tolerance and delta tolerance in the PIDCoefs are for deciding when to change
          * to TBH and the tolerance and delta tolerance constants are for deciding when
          * we are ready to shoot
          */
-        shooterConstants.PID_COEFS = new PIDFCoefs(0.001, 0, 0.000, 30, 0);
+        shooterConstants.PID_COEFS = new PIDFCoefs(0.0016, 0.00002, 0.000, 30, 0);
         shooterConstants.TBH_CONTROLLER = new TBHController(0.00005, shooterConstants.PID_COEFS.getTolerance());
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
-        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.122, 0.00984);
+        shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.140, 0.00984);
         shooterConstants.KF_COEF_A = 0.0019;
-        shooterConstants.KF_COEF_B = 0.8694;
+        shooterConstants.KF_COEF_B = 0.8021;
         shooterConstants.SHOOTING_RAMP_RATE = 2;
+        //TODO: reset to normal value
         shooterConstants.TOLERANCE = 10;
-        shooterConstants.DELTA_TOLERANCE = 4;
+        shooterConstants.TIME_AT_SETPOINT = 2;
         shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD = 0.4;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
-        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 30;
+        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 150;
         shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
         shooterConstants.KF_TESTING_TOLERANCE = 10;
         shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 300;
@@ -129,9 +130,9 @@ public class RobotA extends RobotConstants {
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
-        spinnerConstants.MOTOR_CONFIG = new MotorConfig(5, NeutralMode.Coast, 0);
-        spinnerConstants.DEFAULT_MOTOR_POWER = 0.15;
-        spinnerConstants.STALL_CURRENT_LIMIT = 15;
+        spinnerConstants.MOTOR_CONFIG = new MotorConfig(4, NeutralMode.Coast, 0);
+        spinnerConstants.DEFAULT_MOTOR_POWER = -0.2;
+        spinnerConstants.STALL_CURRENT_LIMIT = 25;
         spinnerConstants.STALL_CHECK_DELAY = 2;
 
         /* Limelight Constants */

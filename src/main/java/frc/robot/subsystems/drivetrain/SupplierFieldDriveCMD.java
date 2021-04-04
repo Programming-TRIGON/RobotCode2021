@@ -6,19 +6,20 @@ import java.util.function.Supplier;
 
 public class SupplierFieldDriveCMD extends CommandBase {
     private final DrivetrainSS drivetrain;
-    Supplier<Double> x, y, rot;
+    private final Supplier<Double> x, y, rot;
+    double deadBand = 0.1 / 7;
 
     /**
      * Drives a drivetrain based on the given suppliers, relative to the field
      * (using thr drivetrain gyro).
-     * 
+     *
      * @param drivetrain the drivetrain to drive
      * @param x          the supplier for the field x power, between -1 and 1
      * @param y          the supplier for the field y power, between -1 and 1
      * @param rot        the supplier for the rotation power, between -1 and 1
      */
     public SupplierFieldDriveCMD(DrivetrainSS drivetrain, Supplier<Double> x, Supplier<Double> y,
-            Supplier<Double> rot) {
+                                 Supplier<Double> rot) {
         this.drivetrain = drivetrain;
         this.x = x;
         this.y = y;
@@ -29,7 +30,11 @@ public class SupplierFieldDriveCMD extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrain.fieldPowerDrive(x.get(), y.get(), rot.get());
+        if (Math.abs(x.get()) > deadBand ||
+                Math.abs(y.get()) > deadBand ||
+                Math.abs(rot.get()) > deadBand)
+            drivetrain.fieldPowerDrive(x.get(), y.get(), rot.get());
+        else drivetrain.stopDrive();
     }
 
     @Override
