@@ -21,6 +21,7 @@ public class TurnAndPositionToTargetCMD extends CommandBase {
     private TrigonPIDController rotationPIDController;
     private TrigonPIDController positionPIDController;
     private double lastTimeSeenTarget, yTarget;
+    private boolean wasInPosition;
 
 
     public TurnAndPositionToTargetCMD(DrivetrainSS drivetrain, VanillaLimelight limelight, VisionConstants visionConstants,
@@ -46,21 +47,27 @@ public class TurnAndPositionToTargetCMD extends CommandBase {
         rotationPIDController.reset();
         rotationPIDController.setSetpoint(0);
         positionPIDController.setSetpoint(SmartDashboard.getNumber("TurnAndPositionToTargetCMD/y target", visionConstants.Y_TARGET));
+        positionPIDController.reset();
         lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
+        wasInPosition = false;
     }
 
     @Override
     public void execute() {
+        rotationPIDController.calculate(limelight.getAngle());
         if (limelight.hasTarget()) {
-            drivetrain.powerDrive(0, positionPIDController.calculate(limelight.getTy()), -rotationPIDController.calculate(limelight.getAngle()));
+            drivetrain.powerDrive(0, !wasInPosition ? positionPIDController.calculate(limelight.getTy()) : 0, wasInPosition ? -rotationPIDController.calculate(limelight.getAngle()) : 0);
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else {
             // The target wasn't found
             drivetrain.stopMoving();
             DriverStationLogger.logToDS("TurnAndPositionToTargetCMD: Target not found!");
         }
+
+        if (positionPIDController.atSetpoint())
+            wasInPosition = true;
     }
 
     @Override
@@ -72,7 +79,7 @@ public class TurnAndPositionToTargetCMD extends CommandBase {
     @Override
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > visionConstants.TARGET_TIME_OUT)
-                || rotationPIDController.atSetpoint();
+                || (rotationPIDController.atSetpoint() && wasInPosition);
     }
 
     public void enableTuning() {

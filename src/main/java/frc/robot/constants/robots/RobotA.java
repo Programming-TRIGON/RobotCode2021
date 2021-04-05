@@ -27,7 +27,7 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(177.36));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(197));
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(250.4));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(290.48));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(327.39));
@@ -46,8 +46,8 @@ public class RobotA extends RobotConstants {
         testerConstants.SECONDS_TO_WAIT = 3;
 
         // Vision Constants
-        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.01, 0, 0.0, 0.16, 0.005);
-        visionConstants.POSITION_SETTINGS = new PIDFCoefs(0.05, 0, 0.0, 0.16, 0.005);
+        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.005, 0, 0.0, 0.16, 0.01);
+        visionConstants.POSITION_SETTINGS = new PIDFCoefs(0.05, 0, 0.0, 0.16, 0.05);
         visionConstants.Y_TARGET = 3.75;
         visionConstants.TARGET_TIME_OUT = 4;
 
