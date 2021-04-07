@@ -60,7 +60,7 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        if (getDesiredVelocity() != 0 && false)
+        if (getDesiredVelocity() != 0 && true)
             speedMotor.setVoltage(speedController.calculate(getSpeedMotorMPS(), getDesiredVelocity())
                     + speedFeedforward.calculate(getDesiredVelocity()));
         else
