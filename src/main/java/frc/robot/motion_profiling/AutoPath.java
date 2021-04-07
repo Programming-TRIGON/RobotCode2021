@@ -9,7 +9,7 @@ import frc.robot.subsystems.drivetrain.DrivetrainSS;
 public enum AutoPath {
     FacingPowerPortToTrenchStart, InLineWithTrenchToTrenchStart, InTrench, ReverseInTrench, RightOfPortToMiddleField,
     FacingPowerPortToMiddleField, InitLineToEnemyTrench, EnemyTrenchToPort, SimpleAutoToTrench, TurnFromTrenchToPort,
-    Test(new Waypoint(0, 0, 0), new Waypoint(1, 0, 90)),
+    Test(new Waypoint(0, 0, 0), new Waypoint(5, 0, 0)),
     AutoNavBarrel(
             new Waypoint(2.145145583, 1.230035605, 0),
             new Waypoint(1.759729355, 4.526358605, 0),

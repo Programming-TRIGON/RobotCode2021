@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstr
 import frc.robot.constants.RobotConstants.MotionProfilingConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.utilities.DriverStationLogger;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public class Path {
      * @param waypoints the path waypoints
      */
     public Path(DrivetrainSS drivetrainSS, MotionProfilingConstants motionProfilingConstants, boolean reversed,
-            Waypoint... waypoints) {
+                Waypoint... waypoints) {
         this(drivetrainSS, motionProfilingConstants, reversed, kDefaultStartPathVelocity, kDefaultEndPathVelocity,
                 waypoints);
     }
@@ -54,7 +55,7 @@ public class Path {
      * @param waypoints   the path waypoints
      */
     public Path(DrivetrainSS drivetrainSS, MotionProfilingConstants motionProfilingConstants, boolean reversed,
-            double endVelocity, Waypoint... waypoints) {
+                double endVelocity, Waypoint... waypoints) {
         this(drivetrainSS, motionProfilingConstants, reversed, kDefaultStartPathVelocity, endVelocity, waypoints);
     }
 
@@ -67,13 +68,13 @@ public class Path {
      * @param waypoints     the path waypoints
      */
     public Path(DrivetrainSS drivetrainSS, MotionProfilingConstants motionProfilingConstants, boolean reversed,
-            double startVelocity, double endVelocity, Waypoint... waypoints) {
+                double startVelocity, double endVelocity, Waypoint... waypoints) {
         this.reversed = reversed;
         TrajectoryConfig config = new TrajectoryConfig(motionProfilingConstants.MAX_VELOCITY,
-                motionProfilingConstants.MAX_ACCELERATION).addConstraint(
-                        new CentripetalAccelerationConstraint(motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION))
-                        .setKinematics(drivetrainSS.getKinematics()).setReversed(reversed).setStartVelocity(startVelocity)
-                        .setEndVelocity(endVelocity);
+                motionProfilingConstants.MAX_ACCELERATION)
+                .addConstraint(new CentripetalAccelerationConstraint(motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION))
+                .setKinematics(drivetrainSS.getKinematics()).setReversed(reversed).setStartVelocity(startVelocity)
+                .setEndVelocity(endVelocity);
 
         trajectory = TrajectoryGenerator.generateTrajectory(Arrays.asList(waypoints), config);
     }

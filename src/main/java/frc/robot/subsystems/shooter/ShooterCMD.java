@@ -91,7 +91,6 @@ public class ShooterCMD extends CommandBase implements Loggable {
     }
 
     private void Shoot() {
-        System.out.println(currentState.name());
         double output;
         TBHController.setSetpoint(desiredVelocity);
         PIDController.setSetpoint(desiredVelocity);
@@ -120,12 +119,10 @@ public class ShooterCMD extends CommandBase implements Loggable {
                     outputSum += output;
                     sampleCount++;
                 } else {
-                    System.out.println(Math.abs(desiredVelocity - shooterSS.getVelocityRPM()));
                     outputSum = 0;
                     sampleCount = 0;
                 }
                 if (ballsShotCount == 0 && sampleCount == constants.KF_CALCULATION_SAMPLE_AMOUNT) {
-                    System.out.println("es;lgjrsoeidgjoidrsjgbposejgbpsoe");
                     f = outputSum / sampleCount;
                     TBHController.reset();
                     hasRecalculatedF = true;

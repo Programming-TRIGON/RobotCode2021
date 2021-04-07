@@ -1,5 +1,10 @@
 package frc.robot.motion_profiling;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -23,22 +28,32 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
      */
     public TrigonSwerveControllerCMDGP(DrivetrainSS drivetrainSS, MotionProfilingConstants constants, AutoPath path) {
         constants.THETA_PROFILED_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
+        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID X", constants.X_PID_CONTROLLER);
+        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID Y", constants.Y_PID_CONTROLLER);
+        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID Rotation", constants.THETA_PROFILED_PID_CONTROLLER);
         addCommands(
-            new InstantCommand(drivetrainSS::stopMoving, drivetrainSS),
-            new InstantCommand(() -> drivetrainSS.SetSpeedMotorRampRates(0)),
-            new InstantCommand(() -> drivetrainSS.resetOdometry(
-                path.getPath(drivetrainSS, constants).getTrajectory().getInitialPose()),
-                drivetrainSS),
-            new SwerveControllerCommand(
-                path.getPath(drivetrainSS, constants).getTrajectory(),
-                drivetrainSS::getPose,
-                drivetrainSS.getKinematics(),
-                constants.X_PID_CONTROLLER,
-                constants.Y_PID_CONTROLLER,
-                constants.THETA_PROFILED_PID_CONTROLLER,
-                drivetrainSS::setDesiredStates,
-                drivetrainSS),
-            new InstantCommand(() -> drivetrainSS.SetSpeedMotorRampRates()),
-            new InstantCommand(drivetrainSS::stopMoving, drivetrainSS));
+                new InstantCommand(() ->
+                {
+                    drivetrainSS.stopMoving();
+                    drivetrainSS.SetSpeedMotorRampRates(0);
+                    drivetrainSS.resetOdometry(
+                            path.getPath(drivetrainSS, constants).getTrajectory().getInitialPose()
+                    );
+                }, drivetrainSS),
+                new SwerveControllerCommand(
+                        path.getPath(drivetrainSS, constants).getTrajectory(),
+                        drivetrainSS::getPose,
+                        drivetrainSS.getKinematics(),
+                        constants.X_PID_CONTROLLER,
+                        constants.Y_PID_CONTROLLER,
+                        constants.THETA_PROFILED_PID_CONTROLLER,
+                        drivetrainSS::setDesiredStates,
+                        drivetrainSS
+                ),
+                new InstantCommand(() -> {
+                    drivetrainSS.SetSpeedMotorRampRates();
+                    drivetrainSS.stopMoving();
+                }, drivetrainSS)
+        );
     }
 }

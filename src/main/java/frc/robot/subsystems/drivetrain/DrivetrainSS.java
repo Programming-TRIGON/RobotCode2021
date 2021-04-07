@@ -24,7 +24,7 @@ import io.github.oblarg.oblog.annotations.Log;
 public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Loggable {
     private final Pigeon gyro;
     private final SwerveDriveOdometry odometry;
-    private DrivetrainConstants constants;
+    private final DrivetrainConstants constants;
     private SwerveDriveKinematics kinematics;
     private SwerveModule[] modules;
 
@@ -143,6 +143,19 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @return the modules' current states
      */
+    public SwerveModuleState[] getCurrentStates() {
+        SwerveModuleState[] states = new SwerveModuleState[modules.length];
+        for (int i = 0; i < modules.length; i++) {
+            states[i] = modules[i].getState();
+        }
+        return states;
+    }
+
+    /**
+     * Returns the current states of the swerve modules as an array
+     *
+     * @return the modules' current states
+     */
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] states = new SwerveModuleState[modules.length];
         for (int i = 0; i < modules.length; i++) {
@@ -243,7 +256,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     /*
-     * Sets the ramp rate of the speed motors to the defualt ramp rate.
+     * Sets the ramp rate of the speed motors to the default ramp rate.
      */
     public void SetSpeedMotorRampRates() {
         for (SwerveModule swerveModule : modules) {
@@ -260,7 +273,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     private void updateOdometry() {
-        odometry.update(gyro.getRotation2d(), getDesiredStates());
+        odometry.update(Rotation2d.fromDegrees(-gyro.getAngle()), getCurrentStates());
     }
 
     public void resetGyro() {

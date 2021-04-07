@@ -27,18 +27,18 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(197));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(250.4));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(290.48));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(327.39));
-        drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29665, -0.29665, Rotation2d.fromDegrees(214.9));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.26765, 0.29665, Rotation2d.fromDegrees(105.1));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29665, -0.29665, Rotation2d.fromDegrees(293.9));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29665, 0.29665, Rotation2d.fromDegrees(150.6));
+        drivetrainConstants.WHEEL_DIAMETER_M = 0.1016; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.30, NeutralMode.Brake, 0);
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -107,15 +107,15 @@ public class RobotA extends RobotConstants {
         rightClimberConstants.IS_INVERTED = false;
 
         // Motion profile constants
-        motionProfilingConstants.MAX_VELOCITY = 5;
+        motionProfilingConstants.MAX_VELOCITY = .5;
         motionProfilingConstants.MAX_ACCELERATION = 1;
         motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION = 0.5;
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
-        motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0, 0));
-        motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0, 0));
+        motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0.0, 0, 0));
+        motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0.0, 0, 0));
         motionProfilingConstants.THETA_PROFILED_PID_CONTROLLER = new TrigonProfiledPIDController(
-                new PIDFCoefs(0.5, 0, 0, 0, 0, new Constraints(100, 50)));
+                new PIDFCoefs(0., 0, 0, 0, 0, new Constraints(100, 50)));
         // Pitcher constants
         pitcherConstants.PCM_MAP = pcm.pitcherMap;
         pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
@@ -184,44 +184,44 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(15000, 10000));
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
+                new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
                 new TalonFXWithTalonSRXEncoder(1, 8,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.04, 0.4, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(0.731, 0, 0),
+                new PIDFCoefs(0.04, 0.3, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
+                new PIDFCoefs(2.51, 0, 0),
                 new SVACoefs(0.742, 0.00408, 9.46e-5),
-                new SVACoefs(0.781, 2.49, 0.0435)
+                new SVACoefs(0.719, 2.39, 0.0718)
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
-                        new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
+                        new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
                 new TalonFXWithTalonSRXEncoder(3, 9,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.04, 0.5, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(0.616, 0, 0),
+                new PIDFCoefs(0.04, 0.4, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
+                new PIDFCoefs(0.819, 0, 0),
                 new SVACoefs(0.748, 0.00403, 0.000122),
-                new SVACoefs(0.839, 2.39, 0.0373)
+                new SVACoefs(0.699, 2.46, 0.0355)
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
-                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
+                new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
                 new TalonFXWithTalonSRXEncoder(5, 10,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.02, 0.7, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(2.32, 0, 0),
+                new PIDFCoefs(0.02, 0.6, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
+                new PIDFCoefs(15.8, 0, 0),
                 new SVACoefs(0.785, 0.00417, 0.00011),
-                new SVACoefs(0.711, 2.53, 0.308)
+                new SVACoefs(0.643, 2.37, 0.361)
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6,
@@ -232,10 +232,10 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.03, 0.6, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(2.48, 0, 0),
+                new PIDFCoefs(0.03, 0.5, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
+                new PIDFCoefs(17.2, 0, 0),
                 new SVACoefs(0.786, 0.00411, 0.000106),
-                new SVACoefs(0.812, 2.3, 0.339)
+                new SVACoefs(0.65, 2.3, 0.396)
         );
 
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);

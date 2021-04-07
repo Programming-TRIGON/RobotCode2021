@@ -60,7 +60,7 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        if (getDesiredVelocity() != 0 && true)
+        if (getDesiredVelocity() != 0 && false)
             speedMotor.setVoltage(speedController.calculate(getSpeedMotorMPS(), getDesiredVelocity())
                     + speedFeedforward.calculate(getDesiredVelocity()));
         else
@@ -228,6 +228,7 @@ public class SwerveModule implements Sendable {
                 speed -> setDesiredSpeed(isTuning ? speed : desiredState.speedMetersPerSecond));
         builder.addDoubleProperty("PID Angle Velocity", () -> angleController.getSetpoint().velocity, null);
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
+        builder.addDoubleProperty("Speed Motor Position", speedMotor::getSelectedSensorPosition, null);
         builder.addDoubleProperty("Angle PID error", this.angleController::getPositionError, null);
         builder.addDoubleProperty("Speed PID error", () -> getSpeedMotorMPS() - getDesiredVelocity(), null);
         builder.addDoubleProperty("Angle motor power", this.angleMotor::get, null);

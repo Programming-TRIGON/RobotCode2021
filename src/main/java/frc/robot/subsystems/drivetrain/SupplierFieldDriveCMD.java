@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 public class SupplierFieldDriveCMD extends CommandBase {
     private final DrivetrainSS drivetrain;
     private final Supplier<Double> x, y, rot;
-    double deadBand = 0.1 / 7;
+    double deadBand = 0.03 / 7;
 
     /**
      * Drives a drivetrain based on the given suppliers, relative to the field

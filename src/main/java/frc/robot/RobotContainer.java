@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -10,7 +11,6 @@ import frc.robot.commands.TurnToTargetCMD;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
-import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
@@ -34,7 +34,6 @@ import io.github.oblarg.oblog.Logger;
 
 public class RobotContainer {
     private final RobotA robotConstants;
-    private final HomeField fieldConstants;
     private final SubsystemContainerA subsystemContainer;
     private final TrigonXboxController xboxController;
     private final DashboardController dashboardController;
@@ -58,9 +57,9 @@ public class RobotContainer {
      * Add classes here
      */
     public RobotContainer() {
+
         Logger.configureLoggingAndConfig(this, true);
         robotConstants = new RobotA();
-        fieldConstants = new HomeField();
         subsystemContainer = new SubsystemContainerA();
         dashboardController = new DashboardController();
         xboxController = new TrigonXboxController(0);
@@ -75,7 +74,9 @@ public class RobotContainer {
         SmartDashboard.putData("CalibrateLoaderKfCMD", calibrateLoaderKfCMD);
         SmartDashboard.putData("TurnToTargetCMD", turnToTargetCMD);
         SmartDashboard.putData("TurnAndPositionToTargetCMD", turnAndPositionToTargetCMD);
-        SmartDashboard.putData("motion", motionTest);
+        SmartDashboard.putData("TrigonSwerveControllerCMDGP", motionTest);
+
+        Logger.configureLogging(subsystemContainer.DRIVETRAIN_SS);
     }
 
     /**
@@ -119,7 +120,10 @@ public class RobotContainer {
      */
     public void BindCommands() {
         xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
-        xboxController.getButtonY().whenPressed(new InstantCommand(() -> subsystemContainer.DRIVETRAIN_SS.resetGyro()));
+        xboxController.getButtonY().whenPressed(new InstantCommand(() -> {
+            subsystemContainer.DRIVETRAIN_SS.resetGyro();
+            subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
+        }));
         xboxController.getButtonX().toggleWhenPressed(new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         xboxController.getButtonB().whenHeld(new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
 
@@ -148,6 +152,7 @@ public class RobotContainer {
     public void updateDashboard() {
         dashboardController.update();
         Logger.updateEntries();
+
     }
 
     /**
