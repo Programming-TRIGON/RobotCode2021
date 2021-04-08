@@ -31,14 +31,14 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(103.35));
         drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(290.74));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(152.13));
-        drivetrainConstants.WHEEL_DIAMETER_M = 0.05; // in meters
+        drivetrainConstants.WHEEL_DIAMETER_M = 0.1016; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.30, NeutralMode.Brake, 0);
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -46,7 +46,7 @@ public class RobotA extends RobotConstants {
         testerConstants.SECONDS_TO_WAIT = 3;
 
         // Vision Constants
-        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.005, 0, 0.0, 0.16, 0.01);
+        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.005, 0, 0.0, 0.08, 0.001);
         visionConstants.POSITION_SETTINGS = new PIDFCoefs(0.05, 0, 0.0, 0.16, 0.05);
         visionConstants.Y_TARGET = 3.75;
         visionConstants.TARGET_TIME_OUT = 4;
@@ -56,7 +56,7 @@ public class RobotA extends RobotConstants {
         loaderConstants.MOTOR_CONFIG = new MotorConfig(0.2, false, true, NeutralMode.Coast, 0);
         loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.082812504229243, 0, 0.1, 0.1, 5000, 150, 8);
         loaderConstants.PID_COEFS = new PIDFCoefs(0.02, 0.001, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
-        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 6000;
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 10000;
         loaderConstants.DEFAULT_MIXING_VELOCITY = -1000;
 
         // Shooter Constants
@@ -87,6 +87,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
         shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
         shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
+        shooterConstants.areaArr = new int[]{3170, 3060, 3500, 2050};
+
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;
@@ -133,7 +135,7 @@ public class RobotA extends RobotConstants {
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
         spinnerConstants.MOTOR_CONFIG = new MotorConfig(4, NeutralMode.Coast, 0);
-        spinnerConstants.DEFAULT_MOTOR_POWER = -0.2;
+        spinnerConstants.DEFAULT_MOTOR_POWER = -0.15;
         spinnerConstants.STALL_CURRENT_LIMIT = 25;
         spinnerConstants.STALL_CHECK_DELAY = 2;
 

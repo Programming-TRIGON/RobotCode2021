@@ -1,5 +1,6 @@
 package frc.robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -304,6 +305,12 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         layout.add("Module stats", module);
         layout.add("Angle PID Controller", module.getAnglePIDController());
         layout.add("Speed PID Controller", module.getSpeedPIDController());
+    }
+
+    public void setMotorsMode(NeutralMode mode) {
+        for (SwerveModule module : modules) {
+            module.setMotorsMode(mode);
+        }
     }
 
     @Override

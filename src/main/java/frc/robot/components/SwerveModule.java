@@ -1,5 +1,6 @@
 package frc.robot.components;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -45,6 +46,7 @@ public class SwerveModule implements Sendable {
         angleController.enableContinuousInput(-90, 90);
 
         setAbsolute();
+        speedMotor.setSelectedSensorPosition(0);
     }
 
     /**
@@ -209,6 +211,11 @@ public class SwerveModule implements Sendable {
         speedMotor.configClosedloopRamp(rampRate);
     }
 
+    public void setMotorsMode(NeutralMode mode) {
+        speedMotor.setNeutralMode(mode);
+        angleMotor.setNeutralMode(mode);
+    }
+
     /*
      * Sets the ramp rate of the speed motor to the default ramp rate.
      */
@@ -228,7 +235,8 @@ public class SwerveModule implements Sendable {
                 speed -> setDesiredSpeed(isTuning ? speed : desiredState.speedMetersPerSecond));
         builder.addDoubleProperty("PID Angle Velocity", () -> angleController.getSetpoint().velocity, null);
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
-        builder.addDoubleProperty("Speed Motor Position", speedMotor::getSelectedSensorPosition, null);
+        builder.addDoubleProperty("Speed Motor Position", () -> speedMotor.getSelectedSensorPosition() / SwerveConstants.StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION
+                * constants.diameter * Math.PI / SwerveConstants.StaticSwerveConstants.SPEED_GEAR_RATION, null);
         builder.addDoubleProperty("Angle PID error", this.angleController::getPositionError, null);
         builder.addDoubleProperty("Speed PID error", () -> getSpeedMotorMPS() - getDesiredVelocity(), null);
         builder.addDoubleProperty("Angle motor power", this.angleMotor::get, null);

@@ -16,6 +16,7 @@ import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
+import frc.robot.subsystems.drivetrain.ToggleMotorsModeCMD;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
@@ -45,6 +46,7 @@ public class RobotContainer {
     private SupplierFieldDriveCMD supplierFieldDriveCMD;
     private TurnToTargetCMD turnToTargetCMD;
     private TurnAndPositionToTargetCMD turnAndPositionToTargetCMD;
+    private ToggleMotorsModeCMD toggleMotorsModeCMD;
 
     private TrigonSwerveControllerCMDGP motionTest;
     private IntakeOpenerCMD closeIntakeCMD;
@@ -110,8 +112,8 @@ public class RobotContainer {
                 robotConstants.visionConstants, Target.PowerPort);
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
-        // TODO: delete this:
-        // robotConstants.pcm.compressorMap.COMPRESSOR.stop();
+        toggleMotorsModeCMD = new ToggleMotorsModeCMD(subsystemContainer.DRIVETRAIN_SS);
+        //robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
 
     /**
@@ -126,8 +128,10 @@ public class RobotContainer {
         }));
         xboxController.getButtonX().toggleWhenPressed(new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         xboxController.getButtonB().whenHeld(new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
+        SmartDashboard.putNumber("D-Pad", xboxController.getPOV());
 
         SmartDashboard.putData(" collect ", collectCMDGP);
+        SmartDashboard.putData("ToggleMotorsModeCMD", toggleMotorsModeCMD);
 
         SmartDashboard.putData(" shoot ", ShootWithPitcherCMDGP);
         SmartDashboard.putData("toggle solenoid",
@@ -135,6 +139,11 @@ public class RobotContainer {
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
         SmartDashboard.putData("Loader/Load", new LoaderCMD(subsystemContainer.LOADER_SS, robotConstants.loaderConstants, robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY));
         SmartDashboard.putData("Shoot without pitcher CMDGP", shootCMDGP);
+        xboxController.getLeftBumper().whenPressed(new InstantCommand(() -> {
+            subsystemContainer.SHOOTER_SS.areaCounter++;
+            SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.areaArr[subsystemContainer.SHOOTER_SS.areaCounter]);
+        }));
+        SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.areaArr[subsystemContainer.SHOOTER_SS.areaCounter]);
     }
 
     /**
@@ -152,7 +161,6 @@ public class RobotContainer {
     public void updateDashboard() {
         dashboardController.update();
         Logger.updateEntries();
-
     }
 
     /**
