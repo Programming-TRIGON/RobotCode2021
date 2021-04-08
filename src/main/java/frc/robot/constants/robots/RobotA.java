@@ -27,10 +27,10 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(214.45));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(103.35));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(290.74));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(152.13));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(213.57));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(109.6));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(292.41));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(157.41));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.1016; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
@@ -38,7 +38,7 @@ public class RobotA extends RobotConstants {
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.1, NeutralMode.Brake, 0);
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants

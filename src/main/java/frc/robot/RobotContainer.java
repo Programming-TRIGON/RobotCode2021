@@ -91,8 +91,8 @@ public class RobotContainer {
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
                 robotConstants.shooterConstants);
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
-                () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 2,
-                () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 2,
+                () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 6,
+                () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 6,
                 () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 4);
 
         motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
@@ -113,7 +113,7 @@ public class RobotContainer {
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         toggleMotorsModeCMD = new ToggleMotorsModeCMD(subsystemContainer.DRIVETRAIN_SS);
-        //robotConstants.pcm.compressorMap.COMPRESSOR.stop();
+        robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
 
     /**

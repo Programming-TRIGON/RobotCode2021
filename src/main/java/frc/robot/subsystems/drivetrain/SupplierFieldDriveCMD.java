@@ -30,8 +30,8 @@ public class SupplierFieldDriveCMD extends CommandBase {
 
     @Override
     public void execute() {
-        if (Math.abs(x.get()) > deadBand ||
-                Math.abs(y.get()) > deadBand ||
+        if (Math.abs(x.get()) > 0 ||
+                Math.abs(y.get()) > 0 ||
                 Math.abs(rot.get()) > deadBand)
             drivetrain.fieldPowerDrive(x.get(), y.get(), rot.get());
         else drivetrain.stopDrive();
