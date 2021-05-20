@@ -281,6 +281,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         gyro.reset();
     }
 
+    public void resetGyro() {
+        gyro.reset();
+    }
+
     private void initSwerve() {
         kinematics = new SwerveDriveKinematics(
                 constants.FRONT_LEFT_LOCATION.getTranslation(),
