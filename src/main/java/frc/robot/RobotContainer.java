@@ -11,7 +11,6 @@ import frc.robot.commands.TurnToTargetCMD;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
-import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
@@ -22,7 +21,6 @@ import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
 import frc.robot.subsystems.loader.LoaderCMD;
-import frc.robot.subsystems.led.LedSS;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
 import frc.robot.subsystems.shooter.CalibrateShooterKfCMD;
@@ -87,7 +85,7 @@ public class RobotContainer {
      * Initializes all commands.
      */
     public void initializeCommands() {
-        SmartDashboard.putNumber("Shooter/Desired Velocity", 3000);
+        SmartDashboard.putNumber("Shooter/Desired Velocity", 0);
         shooterCMD = new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants,
                 () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
@@ -143,9 +141,9 @@ public class RobotContainer {
         SmartDashboard.putData("Shoot without pitcher CMDGP", shootCMDGP);
         xboxController.getLeftBumper().whenPressed(new InstantCommand(() -> {
             subsystemContainer.SHOOTER_SS.areaCounter++;
-            SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.areaArr[subsystemContainer.SHOOTER_SS.areaCounter]);
+            SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
         }));
-        SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.areaArr[subsystemContainer.SHOOTER_SS.areaCounter]);
+        SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
@@ -191,6 +189,7 @@ public class RobotContainer {
 
     public class SubsystemContainerA extends SubsystemContainer {
         public SubsystemContainerA() {
+            //TODO: Set to subsystem when LEDs are added to the robot
             LED_SS = null;
             DRIVETRAIN_SS = new DrivetrainSS(robotConstants.drivetrainConstants);
             SHOOTER_SS = new ShooterSS(robotConstants.shooterConstants);

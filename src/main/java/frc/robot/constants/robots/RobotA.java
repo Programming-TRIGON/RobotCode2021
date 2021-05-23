@@ -87,7 +87,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
         shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
         shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
-        shooterConstants.areaArr = new int[]{3170, 3060, 3500, 2050};
+        shooterConstants.AREA_ARRAY = new int[]{3170, 3060, 3500, 2050};
 
 
         // LED constants
