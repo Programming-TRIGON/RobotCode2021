@@ -91,6 +91,7 @@ public class RobotContainer {
         calibrateShooterKfCMD = new CalibrateShooterKfCMD(subsystemContainer.SHOOTER_SS,
                 robotConstants.shooterConstants);
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
+                robotConstants.drivetrainConstants,
                 () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 6,
                 () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 6,
                 () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 4);
@@ -126,8 +127,10 @@ public class RobotContainer {
             subsystemContainer.DRIVETRAIN_SS.resetGyro();
             subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
         }));
-        xboxController.getButtonX().toggleWhenPressed(new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
-        xboxController.getButtonB().whenHeld(new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
+        xboxController.getButtonX().toggleWhenPressed(
+                new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
+        xboxController.getButtonB().whenHeld(
+                new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
         SmartDashboard.putNumber("D-Pad", xboxController.getPOV());
 
         SmartDashboard.putData(" collect ", collectCMDGP);
@@ -137,13 +140,16 @@ public class RobotContainer {
         SmartDashboard.putData("toggle solenoid",
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
-        SmartDashboard.putData("Loader/Load", new LoaderCMD(subsystemContainer.LOADER_SS, robotConstants.loaderConstants, robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY));
+        SmartDashboard.putData("Loader/Load", new LoaderCMD(subsystemContainer.LOADER_SS,
+                robotConstants.loaderConstants, robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY));
         SmartDashboard.putData("Shoot without pitcher CMDGP", shootCMDGP);
         xboxController.getLeftBumper().whenPressed(new InstantCommand(() -> {
             subsystemContainer.SHOOTER_SS.areaCounter++;
-            SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
+            SmartDashboard.putNumber("Shooter/Desired Velocity",
+                    robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
         }));
-        SmartDashboard.putNumber("Shooter/Desired Velocity", robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
+        SmartDashboard.putNumber("Shooter/Desired Velocity",
+                robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
     }
 
@@ -189,7 +195,7 @@ public class RobotContainer {
 
     public class SubsystemContainerA extends SubsystemContainer {
         public SubsystemContainerA() {
-            //TODO: Set to subsystem when LEDs are added to the robot
+            // TODO: Set to subsystem when LEDs are added to the robot
             LED_SS = null;
             DRIVETRAIN_SS = new DrivetrainSS(robotConstants.drivetrainConstants);
             SHOOTER_SS = new ShooterSS(robotConstants.shooterConstants);
