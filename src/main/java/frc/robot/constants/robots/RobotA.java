@@ -122,8 +122,7 @@ public class RobotA extends RobotConstants {
         pitcherConstants.NO_TARGET_BLINK_TIME = 5;
 
         // Intake opener constants
-        intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
-        intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
+        intakeOpenerConstants.PCM_MAP = pcm.intakeOpenerMap;
         intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
         intakeOpenerConstants.DEFAULT_OPEN_POWER = 0.6;
         intakeOpenerConstants.DEFAULT_CLOSE_POWER = -0.6;
@@ -168,7 +167,6 @@ public class RobotA extends RobotConstants {
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(13, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(15, intakeConstants.MOTOR_CONFIG);
-        can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(16, intakeOpenerConstants.MOTOR_CONFIG);
         can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
         can.spinnerMap.MOTOR = new TrigonTalonSRX(18, spinnerConstants.MOTOR_CONFIG);
 
@@ -197,7 +195,7 @@ public class RobotA extends RobotConstants {
                 new TrigonTalonFX(4,
                         new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true,
                                 true)),
-                new TalonFXWithTalonSRXEncoder(5, can.intakeOpenerMap.MOTOR,
+                new TalonFXWithTalonSRXEncoder(5, 16,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 true)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -227,13 +225,12 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // DIO
-        intakeOpenerConstants.DIO_MAP.OPEN_SWITCH = new DigitalInput(0);
-        intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
 
         // PCM
         pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
         pcm.pitcherMap.RIGHT_SOLENOID = new TrigonDoubleSolenoid(2, 3);
         pcm.pitcherMap.LEFT_SOLENOID = new TrigonDoubleSolenoid(4, 5);
+        pcm.intakeOpenerMap.SOLENOID = new TrigonDoubleSolenoid(6, 7);
 
         // I2C
         i2c.spinnerMap.COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);

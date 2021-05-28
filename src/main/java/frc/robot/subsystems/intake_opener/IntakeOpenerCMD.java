@@ -23,18 +23,16 @@ public class IntakeOpenerCMD extends CommandBase {
 
     @Override
     public void execute() {
-        intakeOpenerSS.moveWithSafety(power.getAsDouble());
+        intakeOpenerSS.setSolenoidState(true);
     }
 
     @Override
     public boolean isFinished() {
-        return power.getAsDouble() < 0 && intakeOpenerSS.isClosed()
-                || power.getAsDouble() > 0 && intakeOpenerSS.isOpen()
-                || power.getAsDouble() == 0;
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
-        intakeOpenerSS.stopMoving();
+        intakeOpenerSS.setSolenoidState(false);
     }
 }

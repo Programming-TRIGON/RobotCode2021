@@ -158,8 +158,7 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class IntakeOpenerConstants {
-        public CAN.IntakeOpenerMap CAN_MAP;
-        public DIO.IntakeOpenerMap DIO_MAP;
+        public PCM.IntakeOpenerMap PCM_MAP;
         public MotorConfig MOTOR_CONFIG;
         public double DEFAULT_OPEN_POWER;
         public double DEFAULT_CLOSE_POWER;
