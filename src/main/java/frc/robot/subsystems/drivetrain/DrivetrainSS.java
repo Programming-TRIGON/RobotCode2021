@@ -120,6 +120,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      * @param states the modules' desired states
      */
     public void setDesiredStates(SwerveModuleState[] states) {
+        final double speedErrorModifier = 1; // this is currently 1 due to issues it was causing 
+        //and no visible benefit may be removed later
         boolean hasError = false;
         for (SwerveModule module : modules) {
             if (module.getAngleError() > 40) {
@@ -129,7 +131,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         }
         if (hasError) {
             for (int i = 0; i < modules.length; i++) {
-                states[i].speedMetersPerSecond = 0;
+                states[i].speedMetersPerSecond = states[i].speedMetersPerSecond / speedErrorModifier;
             }
         }
         if (states.length != modules.length)

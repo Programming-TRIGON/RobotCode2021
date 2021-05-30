@@ -37,8 +37,8 @@ public class RobotA extends RobotConstants {
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
-        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.0, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.1, NeutralMode.Brake, 0);
+        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, NeutralMode.Brake, 0);
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, NeutralMode.Brake, 0);
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
