@@ -77,6 +77,7 @@ public class RobotContainer {
         SmartDashboard.putData("TurnToTargetCMD", turnToTargetCMD);
         SmartDashboard.putData("TurnAndPositionToTargetCMD", turnAndPositionToTargetCMD);
         SmartDashboard.putData("TrigonSwerveControllerCMDGP", motionTest);
+        SmartDashboard.putNumber("Shooter/Desired Velocity",subsystemContainer.SHOOTER_SS.getVelocityRPM());
 
         Logger.configureLogging(subsystemContainer.DRIVETRAIN_SS);
     }
@@ -114,7 +115,6 @@ public class RobotContainer {
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         toggleMotorsModeCMD = new ToggleMotorsModeCMD(subsystemContainer.DRIVETRAIN_SS);
-        robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
 
     /**
