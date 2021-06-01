@@ -34,6 +34,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private double lastTimeAtSetpoint;
     private boolean hasRecalculatedF;
     private boolean hasSetpoint;
+    private int ballsToShoot;
 
     private ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, boolean isUsingLimelight) {
         this.shooterSS = shooterSS;
@@ -53,9 +54,23 @@ public class ShooterCMD extends CommandBase implements Loggable {
         this.desiredVelocitySupplier = limelight::calculateDesiredShooterVelocity;
     }
 
+    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, PitcherLimelight limelight, int ballsToShooter) {
+        this(shooterSS, ledSS, constants, true);
+        this.limelight = limelight;
+        this.desiredVelocitySupplier = limelight::calculateDesiredShooterVelocity;
+        this.ballsToShoot = ballsToShooter;
+    }
+
     public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, DoubleSupplier desiredVelocitySupplier) {
         this(shooterSS, ledSS, constants, false);
         this.desiredVelocitySupplier = desiredVelocitySupplier;
+    }
+
+    public ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants,
+                      DoubleSupplier desiredVelocitySupplier, int ballsToShooter) {
+        this(shooterSS, ledSS, constants, false);
+        this.desiredVelocitySupplier = desiredVelocitySupplier;
+        this.ballsToShoot = ballsToShooter;
     }
 
     @Override
@@ -86,7 +101,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
                     ledSS.blinkColor(ledSS.getColorMap().NO_TARGET);
                 DriverStationLogger.logToDS("ShooterCMD: No valid target, Try reposition!");
             }
-        } else
+        }
+        else
             Shoot();
     }
 
@@ -102,7 +118,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 && currentState == ShooterState.Default && hasRecalculatedF) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
-        } else if (desiredVelocity - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
+        }
+        else if (desiredVelocity - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
             TBHController.reset();
@@ -118,7 +135,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 if (Math.abs(desiredVelocity - shooterSS.getVelocityRPM()) < constants.TOLERANCE) {
                     outputSum += output;
                     sampleCount++;
-                } else {
+                }
+                else {
                     outputSum = 0;
                     sampleCount = 0;
                 }
@@ -160,6 +178,10 @@ public class ShooterCMD extends CommandBase implements Loggable {
 
     public boolean isAtSetpoint() {
         return hasSetpoint;
+    }
+
+    public boolean allBallsShot(){
+        return ballsToShoot == ballsShotCount;
     }
 
     @Override
