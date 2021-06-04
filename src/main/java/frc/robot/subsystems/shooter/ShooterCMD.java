@@ -35,6 +35,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
     private boolean hasRecalculatedF;
     private boolean hasSetpoint;
     private int ballsToShoot;
+    private boolean enableBallInterupted;
 
     private ShooterCMD(ShooterSS shooterSS, LedSS ledSS, ShooterConstants constants, boolean isUsingLimelight) {
         this.shooterSS = shooterSS;
@@ -45,6 +46,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController = constants.PID_CONTROLLER;
         SmartDashboard.putData("Shooter/TBH", TBHController);
         SmartDashboard.putData("Shooter/PID", PIDController);
+        enableBallInterupted = false;
         addRequirements(shooterSS);
     }
 
@@ -180,13 +182,17 @@ public class ShooterCMD extends CommandBase implements Loggable {
         return hasSetpoint;
     }
 
-    public boolean allBallsShot(){
+    public boolean allBallsShot() {
         return ballsToShoot == ballsShotCount;
+    }
+
+    public void enableBallInterupted(boolean enableBallInterupted) {
+        this.enableBallInterupted = enableBallInterupted;
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return enableBallInterupted ? allBallsShot() : false;
     }
 
     @Override

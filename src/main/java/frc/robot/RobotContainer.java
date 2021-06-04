@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.GenericCalibrateKF;
 import frc.robot.commands.TurnAndPositionToTargetCMD;
 import frc.robot.commands.TurnToTargetCMD;
+import frc.robot.commands.command_groups.AutonomousCMDGP;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.drivetrain.ToggleMotorsModeCMD;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
+import frc.robot.subsystems.led.LedSS;
 import frc.robot.subsystems.loader.LoaderCMD;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
@@ -54,6 +56,7 @@ public class RobotContainer {
     private ShootCMDGP shootCMDGP;
     private ShootWithPitcherCMDGP ShootWithPitcherCMDGP;
     private CollectCMDGP collectCMDGP;
+    private AutonomousCMDGP autonomousCMDGP;
 
     /**
      * Add classes here
@@ -107,6 +110,7 @@ public class RobotContainer {
         shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight);
         ShootWithPitcherCMDGP = new ShootWithPitcherCMDGP(subsystemContainer, robotConstants, limelight);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
+        autonomousCMDGP=new AutonomousCMDGP(subsystemContainer,robotConstants,limelight);
         closeIntakeCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
                 () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
         turnToTargetCMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
@@ -114,7 +118,6 @@ public class RobotContainer {
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         toggleMotorsModeCMD = new ToggleMotorsModeCMD(subsystemContainer.DRIVETRAIN_SS);
-        robotConstants.pcm.compressorMap.COMPRESSOR.stop();
     }
 
     /**
@@ -122,7 +125,7 @@ public class RobotContainer {
      * the commands.
      */
     public void BindCommands() {
-        xboxController.getButtonA().whenHeld(collectCMDGP).whenReleased(closeIntakeCMD);
+        xboxController.getButtonA().whenHeld(autonomousCMDGP);
         xboxController.getButtonY().whenPressed(new InstantCommand(() -> {
             subsystemContainer.DRIVETRAIN_SS.resetGyro();
             subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
