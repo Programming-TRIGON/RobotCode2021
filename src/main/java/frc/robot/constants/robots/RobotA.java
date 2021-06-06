@@ -149,9 +149,12 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 50;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2975;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
@@ -161,9 +164,12 @@ public class RobotA extends RobotConstants {
         retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2000;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
 
         /* Robot Map */
 

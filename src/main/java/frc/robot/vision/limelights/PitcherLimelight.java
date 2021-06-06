@@ -1,7 +1,6 @@
 package frc.robot.vision.limelights;
 
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.LimelightConstants;
 import frc.robot.subsystems.pitcher.PitcherSS;
 
@@ -48,36 +47,31 @@ public class PitcherLimelight extends VanillaLimelight {
     }
 
     /**
-     * @return The distance between the target and the limelight
+     * calculates the distance of the robot from the tower
+     * based on the ration of the height the limelight sees to the distance
+     *
+     * @return distance of the robot from the tower
      */
-    // TODO: set real function
-    public double getTargetDistance() {
+    //TODO: Set correct coefs
+    public double calculateDistanceFromTower() {
         double y = getTy();
         if (hoodExtended())
-            return extendedConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
-                    + extendedConstants.DISTANCE_CALCULATION_B_COEFFICIENT * y
-                    + extendedConstants.DISTANCE_CALCULATION_C_COEFFICIENT;
+            return extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.pow(y, 2) + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B * y
+                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
         else
-            return retractedConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
-                    + retractedConstants.DISTANCE_CALCULATION_B_COEFFICIENT * y
-                    + retractedConstants.DISTANCE_CALCULATION_C_COEFFICIENT;
+            return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A * Math.pow(y, 2) + retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * y
+                    + retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
     }
 
     /**
-     * Calculates the desired desiredVelocity to set the motors based on the height
-     * at which the limelight sees the target
+     * Calculates the desired desiredVelocity to set the motors based on the distance of the robot from the tower
      *
      * @return the desired desiredVelocity of the motors
      */
-    // TODO: Set correct calculation based on function chosen for calculation.
     public double calculateDesiredShooterVelocity() {
-        double y = getTy();
-        if (hoodExtended())
-            return extendedConstants.SHOOTER_VELOCITY_COEF_A * Math.pow(y, 2) + extendedConstants.SHOOTER_VELOCITY_COEF_B * y
-                    + extendedConstants.SHOOTER_VELOCITY_COEF_C;
-        else
-            return retractedConstants.SHOOTER_VELOCITY_COEF_A * Math.pow(y, 2) + retractedConstants.SHOOTER_VELOCITY_COEF_B * y
-                    + retractedConstants.SHOOTER_VELOCITY_COEF_C;
+        double distanceFromTower = calculateDistanceFromTower();
+        return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A * Math.pow(distanceFromTower, 2) + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
+                + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
     }
 
     /**
@@ -92,8 +86,7 @@ public class PitcherLimelight extends VanillaLimelight {
             // the final vector.
             return new Vector2d(limelightToTarget.x - extendedConstants.LIMELIGHT_OFFSET_X,
                     limelightToTarget.y - extendedConstants.LIMELIGHT_OFFSET_Y);
-        }
-        else {
+        } else {
             limelightToTarget.rotate(getTx() + retractedConstants.LIMELIGHT_ANGLE_OFFSET);
             // The offset is subtracted from the limelightToTarget vector in order to get
             // the final vector.
