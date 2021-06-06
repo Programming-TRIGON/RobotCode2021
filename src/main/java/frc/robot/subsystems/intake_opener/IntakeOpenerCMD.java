@@ -1,40 +1,26 @@
 package frc.robot.subsystems.intake_opener;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 
-import java.util.function.DoubleSupplier;
 
-public class IntakeOpenerCMD extends CommandBase {
+public class IntakeOpenerCMD extends InstantCommand {
     private final IntakeOpenerSS intakeOpenerSS;
     private final IntakeOpenerConstants constants;
-    private final DoubleSupplier power;
+    private final boolean isOpen;
 
-    public IntakeOpenerCMD(IntakeOpenerSS intakeOpenerSS, IntakeOpenerConstants constants, DoubleSupplier power) {
+    public IntakeOpenerCMD(boolean isOpen,IntakeOpenerSS intakeOpenerSS, IntakeOpenerConstants constants) {
         this.intakeOpenerSS = intakeOpenerSS;
         this.constants = constants;
-        this.power = power;
-        addRequirements(this.intakeOpenerSS);
+        this.isOpen=isOpen;
+
+        addRequirements(intakeOpenerSS);
     }
 
-    public IntakeOpenerCMD(IntakeOpenerSS intakeOpenerSS, IntakeOpenerConstants constants) {
-        this(intakeOpenerSS, constants, () -> constants.DEFAULT_OPEN_POWER);
-    }
 
     @Override
     public void execute() {
-        intakeOpenerSS.moveWithSafety(power.getAsDouble());
+        intakeOpenerSS.setSolenoidState(isOpen);
     }
 
-    @Override
-    public boolean isFinished() {
-        return power.getAsDouble() < 0 && intakeOpenerSS.isClosed()
-                || power.getAsDouble() > 0 && intakeOpenerSS.isOpen()
-                || power.getAsDouble() == 0;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        intakeOpenerSS.stopMoving();
-    }
 }
