@@ -1,6 +1,7 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -37,8 +38,8 @@ public class RobotA extends RobotConstants {
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
-        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, NeutralMode.Brake, 0);
+        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -97,8 +98,6 @@ public class RobotA extends RobotConstants {
         intakeConstants.CAN_MAP = can.intakeMap;
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
         intakeConstants.DEFAULT_MOTOR_POWER = 0.5;
-        intakeConstants.STALL_CHECK_DELAY = 0.5;
-        intakeConstants.STALL_CURRENT_LIMIT = 10;
 
         // Left climber constants
         leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
@@ -125,18 +124,14 @@ public class RobotA extends RobotConstants {
         pitcherConstants.NO_TARGET_BLINK_TIME = 5;
 
         // Intake opener constants
-        intakeOpenerConstants.CAN_MAP = can.intakeOpenerMap;
-        intakeOpenerConstants.DIO_MAP = dio.intakeOpenerMap;
-        intakeOpenerConstants.MOTOR_CONFIG = new MotorConfig();
-        intakeOpenerConstants.DEFAULT_OPEN_POWER = 0.6;
-        intakeOpenerConstants.DEFAULT_CLOSE_POWER = -0.6;
+        intakeOpenerConstants.PCM_MAP = pcm.intakeOpenerMap;
 
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
         spinnerConstants.MOTOR_CONFIG = new MotorConfig(4, NeutralMode.Coast, 0);
-        spinnerConstants.DEFAULT_MOTOR_POWER = -0.15;
-        spinnerConstants.STALL_CURRENT_LIMIT = 25;
+        spinnerConstants.DEFAULT_MOTOR_POWER = -0.175;
+        spinnerConstants.STALL_CURRENT_LIMIT = 20;
         spinnerConstants.STALL_CHECK_DELAY = 2;
 
         /* Limelight Constants */
@@ -149,9 +144,12 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 50;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2975;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
@@ -161,9 +159,12 @@ public class RobotA extends RobotConstants {
         retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2000;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
 
         /* Robot Map */
 
@@ -172,8 +173,7 @@ public class RobotA extends RobotConstants {
         can.spinnerMap.MOTOR = new TrigonTalonSRX(11, spinnerConstants.MOTOR_CONFIG);
         can.shooterMap.RIGHT_MOTOR = new TrigonTalonFX(13, shooterConstants.RIGHT_MOTOR_CONFIG);
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
-        can.intakeMap.MOTOR = new TrigonTalonSRX(15, intakeConstants.MOTOR_CONFIG);
-        can.intakeOpenerMap.MOTOR = new TrigonTalonSRX(16, intakeOpenerConstants.MOTOR_CONFIG);
+        can.intakeMap.MOTOR = new TrigonTalonSRX(9, intakeConstants.MOTOR_CONFIG);
         can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
 
         // Drivetrain map;
@@ -202,7 +202,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
                         new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
-                new TalonFXWithTalonSRXEncoder(3, 9,
+                new TalonFXWithTalonSRXEncoder(3, can.intakeMap.MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -254,13 +254,12 @@ public class RobotA extends RobotConstants {
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // DIO
-        intakeOpenerConstants.DIO_MAP.OPEN_SWITCH = new DigitalInput(0);
-        intakeOpenerConstants.DIO_MAP.CLOSED_SWITCH = new DigitalInput(1);
 
         // PCM
         pcm.compressorMap.COMPRESSOR = new Compressor(0);
         pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
         //pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(2, 3);
+        pcm.intakeOpenerMap.SOLENOID = new TrigonDoubleSolenoid(6, 7);
 
         // I2C
         i2c.spinnerMap.COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);

@@ -51,7 +51,7 @@ public class RobotContainer {
     private ToggleMotorsModeCMD toggleMotorsModeCMD;
 
     private TrigonSwerveControllerCMDGP motionTest;
-    private IntakeOpenerCMD closeIntakeCMD;
+    private IntakeOpenerCMD intakeCMD;
 
     private ShootCMDGP shootCMDGP;
     private ShootWithPitcherCMDGP ShootWithPitcherCMDGP;
@@ -80,6 +80,7 @@ public class RobotContainer {
         SmartDashboard.putData("TurnToTargetCMD", turnToTargetCMD);
         SmartDashboard.putData("TurnAndPositionToTargetCMD", turnAndPositionToTargetCMD);
         SmartDashboard.putData("TrigonSwerveControllerCMDGP", motionTest);
+        SmartDashboard.putNumber("Shooter/Desired Velocity",subsystemContainer.SHOOTER_SS.getVelocityRPM());
 
         Logger.configureLogging(subsystemContainer.DRIVETRAIN_SS);
     }
@@ -111,8 +112,7 @@ public class RobotContainer {
         ShootWithPitcherCMDGP = new ShootWithPitcherCMDGP(subsystemContainer, robotConstants, limelight);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
         autonomousCMDGP=new AutonomousCMDGP(subsystemContainer,robotConstants,limelight);
-        closeIntakeCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
-                () -> robotConstants.intakeOpenerConstants.DEFAULT_CLOSE_POWER);
+        intakeCMD = new IntakeOpenerCMD(true,subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants);
         turnToTargetCMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
@@ -125,7 +125,6 @@ public class RobotContainer {
      * the commands.
      */
     public void BindCommands() {
-        xboxController.getButtonA().whenHeld(autonomousCMDGP);
         xboxController.getButtonY().whenPressed(new InstantCommand(() -> {
             subsystemContainer.DRIVETRAIN_SS.resetGyro();
             subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
@@ -134,6 +133,8 @@ public class RobotContainer {
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         xboxController.getButtonB().whenHeld(
                 new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
+        xboxController.getRightBumper().whenHeld(collectCMDGP).whenReleased(intakeCMD);
+
         SmartDashboard.putNumber("D-Pad", xboxController.getPOV());
 
         SmartDashboard.putData(" collect ", collectCMDGP);
@@ -177,14 +178,14 @@ public class RobotContainer {
      * Call this method in the autonomousInit.
      */
     public void autonomousInit() {
-        CommandScheduler.getInstance().schedule(closeIntakeCMD);
+        CommandScheduler.getInstance().schedule(intakeCMD);
     }
 
     /**
      * Call this method in the teleopInit.
      */
     public void teleopInit() {
-        CommandScheduler.getInstance().schedule(closeIntakeCMD);
+        CommandScheduler.getInstance().schedule(intakeCMD);
     }
 
     /**

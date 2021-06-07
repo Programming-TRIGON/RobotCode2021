@@ -63,9 +63,12 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_ANGLE_OFFSET;
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
-        public double SHOOTER_VELOCITY_COEF_A;
-        public double SHOOTER_VELOCITY_COEF_B;
-        public double SHOOTER_VELOCITY_COEF_C;
+        public double SHOOTER_DISTANCE_TO_VELOCITY_COEF_A;
+        public double SHOOTER_DISTANCE_TO_VELOCITY_COEF_B;
+        public double SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
+        public double SHOOTER_HEIGHT_TO_DISTANCE_COEF_A;
+        public double SHOOTER_HEIGHT_TO_DISTANCE_COEF_B;
+        public double SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
     }
 
     public class TesterConstants {
@@ -165,11 +168,7 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class IntakeOpenerConstants {
-        public CAN.IntakeOpenerMap CAN_MAP;
-        public DIO.IntakeOpenerMap DIO_MAP;
-        public MotorConfig MOTOR_CONFIG;
-        public double DEFAULT_OPEN_POWER;
-        public double DEFAULT_CLOSE_POWER;
+        public PCM.IntakeOpenerMap PCM_MAP;
     }
 
     public class SpinnerConstants {
