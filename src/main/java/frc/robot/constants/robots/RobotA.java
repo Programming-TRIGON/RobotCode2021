@@ -1,6 +1,7 @@
 package frc.robot.constants.robots;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -37,8 +38,8 @@ public class RobotA extends RobotConstants {
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
-        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, NeutralMode.Brake, 0);
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, NeutralMode.Brake, 0);
+        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -143,9 +144,12 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
-        extendedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 50;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2975;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
@@ -155,9 +159,12 @@ public class RobotA extends RobotConstants {
         retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_A = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_B = 1;
-        retractedLimelightConstants.SHOOTER_VELOCITY_COEF_C = 1;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2000;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
 
         /* Robot Map */
 

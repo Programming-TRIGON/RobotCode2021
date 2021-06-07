@@ -17,7 +17,6 @@ import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.drivetrain.ToggleMotorsModeCMD;
-import frc.robot.subsystems.intake.IntakeCMD;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
@@ -80,6 +79,7 @@ public class RobotContainer {
         SmartDashboard.putData("TurnToTargetCMD", turnToTargetCMD);
         SmartDashboard.putData("TurnAndPositionToTargetCMD", turnAndPositionToTargetCMD);
         SmartDashboard.putData("TrigonSwerveControllerCMDGP", motionTest);
+        SmartDashboard.putNumber("Shooter/Desired Velocity",subsystemContainer.SHOOTER_SS.getVelocityRPM());
 
         Logger.configureLogging(subsystemContainer.DRIVETRAIN_SS);
     }

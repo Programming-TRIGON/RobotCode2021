@@ -1,6 +1,5 @@
 package frc.robot.subsystems.intake_opener;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
@@ -19,10 +18,10 @@ public class IntakeOpenerSS extends SubsystemBase implements Loggable {
     /**
      * Sets the state of the solenoid with a boolean
      *
-     * @param state to be set to the solenoid (true=forward false=reverse)
+     * @param isOpen to be set to the solenoid (true=forward false=reverse)
      */
-    public void setSolenoidState(boolean state) {
-        solenoid.setSolenoid(state);
+    public void setSolenoidState(boolean isOpen) {
+        solenoid.setSolenoid(isOpen);
     }
 
     /**
@@ -36,15 +35,7 @@ public class IntakeOpenerSS extends SubsystemBase implements Loggable {
     }
 
     public void toggleSolenoid() {
-        DoubleSolenoid.Value value = solenoid.get();
-
-        if (value == DoubleSolenoid.Value.kForward) {
-            solenoid.set(DoubleSolenoid.Value.kReverse);
-        } else if (value == DoubleSolenoid.Value.kReverse) {
-            solenoid.set(DoubleSolenoid.Value.kForward);
-        } else if (value == DoubleSolenoid.Value.kOff) {
-            solenoid.set(DoubleSolenoid.Value.kReverse);
-        }
+        solenoid.toggle();
     }
 
     @Override
