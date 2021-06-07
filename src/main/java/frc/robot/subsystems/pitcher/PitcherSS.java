@@ -36,7 +36,7 @@ public class PitcherSS extends SubsystemBase implements Loggable {
     }
 
     public void toggleSolenoid() {
-        solenoid.toggle();
+        solenoid.setSolenoid(!getSolenoidState());
     }
 
     @Override

@@ -56,11 +56,11 @@ public class PitcherLimelight extends VanillaLimelight {
     public double calculateDistanceFromTower() {
         double y = getTy();
         if (hoodExtended())
-            return extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.pow(y, 2)
+            return extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.log(y)
                     + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B * y
                     + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
         else
-            return retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.pow(y, 2)
+            return retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.log(y)
                     + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B * y
                     + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
     }

@@ -20,8 +20,7 @@ import frc.robot.vision.limelights.PitcherLimelight;
 public class ShootCMDGP extends ParallelCommandGroup {
     public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
 
-        ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants,
-                () -> SmartDashboard.getNumber("Shooter/Desired Velocity", 0));
+        ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants, () -> 3000);
         addCommands(shootCMD,
                 new SequentialCommandGroup(
                         new TurnToTargetCMD(subsystems.DRIVETRAIN_SS, limelight, constants.visionConstants, Target.PowerPort),

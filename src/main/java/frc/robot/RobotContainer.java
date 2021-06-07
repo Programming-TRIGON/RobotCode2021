@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.GenericCalibrateKF;
+import frc.robot.commands.MoveMovableSubsystem;
+import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.TurnAndPositionToTargetCMD;
 import frc.robot.commands.TurnToTargetCMD;
@@ -142,34 +144,16 @@ public class RobotContainer {
         });
         changeDriveRotation.addRequirements(subsystemContainer.DRIVETRAIN_SS);
         driverXboxController.getLeftBumper().whenPressed(changeDriveRotation);
-        driverXboxController.getButtonX().toggleWhenPressed(
+        driverXboxController.getButtonX().whenPressed(
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         driverXboxController.getButtonB().whenHeld(
                 new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
     }
 
     public void bindOverrideCommands() {
-        overrideXboxController.getRightBumper().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.SPINNER_SS.overriddenMove(0.314159);
-        })).whenReleased((subsystemContainer.SPINNER_SS::stopMoving));
-        overrideXboxController.getLeftBumper().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.SPINNER_SS.overriddenMove(-0.314159);
-        })).whenReleased((subsystemContainer.SPINNER_SS::stopMoving));
         overrideXboxController.getButtonA().whenPressed(subsystemContainer.INTAKE_OPENER_SS::toggleSolenoid);
-        overrideXboxController.getButtonB().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.SHOOTER_SS.move(6);
-        })).whenReleased((subsystemContainer.SHOOTER_SS::stopMoving));
-        overrideXboxController.getButtonY().toggleWhenPressed(
-                new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
-        overrideXboxController.getButtonX().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.INTAKE_SS.overriddenMove(0.314159);
-        })).whenReleased((subsystemContainer.INTAKE_SS::stopMoving));
-        overrideXboxController.getRightStickButton().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.LOADER_SS.overriddenMove(0.3);
-        })).whenReleased((subsystemContainer.LOADER_SS::stopMoving));
-        overrideXboxController.getLeftStickButton().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.LOADER_SS.overriddenMove(-0.3);
-        })).whenReleased((subsystemContainer.LOADER_SS::stopMoving));
+        overrideXboxController.getLeftStickButton().whileHeld(new OverrideCommand(subsystemContainer.LOADER_SS, () -> overrideXboxController.getY(Hand.kLeft)));
+        overrideXboxController.getRightStickButton().whileHeld(new OverrideCommand(subsystemContainer.SPINNER_SS, () -> overrideXboxController.getX(Hand.kRight)));
     }
 
     public void setShuffleBoard() {

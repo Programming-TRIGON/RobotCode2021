@@ -84,7 +84,7 @@ public class VanillaLimelight {
     // TODO: set real function
     public double getTargetDistance() {
         double y = getTy();
-        return constants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
+        return constants.DISTANCE_CALCULATION_A_COEFFICIENT *  Math.log(y)
                 + constants.DISTANCE_CALCULATION_B_COEFFICIENT * y
                 + constants.DISTANCE_CALCULATION_C_COEFFICIENT;
     }

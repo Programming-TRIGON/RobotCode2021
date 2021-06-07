@@ -57,7 +57,7 @@ public class RobotA extends RobotConstants {
         loaderConstants.MOTOR_CONFIG = new MotorConfig(0.2, false, true, NeutralMode.Coast, 0);
         loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.082812504229243, 0, 0.1, 0.1, 5000, 150, 8);
         loaderConstants.PID_COEFS = new PIDFCoefs(0, 0, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
-        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 10000;
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 11500;
         loaderConstants.DEFAULT_MIXING_VELOCITY = -1500;
 
         // Shooter Constants
@@ -147,18 +147,18 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 50;
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2975;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = -17;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 0;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 24.1;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
         retractedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
         retractedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
         retractedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
-        retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
-        retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
-        retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+        retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = -17;
+        retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 0;
+        retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 24.1;
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2000;
