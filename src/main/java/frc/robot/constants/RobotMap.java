@@ -31,7 +31,6 @@ public abstract class RobotMap {
         public LoaderMap loaderMap = new LoaderMap();
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
-        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
 
         public class LoaderMap {
@@ -49,10 +48,6 @@ public abstract class RobotMap {
         }
 
         public class IntakeMap {
-            public TrigonTalonSRX MOTOR;
-        }
-
-        public class IntakeOpenerMap {
             public TrigonTalonSRX MOTOR;
         }
 
@@ -74,13 +69,13 @@ public abstract class RobotMap {
         public class ClimberMap {
             public PWMSparkMax MOTOR;
         }
-
     }
 
     public class PCM {
         public CompressorMap compressorMap = new CompressorMap();
         public PitcherMap pitcherMap = new PitcherMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
+        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
 
         public class CompressorMap {
             public Compressor COMPRESSOR;
@@ -93,15 +88,13 @@ public abstract class RobotMap {
         public class SpinnerMap {
             public TrigonDoubleSolenoid SOLENOID;
         }
+
+        public class IntakeOpenerMap{
+            public TrigonDoubleSolenoid SOLENOID;
+        }
     }
 
     public class DIO {
-        public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
-
-        public class IntakeOpenerMap {
-            public DigitalInput CLOSED_SWITCH;
-            public DigitalInput OPEN_SWITCH;
-        }
     }
 
     public class I2C {

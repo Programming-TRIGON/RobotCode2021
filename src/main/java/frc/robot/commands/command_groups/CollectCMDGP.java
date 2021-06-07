@@ -23,11 +23,13 @@ public class CollectCMDGP extends SequentialCommandGroup {
     }
 
     private void addCommandsToGroup() {
-        addCommands(new IntakeOpenerCMD(subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants),
+        addCommands( new IntakeOpenerCMD(false,subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants),
                 new ParallelCommandGroup(
                         new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
                                 constants.loaderConstants.DEFAULT_MIXING_VELOCITY),
                         new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants),
-                        new IntakeCMD(subsystems.INTAKE_SS, subsystems.LED_SS, constants.intakeConstants)));
+                        new IntakeCMD(subsystems.INTAKE_SS, subsystems.LED_SS, constants.intakeConstants)
+                )
+        );
     }
 }
