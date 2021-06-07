@@ -33,9 +33,9 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         this.constants = constants;
         this.gyro = constants.CAN_MAP.GYRO;
         initSwerve();
-        this.odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
         gyro.calibrate();
         gyro.reset();
+        this.odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(getAngle()));
     }
 
     /**
@@ -238,7 +238,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      * @param pose The pose to which to set the odometry.
      */
     public void resetOdometry(Pose2d pose) {
-        odometry.resetPosition(pose, gyro.getRotation2d());
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(getAngle()));
     }
 
 
@@ -276,7 +276,7 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     private void updateOdometry() {
-        odometry.update(Rotation2d.fromDegrees(-gyro.getAngle()), getCurrentStates());
+        odometry.update(Rotation2d.fromDegrees(getAngle()), getCurrentStates());
     }
 
     public void resetGyro() {
