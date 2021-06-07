@@ -267,6 +267,10 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         }
     }
 
+    public void setAngle(double angle) {
+        gyro.setYaw(angle);
+    }
+
     @Override
     public void periodic() {
         updateOdometry();

@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -123,6 +124,7 @@ public class RobotContainer {
             subsystemContainer.DRIVETRAIN_SS.resetGyro();
             subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
         });
+        resetDirection.addRequirements(subsystemContainer.DRIVETRAIN_SS);
     }
 
     /**
@@ -131,10 +133,13 @@ public class RobotContainer {
      */
     public void BindCommands() {
         driverXboxController.getRightBumper().whenHeld(collectCMDGP).whenReleased(intakeCMD);
-        driverXboxController.getButtonY().whenPressed(new InstantCommand(() -> {
-            subsystemContainer.DRIVETRAIN_SS.resetGyro();
-            subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
-        }));
+        driverXboxController.getButtonY().whenPressed(resetDirection);
+        InstantCommand changeDriveRotation = new InstantCommand(() -> {
+            subsystemContainer.DRIVETRAIN_SS.setAngle(subsystemContainer.DRIVETRAIN_SS.getAngle() + 90);
+            subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d(0,0, Rotation2d.fromDegrees(subsystemContainer.DRIVETRAIN_SS.getAngle())));
+        });
+        changeDriveRotation.addRequirements(subsystemContainer.DRIVETRAIN_SS);
+        driverXboxController.getLeftBumper().whenPressed(changeDriveRotation);
         driverXboxController.getButtonX().toggleWhenPressed(
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         driverXboxController.getButtonB().whenHeld(
@@ -180,6 +185,10 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shooter/Desired Velocity",
                 robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
+        SmartDashboard.putData("Pitcher/Open", new InstantCommand(() -> subsystemContainer.PITCHER_SS.setSolenoidState(true)));
+        SmartDashboard.putData("Pitcher/Close", new InstantCommand(() -> subsystemContainer.PITCHER_SS.setSolenoidState(false)));
+        SmartDashboard.putBoolean("Pitcher/State", subsystemContainer.PITCHER_SS.getSolenoidState());
+        SmartDashboard.putData("Drivetrain/ResetDirection", resetDirection);
     }
 
     /**
