@@ -75,7 +75,9 @@ public class RobotContainer {
                 robotConstants.retractedLimelightConstants, subsystemContainer.PITCHER_SS);
 
         initializeCommands();
-        BindCommands();
+        bindDriverCommands();
+        bindOverrideCommands();
+        setShuffleBoard();
 
         SmartDashboard.putData("Shooter Command", shooterCMD);
         SmartDashboard.putData("CalibrateShooterKfCMD", calibrateShooterKfCMD);
@@ -131,12 +133,12 @@ public class RobotContainer {
      * Binds all commands to the buttons that use them. Call this after initializing
      * the commands.
      */
-    public void BindCommands() {
+    public void bindDriverCommands() {
         driverXboxController.getRightBumper().whenHeld(collectCMDGP).whenReleased(intakeCMD);
         driverXboxController.getButtonY().whenPressed(resetDirection);
         InstantCommand changeDriveRotation = new InstantCommand(() -> {
             subsystemContainer.DRIVETRAIN_SS.setAngle(subsystemContainer.DRIVETRAIN_SS.getAngle() + 90);
-            subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d(0,0, Rotation2d.fromDegrees(subsystemContainer.DRIVETRAIN_SS.getAngle())));
+            subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(subsystemContainer.DRIVETRAIN_SS.getAngle())));
         });
         changeDriveRotation.addRequirements(subsystemContainer.DRIVETRAIN_SS);
         driverXboxController.getLeftBumper().whenPressed(changeDriveRotation);
@@ -144,7 +146,9 @@ public class RobotContainer {
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         driverXboxController.getButtonB().whenHeld(
                 new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
+    }
 
+    public void bindOverrideCommands() {
         overrideXboxController.getRightBumper().whenHeld(new InstantCommand(() -> {
             subsystemContainer.SPINNER_SS.overriddenMove(0.314159);
         })).whenReleased((subsystemContainer.SPINNER_SS::stopMoving));
@@ -166,7 +170,9 @@ public class RobotContainer {
         overrideXboxController.getLeftStickButton().whenHeld(new InstantCommand(() -> {
             subsystemContainer.LOADER_SS.overriddenMove(-0.3);
         })).whenReleased((subsystemContainer.LOADER_SS::stopMoving));
+    }
 
+    public void setShuffleBoard() {
         SmartDashboard.putNumber("D-Pad", driverXboxController.getPOV());
         SmartDashboard.putData(" collect ", collectCMDGP);
         SmartDashboard.putData("ToggleMotorsModeCMD", toggleMotorsModeCMD);
