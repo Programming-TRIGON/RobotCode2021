@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.GenericCalibrateKF;
+import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.TurnAndPositionToTargetCMD;
 import frc.robot.commands.TurnToTargetCMD;
 import frc.robot.commands.command_groups.CollectCMDGP;
@@ -56,6 +57,8 @@ public class RobotContainer {
     private ShootWithPitcherCMDGP ShootWithPitcherCMDGP;
     private CollectCMDGP collectCMDGP;
 
+    private RunWhenDisabledCommand resetDirection;
+
     /**
      * Add classes here
      */
@@ -79,7 +82,7 @@ public class RobotContainer {
         SmartDashboard.putData("TurnToTargetCMD", turnToTargetCMD);
         SmartDashboard.putData("TurnAndPositionToTargetCMD", turnAndPositionToTargetCMD);
         SmartDashboard.putData("TrigonSwerveControllerCMDGP", motionTest);
-        SmartDashboard.putNumber("Shooter/Desired Velocity",subsystemContainer.SHOOTER_SS.getVelocityRPM());
+        SmartDashboard.putNumber("Shooter/Desired Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
 
         Logger.configureLogging(subsystemContainer.DRIVETRAIN_SS);
     }
@@ -116,6 +119,10 @@ public class RobotContainer {
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         toggleMotorsModeCMD = new ToggleMotorsModeCMD(subsystemContainer.DRIVETRAIN_SS);
+        resetDirection = new RunWhenDisabledCommand(() -> {
+            subsystemContainer.DRIVETRAIN_SS.resetGyro();
+            subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
+        });
     }
 
     /**
@@ -134,28 +141,26 @@ public class RobotContainer {
                 new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
 
         overrideXboxController.getRightBumper().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.SPINNER_SS.overriddenMove(0.2);
-        }));
+            subsystemContainer.SPINNER_SS.overriddenMove(0.314159);
+        })).whenReleased((subsystemContainer.SPINNER_SS::stopMoving));
         overrideXboxController.getLeftBumper().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.SPINNER_SS.overriddenMove(-0.2);
-        }));
-        overrideXboxController.getButtonA().whenPressed(
-                new IntakeOpenerCMD(false, subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants)).whenReleased(intakeCMD);
+            subsystemContainer.SPINNER_SS.overriddenMove(-0.314159);
+        })).whenReleased((subsystemContainer.SPINNER_SS::stopMoving));
+        overrideXboxController.getButtonA().whenPressed(subsystemContainer.INTAKE_OPENER_SS::toggleSolenoid);
         overrideXboxController.getButtonB().whenHeld(new InstantCommand(() -> {
             subsystemContainer.SHOOTER_SS.move(6);
-        }));
-        overrideXboxController.getButtonY().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.PITCHER_SS.toggleSolenoid();
-        }));
+        })).whenReleased((subsystemContainer.SHOOTER_SS::stopMoving));
+        overrideXboxController.getButtonY().toggleWhenPressed(
+                new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
         overrideXboxController.getButtonX().whenHeld(new InstantCommand(() -> {
-            subsystemContainer.INTAKE_SS.overriddenMove(0.2);
-        }));
+            subsystemContainer.INTAKE_SS.overriddenMove(0.314159);
+        })).whenReleased((subsystemContainer.INTAKE_SS::stopMoving));
         overrideXboxController.getRightStickButton().whenHeld(new InstantCommand(() -> {
             subsystemContainer.LOADER_SS.overriddenMove(0.3);
-        }));
+        })).whenReleased((subsystemContainer.LOADER_SS::stopMoving));
         overrideXboxController.getLeftStickButton().whenHeld(new InstantCommand(() -> {
             subsystemContainer.LOADER_SS.overriddenMove(-0.3);
-        }));
+        })).whenReleased((subsystemContainer.LOADER_SS::stopMoving));
 
         SmartDashboard.putNumber("D-Pad", driverXboxController.getPOV());
         SmartDashboard.putData(" collect ", collectCMDGP);

@@ -38,8 +38,8 @@ public class RobotA extends RobotConstants {
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
-        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
+        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 8, .5, .2));
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 8, .5, .2));
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -129,7 +129,7 @@ public class RobotA extends RobotConstants {
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
-        spinnerConstants.MOTOR_CONFIG = new MotorConfig(4, NeutralMode.Coast, 0);
+        spinnerConstants.MOTOR_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
         spinnerConstants.DEFAULT_MOTOR_POWER = -0.175;
         spinnerConstants.STALL_CURRENT_LIMIT = 20;
         spinnerConstants.STALL_CHECK_DELAY = 2;

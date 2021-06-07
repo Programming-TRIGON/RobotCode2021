@@ -36,15 +36,7 @@ public class PitcherSS extends SubsystemBase implements Loggable {
     }
 
     public void toggleSolenoid() {
-        Value value = solenoid.get();
-
-        if (value == Value.kForward) {
-            solenoid.set(Value.kReverse);
-        } else if (value == Value.kReverse) {
-            solenoid.set(Value.kForward);
-        } else if(value == Value.kOff){
-            solenoid.set(Value.kReverse);
-        }
+        solenoid.toggle();
     }
 
     @Override
