@@ -17,6 +17,7 @@ import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.drivetrain.ToggleMotorsModeCMD;
+import frc.robot.subsystems.intake.IntakeCMD;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
@@ -36,7 +37,8 @@ import io.github.oblarg.oblog.Logger;
 public class RobotContainer {
     private final RobotA robotConstants;
     private final SubsystemContainerA subsystemContainer;
-    private final TrigonXboxController xboxController;
+    private final TrigonXboxController driverXboxController;
+    private final TrigonXboxController overrideXboxController;
     private final DashboardController dashboardController;
     private final PitcherLimelight limelight;
 
@@ -64,7 +66,8 @@ public class RobotContainer {
         robotConstants = new RobotA();
         subsystemContainer = new SubsystemContainerA();
         dashboardController = new DashboardController();
-        xboxController = new TrigonXboxController(0);
+        driverXboxController = new TrigonXboxController(0);
+        overrideXboxController = new TrigonXboxController(1);
         limelight = new PitcherLimelight(robotConstants.extendedLimelightConstants,
                 robotConstants.retractedLimelightConstants, subsystemContainer.PITCHER_SS);
 
@@ -92,9 +95,9 @@ public class RobotContainer {
                 robotConstants.shooterConstants);
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
                 robotConstants.drivetrainConstants,
-                () -> Math.signum(xboxController.getX(Hand.kRight)) * Math.pow(xboxController.getX(Hand.kRight), 2) / 6,
-                () -> Math.signum(xboxController.getY(Hand.kRight)) * Math.pow(xboxController.getY(Hand.kRight), 2) / 6,
-                () -> Math.signum(xboxController.getX(Hand.kLeft)) * Math.pow(xboxController.getX(Hand.kLeft), 2) / 4);
+                () -> Math.signum(driverXboxController.getX(Hand.kRight)) * Math.pow(driverXboxController.getX(Hand.kRight), 2) / 4,
+                () -> Math.signum(driverXboxController.getY(Hand.kRight)) * Math.pow(driverXboxController.getY(Hand.kRight), 2) / 4,
+                () -> Math.signum(driverXboxController.getX(Hand.kLeft)) * Math.pow(driverXboxController.getX(Hand.kLeft), 2) / 4);
 
         motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
                 robotConstants.motionProfilingConstants, AutoPath.Test);
@@ -107,7 +110,7 @@ public class RobotContainer {
         shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight);
         ShootWithPitcherCMDGP = new ShootWithPitcherCMDGP(subsystemContainer, robotConstants, limelight);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
-        intakeCMD = new IntakeOpenerCMD(true,subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants);
+        intakeCMD = new IntakeOpenerCMD(true, subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants);
         turnToTargetCMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
@@ -120,21 +123,43 @@ public class RobotContainer {
      * the commands.
      */
     public void BindCommands() {
-        xboxController.getButtonY().whenPressed(new InstantCommand(() -> {
+        driverXboxController.getRightBumper().whenHeld(collectCMDGP).whenReleased(intakeCMD);
+        driverXboxController.getButtonY().whenPressed(new InstantCommand(() -> {
             subsystemContainer.DRIVETRAIN_SS.resetGyro();
             subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
         }));
-        xboxController.getButtonX().toggleWhenPressed(
+        driverXboxController.getButtonX().toggleWhenPressed(
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
-        xboxController.getButtonB().whenHeld(
+        driverXboxController.getButtonB().whenHeld(
                 new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
-        xboxController.getRightBumper().whenHeld(collectCMDGP).whenReleased(intakeCMD);
 
-        SmartDashboard.putNumber("D-Pad", xboxController.getPOV());
+        overrideXboxController.getRightBumper().whenHeld(new InstantCommand(() -> {
+            subsystemContainer.SPINNER_SS.overriddenMove(0.2);
+        }));
+        overrideXboxController.getLeftBumper().whenHeld(new InstantCommand(() -> {
+            subsystemContainer.SPINNER_SS.overriddenMove(-0.2);
+        }));
+        overrideXboxController.getButtonA().whenPressed(
+                new IntakeOpenerCMD(false, subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants)).whenReleased(intakeCMD);
+        overrideXboxController.getButtonB().whenHeld(new InstantCommand(() -> {
+            subsystemContainer.SHOOTER_SS.move(6);
+        }));
+        overrideXboxController.getButtonY().whenHeld(new InstantCommand(() -> {
+            subsystemContainer.PITCHER_SS.toggleSolenoid();
+        }));
+        overrideXboxController.getButtonX().whenHeld(new InstantCommand(() -> {
+            subsystemContainer.INTAKE_SS.overriddenMove(0.2);
+        }));
+        overrideXboxController.getRightStickButton().whenHeld(new InstantCommand(() -> {
+            subsystemContainer.LOADER_SS.overriddenMove(0.3);
+        }));
+        overrideXboxController.getLeftStickButton().whenHeld(new InstantCommand(() -> {
+            subsystemContainer.LOADER_SS.overriddenMove(-0.3);
+        }));
 
+        SmartDashboard.putNumber("D-Pad", driverXboxController.getPOV());
         SmartDashboard.putData(" collect ", collectCMDGP);
         SmartDashboard.putData("ToggleMotorsModeCMD", toggleMotorsModeCMD);
-
         SmartDashboard.putData(" shoot ", ShootWithPitcherCMDGP);
         SmartDashboard.putData("toggle solenoid",
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
@@ -142,7 +167,7 @@ public class RobotContainer {
         SmartDashboard.putData("Loader/Load", new LoaderCMD(subsystemContainer.LOADER_SS,
                 robotConstants.loaderConstants, robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY));
         SmartDashboard.putData("Shoot without pitcher CMDGP", shootCMDGP);
-        xboxController.getLeftBumper().whenPressed(new InstantCommand(() -> {
+        driverXboxController.getLeftBumper().whenPressed(new InstantCommand(() -> {
             subsystemContainer.SHOOTER_SS.areaCounter++;
             SmartDashboard.putNumber("Shooter/Desired Velocity",
                     robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
@@ -159,9 +184,9 @@ public class RobotContainer {
      */
     private boolean cancelShooterCMD() {
         double threshold = robotConstants.shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD;
-        return Math.abs(xboxController.getX(Hand.kRight)) >= threshold
-                || Math.abs(xboxController.getY(Hand.kRight)) >= threshold
-                || Math.abs(xboxController.getX(Hand.kLeft)) >= threshold;
+        return Math.abs(driverXboxController.getX(Hand.kRight)) >= threshold
+                || Math.abs(driverXboxController.getY(Hand.kRight)) >= threshold
+                || Math.abs(driverXboxController.getX(Hand.kLeft)) >= threshold;
     }
 
     public void updateDashboard() {
