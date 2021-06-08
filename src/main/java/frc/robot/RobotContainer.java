@@ -12,6 +12,7 @@ import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.TurnAndPositionToTargetCMD;
 import frc.robot.commands.TurnToTargetCMD;
+import frc.robot.commands.command_groups.BackupAuto;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
@@ -154,6 +155,7 @@ public class RobotContainer {
         overrideXboxController.getButtonA().whenPressed(subsystemContainer.INTAKE_OPENER_SS::toggleSolenoid);
         overrideXboxController.getLeftStickButton().whileHeld(new OverrideCommand(subsystemContainer.LOADER_SS, () -> overrideXboxController.getY(Hand.kLeft)));
         overrideXboxController.getRightStickButton().whileHeld(new OverrideCommand(subsystemContainer.SPINNER_SS, () -> overrideXboxController.getX(Hand.kRight)));
+        overrideXboxController.getButtonX().whenHeld(new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants, () -> 3200));
     }
 
     public void setShuffleBoard() {
@@ -203,6 +205,7 @@ public class RobotContainer {
      */
     public void autonomousInit() {
         CommandScheduler.getInstance().schedule(intakeCMD);
+        CommandScheduler.getInstance().schedule(new BackupAuto(subsystemContainer, robotConstants, limelight));
     }
 
     /**
@@ -219,6 +222,7 @@ public class RobotContainer {
         updateDashboard();
         SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
         SmartDashboard.putNumber("Loader/Velocity", subsystemContainer.LOADER_SS.getVelocity());
+        SmartDashboard.putNumber("PitcherLimelight/distance", limelight.getTargetDistance());   
     }
 
     public class SubsystemContainerA extends SubsystemContainer {

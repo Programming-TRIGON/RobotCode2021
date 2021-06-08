@@ -147,9 +147,9 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 50;
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2975;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = -17;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 0;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 24.1;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1.69 * Math.pow(10, -5);
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = -7.04 * Math.pow(10, -4);
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 0.0137;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
@@ -162,9 +162,9 @@ public class RobotA extends RobotConstants {
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2000;
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A =  1.69 * Math.pow(10, -5);
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = -7.04 * Math.pow(10, -4);
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 0.0137;
 
         /* Robot Map */
 
