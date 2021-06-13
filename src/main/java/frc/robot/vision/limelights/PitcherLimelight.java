@@ -58,13 +58,9 @@ public class PitcherLimelight extends VanillaLimelight {
     public double calculateDistanceFromTower() {
         double y = getTy();
         if (hoodExtended())
-            return extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.log(y)
-                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B * y
-                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
+            return 4.15*Math.pow(Math.E, -0.0604*y) + 0.8;
         else
-            return retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.log(y)
-                    + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B * y
-                    + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
+            return 4.15*Math.pow(Math.E, -0.0604*y) + 0.8;
     }
 
     /**
@@ -76,15 +72,11 @@ public class PitcherLimelight extends VanillaLimelight {
     public double calculateDesiredShooterVelocity() {
         double distanceFromTower = calculateDistanceFromTower();
         if (hoodExtended())
-            return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A * Math.pow(distanceFromTower, 4)
-                    + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * Math.pow(distanceFromTower, 3)
-                    + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C * Math.pow(distanceFromTower, 2)
-                    + -0.256 * distanceFromTower + 3.99;
+            return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
+                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
         else
-            return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A * Math.pow(distanceFromTower, 4)
-                    + retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * Math.pow(distanceFromTower, 3)
-                    + retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C * Math.pow(distanceFromTower, 2)
-                    + -0.256 * distanceFromTower + 3.99;
+            return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
+                    + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
     }
 
     /**

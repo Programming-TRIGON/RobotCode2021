@@ -16,6 +16,7 @@ import frc.robot.commands.command_groups.BackupAuto;
 import frc.robot.commands.command_groups.CollectCMDGP;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
+import frc.robot.commands.command_groups.ShootWithoutLimelight;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
@@ -91,6 +92,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shooter/Desired Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
 
         Logger.configureLogging(subsystemContainer.DRIVETRAIN_SS);
+        limelight.startVision(Target.PowerPort);
     }
 
     /**
@@ -104,9 +106,9 @@ public class RobotContainer {
                 robotConstants.shooterConstants);
         supplierFieldDriveCMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
                 robotConstants.drivetrainConstants,
-                () -> Math.signum(driverXboxController.getX(Hand.kRight)) * Math.pow(driverXboxController.getX(Hand.kRight), 2) / 4,
-                () -> Math.signum(driverXboxController.getY(Hand.kRight)) * Math.pow(driverXboxController.getY(Hand.kRight), 2) / 4,
-                () -> Math.signum(driverXboxController.getX(Hand.kLeft)) * Math.pow(driverXboxController.getX(Hand.kLeft), 2) / 4);
+                () -> Math.signum(driverXboxController.getX(Hand.kRight)) * Math.pow(driverXboxController.getX(Hand.kRight), 2) / 1.5,
+                () -> Math.signum(driverXboxController.getY(Hand.kRight)) * Math.pow(driverXboxController.getY(Hand.kRight), 2) / 1.5,
+                () -> Math.signum(driverXboxController.getX(Hand.kLeft)) * Math.pow(driverXboxController.getX(Hand.kLeft), 2) / 1.5);
 
         motionTest = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
                 robotConstants.motionProfilingConstants, AutoPath.Test);
@@ -147,8 +149,10 @@ public class RobotContainer {
         driverXboxController.getLeftBumper().whenPressed(changeDriveRotation);
         driverXboxController.getButtonX().whenPressed(
                 new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
-        driverXboxController.getButtonB().whenHeld(
+        driverXboxController.getButtonB().whileHeld(
                 new ShootCMDGP(subsystemContainer, robotConstants, limelight).withInterrupt(this::cancelShooterCMD));
+
+        // robot.win=true
     }
 
     public void bindOverrideCommands() {
@@ -156,6 +160,8 @@ public class RobotContainer {
         overrideXboxController.getLeftStickButton().whileHeld(new OverrideCommand(subsystemContainer.LOADER_SS, () -> overrideXboxController.getY(Hand.kLeft)));
         overrideXboxController.getRightStickButton().whileHeld(new OverrideCommand(subsystemContainer.SPINNER_SS, () -> overrideXboxController.getX(Hand.kRight)));
         overrideXboxController.getButtonX().whenHeld(new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants, () -> 3200));
+        overrideXboxController.getButtonB().whileHeld(new ShootWithoutLimelight(subsystemContainer, robotConstants, () -> 3500)).whenReleased(new InstantCommand(() -> {subsystemContainer.PITCHER_SS.setSolenoidState(false);}));
+        overrideXboxController.getButtonY().whileHeld(new ShootCMDGP(subsystemContainer, robotConstants,limelight,  3500));
     }
 
     public void setShuffleBoard() {
@@ -222,7 +228,7 @@ public class RobotContainer {
         updateDashboard();
         SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
         SmartDashboard.putNumber("Loader/Velocity", subsystemContainer.LOADER_SS.getVelocity());
-        SmartDashboard.putNumber("PitcherLimelight/distance", limelight.getTargetDistance());   
+        SmartDashboard.putNumber("PitcherLimelight/distance", limelight.calculateDistanceFromTower());   
     }
 
     public class SubsystemContainerA extends SubsystemContainer {

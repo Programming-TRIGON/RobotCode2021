@@ -21,8 +21,11 @@ public class BackupAuto extends SequentialCommandGroup {
 
         ShootCMDGP shootCMDGP = new ShootCMDGP(subsystems, constants, limelight);
         addCommands(
-                        shootCMDGP.withTimeout(8),
-                        new SupplierDriveCMD(subsystems.DRIVETRAIN_SS, () -> 0.0, () -> -0.2, () -> 0.0).withTimeout(3)
+                        new InstantCommand(() -> {subsystems.PITCHER_SS.setSolenoidState(true);}),
+                        shootCMDGP.withTimeout(7
+                        ),
+                        new SupplierDriveCMD(subsystems.DRIVETRAIN_SS, () -> 0.0, () -> -0.2, () -> 0.0).withTimeout(1),
+                        new InstantCommand(() -> {subsystems.PITCHER_SS.setSolenoidState(false);})
         );
     }
 } 

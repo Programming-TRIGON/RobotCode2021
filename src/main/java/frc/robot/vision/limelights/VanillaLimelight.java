@@ -200,8 +200,8 @@ public class VanillaLimelight {
      * mode.
      */
     public void stopVision() {
-        setCamMode(CamMode.driver);
-        setLedMode(LedMode.off);
+        //setCamMode(CamMode.driver);
+        //setLedMode(LedMode.off);
     }
 
     /**
