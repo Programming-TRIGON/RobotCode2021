@@ -175,13 +175,6 @@ public class RobotContainer {
         SmartDashboard.putData("Loader/Load", new LoaderCMD(subsystemContainer.LOADER_SS,
                 robotConstants.loaderConstants, robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY));
         SmartDashboard.putData("Shoot without pitcher CMDGP", shootCMDGP);
-        driverXboxController.getLeftBumper().whenPressed(new InstantCommand(() -> {
-            subsystemContainer.SHOOTER_SS.areaCounter++;
-            SmartDashboard.putNumber("Shooter/Desired Velocity",
-                    robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
-        }));
-        SmartDashboard.putNumber("Shooter/Desired Velocity",
-                robotConstants.shooterConstants.AREA_ARRAY[subsystemContainer.SHOOTER_SS.areaCounter]);
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(supplierFieldDriveCMD);
         SmartDashboard.putData("Pitcher/Open", new InstantCommand(() -> subsystemContainer.PITCHER_SS.setSolenoidState(true)));
         SmartDashboard.putData("Pitcher/Close", new InstantCommand(() -> subsystemContainer.PITCHER_SS.setSolenoidState(false)));
