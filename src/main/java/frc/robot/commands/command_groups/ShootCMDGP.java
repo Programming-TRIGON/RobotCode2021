@@ -18,26 +18,28 @@ import frc.robot.vision.Target;
 import frc.robot.vision.limelights.PitcherLimelight;
 
 public class ShootCMDGP extends ParallelCommandGroup {
-        private ShooterCMD shootCMD;
-    public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
-        addRequirements(subsystems.DRIVETRAIN_SS,subsystems.SHOOTER_SS, subsystems.PITCHER_SS, subsystems.LOADER_SS, subsystems.SPINNER_SS);
+        public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
 
-        shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants, ()->0);
-        addCommands(new ParallelDeadlineGroup(
-                        shootCMD,
-                        new SequentialCommandGroup(
-                                new TurnToTargetCMD(subsystems.DRIVETRAIN_SS, limelight, constants.visionConstants, Target.PowerPort),
+                ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS,
+                                constants.shooterConstants, limelight);
+                addCommands(shootCMD, new SequentialCommandGroup(new TurnToTargetCMD(subsystems.DRIVETRAIN_SS,
+                                limelight, constants.visionConstants, Target.PowerPort),
                                 new WaitUntilCommand(shootCMD::isAtSetpoint),
-                                new ParallelCommandGroup(
-                                        new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants, constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
-                                        new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants)
-                                )
-                        )
-                )
-        );
-    }
+                                new ParallelCommandGroup(new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
+                                                () -> SmartDashboard.getNumber("Loader Vel",
+                                                                constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY)),
+                                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+        }
 
-    public void enableBallInterupted(boolean enableBallInterupted) {
-        shootCMD.enableBallInterupted(enableBallInterupted);
-    }
+        public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight, double rate) {
+
+                ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS,
+                                constants.shooterConstants, () -> rate);
+                addCommands(shootCMD, new SequentialCommandGroup(new TurnToTargetCMD(subsystems.DRIVETRAIN_SS,
+                                limelight, constants.visionConstants, Target.PowerPort),
+                                new WaitUntilCommand(shootCMD::isAtSetpoint),
+                                new ParallelCommandGroup(new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
+                                                                constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
+                                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+        }
 }

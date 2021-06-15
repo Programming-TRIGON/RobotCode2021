@@ -89,7 +89,12 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
-        desiredVelocity = desiredVelocitySupplier.getAsDouble();
+        if(desiredVelocitySupplier.getAsDouble() < 2000){
+            desiredVelocity = 3200;
+            DriverStationLogger.logToDS("ShooterCMD/tooLowDesiredVelocity: " + desiredVelocitySupplier.getAsDouble());
+        }
+        else
+            desiredVelocity = desiredVelocitySupplier.getAsDouble();
         f = constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B;
     }
 
@@ -106,6 +111,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
         }
         else
             Shoot();
+        DriverStationLogger.logToDS("Shooter/setpoint Vel: " + desiredVelocitySupplier.getAsDouble());
     }
 
     private void Shoot() {
