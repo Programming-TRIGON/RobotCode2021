@@ -6,18 +6,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class TrigonXboxController extends XboxController {
     private static final double kIntermittentRumbleTime = 0.15;
-    private JoystickButton buttonA;
-    private JoystickButton buttonB;
-    private JoystickButton buttonX;
-    private JoystickButton buttonY;
-    private JoystickButton leftBumper;
-    private JoystickButton rightBumper;
-    private JoystickButton leftStickButton;
-    private JoystickButton rightStickButton;
-    private JoystickButton backButton;
-    private JoystickButton startButton;
+    private final JoystickButton buttonA;
+    private final JoystickButton buttonB;
+    private final JoystickButton buttonX;
+    private final JoystickButton buttonY;
+    private final JoystickButton leftBumper;
+    private final JoystickButton rightBumper;
+    private final JoystickButton leftStickButton;
+    private final JoystickButton rightStickButton;
+    private final JoystickButton backButton;
+    private final JoystickButton startButton;
+    private final Notifier notifier;
     private int rumbleAmount;
-    private Notifier notifier;
 
     public TrigonXboxController(int port) {
         super(port);
@@ -29,6 +29,7 @@ public class TrigonXboxController extends XboxController {
         rightBumper = new JoystickButton(this, Button.kBumperRight.value);
         leftStickButton = new JoystickButton(this, Button.kStickLeft.value);
         rightStickButton = new JoystickButton(this, Button.kStickRight.value);
+
         backButton = new JoystickButton(this, Button.kBack.value);
         startButton = new JoystickButton(this, Button.kStart.value);
         rumbleAmount = -1;

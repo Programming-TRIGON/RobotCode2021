@@ -108,8 +108,6 @@ public abstract class RobotConstants extends RobotMap {
         public double KF_TESTING_DELTA_TOLERANCE;
         public int KF_TESTING_CALCULATION_SAMPLE_AMOUNT;
         public int KF_TESTING_TEST_AMOUNT;
-
-        public int[] AREA_ARRAY;
     }
 
     public class LoaderConstants {

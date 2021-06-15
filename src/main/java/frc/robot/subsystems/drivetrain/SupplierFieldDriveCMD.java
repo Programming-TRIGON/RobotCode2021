@@ -64,7 +64,6 @@ public class SupplierFieldDriveCMD extends CommandBase {
             drivetrain.fieldPowerDrive(0, 0, rotPID.calculate(drivetrain.getAngle()));
         else 
             drivetrain.stopDrive();
-            System.out.println(rotPID.atSetpoint() + " "+ rotPID.calculate(drivetrain.getAngle()));
     }
 
     @Override

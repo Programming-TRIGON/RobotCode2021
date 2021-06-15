@@ -5,8 +5,8 @@ import frc.robot.constants.RobotConstants.LimelightConstants;
 import frc.robot.subsystems.pitcher.PitcherSS;
 
 /**
- * Class for Limelight when it's on the pitcher.
- * It gets two sets of constants, one for when the hood is extended and one for when it is retracted.
+ * Class for Limelight when it's on the pitcher. It gets two sets of constants,
+ * one for when the hood is extended and one for when it is retracted.
  */
 public class PitcherLimelight extends VanillaLimelight {
     private final PitcherSS pitcherSS;
@@ -18,7 +18,8 @@ public class PitcherLimelight extends VanillaLimelight {
      * @param extendedConstants  constants for when the hood is extended
      * @param retractedConstants constants for when the hood is retracted
      */
-    public PitcherLimelight(String tableKey, LimelightConstants extendedConstants, LimelightConstants retractedConstants, PitcherSS pitcherSS) {
+    public PitcherLimelight(String tableKey, LimelightConstants extendedConstants,
+            LimelightConstants retractedConstants, PitcherSS pitcherSS) {
         super(tableKey, extendedConstants);
         this.pitcherSS = pitcherSS;
         this.retractedConstants = retractedConstants;
@@ -28,7 +29,8 @@ public class PitcherLimelight extends VanillaLimelight {
      * @param extendedConstants  constants for when the hood is extended
      * @param retractedConstants constants for when the hood is retracted
      */
-    public PitcherLimelight(LimelightConstants extendedConstants, LimelightConstants retractedConstants, PitcherSS pitcherSS) {
+    public PitcherLimelight(LimelightConstants extendedConstants, LimelightConstants retractedConstants,
+            PitcherSS pitcherSS) {
         this(extendedConstants.DEFAULT_TABLE_KEY, extendedConstants, retractedConstants, pitcherSS);
     }
 
@@ -47,39 +49,34 @@ public class PitcherLimelight extends VanillaLimelight {
     }
 
     /**
-     * calculates the distance of the robot from the tower
-     * based on the ration of the height the limelight sees to the distance
+     * calculates the distance of the robot from the tower based on the ration of
+     * the height the limelight sees to the distance
      *
      * @return distance of the robot from the tower
      */
-    //TODO: Set correct coefs
+    // TODO: Set correct coefs
     public double calculateDistanceFromTower() {
         double y = getTy();
         if (hoodExtended())
-            return extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.pow(y, 2)
-                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B * y
-                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
+            return 4.15*Math.pow(Math.E, -0.0604*y) + 0.8;
         else
-            return retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A * Math.pow(y, 2)
-                    + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B * y
-                    + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
+            return 4.15*Math.pow(Math.E, -0.0604*y) + 0.8;
     }
 
     /**
-     * Calculates the desired desiredVelocity to set the motors based on the distance of the robot from the tower
+     * Calculates the desired desiredVelocity to set the motors based on the
+     * distance of the robot from the tower
      *
      * @return the desired desiredVelocity of the motors
      */
     public double calculateDesiredShooterVelocity() {
         double distanceFromTower = calculateDistanceFromTower();
         if (hoodExtended())
-            return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A * Math.pow(distanceFromTower, 2)
-                    + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
-                    + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
+            return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
+                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
         else
-            return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A * Math.pow(distanceFromTower, 2)
-                    + retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
-                    + retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
+            return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
+                    + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
     }
 
     /**

@@ -38,8 +38,8 @@ public class RobotA extends RobotConstants {
 
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
-        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, 1, .5));
+        StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 10, .5, .2));
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(true, 12, .5, .2));
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -57,7 +57,7 @@ public class RobotA extends RobotConstants {
         loaderConstants.MOTOR_CONFIG = new MotorConfig(0.2, false, true, NeutralMode.Coast, 0);
         loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.082812504229243, 0, 0.1, 0.1, 5000, 150, 8);
         loaderConstants.PID_COEFS = new PIDFCoefs(0, 0, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
-        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 10000;
+        loaderConstants.DEFAULT_SHOOTING_VELOCITY = 11500;
         loaderConstants.DEFAULT_MIXING_VELOCITY = -1500;
 
         // Shooter Constants
@@ -88,7 +88,6 @@ public class RobotA extends RobotConstants {
         shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
         shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
         shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
-        shooterConstants.AREA_ARRAY = new int[]{3170, 3060, 3500, 2050};
 
 
         // LED constants
@@ -129,12 +128,14 @@ public class RobotA extends RobotConstants {
         // Spinner constants
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
-        spinnerConstants.MOTOR_CONFIG = new MotorConfig(4, NeutralMode.Coast, 0);
-        spinnerConstants.DEFAULT_MOTOR_POWER = -0.175;
+        spinnerConstants.MOTOR_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
+        spinnerConstants.DEFAULT_MOTOR_POWER = -0.15;
         spinnerConstants.STALL_CURRENT_LIMIT = 20;
         spinnerConstants.STALL_CHECK_DELAY = 2;
 
         /* Limelight Constants */
+
+        //TODO: set correct constents here, in pitcherLimelight, and VanillaLimelight.
 
         // extended limelight
         extendedLimelightConstants.DEFAULT_TABLE_KEY = "limelight";
@@ -145,26 +146,26 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
         extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
-        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 50;
-        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2975;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 156;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2656;
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1.69 * Math.pow(10, -5);
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = -7.04 * Math.pow(10, -4);
+        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 0.0137;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
         retractedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
         retractedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
         retractedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
-        retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
-        retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
-        retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+        retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = -17;
+        retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 0;
+        retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 24.1;
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
-        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
-        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2000;
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1;
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = 1;
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 1;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 156;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2656;
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A =  1.69 * Math.pow(10, -5);
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = -7.04 * Math.pow(10, -4);
+        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 0.0137;
 
         /* Robot Map */
 
@@ -257,7 +258,7 @@ public class RobotA extends RobotConstants {
 
         // PCM
         pcm.compressorMap.COMPRESSOR = new Compressor(0);
-        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(0, 1);
+        pcm.pitcherMap.SOLENOID = new TrigonDoubleSolenoid(1, 0);
         //pcm.spinnerMap.SOLENOID = new TrigonDoubleSolenoid(2, 3);
         pcm.intakeOpenerMap.SOLENOID = new TrigonDoubleSolenoid(6, 7);
 
@@ -265,3 +266,4 @@ public class RobotA extends RobotConstants {
         i2c.spinnerMap.COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);
     }
 }
+
