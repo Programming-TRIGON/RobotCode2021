@@ -135,6 +135,8 @@ public class RobotA extends RobotConstants {
 
         /* Limelight Constants */
 
+        //TODO: set correct constents here, in pitcherLimelight, and VanillaLimelight.
+
         // extended limelight
         extendedLimelightConstants.DEFAULT_TABLE_KEY = "limelight";
         extendedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
