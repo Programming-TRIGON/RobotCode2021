@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-public class Auto {
+public class PIDWaypoint {
     public double xSetpoint;
     public boolean requireXSetpoint;
     public double ySetpoint;
@@ -8,7 +8,7 @@ public class Auto {
     public double zSetpoint;
     public boolean requireZSetpoint;
 
-    public Auto(double xSetpoint, boolean requireXSetpoint, double ySetpoint, boolean requireYSetpoint,
+    public PIDWaypoint(double xSetpoint, boolean requireXSetpoint, double ySetpoint, boolean requireYSetpoint,
             double zSetpoint, boolean requireZSetpoint) {
         this.xSetpoint = xSetpoint;
         this.requireXSetpoint = requireXSetpoint;

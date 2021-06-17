@@ -20,6 +20,7 @@ import frc.robot.commands.command_groups.ShootWithoutLimelight;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
+import frc.robot.subsystems.drivetrain.AutoWithPID;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.drivetrain.ToggleMotorsModeCMD;
@@ -64,6 +65,8 @@ public class RobotContainer {
     private CollectCMDGP collectCMDGP;
 
     private RunWhenDisabledCommand resetDirection;
+
+    private AutoWithPID testAuto;
 
     /**
      * Add classes here
@@ -118,7 +121,7 @@ public class RobotContainer {
                 robotConstants.shooterConstants);
         calibrateLoaderKfCMD = new GenericCalibrateKF(subsystemContainer.LOADER_SS,
                 robotConstants.loaderConstants.FEEDFORWARD_CONSTANTS);
-
+\
         shootCMDGP = new ShootCMDGP(subsystemContainer, robotConstants, limelight);
         ShootWithPitcherCMDGP = new ShootWithPitcherCMDGP(subsystemContainer, robotConstants, limelight);
         collectCMDGP = new CollectCMDGP(subsystemContainer, robotConstants);
@@ -133,6 +136,9 @@ public class RobotContainer {
             subsystemContainer.DRIVETRAIN_SS.resetOdometry(new Pose2d());
         });
         resetDirection.addRequirements(subsystemContainer.DRIVETRAIN_SS);
+
+        testAuto = new AutoWithPID(robotConstants.drivetrainConstants.TRENCH_AUTO, subsystemContainer.DRIVETRAIN_SS, robotConstants.drivetrainConstants);
+        SmartDashboard.putData("Drivetrain/Auto/AutoWithPIDCMD", testAuto);
     }
 
     /**

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.components.*;
-import frc.robot.constants.Auto;
+import frc.robot.constants.PIDWaypoint;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utilities.*;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
@@ -186,10 +186,10 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.ANGLE_SVA_COEFS = new SVACoefs(0.7, 0.00384, 4.36e-5);
         drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(15000, 10000));
         drivetrainConstants.ROTATION_PIDF_COEFS = new PIDFCoefs(0.005, 0, 0, 3, 20);
-        drivetrainConstants.AUTO_SPEED_PIDF_COEFS = new PIDFCoefs(0, 0, 0);
-        drivetrainConstants.AUTO_ROTATION_PIDF_COEFS = new PIDFCoefs(0, 0, 0);
+        drivetrainConstants.AUTO_SPEED_PIDF_COEFS = new PIDFCoefs(0.3, 0, 0);
+        drivetrainConstants.AUTO_ROTATION_PIDF_COEFS = new PIDFCoefs(0.3, 0, 0);
 
-        drivetrainConstants.TRENCH_AUTO = new Auto(0, false, -1, true, 180, true);
+        drivetrainConstants.TRENCH_AUTO = new PIDWaypoint(0, false, -1, true, 180, true);
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),

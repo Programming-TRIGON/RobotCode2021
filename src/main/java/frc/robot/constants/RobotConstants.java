@@ -55,7 +55,7 @@ public abstract class RobotConstants extends RobotMap {
         public PIDFCoefs AUTO_SPEED_PIDF_COEFS;
         public PIDFCoefs AUTO_ROTATION_PIDF_COEFS;
 
-        public Auto TRENCH_AUTO;
+        public PIDWaypoint TRENCH_AUTO;
     }
 
     public class LimelightConstants {

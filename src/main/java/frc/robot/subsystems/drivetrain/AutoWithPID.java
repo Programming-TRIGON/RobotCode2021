@@ -2,13 +2,14 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.Auto;
+import frc.robot.constants.PIDWaypoint;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.utilities.TrigonPIDController;
 
 public class AutoWithPID extends CommandBase {
-  private final Auto auto;
+  private final PIDWaypoint auto;
   private final DrivetrainSS drivetrain;
   private final DrivetrainConstants constants;
   private final TrigonPIDController xPID;
@@ -16,7 +17,7 @@ public class AutoWithPID extends CommandBase {
   private final TrigonPIDController zPID;
 
   /** Creates a new DriveWithPID. */
-  public AutoWithPID(Auto auto, DrivetrainSS drivetrain, DrivetrainConstants constants) {
+  public AutoWithPID(PIDWaypoint auto, DrivetrainSS drivetrain, DrivetrainConstants constants) {
     addRequirements(drivetrain);
     this.auto = auto;
     this.drivetrain = drivetrain;
@@ -27,6 +28,9 @@ public class AutoWithPID extends CommandBase {
     xPID.setSetpoint(auto.xSetpoint);
     yPID.setSetpoint(auto.ySetpoint);
     zPID.setSetpoint(auto.zSetpoint);
+    SmartDashboard.putData("Drivetrain/Auto/xPID", xPID);
+    SmartDashboard.putData("Drivetrain/Auto/yPID", yPID);
+    SmartDashboard.putData("Drivetrain/Auto/zPID", zPID);
   }
 
   @Override
