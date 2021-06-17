@@ -17,10 +17,8 @@ public class IntakeOpenerCMD extends InstantCommand {
         addRequirements(intakeOpenerSS);
     }
 
-
     @Override
     public void execute() {
         intakeOpenerSS.setSolenoidState(isOpen);
     }
-
 }

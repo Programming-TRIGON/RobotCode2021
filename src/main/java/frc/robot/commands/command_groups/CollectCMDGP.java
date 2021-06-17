@@ -1,5 +1,6 @@
 package frc.robot.commands.command_groups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.SubsystemContainer;
@@ -23,7 +24,7 @@ public class CollectCMDGP extends SequentialCommandGroup {
     }
 
     private void addCommandsToGroup() {
-        addCommands( new IntakeOpenerCMD(false,subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants),
+        addCommands( new IntakeOpenerCMD(false, subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants),
                 new ParallelCommandGroup(
                         new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
                                 constants.loaderConstants.DEFAULT_MIXING_VELOCITY),
