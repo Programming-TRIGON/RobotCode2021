@@ -27,7 +27,7 @@ public class PitcherCMD extends CommandBase {
      */
     @Override
     public void initialize() {
-        if (limelight.getTv()) {
+        if (limelight.hasTarget()) {
             pitcherSS.setSolenoidState(pitcherSS.getSolenoidState() ? limelight.getTy() > constants.EXTENDED_TOGGLE_ANGLE
                     : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
         }

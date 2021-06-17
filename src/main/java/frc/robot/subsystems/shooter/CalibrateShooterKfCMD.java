@@ -63,8 +63,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
                 tbhController.reset();
                 postTest = false;
             }
-        }
-        else {
+        } else {
 
             double output = tbhController.calculate(shooterSS.getVelocityRPM()) + constants.KF_COEF_A * desiredVelocity
                     + constants.KF_COEF_B;
@@ -73,8 +72,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
                 outputSum += output;
                 sampleCount++;
 
-            }
-            else {
+            } else {
                 outputSum = 0;
                 sampleCount = 0;
             }

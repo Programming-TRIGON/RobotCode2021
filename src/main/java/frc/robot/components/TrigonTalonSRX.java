@@ -1,25 +1,24 @@
 package frc.robot.components;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.utilities.PIDCoefs;
+import frc.robot.utilities.PIDFCoefs;
 
 /**
  * This class creates a new instance of WPI_TalonSRX and configures values based
  * on a config preset
  */
 public class TrigonTalonSRX extends WPI_TalonSRX {
-    private PIDCoefs pidCoefs;
+    private PIDFCoefs pidCoefs;
 
     /**
      * constructs a new motor controller
-     * 
+     *
      * @param id          device ID of motor controller
      * @param motorConfig The configuration preset to use
      * @param pidCoefs    coefficients for CTRE PID
      */
-    public TrigonTalonSRX(int id, MotorConfig motorConfig, PIDCoefs pidCoefs) {
+    public TrigonTalonSRX(int id, MotorConfig motorConfig, PIDFCoefs pidCoefs) {
         super(id);
         this.pidCoefs = pidCoefs;
         configOpenloopRamp(motorConfig.getRampRate());
@@ -35,31 +34,31 @@ public class TrigonTalonSRX extends WPI_TalonSRX {
 
     /**
      * constructs a new motor controller with a default PID configurations
-     * 
+     *
      * @param id          device ID of motor controller
      * @param motorConfig The configuration preset to use
      */
     public TrigonTalonSRX(int id, MotorConfig motorConfig) {
-        this(id, motorConfig, new PIDCoefs(0, 0, 0, 0, 0, 0));
+        this(id, motorConfig, new PIDFCoefs(0, 0, 0, 0, 0, 0));
     }
 
     /**
      * constructs a new motor controller with a default motor configurations
-     * 
+     *
      * @param id       device ID of motor controller
      * @param pidCoefs coefficients for CTRE PID
      */
-    public TrigonTalonSRX(int id, PIDCoefs pidCoefs) {
+    public TrigonTalonSRX(int id, PIDFCoefs pidCoefs) {
         this(id, new MotorConfig(), pidCoefs);
     }
 
     /**
      * constructs a new motor controller with a default configurations
-     * 
+     *
      * @param id device ID of motor controller
      */
     public TrigonTalonSRX(int id) {
-        this(id, new MotorConfig(), new PIDCoefs(0, 0, 0, 0, 0, 0));
+        this(id, new MotorConfig(), new PIDFCoefs(0, 0, 0, 0, 0, 0));
     }
 
     /**
@@ -74,17 +73,17 @@ public class TrigonTalonSRX extends WPI_TalonSRX {
 
     /**
      * sets new PID coefficients
-     * 
+     *
      * @param pidCoefs the coefficients fot the PID
      */
-    public void configurePID(PIDCoefs pidCoefs) {
+    public void configurePID(PIDFCoefs pidCoefs) {
         this.pidCoefs = pidCoefs;
         configurePID();
     }
 
     /**
      * if tuning the PID then call periodically
-     * 
+     *
      * @param name name of the key
      */
     public void tunePID(String name) {

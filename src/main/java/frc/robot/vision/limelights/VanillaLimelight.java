@@ -4,7 +4,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.LimelightConstants;
 import frc.robot.vision.CamMode;
 import frc.robot.vision.LedMode;
@@ -47,8 +46,8 @@ public class VanillaLimelight {
     /**
      * @return Whether the limelight has any valid targets (0 or 1)
      */
-    public boolean getTv() {
-        return tv.getDouble(0) == 1;
+    public boolean hasTarget() {
+        return tv.getDouble(0) != 0;
     }
 
     /**
@@ -85,7 +84,7 @@ public class VanillaLimelight {
     // TODO: set real function
     public double getTargetDistance() {
         double y = getTy();
-        return constants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
+        return constants.DISTANCE_CALCULATION_A_COEFFICIENT *  Math.log(y)
                 + constants.DISTANCE_CALCULATION_B_COEFFICIENT * y
                 + constants.DISTANCE_CALCULATION_C_COEFFICIENT;
     }
@@ -201,8 +200,8 @@ public class VanillaLimelight {
      * mode.
      */
     public void stopVision() {
-        setCamMode(CamMode.driver);
-        setLedMode(LedMode.off);
+        //setCamMode(CamMode.driver);
+        //setLedMode(LedMode.off);
     }
 
     /**

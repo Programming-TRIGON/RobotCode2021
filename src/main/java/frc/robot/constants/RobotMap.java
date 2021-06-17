@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.ColorSensorV3;
 
@@ -7,7 +8,6 @@ import edu.wpi.first.wpilibj.PWMSparkMax;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
-import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 
@@ -51,7 +51,6 @@ public abstract class RobotMap {
             public TrigonTalonSRX MOTOR;
         }
 
-
         public class SpinnerMap {
             public TrigonTalonSRX MOTOR;
             public ColorSensorV3 COLOR_SENSOR;
@@ -70,24 +69,27 @@ public abstract class RobotMap {
         public class ClimberMap {
             public PWMSparkMax MOTOR;
         }
-
     }
 
     public class PCM {
+        public CompressorMap compressorMap = new CompressorMap();
         public PitcherMap pitcherMap = new PitcherMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
         public IntakeOpenerMap intakeOpenerMap = new IntakeOpenerMap();
 
+        public class CompressorMap {
+            public Compressor COMPRESSOR;
+        }
+
         public class PitcherMap {
-            public TrigonDoubleSolenoid RIGHT_SOLENOID;
-            public TrigonDoubleSolenoid LEFT_SOLENOID;
+            public TrigonDoubleSolenoid SOLENOID;
         }
 
         public class SpinnerMap {
             public TrigonDoubleSolenoid SOLENOID;
         }
 
-        public class IntakeOpenerMap {
+        public class IntakeOpenerMap{
             public TrigonDoubleSolenoid SOLENOID;
         }
     }

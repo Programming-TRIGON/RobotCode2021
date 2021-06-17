@@ -7,7 +7,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
     private double f;
     private boolean isTuning;
 
-    public TrigonProfiledPIDController(PIDCoefs pidCoefs) {
+    public TrigonProfiledPIDController(PIDFCoefs pidCoefs) {
         super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD(), pidCoefs.getConstraints());
         System.out.println(pidCoefs.getConstraints().maxAcceleration + " " + pidCoefs.getConstraints().maxVelocity);
         setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());

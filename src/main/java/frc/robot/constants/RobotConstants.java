@@ -7,11 +7,7 @@ import frc.robot.components.TBHController;
 import frc.robot.constants.RobotMap.CAN.ShooterMap;
 import frc.robot.subsystems.led.LedBlinkColor;
 import frc.robot.subsystems.led.LedColor;
-import frc.robot.utilities.FeedforwardConstants;
-import frc.robot.utilities.PIDCoefs;
-import frc.robot.utilities.SwerveConstants;
-import frc.robot.utilities.TrigonPIDController;
-import frc.robot.utilities.TrigonProfiledPIDController;
+import frc.robot.utilities.*;
 
 /**
  * All the constants to be uses for the robot
@@ -50,6 +46,13 @@ public abstract class RobotConstants extends RobotMap {
         public SwerveConstants FRONT_RIGHT_CONSTANTS;
         public SwerveConstants REAR_LEFT_CONSTANTS;
         public SwerveConstants REAR_RIGHT_CONSTANTS;
+
+
+        public SVACoefs SPEED_SVA_COEFS;
+        public SVACoefs ANGLE_SVA_COEFS;
+        public PIDFCoefs SPEED_PIDF_COEFS;
+        public PIDFCoefs ANGLE_PIDF_COEFS;
+        public PIDFCoefs ROTATION_PIDF_COEFS;
     }
 
     public class LimelightConstants {
@@ -60,9 +63,12 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_ANGLE_OFFSET;
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
-        public double SHOOTER_VELOCITY_COEF_A;
-        public double SHOOTER_VELOCITY_COEF_B;
-        public double SHOOTER_VELOCITY_COEF_C;
+        public double SHOOTER_DISTANCE_TO_VELOCITY_COEF_A;
+        public double SHOOTER_DISTANCE_TO_VELOCITY_COEF_B;
+        public double SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
+        public double SHOOTER_HEIGHT_TO_DISTANCE_COEF_A;
+        public double SHOOTER_HEIGHT_TO_DISTANCE_COEF_B;
+        public double SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
     }
 
     public class TesterConstants {
@@ -71,7 +77,9 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public class VisionConstants {
-        public PIDCoefs ROTATION_SETTINGS;
+        public PIDFCoefs ROTATION_SETTINGS;
+        public PIDFCoefs POSITION_SETTINGS;
+        public double Y_TARGET;
         public double TARGET_TIME_OUT;
     }
 
@@ -82,12 +90,12 @@ public abstract class RobotConstants extends RobotMap {
         public TBHController TBH_CONTROLLER;
         public TrigonPIDController PID_CONTROLLER;
         public SimpleMotorFeedforward SIMPLE_MOTOR_FEEDFORWARD;
-        public PIDCoefs PID_COEFS;
+        public PIDFCoefs PID_COEFS;
         public double KF_COEF_A;
         public double KF_COEF_B;
         public double SHOOTING_RAMP_RATE;
         public double TOLERANCE;
-        public double DELTA_TOLERANCE;
+        public double TIME_AT_SETPOINT;
         // The value of the xbox at which it will cancel the ShootCMDGP allowing the
         // driver to resume driving
         public double CANCEL_CMDGP_AXIS_THRESHOLD;
@@ -105,7 +113,7 @@ public abstract class RobotConstants extends RobotMap {
     public class LoaderConstants {
         public CAN.LoaderMap CAN_MAP;
         public MotorConfig MOTOR_CONFIG;
-        public PIDCoefs PID_COEFS;
+        public PIDFCoefs PID_COEFS;
         public FeedforwardConstants FEEDFORWARD_CONSTANTS;
         public double DEFAULT_SHOOTING_VELOCITY;
         public double DEFAULT_MIXING_VELOCITY;
@@ -159,9 +167,6 @@ public abstract class RobotConstants extends RobotMap {
 
     public class IntakeOpenerConstants {
         public PCM.IntakeOpenerMap PCM_MAP;
-        public MotorConfig MOTOR_CONFIG;
-        public double DEFAULT_OPEN_POWER;
-        public double DEFAULT_CLOSE_POWER;
     }
 
     public class SpinnerConstants {

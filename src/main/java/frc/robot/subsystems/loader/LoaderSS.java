@@ -32,6 +32,7 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
     /**
      * @param power to be set to the motor (between -1 and 1)
      */
+    @Override
     public void overriddenMove(double power) {
         motor.set(power);
     }
@@ -50,5 +51,11 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
      */
     public double[] getValues() {
         return new double[]{motor.getSelectedSensorPosition()};
+    }
+
+    @Override
+    public void periodic() {
+        motor.tunePID("Loader/PID");
+
     }
 }
