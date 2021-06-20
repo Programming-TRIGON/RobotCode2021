@@ -1,5 +1,6 @@
 package frc.robot.components;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utilities.PIDFCoefs;
@@ -9,6 +10,7 @@ import frc.robot.utilities.PIDFCoefs;
  * on a config preset
  */
 public class TrigonTalonFX extends WPI_TalonFX {
+    private final MotorConfig motorConfig;
     private PIDFCoefs pidCoefs;
 
     /**
@@ -20,6 +22,7 @@ public class TrigonTalonFX extends WPI_TalonFX {
      */
     public TrigonTalonFX(int id, MotorConfig motorConfig, PIDFCoefs pidCoefs) {
         super(id);
+        this.motorConfig = motorConfig;
         this.pidCoefs = pidCoefs;
         configOpenloopRamp(motorConfig.getRampRate());
         configClosedloopRamp(motorConfig.getRampRate());
@@ -59,6 +62,10 @@ public class TrigonTalonFX extends WPI_TalonFX {
      */
     public TrigonTalonFX(int id) {
         this(id, new MotorConfig(), new PIDFCoefs(0, 0, 0, 0, 0, 0));
+    }
+
+    public NeutralMode getNeutralMode() {
+        return motorConfig.getNeutralMode();
     }
 
     /**

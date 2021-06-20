@@ -34,7 +34,7 @@ public class DashboardDataContainer {
         putData("TurnToTargetCMD", container.TURN_TO_TARGET_CMD);
         putData("TurnAndPositionToTargetCMD", container.TURN_AND_POSITION_TO_TARGET_CMD);
         putData("Drivetrain/ResetDirection", container.RESET_DIRECTION);
-        putData("ToggleMotorsModeCMD", container.TOGGLE_MOTORS_MODE_CMD);
+        putData("ToggleMotorsModeCMD", container.TOGGLE_DRIVETRAIN_MOTORS_NEUTRAL_MODE_CMD);
         putData("TrigonSwerveControllerCMDGP", container.MOTION_TEST);
 
         // Pitcher

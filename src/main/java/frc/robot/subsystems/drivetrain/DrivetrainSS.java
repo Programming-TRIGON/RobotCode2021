@@ -313,9 +313,14 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         layout.add("Speed PID Controller", module.getSpeedPIDController());
     }
 
-    public void setMotorsMode(NeutralMode mode) {
+    public void setMotorsNeutralMode(NeutralMode mode) {
         for (SwerveModule module : modules) {
-            module.setMotorsMode(mode);
+            module.setMotorsNeutralMode(mode);
+        }
+    }    
+    public void toggleMotorsNeutralMode() {
+        for (SwerveModule module : modules) {
+            module.toggleMotorsNeutralMode();
         }
     }
 

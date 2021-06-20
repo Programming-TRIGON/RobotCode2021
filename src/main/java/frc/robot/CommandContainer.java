@@ -12,7 +12,6 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
-import frc.robot.subsystems.drivetrain.ToggleMotorsModeCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.loader.LoaderCMD;
 import frc.robot.subsystems.shooter.CalibrateShooterKfCMD;
@@ -50,7 +49,7 @@ public class CommandContainer {
 	public final TurnAndPositionToTargetCMD TURN_AND_POSITION_TO_TARGET_CMD;
 	public final RunWhenDisabledCommand RESET_DIRECTION;
 	public final InstantCommand CHANGE_DRIVE_ROTATION;
-	public final ToggleMotorsModeCMD TOGGLE_MOTORS_MODE_CMD;
+	public final InstantCommand TOGGLE_DRIVETRAIN_MOTORS_NEUTRAL_MODE_CMD;
 	public final TrigonSwerveControllerCMDGP MOTION_TEST;
 
 	// Intake
@@ -104,7 +103,7 @@ public class CommandContainer {
 					new Pose2d(0, 0, Rotation2d.fromDegrees(subsystemContainer.DRIVETRAIN_SS.getAngle())));
 		});
 		CHANGE_DRIVE_ROTATION.addRequirements(subsystemContainer.DRIVETRAIN_SS);
-		TOGGLE_MOTORS_MODE_CMD = new ToggleMotorsModeCMD(subsystemContainer.DRIVETRAIN_SS);
+		TOGGLE_DRIVETRAIN_MOTORS_NEUTRAL_MODE_CMD = new InstantCommand(subsystemContainer.DRIVETRAIN_SS::toggleMotorsNeutralMode);
 		MOTION_TEST = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
 				robotConstants.motionProfilingConstants, AutoPath.Test);
 

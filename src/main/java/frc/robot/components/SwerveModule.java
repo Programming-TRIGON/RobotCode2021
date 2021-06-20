@@ -211,9 +211,14 @@ public class SwerveModule implements Sendable {
         speedMotor.configClosedloopRamp(rampRate);
     }
 
-    public void setMotorsMode(NeutralMode mode) {
+    public void setMotorsNeutralMode(NeutralMode mode) {
         speedMotor.setNeutralMode(mode);
         angleMotor.setNeutralMode(mode);
+    }
+
+    public void toggleMotorsNeutralMode() {
+        setMotorsNeutralMode(angleMotor.getNeutralMode() == NeutralMode.Coast ? NeutralMode.Brake : NeutralMode.Coast);
+        System.out.println("Drivetrain/onBrake:\t" + (angleMotor.getNeutralMode() == NeutralMode.Brake));
     }
 
     /*
