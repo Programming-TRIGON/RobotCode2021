@@ -20,7 +20,8 @@ public class TurnAndPositionToTargetCMD extends CommandBase {
     private final Target target;
     private final TrigonPIDController rotationPIDController;
     private final TrigonPIDController positionPIDController;
-    private double lastTimeSeenTarget, yTarget;
+    private double lastTimeSeenTarget;
+    private double ySetpoint;
     private boolean wasInPosition;
 
 
@@ -32,20 +33,19 @@ public class TurnAndPositionToTargetCMD extends CommandBase {
         this.visionConstants = visionConstants;
         this.target = target;
         this.drivetrain = drivetrain;
-        this.yTarget = visionConstants.Y_TARGET;
+        this.ySetpoint = visionConstants.Y_TARGET;
         rotationPIDController = new TrigonPIDController(visionConstants.ROTATION_SETTINGS);
         positionPIDController = new TrigonPIDController(visionConstants.POSITION_SETTINGS);
 
         SmartDashboard.putData("TurnAndPositionToTargetCMD/rotation PID", rotationPIDController);
         SmartDashboard.putData("TurnAndPositionToTargetCMD/position PID", positionPIDController);
-        SmartDashboard.putNumber("TurnAndPositionToTargetCMD/y target", visionConstants.Y_TARGET);
     }
 
     @Override
     public void initialize() {
         rotationPIDController.reset();
         rotationPIDController.setSetpoint(0);
-        positionPIDController.setSetpoint(SmartDashboard.getNumber("TurnAndPositionToTargetCMD/y target", visionConstants.Y_TARGET));
+        positionPIDController.setSetpoint(ySetpoint);
         positionPIDController.reset();
         lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
@@ -57,7 +57,7 @@ public class TurnAndPositionToTargetCMD extends CommandBase {
     public void execute() {
         rotationPIDController.calculate(limelight.getAngle());
         if (limelight.hasTarget()) {
-            drivetrain.powerDrive(0, !wasInPosition ? positionPIDController.calculate(limelight.getTy()) : 0, wasInPosition ? -rotationPIDController.calculate(limelight.getAngle()) : 0);
+            drivetrain.fieldPowerDrive(0, !wasInPosition ? positionPIDController.calculate(limelight.getTy()) : 0, wasInPosition ? -rotationPIDController.calculate(limelight.getAngle()) : 0);
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else {
             // The target wasn't found

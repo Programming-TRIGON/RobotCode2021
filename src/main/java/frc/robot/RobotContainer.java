@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.OverrideCommand;
@@ -9,20 +8,16 @@ import frc.robot.commands.command_groups.BackupAuto;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.command_groups.ShootWithoutLimelight;
 import frc.robot.constants.robots.RobotA;
-import frc.robot.subsystems.drivetrain.DrivetrainSS;
-import frc.robot.subsystems.intake.IntakeSS;
-import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
-import frc.robot.subsystems.loader.LoaderSS;
-import frc.robot.subsystems.pitcher.PitcherSS;
 import frc.robot.subsystems.shooter.ShooterCMD;
-import frc.robot.subsystems.shooter.ShooterSS;
-import frc.robot.subsystems.spinner.SpinnerSS;
 import frc.robot.utilities.TrigonXboxController;
 import frc.robot.vision.Target;
 import frc.robot.vision.limelights.PitcherLimelight;
 import io.github.oblarg.oblog.Logger;
 
 public class RobotContainer {
+    private static final int DRIVER_XBOX_CONTROLLER_PORT = 0;
+    private static final int OPERATOR_XBOX_CONTROLLER_PORT = 1;
+
     private final RobotA robotConstants;
     private final SubsystemContainerA subsystemContainer;
     private final TrigonXboxController driverXboxController;
@@ -37,9 +32,9 @@ public class RobotContainer {
     public RobotContainer() {
         Logger.configureLoggingAndConfig(this, true);
         robotConstants = new RobotA();
-        subsystemContainer = new SubsystemContainerA();
-        driverXboxController = new TrigonXboxController(0);
-        overrideXboxController = new TrigonXboxController(1);
+        subsystemContainer = new SubsystemContainerA(robotConstants);
+        driverXboxController = new TrigonXboxController(DRIVER_XBOX_CONTROLLER_PORT);
+        overrideXboxController = new TrigonXboxController(OPERATOR_XBOX_CONTROLLER_PORT);
         limelight = new PitcherLimelight(robotConstants.extendedLimelightConstants,
                 robotConstants.retractedLimelightConstants, subsystemContainer.PITCHER_SS);
         commandContainer = new CommandContainer(subsystemContainer, robotConstants, limelight, driverXboxController);
@@ -114,22 +109,5 @@ public class RobotContainer {
      */
     public void periodic() {
         updateDashboard();
-        SmartDashboard.putNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS.getVelocityRPM());
-        SmartDashboard.putNumber("Loader/Velocity", subsystemContainer.LOADER_SS.getVelocity());
-        SmartDashboard.putNumber("PitcherLimelight/distance", limelight.calculateDistanceFromTower());   
-    }
-
-    public class SubsystemContainerA extends SubsystemContainer {
-        public SubsystemContainerA() {
-            // TODO: Set to subsystem when LEDs are added to the robot
-            LED_SS = null;
-            DRIVETRAIN_SS = new DrivetrainSS(robotConstants.drivetrainConstants);
-            SHOOTER_SS = new ShooterSS(robotConstants.shooterConstants);
-            PITCHER_SS = new PitcherSS(robotConstants.pitcherConstants);
-            LOADER_SS = new LoaderSS(robotConstants.loaderConstants);
-            SPINNER_SS = new SpinnerSS(robotConstants.spinnerConstants);
-            INTAKE_SS = new IntakeSS(robotConstants.intakeConstants);
-            INTAKE_OPENER_SS = new IntakeOpenerSS(robotConstants.intakeOpenerConstants);
-        }
     }
 }

@@ -30,6 +30,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * by the Smartdashboard.
  */
 public class CommandContainer {
+	public static final double DRIVETRAIN_X_SENSITIVITY = 1.5;
+	public static final double DRIVETRAIN_Y_SENSITIVITY = 1.5;
+	public static final double DRIVETRAIN_Z_SENSITIVITY = 1.5;
 
 	// CMDGP
 	public final ShootCMDGP SHOOT_CMDGP;
@@ -85,9 +88,9 @@ public class CommandContainer {
 		// Drivetrain
 		SUPPLIER_FIELD_DRIVE_CMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
 				robotConstants.drivetrainConstants,
-				() -> Math.signum(driverController.getX(Hand.kRight)) * Math.pow(driverController.getX(Hand.kRight), 2) / 1.5,
-				() -> Math.signum(driverController.getY(Hand.kRight)) * Math.pow(driverController.getY(Hand.kRight), 2) / 1.5,
-				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.pow(driverController.getX(Hand.kLeft), 2) / 1.5);
+				() -> Math.signum(driverController.getX(Hand.kRight)) * Math.pow(driverController.getX(Hand.kRight), 2) / DRIVETRAIN_X_SENSITIVITY,
+				() -> Math.signum(driverController.getY(Hand.kRight)) * Math.pow(driverController.getY(Hand.kRight), 2) / DRIVETRAIN_Y_SENSITIVITY,
+				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.pow(driverController.getX(Hand.kLeft), 2) / DRIVETRAIN_Z_SENSITIVITY);
 		TURN_TO_TARGET_CMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
 				robotConstants.visionConstants, Target.PowerPort);
 		TURN_AND_POSITION_TO_TARGET_CMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,

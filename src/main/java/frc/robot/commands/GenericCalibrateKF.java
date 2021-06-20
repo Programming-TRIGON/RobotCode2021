@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.KFCallebratableSubsystem;
+import frc.robot.subsystems.KfCalibratableSubsystem;
 import frc.robot.utilities.FeedforwardConstants;
 import frc.robot.utilities.Logger;
 
@@ -9,7 +9,7 @@ public class GenericCalibrateKF extends CommandBase {
     private final static int PIDF_MAX_OUTPUT = 1023;
     private final static double CODE_ITERATION_RATE = 0.02;
 
-    private final KFCallebratableSubsystem subsystem;
+    private final KfCalibratableSubsystem subsystem;
     private final FeedforwardConstants constants;
     private double output;
     private double lastVelocity;
@@ -23,7 +23,7 @@ public class GenericCalibrateKF extends CommandBase {
      * This command autonomously runs tests and outputs the optimum KF value this is
      * used to calculate the correct voltage for a given velocity in RPM
      */
-    public GenericCalibrateKF(KFCallebratableSubsystem subsystem, FeedforwardConstants constants) {
+    public GenericCalibrateKF(KfCalibratableSubsystem subsystem, FeedforwardConstants constants) {
         this.subsystem = subsystem;
         this.constants = constants;
     }

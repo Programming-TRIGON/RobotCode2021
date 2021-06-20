@@ -7,6 +7,12 @@ import frc.robot.subsystems.drivetrain.SupplierDriveCMD;
 import frc.robot.vision.limelights.PitcherLimelight;
 
 public class BackupAuto extends SequentialCommandGroup {
+    private static final double X_POWER = 0.0;
+    private static final double Y_POWER = -0.2;
+    private static final double Z_POWER = 0.0;
+    private static final double SHOOT_TIMEOUT = 7;
+    private static final double DRIVE_TIMEOUT = 1;
+    
     private final SubsystemContainer subsystems;
     private final RobotConstants constants;
     private final PitcherLimelight limelight;
@@ -21,10 +27,10 @@ public class BackupAuto extends SequentialCommandGroup {
 
         ShootCMDGP shootCMDGP = new ShootCMDGP(subsystems, constants, limelight);
         addCommands(
-            new InstantCommand(() -> {subsystems.PITCHER_SS.setSolenoidState(true);}),
-            shootCMDGP.withTimeout(7),
-            new SupplierDriveCMD(subsystems.DRIVETRAIN_SS, () -> 0.0, () -> -0.2, () -> 0.0).withTimeout(1),
-            new InstantCommand(() -> {subsystems.PITCHER_SS.setSolenoidState(false);})
+            new InstantCommand(() -> subsystems.PITCHER_SS.setSolenoidState(true)),
+            shootCMDGP.withTimeout(SHOOT_TIMEOUT),
+            new SupplierDriveCMD(subsystems.DRIVETRAIN_SS, () -> X_POWER, () -> Y_POWER, () -> Z_POWER).withTimeout(DRIVE_TIMEOUT),
+            new InstantCommand(() -> subsystems.PITCHER_SS.setSolenoidState(false))
         );
     }
 } 
