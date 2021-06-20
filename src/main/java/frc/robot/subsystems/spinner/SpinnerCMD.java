@@ -37,7 +37,7 @@ public class SpinnerCMD extends CommandBase {
 
     @Override
     public void execute() {
-        // Checks if motor is stalling as a result of a ball stuck in the intake and
+        // Checks if motor is stalling as a result of a ball stuck in the spinner and
         // acts accordingly
         if (!spinnerSS.isStalled() && Timer.getFPGATimestamp() - reverseMotorStartTime >= constants.STALL_CHECK_DELAY) {
             output = initialOutput;

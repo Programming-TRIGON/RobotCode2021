@@ -25,18 +25,18 @@ public class SensorTestCMD extends CommandBase {
         initialValues = new HashMap<>();
     }
 
-    public SensorTestCMD addSubsystem(TestableSubsystem ss, String name) {
-        subsystems.put(name, ss);
-        addRequirements(ss);
+    public SensorTestCMD addSubsystem(TestableSubsystem subsystem, String name) {
+        subsystems.put(name, subsystem);
+        addRequirements(subsystem);
         return this;
     }
 
     @Override
     public void initialize() {
         for (String name : subsystems.keySet()) {
-            TestableSubsystem ss = subsystems.get(name);
-            initialValues.put(name, ss.getValues());
-            ss.move(constants.MOVE_POWER);
+            TestableSubsystem subsystem = subsystems.get(name);
+            initialValues.put(name, subsystem.getValues());
+            subsystem.move(constants.MOVE_POWER);
         }
         initialTime = Timer.getFPGATimestamp();
     }

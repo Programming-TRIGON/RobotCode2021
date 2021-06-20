@@ -109,7 +109,7 @@ public class RobotContainer {
         calibrateLoaderKfCMD = new GenericCalibrateKF(subsystemContainer.LOADER_SS,
                 robotConstants.loaderConstants.FEEDFORWARD_CONSTANTS);
 
-        intakeOpenerCMD = new IntakeOpenerCMD(true, subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants);
+        intakeOpenerCMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants, true);
         turnToTargetCMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
                 robotConstants.visionConstants, Target.PowerPort);
         turnAndPositionToTargetCMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
