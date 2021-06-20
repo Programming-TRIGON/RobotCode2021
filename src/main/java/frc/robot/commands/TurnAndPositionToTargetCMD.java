@@ -14,19 +14,18 @@ import frc.robot.vision.limelights.VanillaLimelight;
  * Turns the drivetrain to face a given target
  */
 public class TurnAndPositionToTargetCMD extends CommandBase {
-    private VanillaLimelight limelight;
-    private VisionConstants visionConstants;
-    private DrivetrainSS drivetrain;
-    private Target target;
-    private TrigonPIDController rotationPIDController;
-    private TrigonPIDController positionPIDController;
+    private final VanillaLimelight limelight;
+    private final VisionConstants visionConstants;
+    private final DrivetrainSS drivetrain;
+    private final Target target;
+    private final TrigonPIDController rotationPIDController;
+    private final TrigonPIDController positionPIDController;
     private double lastTimeSeenTarget, yTarget;
     private boolean wasInPosition;
 
 
     public TurnAndPositionToTargetCMD(DrivetrainSS drivetrain, VanillaLimelight limelight, VisionConstants visionConstants,
                                       Target target) {
-
         addRequirements(drivetrain);
 
         this.limelight = limelight;

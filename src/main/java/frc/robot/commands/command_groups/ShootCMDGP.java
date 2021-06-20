@@ -1,10 +1,5 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.command_groups;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -20,26 +15,30 @@ import frc.robot.vision.limelights.PitcherLimelight;
 public class ShootCMDGP extends ParallelCommandGroup {
         public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight) {
 
-                ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS,
-                                constants.shooterConstants, limelight);
-                addCommands(shootCMD, new SequentialCommandGroup(new TurnToTargetCMD(subsystems.DRIVETRAIN_SS,
+                ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants, limelight);
+                addCommands(
+                        shootCMD, 
+                        new SequentialCommandGroup(new TurnToTargetCMD(subsystems.DRIVETRAIN_SS,
                                 limelight, constants.visionConstants, Target.PowerPort),
-                                new WaitUntilCommand(shootCMD::isAtSetpoint),
-                                new ParallelCommandGroup(new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
-                                                () -> SmartDashboard.getNumber("Loader Vel",
-                                                                constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY)),
-                                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+                        new WaitUntilCommand(shootCMD::isAtSetpoint),
+                        new ParallelCommandGroup(new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
+                                constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
+                        new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
         }
 
-        public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight, double rate) {
+        public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight,
+                        double desiredVelocity) {
 
                 ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS,
-                                constants.shooterConstants, () -> rate);
-                addCommands(shootCMD, new SequentialCommandGroup(new TurnToTargetCMD(subsystems.DRIVETRAIN_SS,
+                                constants.shooterConstants, () -> desiredVelocity);
+                addCommands(
+                        shootCMD,
+                        new SequentialCommandGroup(new TurnToTargetCMD(subsystems.DRIVETRAIN_SS,
                                 limelight, constants.visionConstants, Target.PowerPort),
-                                new WaitUntilCommand(shootCMD::isAtSetpoint),
-                                new ParallelCommandGroup(new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
-                                                                constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
-                                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+                        new WaitUntilCommand(shootCMD::isAtSetpoint),
+                        new ParallelCommandGroup(
+                                new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
+                                        constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
+                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
         }
 }

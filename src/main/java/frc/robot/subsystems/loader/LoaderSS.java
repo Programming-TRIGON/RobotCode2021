@@ -58,4 +58,9 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
         motor.tunePID("Loader/PID");
 
     }
+   
+    @Override
+    public String configureLogName() {
+        return "Loader";
+    }
 }
