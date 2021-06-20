@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RobotConstants.TesterConstants;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.subsystems.led.LedSS;
 import frc.robot.utilities.DriverStationLogger;
@@ -11,14 +11,15 @@ import java.util.HashMap;
 
 public class SensorTestCMD extends CommandBase {
 
-    private HashMap<String, TestableSubsystem> subsystems;
-    private HashMap<String, double[]> initialValues;
+    private final HashMap<String, TestableSubsystem> subsystems;
+    private final HashMap<String, double[]> initialValues;
+    private final TesterConstants constants;
+    private final LedSS led;
     private double initialTime;
-    private RobotConstants.TesterConstants constants;
-    private LedSS led;
 
-    public SensorTestCMD(RobotConstants.TesterConstants constants, LedSS led) {
+    public SensorTestCMD(TesterConstants constants, LedSS led) {
         addRequirements(led);
+        this.constants = constants;
         this.led = led;
         subsystems = new HashMap<>();
         initialValues = new HashMap<>();
