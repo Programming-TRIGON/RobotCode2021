@@ -6,32 +6,31 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RobotConstants.LedConstants;
 
 public class LedSS extends SubsystemBase {
-    private static final double BLINK_TIME = 0.2;
-    private final RobotConstants.LedConstants ledConstants;
-    private Spark ledController;
+    private final LedConstants ledConstants;
+    private final Spark ledController;
     private LedColor currentColor;
     private LedColor blinkColor;
     private LedColor lastColorBeforeBlink;
     private int blinkingAmount;
     private Notifier notifier;
-    private Random rand;
+    private Random random;
 
     /**
      * Creates a new LED subsystem for Rev robotics Led controller and color
      * changing.
      */
-    public LedSS(RobotConstants.LedConstants ledConstants) {
-        ledController = new Spark(ledConstants.PWM_MAP.LED_CONTROLLER);
+    public LedSS(LedConstants constants) {
+        ledController = constants.PWM_MAP.LED_CONTROLLER;
         currentColor = LedColor.Off;
         blinkingAmount = -1;
         notifier = new Notifier(this::notifierPeriodic);
-        rand = new Random();
-        this.ledConstants = ledConstants;
+        random = new Random();
+        this.ledConstants = constants;
 
-        notifier.startPeriodic(BLINK_TIME);
+        notifier.startPeriodic(constants.BLINK_TIME);
     }
 
     public void setColor(LedColor color) {
@@ -110,7 +109,7 @@ public class LedSS extends SubsystemBase {
      * @return random number between -0.05 to -0.99 in jumps of 0.02
      */
     private double getRandomPattern() {
-        double rand = 0.1 * this.rand.nextInt(10);
+        double rand = 0.1 * this.random.nextInt(10);
         int odd = randomOddNumber();
         while (odd < 5 && rand == 0.0) {
             odd = randomOddNumber();
@@ -122,11 +121,11 @@ public class LedSS extends SubsystemBase {
      * @return random odd number between 0 and 9
      */
     private int randomOddNumber() {
-        int rand = this.rand.nextInt(10);
+        int rand = this.random.nextInt(10);
         return rand % 2 == 0 ? rand + 1 : rand;
     }
 
-    public RobotConstants.LedConstants.ColorMap getColorMap() {
+    public LedConstants.ColorMap getColorMap() {
         return ledConstants.COLOR_MAP;
     }
 }

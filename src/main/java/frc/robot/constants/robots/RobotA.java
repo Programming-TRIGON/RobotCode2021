@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -92,6 +93,7 @@ public class RobotA extends RobotConstants {
 
         // LED constants
         ledConstants.PWM_MAP = pwm.ledMap;
+        ledConstants.BLINK_TIME = 0.2;
 
         // Intake constants
         intakeConstants.CAN_MAP = can.intakeMap;
@@ -250,7 +252,7 @@ public class RobotA extends RobotConstants {
         can.drivetrainMap.GYRO = new Pigeon(12);
 
         // PWM
-        pwm.ledMap.LED_CONTROLLER = 0;
+        pwm.ledMap.LED_CONTROLLER = new Spark(0);
         pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
         pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 

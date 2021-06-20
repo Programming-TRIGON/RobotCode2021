@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.components.MotorConfig;
@@ -122,6 +123,7 @@ public abstract class RobotConstants extends RobotMap {
     public class LedConstants {
         public final ColorMap COLOR_MAP = new ColorMap();
         public PWM.LedMap PWM_MAP;
+        public double BLINK_TIME;
 
         public class ColorMap {
             public final LedBlinkColor SENSOR_TEST_SUCCESS = new LedBlinkColor(LedColor.Green, 5);

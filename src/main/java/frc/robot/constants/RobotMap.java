@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import edu.wpi.first.wpilibj.Spark;
 import frc.robot.components.TrigonDoubleSolenoid;
 import frc.robot.components.Pigeon;
 import frc.robot.components.SwerveModule;
@@ -63,7 +64,7 @@ public abstract class RobotMap {
         public ClimberMap rightClimberMap = new ClimberMap();
 
         public class LedMap {
-            public int LED_CONTROLLER;
+            public Spark LED_CONTROLLER;
         }
 
         public class ClimberMap {

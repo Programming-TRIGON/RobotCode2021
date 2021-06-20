@@ -12,13 +12,13 @@ public class CalibrateShooterKfCMD extends CommandBase {
     private final ShooterConstants constants;
     private final TBHController tbhController;
     private final SimpleMotorFeedforward feedforward;
+    private Logger logger;
     private double desiredVelocity;
     private double endVelocity;
     private boolean postTest;
     private double lastVelocity;
     private double outputSum;
     private int sampleCount;
-    private Logger logger;
 
     /**
      * This command autonomously runs tests and outputs a csv file including the Kf
@@ -30,7 +30,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
 
         this.shooterSS = shooterSS;
         this.constants = constants;
-        this.tbhController = new TBHController(constants.TBH_CONTROLLER);
+        this.tbhController = constants.TBH_CONTROLLER;
         this.feedforward = constants.SIMPLE_MOTOR_FEEDFORWARD;
         desiredVelocity = 0;
         endVelocity = 1;

@@ -10,14 +10,12 @@ import io.github.oblarg.oblog.annotations.Log;
 public class ShooterSS extends SubsystemBase implements TestableSubsystem, Loggable {
     private final ShooterConstants constants;
     private final TrigonTalonFX masterMotor;
-    public int areaCounter;
 
     public ShooterSS(ShooterConstants constants) {
         this.constants = constants;
         masterMotor = constants.CAN_MAP.RIGHT_MOTOR;
         constants.CAN_MAP.RIGHT_MOTOR.follow(masterMotor);
         constants.CAN_MAP.LEFT_MOTOR.follow(masterMotor);
-        areaCounter = 0;
     }
 
     /**
@@ -56,5 +54,11 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, Logga
      */
     public double[] getValues() {
         return new double[]{masterMotor.getSelectedSensorPosition()};
+    }
+
+
+    @Override
+    public String configureLogName() {
+        return "Shooter";
     }
 }

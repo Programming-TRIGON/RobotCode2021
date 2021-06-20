@@ -9,7 +9,7 @@ public class IntakeOpenerCMD extends InstantCommand {
     private final IntakeOpenerConstants constants;
     private final boolean isOpen;
 
-    public IntakeOpenerCMD(IntakeOpenerSS intakeOpenerSS, IntakeOpenerConstants constantsboolean, boolean isOpen) {
+    public IntakeOpenerCMD(IntakeOpenerSS intakeOpenerSS, IntakeOpenerConstants constants, boolean isOpen) {
         this.intakeOpenerSS = intakeOpenerSS;
         this.constants = constants;
         this.isOpen = isOpen;
