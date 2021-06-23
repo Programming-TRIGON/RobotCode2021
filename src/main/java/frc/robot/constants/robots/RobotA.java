@@ -59,7 +59,7 @@ public class RobotA extends RobotConstants {
         loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.082812504229243, 0, 0.1, 0.1, 5000, 150, 8);
         loaderConstants.PID_COEFS = new PIDFCoefs(0, 0, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
         loaderConstants.DEFAULT_SHOOTING_VELOCITY = 11500;
-        loaderConstants.DEFAULT_MIXING_VELOCITY = -1500;
+        loaderConstants.DEFAULT_MIXING_VELOCITY = -1200;
 
         // Shooter Constants
         shooterConstants.CAN_MAP = can.shooterMap;
@@ -98,7 +98,7 @@ public class RobotA extends RobotConstants {
         // Intake constants
         intakeConstants.CAN_MAP = can.intakeMap;
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
-        intakeConstants.DEFAULT_MOTOR_POWER = 0.5;
+        intakeConstants.DEFAULT_MOTOR_POWER = 0.3;
 
         // Left climber constants
         leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
@@ -131,9 +131,9 @@ public class RobotA extends RobotConstants {
         spinnerConstants.CAN_MAP = can.spinnerMap;
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
         spinnerConstants.MOTOR_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
-        spinnerConstants.DEFAULT_MOTOR_POWER = -0.15;
-        spinnerConstants.STALL_CURRENT_LIMIT = 20;
-        spinnerConstants.STALL_CHECK_DELAY = 2;
+        spinnerConstants.DEFAULT_MOTOR_POWER = -0.2;
+        spinnerConstants.STALL_CURRENT_LIMIT = 15;
+        spinnerConstants.STALL_CHECK_DELAY = 1;
 
         /* Limelight Constants */
 

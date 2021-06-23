@@ -23,12 +23,14 @@ public class CollectCMDGP extends SequentialCommandGroup {
     }
 
     private void addCommandsToGroup() {
-        addCommands(
-            new IntakeOpenerCMD(subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants, false),
-            new ParallelCommandGroup(
-                new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
-                    constants.loaderConstants.DEFAULT_MIXING_VELOCITY),
-                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants),
-                new IntakeCMD(subsystems.INTAKE_SS, subsystems.LED_SS, constants.intakeConstants)));
+        addCommands(new IntakeOpenerCMD(subsystems.INTAKE_OPENER_SS, constants.intakeOpenerConstants, false),
+                new ParallelCommandGroup(
+                        // When the spinner stalls due to a ball getting stuck stopping the loader helps
+                        // fix issues
+                        new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
+                                () -> subsystems.SPINNER_SS.isStalled() ? 0
+                                        : constants.loaderConstants.DEFAULT_MIXING_VELOCITY),
+                        new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants),
+                        new IntakeCMD(subsystems.INTAKE_SS, subsystems.LED_SS, constants.intakeConstants)));
     }
 }
