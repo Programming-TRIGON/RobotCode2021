@@ -2,10 +2,8 @@ package frc.robot.subsystems.intake;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.led.LedSS;
-import frc.robot.utilities.DriverStationLogger;
 import frc.robot.constants.RobotConstants.IntakeConstants;
 
 public class IntakeCMD extends CommandBase {

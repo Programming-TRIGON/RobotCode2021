@@ -100,13 +100,13 @@ public class RobotA extends RobotConstants {
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
         intakeConstants.DEFAULT_MOTOR_POWER = 0.3;
 
-        // Left climber constants
-        leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
-        leftClimberConstants.IS_INVERTED = false;
-
-        // Right climber constants
-        rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
-        rightClimberConstants.IS_INVERTED = false;
+        // Climber constants
+        climberConstants.CAN_MAP = can.climberMap;
+        climberConstants.LIFT_MOTOR_CONFIG=new MotorConfig();
+        climberConstants.RIGHT_WINCH_MOTOR_CONFIG=new MotorConfig();
+        climberConstants.LEFT_WINCH_MOTOR_CONFIG=new MotorConfig(climberConstants.RIGHT_WINCH_MOTOR_CONFIG, true);
+        climberConstants.DEFAULT_LIFT_POWER=0.25;
+        climberConstants.DEFAULT_WINCH_POWER=0.25;
 
         // Motion profile constants
         motionProfilingConstants.MAX_VELOCITY = 5;
@@ -178,6 +178,9 @@ public class RobotA extends RobotConstants {
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(9, intakeConstants.MOTOR_CONFIG);
         can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
+        can.climberMap.LIFT_MOTOR=new TrigonTalonSRX(10,climberConstants.LIFT_MOTOR_CONFIG);
+        can.climberMap.RIGHT_WINCH_MOTOR=new TrigonTalonSRX(12, climberConstants.RIGHT_WINCH_MOTOR_CONFIG);
+        can.climberMap.LEFT_WINCH_MOTOR=new TrigonTalonSRX(15, climberConstants.LEFT_WINCH_MOTOR_CONFIG);
 
         // Drivetrain map;
 //        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0.557, 2.35, 0.0749);
@@ -218,7 +221,7 @@ public class RobotA extends RobotConstants {
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
-                new TalonFXWithTalonSRXEncoder(5, 10,
+                new TalonFXWithTalonSRXEncoder(5, can.climberMap.LIFT_MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -253,8 +256,6 @@ public class RobotA extends RobotConstants {
 
         // PWM
         pwm.ledMap.LED_CONTROLLER = new Spark(0);
-        pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
-        pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // DIO
 
