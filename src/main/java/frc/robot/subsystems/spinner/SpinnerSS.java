@@ -57,12 +57,12 @@ public class SpinnerSS extends OverridableSubsystem implements Loggable {
 
     @Log(name = "Stator current")
     public double getStatorCurrent() {
-        return motor.getStatorCurrent();
+        return Math.abs(motor.getStatorCurrent());
     }
 
     @Log(name = "Is stalled")
     public boolean isStalled() {
-        return motor.getStatorCurrent() > constants.STALL_CURRENT_LIMIT;
+        return Math.abs(motor.getStatorCurrent()) > constants.STALL_CURRENT_LIMIT;
     }
 
 //    /**
