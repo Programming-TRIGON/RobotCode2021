@@ -23,12 +23,11 @@ public abstract class RobotConstants extends RobotMap {
     public LedConstants ledConstants = new LedConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
     public LoaderConstants loaderConstants = new LoaderConstants();
-    public ClimberConstants leftClimberConstants = new ClimberConstants();
-    public ClimberConstants rightClimberConstants = new ClimberConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
     public PitcherConstants pitcherConstants = new PitcherConstants();
     public IntakeOpenerConstants intakeOpenerConstants = new IntakeOpenerConstants();
     public SpinnerConstants spinnerConstants = new SpinnerConstants();
+    public ClimberConstants climberConstants=new ClimberConstants();
 
     public class DrivetrainConstants {
         public CAN.DrivetrainMap CAN_MAP;
@@ -143,11 +142,6 @@ public abstract class RobotConstants extends RobotMap {
         public double STALL_CURRENT_LIMIT;
     }
 
-    public class ClimberConstants {
-        public PWM.ClimberMap PWM_MAP;
-        public boolean IS_INVERTED;
-    }
-
     public class MotionProfilingConstants {
         public double MAX_VELOCITY;
         public double MAX_ACCELERATION;
@@ -179,5 +173,14 @@ public abstract class RobotConstants extends RobotMap {
         public double STALL_CURRENT_LIMIT;
         public double STALL_CHECK_DELAY;
         public double DEFAULT_MOTOR_POWER;
+    }
+
+    public class ClimberConstants {
+        public CAN.ClimberMap CAN_MAP;
+        public MotorConfig LIFT_MOTOR_CONFIG;
+        public MotorConfig RIGHT_WINCH_MOTOR_CONFIG;
+        public MotorConfig LEFT_WINCH_MOTOR_CONFIG;
+        public double DEFAULT_LIFT_POWER;
+        public double DEFAULT_WINCH_POWER;
     }
 }

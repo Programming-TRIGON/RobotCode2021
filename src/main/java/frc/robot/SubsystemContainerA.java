@@ -1,6 +1,8 @@
 package frc.robot;
 
 import frc.robot.constants.RobotConstants;
+import frc.robot.subsystems.climber.LiftSS;
+import frc.robot.subsystems.climber.WinchSS;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
@@ -20,5 +22,7 @@ public class SubsystemContainerA extends SubsystemContainer {
         SPINNER_SS = new SpinnerSS(robotConstants.spinnerConstants);
         INTAKE_SS = new IntakeSS(robotConstants.intakeConstants);
         INTAKE_OPENER_SS = new IntakeOpenerSS(robotConstants.intakeOpenerConstants);
+        LIFT_SS = new LiftSS(robotConstants.climberConstants);
+        WINCH_SS = new WinchSS(robotConstants.climberConstants);
     }
 }
