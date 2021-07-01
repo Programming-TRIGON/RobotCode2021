@@ -1,12 +1,15 @@
 package frc.robot.components;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.utilities.Logger;
 import frc.robot.utilities.SwerveConstants;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
 import frc.robot.utilities.TrigonPIDController;
@@ -22,6 +25,9 @@ public class SwerveModule implements Sendable {
     private final SimpleMotorFeedforward speedFeedforward;
     private SwerveModuleState desiredState;
     private boolean isTuning;
+    private boolean move;
+    private Logger logger;
+    private boolean startedLogging;
 
     /**
      * Constructs a swerve module that's is made of a speed motor and an angle
@@ -47,6 +53,13 @@ public class SwerveModule implements Sendable {
 
         setAbsolute();
         speedMotor.setSelectedSensorPosition(0);
+        move = false;
+        SmartDashboard.putBoolean("swerve/move", false);
+        SmartDashboard.putNumber("swerve/power", 0);
+//        setDesiredAngle(0);
+
+        logger = new Logger("Swerve test angle motor: " + angleMotor.getDeviceID(), "Power", "Velocity");
+        startedLogging = false;
     }
 
     /**
@@ -62,13 +75,32 @@ public class SwerveModule implements Sendable {
      * Updates the PID controllers and sets the motors power
      */
     public void periodic() {
-        if (getDesiredVelocity() != 0 && true)
+        if (getDesiredVelocity() != 0)
             speedMotor.setVoltage(speedController.calculate(getSpeedMotorMPS(), getDesiredVelocity())
                     + speedFeedforward.calculate(getDesiredVelocity()));
         else
             speedMotor.set(0);
         double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
         angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
+
+        // The code below is used for testing, it is very disgusting but for now it must do
+        // !!!!!!!DO NOT UNCOMMENT IF NOT TESTING!!!!!WHEN FINSHED TESTING RECOMMENT!!!!!
+
+        // double pid = angleController.calculate(getAngle(), SmartDashboard.getNumber("swerve/power", 0));
+        // System.out.println("PID: " + pid);
+//        angleMotor.setVoltage(angleFeedforward.calculate(angleController.getSetpoint().velocity) + pid);
+//         move = SmartDashboard.getBoolean("swerve/move", false);
+//         if (move) {
+// //            speedController.setSetpoint(SmartDashboard.getNumber("swerve/power", 0));
+// ////            double speedPID = speedController.calculateWithKF(getSpeedMotorMPS());
+//        angleMotor.setVoltage(angleFeedforward.calculate(angleController.getSetpoint().velocity) + pid);
+//             // angleMotor.setVoltage(angleFeedforward.calculate(SmartDashboard.getNumber("swerve/power", 0)));
+// //            startedLogging = true;
+// //            logger.log(SmartDashboard.getNumber("swerve/power", 0), getAngleMotorAPS());
+// //        } else if (startedLogging) {
+// //            startedLogging = false;
+// //            logger.close();
+//        }
         if (angleMotor.getDeviceID() == 3) {
             SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity",
                     angleController.getSetpoint().velocity);

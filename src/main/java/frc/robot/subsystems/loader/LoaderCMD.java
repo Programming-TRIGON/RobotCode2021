@@ -20,8 +20,7 @@ public class LoaderCMD extends CommandBase {
     public LoaderCMD(LoaderSS loaderSS, LoaderConstants constants, double desiredVelocity) {
         this(loaderSS, constants, () -> desiredVelocity);
     }
-
-
+    
     @Override
     public void execute() {
         loaderSS.setDesiredVelocity(desiredVelocity.getAsDouble());
