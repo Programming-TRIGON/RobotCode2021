@@ -56,7 +56,7 @@ public class SwerveModule implements Sendable {
         move = false;
         SmartDashboard.putBoolean("swerve/move", false);
         SmartDashboard.putNumber("swerve/power", 0);
-       setDesiredAngle(0);
+    //    setDesiredAngle(0);
 
         logger = new Logger("Swerve test angle motor: " + angleMotor.getDeviceID(), "Power", "Velocity");
         startedLogging = false;
