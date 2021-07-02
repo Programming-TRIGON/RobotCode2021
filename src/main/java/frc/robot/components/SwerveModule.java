@@ -56,7 +56,7 @@ public class SwerveModule implements Sendable {
         move = false;
         SmartDashboard.putBoolean("swerve/move", false);
         SmartDashboard.putNumber("swerve/power", 0);
-//        setDesiredAngle(0);
+       setDesiredAngle(0);
 
         logger = new Logger("Swerve test angle motor: " + angleMotor.getDeviceID(), "Power", "Velocity");
         startedLogging = false;
@@ -81,26 +81,27 @@ public class SwerveModule implements Sendable {
         else
             speedMotor.set(0);
         double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
+        // double pid = angleController.calculate(getAngle(), 0);
         angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
 
         // The code below is used for testing, it is very disgusting but for now it must do
         // !!!!!!!DO NOT UNCOMMENT IF NOT TESTING!!!!!WHEN FINSHED TESTING RECOMMENT!!!!!
 
-        // double pid = angleController.calculate(getAngle(), SmartDashboard.getNumber("swerve/power", 0));
-        // System.out.println("PID: " + pid);
-//        angleMotor.setVoltage(angleFeedforward.calculate(angleController.getSetpoint().velocity) + pid);
-//         move = SmartDashboard.getBoolean("swerve/move", false);
-//         if (move) {
-// //            speedController.setSetpoint(SmartDashboard.getNumber("swerve/power", 0));
-// ////            double speedPID = speedController.calculateWithKF(getSpeedMotorMPS());
-//        angleMotor.setVoltage(angleFeedforward.calculate(angleController.getSetpoint().velocity) + pid);
-//             // angleMotor.setVoltage(angleFeedforward.calculate(SmartDashboard.getNumber("swerve/power", 0)));
-// //            startedLogging = true;
-// //            logger.log(SmartDashboard.getNumber("swerve/power", 0), getAngleMotorAPS());
-// //        } else if (startedLogging) {
-// //            startedLogging = false;
-// //            logger.close();
-//        }
+    //     // double pid = angleController.calculate(getAngle(), SmartDashboard.getNumber("swerve/power", 0));
+    //     System.out.println("PID: " + pid);
+    //    angleMotor.setVoltage(angleFeedforward.calculate(angleController.getSetpoint().velocity) + pid);
+    //     move = SmartDashboard.getBoolean("swerve/move", false);
+    //     if (move) {
+    //        speedController.setSetpoint(SmartDashboard.getNumber("swerve/power", 0));
+    //        double speedPID = speedController.calculateWithKF(getSpeedMotorMPS());
+    //    speedMotor.setVoltage(speedPID);
+    //         // angleMotor.setVoltage(angleFeedforward.calculate(SmartDashboard.getNumber("swerve/power", 0)));
+    //        startedLogging = true;
+    //        logger.log(SmartDashboard.getNumber("swerve/power", 0), getSpeedMotorMPS());
+    //    } else if (startedLogging) {
+    //        startedLogging = false;
+    //        logger.close();
+    //    }
         if (angleMotor.getDeviceID() == 3) {
             SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity",
                     angleController.getSetpoint().velocity);
