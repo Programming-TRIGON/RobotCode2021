@@ -15,12 +15,18 @@ public class SpinnerCMD extends CommandBase {
     private double initialOutput;
     private double reverseMotorStartTime;
     private boolean stillStalled;
+    private boolean stallLogic;
 
-    public SpinnerCMD(SpinnerSS spinnerSS, SpinnerConstants constants, DoubleSupplier power) {
+    public SpinnerCMD(SpinnerSS spinnerSS, SpinnerConstants constants, DoubleSupplier power, boolean stallLogic) {
         this.spinnerSS = spinnerSS;
         this.constants = constants;
         this.power = power;
+        this.stallLogic = stallLogic;
         addRequirements(spinnerSS);
+    }
+
+    public SpinnerCMD(SpinnerSS spinnerSS, SpinnerConstants constants, DoubleSupplier power) {
+        this(spinnerSS, constants, power, true);
     }
 
     public SpinnerCMD(SpinnerSS spinnerSS, SpinnerConstants constants) {
@@ -39,23 +45,28 @@ public class SpinnerCMD extends CommandBase {
     public void execute() {
         // Checks if motor is stalling as a result of a ball stuck in the spinner and
         // acts accordingly
-        if (!spinnerSS.isStalled() && Timer.getFPGATimestamp() - reverseMotorStartTime >= constants.STALL_CHECK_DELAY) {
-            output = initialOutput;
-            stillStalled = false;
-        } else {
-            if (!stillStalled) {
-                reverseMotorStartTime = Timer.getFPGATimestamp();
-                DriverStationLogger.logToDS("A ball is stuck in the spinner, trying to release it!");
-                output = -initialOutput;
+        if (stallLogic) {
+            if (!spinnerSS.isStalled()
+                    && Timer.getFPGATimestamp() - reverseMotorStartTime >= constants.STALL_CHECK_DELAY) {
+                output = initialOutput;
+                stillStalled = false;
+            } else {
+                if (!stillStalled) {
+                    reverseMotorStartTime = Timer.getFPGATimestamp();
+                    DriverStationLogger.logToDS("A ball is stuck in the spinner, trying to release it!");
+                    output = -initialOutput;
+                }
+                if (Timer.getFPGATimestamp() - reverseMotorStartTime >= constants.STALL_CHECK_DELAY
+                        && spinnerSS.isStalled()) {
+                    output = -output;
+                    reverseMotorStartTime = Timer.getFPGATimestamp();
+                }
+                stillStalled = true;
             }
-            if (Timer.getFPGATimestamp() - reverseMotorStartTime >= constants.STALL_CHECK_DELAY
-                    && spinnerSS.isStalled()) {
-                output = -output;
-                reverseMotorStartTime = Timer.getFPGATimestamp();
-            }
-            stillStalled = true;
+            spinnerSS.move(output);
         }
-        spinnerSS.move(output);
+        else
+            spinnerSS.move(output);
     }
 
     @Override

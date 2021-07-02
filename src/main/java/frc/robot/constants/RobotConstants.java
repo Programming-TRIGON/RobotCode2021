@@ -179,5 +179,7 @@ public abstract class RobotConstants extends RobotMap {
         public double STALL_CURRENT_LIMIT;
         public double STALL_CHECK_DELAY;
         public double DEFAULT_MOTOR_POWER;
+        public double PULSE_MOTOR_POWER;
+        public double PULSE_LENGTH;
     }
 }

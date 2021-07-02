@@ -1,14 +1,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.command_groups.BackupAuto;
 import frc.robot.commands.command_groups.ShootCMDGP;
 import frc.robot.commands.command_groups.ShootWithoutLimelight;
 import frc.robot.constants.robots.RobotA;
+import frc.robot.subsystems.intake.IntakeCMD;
+import frc.robot.subsystems.loader.LoaderCMD;
+import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.shooter.ShooterCMD;
+import frc.robot.subsystems.spinner.SpinInPulsesCMD;
+import frc.robot.subsystems.spinner.SpinnerCMD;
 import frc.robot.utilities.TrigonXboxController;
 import frc.robot.vision.Target;
 import frc.robot.vision.limelights.PitcherLimelight;
@@ -32,13 +39,19 @@ public class RobotContainer {
     public RobotContainer() {
         Logger.configureLoggingAndConfig(this, true);
         robotConstants = new RobotA();
+        SmartDashboard.putData("COMPRESSOR/stop",
+                new InstantCommand(robotConstants.pcm.compressorMap.COMPRESSOR::stop));
+        SmartDashboard.putData("COMPRESSOR/start",
+                new InstantCommand(robotConstants.pcm.compressorMap.COMPRESSOR::start));
+        robotConstants.pcm.compressorMap.COMPRESSOR.stop();
         subsystemContainer = new SubsystemContainerA(robotConstants);
         driverXboxController = new TrigonXboxController(DRIVER_XBOX_CONTROLLER_PORT);
         overrideXboxController = new TrigonXboxController(OPERATOR_XBOX_CONTROLLER_PORT);
         limelight = new PitcherLimelight(robotConstants.extendedLimelightConstants,
                 robotConstants.retractedLimelightConstants, subsystemContainer.PITCHER_SS);
         commandContainer = new CommandContainer(subsystemContainer, robotConstants, limelight, driverXboxController);
-        dashboardDataContainer = new DashboardDataContainer(subsystemContainer, robotConstants, limelight, driverXboxController, commandContainer);
+        dashboardDataContainer = new DashboardDataContainer(subsystemContainer, robotConstants, limelight,
+                driverXboxController, commandContainer);
 
         subsystemContainer.DRIVETRAIN_SS.setDefaultCommand(commandContainer.SUPPLIER_FIELD_DRIVE_CMD);
         bindDriverCommands();
@@ -53,7 +66,8 @@ public class RobotContainer {
      * the commands.
      */
     public void bindDriverCommands() {
-        driverXboxController.getRightBumper().whenHeld(commandContainer.COLLECT_CMDGP).whenReleased(commandContainer.OPEN_INTAKE_CMD);
+        driverXboxController.getRightBumper().whenHeld(commandContainer.COLLECT_CMDGP)
+                .whenReleased(commandContainer.OPEN_INTAKE_CMD);
         driverXboxController.getLeftBumper().whenPressed(commandContainer.CHANGE_DRIVE_ROTATION);
         driverXboxController.getButtonY().whenPressed(commandContainer.RESET_DIRECTION);
         driverXboxController.getButtonX().whenPressed(
@@ -65,11 +79,28 @@ public class RobotContainer {
 
     public void bindOverrideCommands() {
         overrideXboxController.getButtonA().whenPressed(commandContainer.TOGGLE_PITCHER);
-        overrideXboxController.getButtonX().whenHeld(new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants, () -> 3200));
+        SmartDashboard.putNumber("Spinner/VelPulse", robotConstants.spinnerConstants.DEFAULT_MOTOR_POWER);
+        SmartDashboard.putNumber("Spinner/PulseLength", robotConstants.spinnerConstants.PULSE_LENGTH);
+        SmartDashboard.putNumber("Intake/power", robotConstants.intakeConstants.DEFAULT_MOTOR_POWER);
+        overrideXboxController.getButtonX().whenHeld(new ParallelCommandGroup(new SpinInPulsesCMD(subsystemContainer.SPINNER_SS, robotConstants.spinnerConstants,
+         () -> SmartDashboard.getNumber("Spinner/VelPulse", robotConstants.spinnerConstants.PULSE_MOTOR_POWER),
+         () -> SmartDashboard.getNumber("Spinner/PulseLength", robotConstants.spinnerConstants.PULSE_LENGTH)), 
+         new IntakeCMD(subsystemContainer.INTAKE_SS, null, robotConstants.intakeConstants, 
+         () -> SmartDashboard.getNumber("Intake/power", robotConstants.intakeConstants.DEFAULT_MOTOR_POWER))));
         overrideXboxController.getButtonB().whileHeld(new ShootWithoutLimelight(subsystemContainer, robotConstants, () -> 3500)).whenReleased(commandContainer.CLOSE_PITCHER);
         overrideXboxController.getButtonY().whileHeld(new ShootCMDGP(subsystemContainer, robotConstants,limelight,  3500));
-        overrideXboxController.getLeftStickButton().whileHeld(new OverrideCommand(subsystemContainer.LOADER_SS, () -> overrideXboxController.getY(Hand.kLeft)));
-        overrideXboxController.getRightStickButton().whileHeld(new OverrideCommand(subsystemContainer.SPINNER_SS, () -> overrideXboxController.getX(Hand.kRight)));
+        SmartDashboard.putNumber("Spinner/Vel", robotConstants.spinnerConstants.DEFAULT_MOTOR_POWER);
+        SmartDashboard.putNumber("Loader/Vel", robotConstants.loaderConstants.DEFAULT_MIXING_VELOCITY);
+        overrideXboxController.getLeftBumper().whileHeld(new ParallelCommandGroup(
+            new LoaderCMD(subsystemContainer.LOADER_SS, robotConstants.loaderConstants,
+                    () -> subsystemContainer.SPINNER_SS.isStalled() ? 0
+                            : SmartDashboard.getNumber("Loader/Vel", robotConstants.loaderConstants.DEFAULT_MIXING_VELOCITY)),
+            new SpinnerCMD(subsystemContainer.SPINNER_SS, robotConstants.spinnerConstants, () -> SmartDashboard.getNumber("Spinner/Vel", robotConstants.spinnerConstants.DEFAULT_MOTOR_POWER))));
+        overrideXboxController.getLeftStickButton().whenPressed(new InstantCommand(() -> {SmartDashboard.putNumber("Spinner/Vel", SmartDashboard.getNumber("Spinner/Vel", robotConstants.spinnerConstants.DEFAULT_MOTOR_POWER) - 0.02);}));
+        overrideXboxController.getRightStickButton().whenPressed(new InstantCommand(() -> {SmartDashboard.putNumber("Spinner/Vel", SmartDashboard.getNumber("Spinner/Vel", robotConstants.spinnerConstants.DEFAULT_MOTOR_POWER) + 0.02);}));
+        overrideXboxController.getRightBumper().whenHeld(commandContainer.COLLECT_CMDGP).whenReleased(commandContainer.OPEN_INTAKE_CMD);
+        
+
     }
 
     /**

@@ -25,7 +25,7 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
      */
     public void setDesiredVelocity(double desiredVelocity) {
         if (!overridden)
-            motor.set(ControlMode.Velocity, desiredVelocity);
+            motor.setVoltage(constants.FEEDFORWARD_CONSTANTS.mCoef * desiredVelocity + Math.signum(desiredVelocity) * constants.FEEDFORWARD_CONSTANTS.bCoef);
     }
 
 
@@ -34,7 +34,7 @@ public class LoaderSS extends OverridableSubsystem implements TestableSubsystem,
      */
     @Override
     public void overriddenMove(double power) {
-        motor.set(power);
+        motor.setVoltage(power);
     }
 
     /**

@@ -56,7 +56,7 @@ public class RobotA extends RobotConstants {
         // Loader Constants
         loaderConstants.CAN_MAP = can.loaderMap;
         loaderConstants.MOTOR_CONFIG = new MotorConfig(0.2, false, true, NeutralMode.Coast, 0);
-        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.082812504229243, 0, 0.1, 0.1, 5000, 150, 8);
+        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.001080635701083645, 200 * 0.001080635701083645, 1, 0.5, 5000, 150, 15);
         loaderConstants.PID_COEFS = new PIDFCoefs(0, 0, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
         loaderConstants.DEFAULT_SHOOTING_VELOCITY = 11500;
         loaderConstants.DEFAULT_MIXING_VELOCITY = -1200;
@@ -83,10 +83,10 @@ public class RobotA extends RobotConstants {
         shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD = 0.4;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
         shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 40;
-        shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
-        shooterConstants.KF_TESTING_TOLERANCE = 10;
-        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 300;
-        shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
+        shooterConstants.KF_TESTING_DELTA_TOLERANCE = 6;
+        shooterConstants.KF_TESTING_TOLERANCE = 13;
+        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 2800;
+        shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 100;
         shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
         shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
 
@@ -134,6 +134,9 @@ public class RobotA extends RobotConstants {
         spinnerConstants.DEFAULT_MOTOR_POWER = -0.2;
         spinnerConstants.STALL_CURRENT_LIMIT = 15;
         spinnerConstants.STALL_CHECK_DELAY = 1;
+        spinnerConstants.PULSE_MOTOR_POWER = 0.25;
+        spinnerConstants.PULSE_LENGTH = 0.3;
+        
 
         /* Limelight Constants */
 

@@ -13,6 +13,7 @@ public class IntakeOpenerSS extends SubsystemBase implements Loggable {
     public IntakeOpenerSS(IntakeOpenerConstants constants) {
         this.solenoid = constants.PCM_MAP.SOLENOID;
         this.constants = constants;
+        solenoid.setSolenoid(false);
     }
 
     /**
@@ -21,7 +22,7 @@ public class IntakeOpenerSS extends SubsystemBase implements Loggable {
      * @param isOpen to be set to the solenoid (true=forward false=reverse)
      */
     public void setSolenoidState(boolean isOpen) {
-        solenoid.setSolenoid(isOpen);
+        // solenoid.setSolenoid(isOpen);
     }
 
     /**
@@ -35,7 +36,7 @@ public class IntakeOpenerSS extends SubsystemBase implements Loggable {
     }
 
     public void toggleSolenoid() {
-        solenoid.toggle();
+        // solenoid.toggle();
     }
 
     @Override

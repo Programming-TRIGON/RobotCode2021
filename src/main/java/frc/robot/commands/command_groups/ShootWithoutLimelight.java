@@ -21,12 +21,13 @@ public class ShootWithoutLimelight extends ParallelCommandGroup {
     public ShootWithoutLimelight(SubsystemContainer subsystems, RobotConstants constants, DoubleSupplier sup) {
 
         ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants, sup);
+        SmartDashboard.putNumber("Loader/ShootVel", constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY);
         addCommands(shootCMD,
                 new SequentialCommandGroup(
                         new WaitUntilCommand(shootCMD::isAtSetpoint),
                         new ParallelCommandGroup(
                                 new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
-                                        () -> SmartDashboard.getNumber("Loader Vel", constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY)),
-                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+                                        () -> SmartDashboard.getNumber("Loader/ShootVel", constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY)),
+                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants, () -> SmartDashboard.getNumber("Spinner/Vel", constants.spinnerConstants.DEFAULT_MOTOR_POWER), false))));
     }
 }
