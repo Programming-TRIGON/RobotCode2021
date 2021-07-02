@@ -99,7 +99,9 @@ public class RobotContainer {
         overrideXboxController.getLeftStickButton().whenPressed(new InstantCommand(() -> {SmartDashboard.putNumber("Spinner/Vel", SmartDashboard.getNumber("Spinner/Vel", robotConstants.spinnerConstants.DEFAULT_MOTOR_POWER) - 0.02);}));
         overrideXboxController.getRightStickButton().whenPressed(new InstantCommand(() -> {SmartDashboard.putNumber("Spinner/Vel", SmartDashboard.getNumber("Spinner/Vel", robotConstants.spinnerConstants.DEFAULT_MOTOR_POWER) + 0.02);}));
         overrideXboxController.getRightBumper().whenHeld(commandContainer.COLLECT_CMDGP).whenReleased(commandContainer.OPEN_INTAKE_CMD);
-        
+        // overrideXboxController.getRightBumper().whileHeld(commandContainer.OPEN_LIFT_CMD);
+		// overrideXboxController.getLeftBumper().whileHeld(commandContainer.CLOSE_LIFT_CMD);
+		// overrideXboxController.getBackXboxButton().whileHeld(commandContainer.WINCH_CMD);
 
     }
 

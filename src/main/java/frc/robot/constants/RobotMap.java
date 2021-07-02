@@ -33,6 +33,7 @@ public abstract class RobotMap {
         public ShooterMap shooterMap = new ShooterMap();
         public IntakeMap intakeMap = new IntakeMap();
         public SpinnerMap spinnerMap = new SpinnerMap();
+        public ClimberMap climberMap=new ClimberMap();
 
         public class LoaderMap {
             public TrigonTalonSRX MOTOR;
@@ -56,19 +57,19 @@ public abstract class RobotMap {
             public TrigonTalonSRX MOTOR;
             public ColorSensorV3 COLOR_SENSOR;
         }
+
+        public class ClimberMap{
+            public TrigonTalonSRX LIFT_MOTOR;
+            public TrigonTalonSRX RIGHT_WINCH_MOTOR;
+            public TrigonTalonSRX LEFT_WINCH_MOTOR; 
+        }
     }
 
     public class PWM {
         public LedMap ledMap = new LedMap();
-        public ClimberMap leftClimberMap = new ClimberMap();
-        public ClimberMap rightClimberMap = new ClimberMap();
 
         public class LedMap {
             public Spark LED_CONTROLLER;
-        }
-
-        public class ClimberMap {
-            public PWMSparkMax MOTOR;
         }
     }
 

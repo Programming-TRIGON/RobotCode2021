@@ -100,13 +100,13 @@ public class RobotA extends RobotConstants {
         intakeConstants.MOTOR_CONFIG = new MotorConfig();
         intakeConstants.DEFAULT_MOTOR_POWER = 0.3;
 
-        // Left climber constants
-        leftClimberConstants.PWM_MAP = pwm.leftClimberMap;
-        leftClimberConstants.IS_INVERTED = false;
-
-        // Right climber constants
-        rightClimberConstants.PWM_MAP = pwm.rightClimberMap;
-        rightClimberConstants.IS_INVERTED = false;
+        // Climber constants
+        climberConstants.CAN_MAP = can.climberMap;
+        climberConstants.LIFT_MOTOR_CONFIG=new MotorConfig();
+        climberConstants.RIGHT_WINCH_MOTOR_CONFIG=new MotorConfig();
+        climberConstants.LEFT_WINCH_MOTOR_CONFIG=new MotorConfig(climberConstants.RIGHT_WINCH_MOTOR_CONFIG, true);
+        climberConstants.DEFAULT_LIFT_POWER=0.25;
+        climberConstants.DEFAULT_WINCH_POWER=0.25;
 
         // Motion profile constants
         motionProfilingConstants.MAX_VELOCITY = 5;
@@ -181,15 +181,18 @@ public class RobotA extends RobotConstants {
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(9, intakeConstants.MOTOR_CONFIG);
         can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
+        can.climberMap.LIFT_MOTOR=new TrigonTalonSRX(10,climberConstants.LIFT_MOTOR_CONFIG);
+        can.climberMap.RIGHT_WINCH_MOTOR=new TrigonTalonSRX(12, climberConstants.RIGHT_WINCH_MOTOR_CONFIG);
+        can.climberMap.LEFT_WINCH_MOTOR=new TrigonTalonSRX(15, climberConstants.LEFT_WINCH_MOTOR_CONFIG);
 
         // Drivetrain map;
-        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0.557, 2.35, 0.0749);
-        drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0.000797, 0, 0);
-//        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0, 0, 0);
-//        drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0, new TrapezoidProfile.Constraints(0, 0));
-
-        drivetrainConstants.ANGLE_SVA_COEFS = new SVACoefs(0.7, 0.00384, 4.36e-5);
-        drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(15000, 10000));
+//        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0.557, 2.35, 0.0749);
+//        drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0.000797, 0, 0);
+////        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0, 0, 0);
+////        drivetrainConstants.SPEED_PIDF_COEFS = new PIDFCoefs(0, new TrapezoidProfile.Constraints(0, 0));
+//
+//        drivetrainConstants.ANGLE_SVA_COEFS = new SVACoefs(0.7, 0.00384, 4.36e-5);
+//        drivetrainConstants.ANGLE_PIDF_COEFS = new PIDFCoefs(0.09, new TrapezoidProfile.Constraints(1, 1));
         drivetrainConstants.ROTATION_PIDF_COEFS = new PIDFCoefs(0.005, 0, 0, 3, 20);
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
@@ -200,10 +203,10 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.04, 0.4, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(0.731, 0, 0),
-                new SVACoefs(0.742, 0.00408, 9.46e-5),
-                new SVACoefs(0.719, 2.39, 0.0718)
+                new PIDFCoefs(0.1, 0, 0, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.731, 0, 0, 0.2282866519),
+                new SVACoefs(0.799, 0.00376, 0.0718),
+                new SVACoefs(0.687, 2.37, 9.46e-5)
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
@@ -214,23 +217,23 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.04, 0.5, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(0.616, 0, 0),
-                new SVACoefs(0.748, 0.00403, 0.000122),
-                new SVACoefs(0.699, 2.46, 0.0355)
+                new PIDFCoefs(0.1, 0, 0, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.616, 0, 0, 0.2256438875),
+                new SVACoefs(0.835, 0.00405, 0.0355),
+                new SVACoefs(0.642, 2.33, 0.000122)
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
-                new TalonFXWithTalonSRXEncoder(5, 10,
+                new TalonFXWithTalonSRXEncoder(5, can.climberMap.LIFT_MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.02, 0.7, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(2.32, 0, 0),
-                new SVACoefs(0.785, 0.00417, 0.00011),
-                new SVACoefs(0.643, 2.37, 0.361)
+                new PIDFCoefs(0.1, 0, 0, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.616, 0, 0 ,0.2319175878),
+                new SVACoefs( 0.897, 0.0041, 0.361),
+                new SVACoefs(0.638, 2.45, 0.00011)
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6,
@@ -241,10 +244,10 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.03, 0.6, 0.0003, 1, 1, new TrapezoidProfile.Constraints(15000, 10000)),
-                new PIDFCoefs(2.48, 0, 0),
-                new SVACoefs(0.786, 0.00411, 0.000106),
-                new SVACoefs(0.65, 2.3, 0.396)
+                new PIDFCoefs(0.1, 0, 0, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.616, 0, 0, 0.2217712184),
+                new SVACoefs(0.697, 0.00404, 0.396),
+                new SVACoefs(0.636, 2.3, 0.000106)
         );
 
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);
@@ -256,8 +259,6 @@ public class RobotA extends RobotConstants {
 
         // PWM
         pwm.ledMap.LED_CONTROLLER = new Spark(0);
-        pwm.leftClimberMap.MOTOR = new PWMSparkMax(1);
-        pwm.rightClimberMap.MOTOR = new PWMSparkMax(2);
 
         // DIO
 

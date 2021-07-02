@@ -11,6 +11,8 @@ import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
 import frc.robot.constants.RobotConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
+import frc.robot.subsystems.climber.LiftCMD;
+import frc.robot.subsystems.climber.WinchCMD;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.loader.LoaderCMD;
@@ -67,6 +69,11 @@ public class CommandContainer {
 	// Loader
 	public final LoaderCMD LOADER_CMD;
 
+	// Climber
+	public final LiftCMD OPEN_LIFT_CMD;
+	public final LiftCMD CLOSE_LIFT_CMD;
+	public final WinchCMD WINCH_CMD;
+
 	public CommandContainer(SubsystemContainer subsystemContainer, RobotConstants robotConstants,
 			PitcherLimelight limelight, GenericHID driverController) {
 		// CMDGP
@@ -88,9 +95,12 @@ public class CommandContainer {
 		// Drivetrain
 		SUPPLIER_FIELD_DRIVE_CMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
 				robotConstants.drivetrainConstants,
-				() -> Math.signum(driverController.getX(Hand.kRight)) * Math.pow(driverController.getX(Hand.kRight), 2) / DRIVETRAIN_X_SENSITIVITY,
-				() -> Math.signum(driverController.getY(Hand.kRight)) * Math.pow(driverController.getY(Hand.kRight), 2) / DRIVETRAIN_Y_SENSITIVITY,
-				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.pow(driverController.getX(Hand.kLeft), 2) / DRIVETRAIN_Z_SENSITIVITY);
+				() -> Math.signum(driverController.getX(Hand.kRight)) * Math.pow(driverController.getX(Hand.kRight), 2)
+						/ DRIVETRAIN_X_SENSITIVITY,
+				() -> Math.signum(driverController.getY(Hand.kRight)) * Math.pow(driverController.getY(Hand.kRight), 2)
+						/ DRIVETRAIN_Y_SENSITIVITY,
+				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.pow(driverController.getX(Hand.kLeft), 2)
+						/ DRIVETRAIN_Z_SENSITIVITY);
 		TURN_TO_TARGET_CMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
 				robotConstants.visionConstants, Target.PowerPort);
 		TURN_AND_POSITION_TO_TARGET_CMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
@@ -106,15 +116,16 @@ public class CommandContainer {
 					new Pose2d(0, 0, Rotation2d.fromDegrees(subsystemContainer.DRIVETRAIN_SS.getAngle())));
 		});
 		CHANGE_DRIVE_ROTATION.addRequirements(subsystemContainer.DRIVETRAIN_SS);
-		TOGGLE_DRIVETRAIN_MOTORS_NEUTRAL_MODE_CMD = new InstantCommand(subsystemContainer.DRIVETRAIN_SS::toggleMotorsNeutralMode);
+		TOGGLE_DRIVETRAIN_MOTORS_NEUTRAL_MODE_CMD = new InstantCommand(
+				subsystemContainer.DRIVETRAIN_SS::toggleMotorsNeutralMode);
 		MOTION_TEST = new TrigonSwerveControllerCMDGP(subsystemContainer.DRIVETRAIN_SS,
 				robotConstants.motionProfilingConstants, AutoPath.Test);
 
 		// Intake
-		OPEN_INTAKE_CMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS,
-				robotConstants.intakeOpenerConstants, true);
+		OPEN_INTAKE_CMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS, robotConstants.intakeOpenerConstants,
+				true);
 		CLOSE_INTAKE_CMD = new IntakeOpenerCMD(subsystemContainer.INTAKE_OPENER_SS,
-		robotConstants.intakeOpenerConstants, true);
+				robotConstants.intakeOpenerConstants, true);
 
 		// Pitcher
 		TOGGLE_PITCHER = new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid,
@@ -125,6 +136,11 @@ public class CommandContainer {
 		// Loader
 		LOADER_CMD = new LoaderCMD(subsystemContainer.LOADER_SS, robotConstants.loaderConstants,
 				robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY);
-	}
 
+		// Climber
+		OPEN_LIFT_CMD = new LiftCMD(subsystemContainer.LIFT_SS, robotConstants.climberConstants);
+		CLOSE_LIFT_CMD = new LiftCMD(subsystemContainer.LIFT_SS, robotConstants.climberConstants,
+				() -> -robotConstants.climberConstants.DEFAULT_LIFT_POWER);
+		WINCH_CMD = new WinchCMD(subsystemContainer.WINCH_SS, robotConstants.climberConstants);
+	}
 }

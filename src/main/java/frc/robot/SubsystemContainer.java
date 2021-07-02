@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.subsystems.climber.LiftSS;
+import frc.robot.subsystems.climber.WinchSS;
 import frc.robot.subsystems.drivetrain.DrivetrainSS;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.intake_opener.IntakeOpenerSS;
@@ -18,4 +20,6 @@ public abstract class SubsystemContainer {
     public SpinnerSS SPINNER_SS;
     public IntakeSS INTAKE_SS;
     public IntakeOpenerSS INTAKE_OPENER_SS;
+    public LiftSS LIFT_SS;
+    public WinchSS WINCH_SS;
 }
