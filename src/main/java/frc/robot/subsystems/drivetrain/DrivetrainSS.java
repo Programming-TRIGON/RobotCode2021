@@ -3,6 +3,7 @@ package frc.robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
@@ -43,29 +44,23 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      *
      * @param speeds the ChassisSpeeds object representing the desired speeds
      */
-    public void
-    speedDrive(ChassisSpeeds speeds) {
-        SwerveModuleState[] states =
-                kinematics.toSwerveModuleStates(speeds);
+    public void speedDrive(ChassisSpeeds speeds) {
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.normalizeWheelSpeeds(states, constants.MAX_SPEED_MPS);
         setDesiredStates(states);
     }
 
     /**
-     * Drives the robot with the given speeds and angle relative to the field,
-     * and not relative to the robot.
+     * Drives the robot with the given speeds and angle relative to the field, and
+     * not relative to the robot.
      *
      * @param speeds the field relative speeds
      */
     public void fieldSpeedDrive(ChassisSpeeds speeds) {
-        speedDrive(
-                ChassisSpeeds.fromFieldRelativeSpeeds(
-                        speeds.vxMetersPerSecond,
-                        speeds.vyMetersPerSecond,
-                        speeds.omegaRadiansPerSecond,
-                        gyro.getRotation2d()
-                )
-        );
+        // !!!! THE GYRO VALUE MIGHT LOOK DUMB BUT THIS IS THE ONLY WAY IT WORKS DO NOT
+        // CHANGE !!!
+        speedDrive(ChassisSpeeds.fromFieldRelativeSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
+                speeds.omegaRadiansPerSecond, Rotation2d.fromDegrees(gyro.getAngle() - 180)));
     }
 
     /**
@@ -80,13 +75,14 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as
+        // sideways
         speedDrive(new ChassisSpeeds(y, x, rot));
     }
 
     /**
-     * Drives the robot with the given power relative to the field,
-     * and not relative to the robot.
+     * Drives the robot with the given power relative to the field, and not relative
+     * to the robot.
      *
      * @param x   field x power, between -1 and 1
      * @param y   field y power, between -1 and 1
@@ -97,7 +93,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         x *= constants.MAX_SPEED_MPS;
         y *= constants.MAX_SPEED_MPS;
         rot *= constants.MAX_ROT_SPEED_RAD_S;
-        // We intentionally switch x and y because Rotation2D uses x as forward and y as sideways
+        // We intentionally switch x and y because Rotation2D uses x as forward and y as
+        // sideways
         fieldSpeedDrive(new ChassisSpeeds(y, x, rot));
     }
 
@@ -120,22 +117,24 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
      * @param states the modules' desired states
      */
     public void setDesiredStates(SwerveModuleState[] states) {
-        final double speedErrorModifier = 1; // this is currently 1 due to issues it was causing 
-        //and no visible benefit may be removed later
-        boolean hasError = false;
-        for (SwerveModule module : modules) {
-            if (module.getAngleError() > 40) {
-                hasError = true;
-                break;
-            }
-        }
-        if (hasError) {
-            for (int i = 0; i < modules.length; i++) {
-                states[i].speedMetersPerSecond = states[i].speedMetersPerSecond / speedErrorModifier;
-            }
-        }
-        if (states.length != modules.length)
-            return;
+        // final double speedErrorModifier = 1; // this is currently 1 due to issues it
+        // was causing
+        // //and no visible benefit may be removed later
+        // boolean hasError = false;
+        // for (SwerveModule module : modules) {
+        // if (module.getAngleError() > 40) {
+        // hasError = true;
+        // break;
+        // }
+        // }
+        // if (hasError) {
+        // for (int i = 0; i < modules.length; i++) {
+        // states[i].speedMetersPerSecond = states[i].speedMetersPerSecond /
+        // speedErrorModifier;
+        // }
+        // }
+        // if (states.length != modules.length)
+        // return;
         for (int i = 0; i < states.length; i++) {
             modules[i].setDesiredState(states[i]);
         }
@@ -241,7 +240,6 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
-
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
@@ -289,17 +287,16 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     private void initSwerve() {
         kinematics = new SwerveDriveKinematics(
-                constants.FRONT_LEFT_LOCATION.getTranslation(),
-                constants.FRONT_RIGHT_LOCATION.getTranslation(),
-                constants.REAR_LEFT_LOCATION.getTranslation(),
-                constants.REAR_RIGHT_LOCATION.getTranslation()
-        );
-        modules = new SwerveModule[]{
-                constants.CAN_MAP.FRONT_LEFT,
-                constants.CAN_MAP.FRONT_RIGHT,
-                constants.CAN_MAP.REAR_LEFT,
-                constants.CAN_MAP.REAR_RIGHT
-        };
+                new Translation2d(constants.FRONT_LEFT_LOCATION.getTranslation().getX(),
+                        constants.FRONT_LEFT_LOCATION.getTranslation().getY()),
+                new Translation2d(constants.FRONT_RIGHT_LOCATION.getTranslation().getX(),
+                        constants.FRONT_RIGHT_LOCATION.getTranslation().getY()),
+                new Translation2d(constants.REAR_LEFT_LOCATION.getTranslation().getX(),
+                        constants.REAR_LEFT_LOCATION.getTranslation().getY()),
+                new Translation2d(constants.REAR_RIGHT_LOCATION.getTranslation().getX(),
+                        constants.REAR_RIGHT_LOCATION.getTranslation().getY()));
+        modules = new SwerveModule[] { constants.CAN_MAP.FRONT_LEFT, constants.CAN_MAP.FRONT_RIGHT,
+                constants.CAN_MAP.REAR_LEFT, constants.CAN_MAP.REAR_RIGHT };
         sendData("Front Left", modules[0]);
         sendData("Front Right", modules[1]);
         sendData("Rear Left", modules[2]);
@@ -307,7 +304,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
     }
 
     private void sendData(String name, SwerveModule module) {
-        ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name, BuiltInLayouts.kList);
+        ShuffleboardLayout layout = Shuffleboard.getTab("Swerve").getLayout(configureLogName() + "/" + name,
+                BuiltInLayouts.kList);
         layout.add("Module stats", module);
         layout.add("Angle PID Controller", module.getAnglePIDController());
         layout.add("Speed PID Controller", module.getSpeedPIDController());
@@ -317,7 +315,8 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
         for (SwerveModule module : modules) {
             module.setMotorsNeutralMode(mode);
         }
-    }    
+    }
+
     public void toggleMotorsNeutralMode() {
         for (SwerveModule module : modules) {
             module.toggleMotorsNeutralMode();

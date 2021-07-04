@@ -50,6 +50,8 @@ public class DashboardDataContainer {
         dashboardController.addNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS::getVelocityRPM);
         dashboardController.addNumber("Loader/Velocity", subsystemContainer.LOADER_SS::getVelocity);
         dashboardController.addNumber("PitcherLimelight/distance", limelight::calculateDistanceFromTower);
+        dashboardController.addNumber("Xbox/X", driverController::getX);
+        dashboardController.addNumber("Xbox/Y", driverController::getY);
     }
 
     public void updateDashboard() {

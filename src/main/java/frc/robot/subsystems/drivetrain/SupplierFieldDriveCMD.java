@@ -26,8 +26,8 @@ public class SupplierFieldDriveCMD extends CommandBase {
      * @param y          the supplier for the field y power, between -1 and 1
      * @param rot        the supplier for the rotation power, between -1 and 1
      */
-    public SupplierFieldDriveCMD(DrivetrainSS drivetrain, DrivetrainConstants drivetrainConstants, Supplier<Double> x, Supplier<Double> y,
-                                 Supplier<Double> rot) {
+    public SupplierFieldDriveCMD(DrivetrainSS drivetrain, DrivetrainConstants drivetrainConstants, Supplier<Double> x,
+            Supplier<Double> y, Supplier<Double> rot) {
         this.drivetrain = drivetrain;
         this.x = x;
         this.y = y;
@@ -49,20 +49,19 @@ public class SupplierFieldDriveCMD extends CommandBase {
 
     @Override
     public void execute() {
-        if(Math.abs(rot.get()) > deadBand)
+        if (Math.abs(rot.get()) > deadBand)
             timeWhenRotDeadBand = Timer.getFPGATimestamp();
-        if (Timer.getFPGATimestamp() - timeWhenRotDeadBand < timeToSetRotSetpoint)
-        {
+        if (Timer.getFPGATimestamp() - timeWhenRotDeadBand < timeToSetRotSetpoint) {
             rotPID.setSetpoint(drivetrain.getAngle());
             rotPID.reset();
         }
-        if (Math.abs(x.get()) > deadBand||
-                Math.abs(y.get()) > deadBand ||
-                Math.abs(rot.get()) > deadBand)
-            drivetrain.fieldPowerDrive(x.get(), y.get(), rot.get());
+        if (Math.abs(x.get()) > deadBand || Math.abs(y.get()) > deadBand || Math.abs(rot.get()) > deadBand)
+            // !!!! THESE VALUES MIGHT LOOK DUMB BUT THIS IS THE ONLY WAY IT WORKS DO NOT
+            // CHANGE !!!
+            drivetrain.fieldPowerDrive(-x.get(), -y.get(), rot.get());
         else if (!rotPID.atSetpoint() && Timer.getFPGATimestamp() - timeWhenRotDeadBand > timeToSetRotSetpoint)
             drivetrain.fieldPowerDrive(0, 0, rotPID.calculate(drivetrain.getAngle()));
-        else 
+        else
             drivetrain.stopDrive();
     }
 
