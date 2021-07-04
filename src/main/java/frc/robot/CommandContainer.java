@@ -95,11 +95,11 @@ public class CommandContainer {
 		// Drivetrain
 		SUPPLIER_FIELD_DRIVE_CMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
 				robotConstants.drivetrainConstants,
-				() -> Math.signum(driverController.getX(Hand.kRight)) * Math.pow(driverController.getX(Hand.kRight), 2)
+				() -> Math.signum(driverController.getX(Hand.kRight)) * Math.abs(Math.pow(driverController.getX(Hand.kRight), 3))
 						/ DRIVETRAIN_X_SENSITIVITY,
-				() -> Math.signum(driverController.getY(Hand.kRight)) * Math.pow(driverController.getY(Hand.kRight), 2)
+				() -> Math.signum(driverController.getY(Hand.kRight)) * Math.abs(Math.pow(driverController.getY(Hand.kRight), 3))
 						/ DRIVETRAIN_Y_SENSITIVITY,
-				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.pow(driverController.getX(Hand.kLeft), 2)
+				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.abs(Math.pow(driverController.getX(Hand.kLeft), 3))
 						/ DRIVETRAIN_Z_SENSITIVITY);
 		TURN_TO_TARGET_CMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
 				robotConstants.visionConstants, Target.PowerPort);

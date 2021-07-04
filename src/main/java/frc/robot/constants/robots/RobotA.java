@@ -31,7 +31,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
         drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(215));
         drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(111));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(1));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(49));
         drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(160));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.1016; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
@@ -200,7 +200,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.04, 0.4, 0.0003, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.731, 0, 0, 0.2282866519),
                 new SVACoefs(0.799, 0.00376, 0.0718),
                 new SVACoefs(0.687, 2.37, 9.46e-5)
@@ -214,7 +214,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.FRONT_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.04, 0.5, 0.0003, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.035, 0.5, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0, 0.2256438875),
                 new SVACoefs(0.835, 0.00405, 0.0355),
                 new SVACoefs(0.642, 2.33, 0.000122)
@@ -227,7 +227,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_RIGHT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.02, 0.7, 0.0003, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0 ,0.2319175878),
                 new SVACoefs( 0.897, 0.0041, 0.361),
                 new SVACoefs(0.638, 2.45, 0.00011)
@@ -241,7 +241,7 @@ public class RobotA extends RobotConstants {
                 drivetrainConstants.WHEEL_DIAMETER_M,
                 drivetrainConstants.REAR_LEFT_LOCATION.getRotation().getDegrees(),
                 drivetrainConstants.MAX_SPEED_MPS,
-                new PIDFCoefs(0.03, 0.6, 0.0003, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
+                new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0, 0.2217712184),
                 new SVACoefs(0.697, 0.00404, 0.396),
                 new SVACoefs(0.636, 2.3, 0.000106)
