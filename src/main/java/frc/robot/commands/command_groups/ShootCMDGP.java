@@ -23,7 +23,8 @@ public class ShootCMDGP extends ParallelCommandGroup {
                         new WaitUntilCommand(shootCMD::isAtSetpoint),
                         new ParallelCommandGroup(new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
                                 constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
-                        new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+                        new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants,
+                                () -> constants.spinnerConstants.DEFAULT_MOTOR_POWER, false))));
         }
 
         public ShootCMDGP(SubsystemContainer subsystems, RobotConstants constants, PitcherLimelight limelight,
@@ -39,6 +40,8 @@ public class ShootCMDGP extends ParallelCommandGroup {
                         new ParallelCommandGroup(
                                 new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
                                         constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY),
-                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants,
+                                        () -> constants.spinnerConstants.DEFAULT_MOTOR_POWER, false))));
+
         }
 }
