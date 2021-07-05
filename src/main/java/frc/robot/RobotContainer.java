@@ -58,7 +58,8 @@ public class RobotContainer {
 		driverXboxController.getButtonY().whenPressed(commandContainer.RESET_DIRECTION);
 		driverXboxController.getButtonX().whenPressed(
 		new InstantCommand(subsystemContainer.PITCHER_SS::toggleSolenoid, subsystemContainer.PITCHER_SS));
-		driverXboxController.getButtonB().whileHeld(commandContainer.SHOOT_CMDGP.withInterrupt(this::cancelShooterCMD));
+		// driverXboxController.getButtonB().whileHeld(commandContainer.SHOOT_CMDGP.withInterrupt(this::cancelShooterCMD));
+		driverXboxController.getButtonB().whileHeld(new ShootWithoutLimelight(subsystemContainer, robotConstants, () -> 3500)).whenReleased(commandContainer.CLOSE_PITCHER);
 		
 		// robot.win=true
 	}
