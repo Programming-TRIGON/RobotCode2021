@@ -20,6 +20,7 @@ public class SwerveModule implements Sendable {
     private final TrigonTalonFX angleMotor;
     private final TrigonTalonFX speedMotor;
     private final TrigonProfiledPIDController angleController;
+    private final TrigonPIDController aController;
     private final TrigonPIDController speedController;
     private final SimpleMotorFeedforward angleFeedforward;
     private final SimpleMotorFeedforward speedFeedforward;
@@ -44,13 +45,14 @@ public class SwerveModule implements Sendable {
 
         angleMotor = constants.angleMotor;
         angleController = new TrigonProfiledPIDController(constants.anglePidfCoefs);
+        aController = new TrigonPIDController(constants.anglePidfCoefs);
         angleFeedforward = new SimpleMotorFeedforward(constants.angleSvaCoefs.getKS(), constants.angleSvaCoefs.getKV(),
                 constants.angleSvaCoefs.getKA());
 
         setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(getAngle())));
 
         angleController.enableContinuousInput(-90, 90);
-
+        aController.enableContinuousInput(-90, 90);
         setAbsolute();
         speedMotor.setSelectedSensorPosition(0);
         move = false;
@@ -80,9 +82,10 @@ public class SwerveModule implements Sendable {
                     + speedFeedforward.calculate(getDesiredVelocity()));
         else
             speedMotor.set(0);
-        double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
-        // double pid = angleController.calculate(getAngle(), 0);
-        angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
+        // double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
+        // angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
+        aController.setSetpoint(desiredState.angle.getDegrees());
+        angleMotor.setVoltage(aController.calculate(getAngle()));
 
         // The code below is used for testing, it is very disgusting but for now it must do
         // !!!!!!!DO NOT UNCOMMENT IF NOT TESTING!!!!!WHEN FINSHED TESTING RECOMMENT!!!!!
@@ -107,7 +110,7 @@ public class SwerveModule implements Sendable {
                     angleController.getSetpoint().velocity);
             SmartDashboard.putNumber("Front Left angleFeedforward.calculate(angleController.getSetpoint().velocity)",
                     angleFeedforward.calculate(angleController.getSetpoint().velocity));
-            SmartDashboard.putNumber("Front Left pid", pid);
+            // SmartDashboard.putNumber("Front Left pid", pid);
             SmartDashboard.putNumber("Front Left error", getAngleError());
             SmartDashboard.putNumber("Front Left Angle vel mistake",
                     angleController.getSetpoint().velocity - getAngleMotorAPS());
@@ -136,7 +139,8 @@ public class SwerveModule implements Sendable {
     }
 
     public double getAngleError() {
-        return Math.abs(getAngle() - angleController.getGoal().position);
+        // return Math.abs(getAngle() - angleController.getGoal().position);
+        return aController.getPositionError();
     }
 
     /**
@@ -227,12 +231,12 @@ public class SwerveModule implements Sendable {
     }
 
     public void setIsTuning(boolean isTuning) {
-        angleController.setIsTuning(isTuning);
+        aController.setIsTuning(isTuning);
         this.isTuning = isTuning;
     }
 
-    public TrigonProfiledPIDController getAnglePIDController() {
-        return angleController;
+    public TrigonPIDController getAnglePIDController() {
+        return aController;
     }
 
     public TrigonPIDController getSpeedPIDController() {
@@ -271,11 +275,12 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("Current Velocity", this::getSpeedMotorMPS, null);
         builder.addDoubleProperty("Desired Velocity", () -> getDesiredState().speedMetersPerSecond,
                 speed -> setDesiredSpeed(isTuning ? speed : desiredState.speedMetersPerSecond));
-        builder.addDoubleProperty("PID Angle Velocity", () -> angleController.getSetpoint().velocity, null);
+        // builder.addDoubleProperty("PID Angle Velocity", () -> angleController.getSetpoint().velocity, null);
+
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
         builder.addDoubleProperty("Speed Motor Position", () -> speedMotor.getSelectedSensorPosition() / SwerveConstants.StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION
                 * constants.diameter * Math.PI / SwerveConstants.StaticSwerveConstants.SPEED_GEAR_RATION, null);
-        builder.addDoubleProperty("Angle PID error", this.angleController::getPositionError, null);
+        builder.addDoubleProperty("Angle PID error", this::getAngleError, null);
         builder.addDoubleProperty("Speed PID error", () -> getSpeedMotorMPS() - getDesiredVelocity(), null);
         builder.addDoubleProperty("Angle motor power", this.angleMotor::get, null);
     }

@@ -13,7 +13,7 @@ public class SupplierFieldDriveCMD extends CommandBase {
     private final Supplier<Double> x, y, rot;
     private final DrivetrainConstants drivetrainConstants;
     private final TrigonPIDController rotPID;
-    double deadBand = 0.02;
+    double deadBand = 0.05;
     private double timeWhenRotDeadBand;
     private double timeToSetRotSetpoint;
 
@@ -26,8 +26,8 @@ public class SupplierFieldDriveCMD extends CommandBase {
      * @param y          the supplier for the field y power, between -1 and 1
      * @param rot        the supplier for the rotation power, between -1 and 1
      */
-    public SupplierFieldDriveCMD(DrivetrainSS drivetrain, DrivetrainConstants drivetrainConstants, Supplier<Double> x, Supplier<Double> y,
-                                 Supplier<Double> rot) {
+    public SupplierFieldDriveCMD(DrivetrainSS drivetrain, DrivetrainConstants drivetrainConstants, Supplier<Double> x,
+            Supplier<Double> y, Supplier<Double> rot) {
         this.drivetrain = drivetrain;
         this.x = x;
         this.y = y;
@@ -49,20 +49,27 @@ public class SupplierFieldDriveCMD extends CommandBase {
 
     @Override
     public void execute() {
-        if(Math.abs(rot.get()) > deadBand)
-            timeWhenRotDeadBand = Timer.getFPGATimestamp();
-        if (Timer.getFPGATimestamp() - timeWhenRotDeadBand < timeToSetRotSetpoint)
-        {
-            rotPID.setSetpoint(drivetrain.getAngle());
-            rotPID.reset();
-        }
-        if (Math.abs(x.get()) > deadBand||
-                Math.abs(y.get()) > deadBand ||
-                Math.abs(rot.get()) > deadBand)
-            drivetrain.fieldPowerDrive(x.get(), y.get(), rot.get());
-        else if (!rotPID.atSetpoint() && Timer.getFPGATimestamp() - timeWhenRotDeadBand > timeToSetRotSetpoint)
-            drivetrain.fieldPowerDrive(0, 0, rotPID.calculate(drivetrain.getAngle()));
-        else 
+        // if (Math.abs(rot.get()) > deadBand)
+        //     timeWhenRotDeadBand = Timer.getFPGATimestamp();
+        // if (Timer.getFPGATimestamp() - timeWhenRotDeadBand < timeToSetRotSetpoint) {
+        //     rotPID.setSetpoint(drivetrain.getAngle());
+        //     rotPID.reset();
+        // }
+
+        double xOutput = Math.abs(x.get()) > deadBand ? x.get() : 0;
+        double yOutput = Math.abs(y.get()) > deadBand ? y.get() : 0;
+        double rotOutput = Math.abs(rot.get()) > deadBand ? rot.get() : 0;
+
+        if (Math.abs(x.get()) > deadBand || Math.abs(y.get()) > deadBand || Math.abs(rot.get()) > deadBand)
+            // !!!! THESE VALUES MIGHT LOOK DUMB BUT THIS IS THE ONLY WAY IT WORKS DO NOT
+            // CHANGE !!!
+
+            drivetrain.fieldPowerDrive(-xOutput, -yOutput, rotOutput);
+            // drivetrain.fieldPowerDrivedx(0, 0.2, 0);
+            
+        // else if (!rotPID.atSetpoint() && Timer.getFPGATimestamp() - timeWhenRotDeadBand > timeToSetRotSetpoint)
+        //     drivetrain.fieldPowerDrive(0, 0, rotPID.calculate(drivetrain.getAngle()));
+        else
             drivetrain.stopDrive();
     }
 
