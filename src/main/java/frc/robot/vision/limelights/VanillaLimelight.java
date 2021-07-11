@@ -79,30 +79,19 @@ public class VanillaLimelight {
     }
 
     /**
-     * @return The distance between the target and the limelight
-     */
-    // TODO: set real function
-    public double getTargetDistance() {
-        double y = getTy();
-        return constants.DISTANCE_CALCULATION_A_COEFFICIENT *  Math.log(y)
-                + constants.DISTANCE_CALCULATION_B_COEFFICIENT * y
-                + constants.DISTANCE_CALCULATION_C_COEFFICIENT;
-    }
-
-    /**
      * @return The distance between the target and the middle of the robot
      */
-    public double getRobotTargetDistance() {
-        return calculateRobotToTargetVector().magnitude();
-    }
+//    public double getRobotTargetDistance() {
+//        return calculateRobotToTargetVector().magnitude();
+//    }
 
     /**
      * @return the angle from the middle of the robot to the target
      */
-    public double getAngle() {
-        Vector2d vector = calculateRobotToTargetVector();
-        return Math.toDegrees(Math.atan(vector.y / vector.x));
-    }
+//    public double getAngle() {
+//        Vector2d vector = calculateRobotToTargetVector();
+//        return Math.toDegrees(Math.atan(vector.y / vector.x));
+//    }
 
     /**
      * @return the cam mode in the NetworkTable.
@@ -207,14 +196,14 @@ public class VanillaLimelight {
     /**
      * @return the vector between the middle of the robot and the target.
      */
-    private Vector2d calculateRobotToTargetVector() {
-        // This is the vector from the limelight to the target.
-        Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
-        limelightToTarget.rotate(getTx() + constants.LIMELIGHT_ANGLE_OFFSET);
-        // The offset is subtracted from the limelightToTarget vector in order to get
-        // the final vector.
-        return new Vector2d(limelightToTarget.x - constants.LIMELIGHT_OFFSET_X,
-                limelightToTarget.y - constants.LIMELIGHT_OFFSET_Y);
-    }
+//    private Vector2d calculateRobotToTargetVector() {
+//        // This is the vector from the limelight to the target.
+//        Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
+//        limelightToTarget.rotate(getTx() + constants.LIMELIGHT_ANGLE_OFFSET);
+//        // The offset is subtracted from the limelightToTarget vector in order to get
+//        // the final vector.
+//        return new Vector2d(limelightToTarget.x - constants.LIMELIGHT_OFFSET_X,
+//                limelightToTarget.y - constants.LIMELIGHT_OFFSET_Y);
+//    }
 
 }

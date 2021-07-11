@@ -72,12 +72,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
-        if(desiredVelocitySupplier.getAsDouble() < 2000){
-            desiredVelocity = 3200;
-            DriverStationLogger.logToDS("ShooterCMD/tooLowDesiredVelocity: " + desiredVelocitySupplier.getAsDouble());
-        }
-        else
-            desiredVelocity = desiredVelocitySupplier.getAsDouble();
+        desiredVelocity = desiredVelocitySupplier.getAsDouble();
         f = constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B;
     }
 
@@ -93,7 +88,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
             }
         } else
             Shoot();
-        DriverStationLogger.logToDS("Shooter/setpoint Vel: " + desiredVelocitySupplier.getAsDouble());
+//        DriverStationLogger.logToDS("Shooter/setpoint Vel: " + desiredVelocitySupplier.getAsDouble());
     }
 
     private void Shoot() {
@@ -108,6 +103,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 && currentState == ShooterState.Default && hasRecalculatedF) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
+            System.out.println("ballsShotCount: " + ballsShotCount);
         } else if (desiredVelocity - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
@@ -135,16 +131,22 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 }
                 CalculateIfAtSetpoint();
                 SmartDashboard.putBoolean("isPID", false);
+                SmartDashboard.putNumber("Shooter/output", output);
+                SmartDashboard.putNumber("Shooter/output - f", output - f);
                 break;
             case AfterShot:
                 output = PIDController.calculate(shooterSS.getVelocityRPM()) + f;
                 shooterSS.move(output);
                 CalculateIfAtSetpoint();
                 SmartDashboard.putBoolean("isPID", true);
+                SmartDashboard.putNumber("Shooter/output", output);
+                SmartDashboard.putNumber("Shooter/output - f", output - constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B);
                 break;
         }
         if (Timer.getFPGATimestamp() - lastTimeAtSetpoint > constants.TIME_AT_SETPOINT && hasRecalculatedF)
             hasSetpoint = true;
+        SmartDashboard.putNumber("Shooter/f", constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B);
+        SmartDashboard.putNumber("Shooter/new f", f);
     }
 
     public int getBallsShotCount() {

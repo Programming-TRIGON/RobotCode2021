@@ -267,13 +267,14 @@ public class DrivetrainSS extends SubsystemBase implements TestableSubsystem, Lo
 
     public void setAngle(double angle) {
         gyro.setYaw(angle);
+        updateOdometry();
     }
 
     @Override
     public void periodic() {
-        updateOdometry();
         for (SwerveModule module : modules)
             module.periodic();
+        updateOdometry();
         SmartDashboard.putNumber("angle", getAngle());
     }
 

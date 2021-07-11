@@ -8,16 +8,20 @@ import frc.robot.subsystems.pitcher.PitcherCMD;
 import frc.robot.subsystems.shooter.ShooterCMD;
 import frc.robot.vision.limelights.PitcherLimelight;
 
+import java.util.function.DoubleSupplier;
+
 public class ShootWithPitcherCMDGP extends SequentialCommandGroup {
         private final RobotConstants constants;
         private final SubsystemContainer subsystems;
         private final PitcherLimelight limelight;
+        private final DoubleSupplier desiredVelocity;
 
         public ShootWithPitcherCMDGP(SubsystemContainer subsystems, RobotConstants constants,
-                        PitcherLimelight limelight) {
+                        PitcherLimelight limelight, DoubleSupplier desiredVelocity) {
                 this.subsystems = subsystems;
                 this.constants = constants;
                 this.limelight = limelight;
+                this.desiredVelocity = desiredVelocity;
 
                 if (subsystems.LED_SS != null)
                         addRequirements(subsystems.DRIVETRAIN_SS, subsystems.PITCHER_SS, subsystems.LED_SS,
@@ -28,19 +32,23 @@ public class ShootWithPitcherCMDGP extends SequentialCommandGroup {
                 addCommandsToGroup();
         }
 
+        public ShootWithPitcherCMDGP(SubsystemContainer subsystems, RobotConstants constants,
+                                     PitcherLimelight limelight) {
+                this(subsystems, constants, limelight, limelight::calculateDesiredShooterVelocity);
+        }
+
         private void addCommandsToGroup() {
                 addCommands(new ConditionalCommand(
                                 new SequentialCommandGroup(
                                                 new PitcherCMD(subsystems.PITCHER_SS, subsystems.LED_SS,
                                                                 constants.pitcherConstants, limelight),
-                                                new ShootCMDGP(subsystems, constants, limelight)),
+                                                new ShootCMDGP(subsystems, constants, limelight, desiredVelocity)),
                                 new SequentialCommandGroup(
                                                 new InstantCommand(subsystems.PITCHER_SS::toggleSolenoid,
                                                                 subsystems.PITCHER_SS),
-                                                new ConditionalCommand(new SequentialCommandGroup(
-                                                                new PitcherCMD(subsystems.PITCHER_SS, subsystems.LED_SS,
-                                                                                constants.pitcherConstants, limelight),
-                                                                new ShootCMDGP(subsystems, constants, limelight)),
+                                                new WaitCommand(0.2),
+                                                new ConditionalCommand(
+                                                                new ShootCMDGP(subsystems, constants, limelight, desiredVelocity),
                                                                 new BlinkAndLogCMD(subsystems.LED_SS,
                                                                                 "ShootCMDGP: NO TARGET FOUND! try repositioning",
                                                                                 constants.ledConstants.COLOR_MAP.NO_TARGET),

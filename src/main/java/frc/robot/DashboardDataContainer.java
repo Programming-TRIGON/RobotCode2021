@@ -49,9 +49,11 @@ public class DashboardDataContainer {
         dashboardController.addBoolean("Pitcher/State", subsystemContainer.PITCHER_SS::getSolenoidState);
         dashboardController.addNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS::getVelocityRPM);
         dashboardController.addNumber("Loader/Velocity", subsystemContainer.LOADER_SS::getVelocity);
-        dashboardController.addNumber("PitcherLimelight/distance", limelight::calculateDistanceFromTower);
+//        dashboardController.addNumber("PitcherLimelight/distance", limelight::calculateDistanceFromTower);
         dashboardController.addNumber("Xbox/X", driverController::getX);
         dashboardController.addNumber("Xbox/Y", driverController::getY);
+        dashboardController.addBoolean("Limelight/isExtended", limelight::hoodExtended);
+        dashboardController.addBoolean("Limelight/hasTarget", limelight::hasTarget);
     }
 
     public void updateDashboard() {

@@ -22,7 +22,7 @@ public class IntakeOpenerSS extends SubsystemBase implements Loggable {
      * @param isOpen to be set to the solenoid (true=forward false=reverse)
      */
     public void setSolenoidState(boolean isOpen) {
-        // solenoid.setSolenoid(isOpen);
+         solenoid.setSolenoid(isOpen);
     }
 
     /**
@@ -36,7 +36,11 @@ public class IntakeOpenerSS extends SubsystemBase implements Loggable {
     }
 
     public void toggleSolenoid() {
-        // solenoid.toggle();
+         solenoid.toggle();
+    }
+    @Override
+    public void periodic() {
+//        solenoid.setSolenoid(false);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class IntakeCMD extends CommandBase {
     }
 
     public IntakeCMD(IntakeSS intakeSS, IntakeConstants constants, DoubleSupplier power) {
-        this(intakeSS, constants, power, true);
+        this(intakeSS, constants, power, false);
     }
 
     public IntakeCMD(IntakeSS intakeSS, IntakeConstants constants) {

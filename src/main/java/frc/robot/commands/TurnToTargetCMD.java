@@ -48,7 +48,7 @@ public class TurnToTargetCMD extends CommandBase {
     public void execute() {
         rotationPIDController.setSetpoint(SmartDashboard.getNumber("TurnToTargetCMD/Angle setpoint", 0));
         if (limelight.hasTarget()) {
-            double pid = -rotationPIDController.calculate(limelight.getAngle());
+            double pid = -rotationPIDController.calculate(limelight.getTx());
             if (pid != 0)
                 drivetrain.powerDrive(0, 0, pid);
             else

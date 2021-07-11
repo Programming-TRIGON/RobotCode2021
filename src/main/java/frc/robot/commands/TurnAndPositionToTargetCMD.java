@@ -55,9 +55,9 @@ public class TurnAndPositionToTargetCMD extends CommandBase {
 
     @Override
     public void execute() {
-        rotationPIDController.calculate(limelight.getAngle());
+        rotationPIDController.calculate(limelight.getTx());
         if (limelight.hasTarget()) {
-            drivetrain.fieldPowerDrive(0, !wasInPosition ? positionPIDController.calculate(limelight.getTy()) : 0, wasInPosition ? -rotationPIDController.calculate(limelight.getAngle()) : 0);
+            drivetrain.fieldPowerDrive(0, !wasInPosition ? positionPIDController.calculate(limelight.getTy()) : 0, wasInPosition ? -rotationPIDController.calculate(limelight.getTx()) : 0);
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else {
             // The target wasn't found
