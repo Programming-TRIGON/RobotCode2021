@@ -27,10 +27,10 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(215));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(106));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(138));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(161));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(215 + 1));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(106 + 6+7 -14 + 4 ));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(138 + 44 + 20 + 16.5));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(161  + 2.5 ));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.1016; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
@@ -38,7 +38,7 @@ public class RobotA extends RobotConstants {
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(false, 10, .5, .2));
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(false, 12, .5, .2));
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.2, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(false, 12, .5, .2));
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -102,10 +102,10 @@ public class RobotA extends RobotConstants {
 
         // Climber constants
         climberConstants.CAN_MAP = can.climberMap;
-        climberConstants.LIFT_MOTOR_CONFIG=new MotorConfig();
-        climberConstants.WINCH_MOTOR_CONFIG =new MotorConfig(new MotorConfig(), false);
+        climberConstants.LIFT_MOTOR_CONFIG=new MotorConfig(0.4, NeutralMode.Brake, 0);
+        climberConstants.WINCH_MOTOR_CONFIG =new MotorConfig(0, NeutralMode.Brake, 0);
         climberConstants.DEFAULT_LIFT_POWER=0.25;
-        climberConstants.DEFAULT_WINCH_POWER=0.7;
+        climberConstants.DEFAULT_WINCH_POWER= 1;
         climberConstants.WINCH_STALL_LIMIT = 50;
 
         // Motion profile constants
@@ -132,7 +132,7 @@ public class RobotA extends RobotConstants {
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
         spinnerConstants.MOTOR_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
         spinnerConstants.DEFAULT_MOTOR_POWER = -0.2;
-        spinnerConstants.DEFAULT_SHOOTING_POWER = -0.2;
+        spinnerConstants.DEFAULT_SHOOTING_POWER = -0.15;
         spinnerConstants.STALL_CURRENT_LIMIT = 15;
         spinnerConstants.STALL_CHECK_DELAY = 1;
         spinnerConstants.PULSE_MOTOR_POWER = 0.25;
@@ -194,7 +194,7 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.731, 0, 0, 0.2282866519),
                 new SVACoefs(0.799, 0.00376, 0.0718),
-                new SVACoefs(0.687, 2.37, 9.46e-5)
+                new SVACoefs(0.8433, 2.282, 9.46e-5)
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
@@ -208,11 +208,11 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.5, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0, 0.2256438875),
                 new SVACoefs(0.835, 0.00405, 0.0355),
-                new SVACoefs(0.642, 2.33, 0.000122)
+                new SVACoefs(0.6402, 2.3053, 0.000122)
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
-                new TalonFXWithTalonSRXEncoder(5, can.climberMap.LIFT_MOTOR,
+                new TalonFXWithTalonSRXEncoder(5, can.climberMap.WINCH_MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -221,7 +221,7 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0 ,0.2319175878),
                 new SVACoefs( 0.897, 0.0041, 0.361),
-                new SVACoefs(0.638, 2.45, 0.00011)
+                new SVACoefs(0.807, 2.296, 0.00011)
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6,
@@ -235,7 +235,7 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0, 0.2217712184),
                 new SVACoefs(0.697, 0.00404, 0.396),
-                new SVACoefs(0.636, 2.3, 0.000106)
+                new SVACoefs(0.63, 2.3049, 0.000106)
         );
 
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);

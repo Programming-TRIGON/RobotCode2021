@@ -10,9 +10,9 @@ public class BackupAuto extends SequentialCommandGroup {
     private static final double X_POWER = 0.0;
     private static final double Y_POWER = -0.2;
     private static final double Z_POWER = 0.0;
-    private static final double SHOOT_TIMEOUT = 7;
+    private static final double SHOOT_TIMEOUT = 10;
     private static final double DRIVE_TIMEOUT = 1;
-    
+
     private final SubsystemContainer subsystems;
     private final RobotConstants constants;
     private final PitcherLimelight limelight;

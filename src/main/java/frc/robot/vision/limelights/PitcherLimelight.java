@@ -56,12 +56,11 @@ public class PitcherLimelight extends VanillaLimelight {
      */
     public double calculateDesiredShooterVelocity() {
         if (hoodExtended()) {
-            if (getTy() < 10)
+            if (getTy() < 7)
                 return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * getTy()
                     + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
             else
-                return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * getTy()
-                        + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
+                return 4100;
         }
         else
             return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * getTy()

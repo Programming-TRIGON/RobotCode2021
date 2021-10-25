@@ -1,7 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants;
+import frc.robot.subsystems.shooter.ShooterCMD;
 import frc.robot.utilities.DashboardController;
 import frc.robot.vision.limelights.PitcherLimelight;
 
@@ -44,6 +46,8 @@ public class DashboardDataContainer {
 
         // Loader
         putData("Loader/Load", container.LOADER_CMD);
+        SmartDashboard.putNumber("Shooter/DVel", 0);
+        putData("Shooter/this thing", new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants, () -> SmartDashboard.getNumber("Shooter/DVel", 0)));
 
         // DashboardController
         dashboardController.addBoolean("Pitcher/State", subsystemContainer.PITCHER_SS::getSolenoidState);

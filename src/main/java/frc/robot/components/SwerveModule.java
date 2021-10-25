@@ -9,11 +9,8 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.utilities.Logger;
-import frc.robot.utilities.SwerveConstants;
+import frc.robot.utilities.*;
 import frc.robot.utilities.SwerveConstants.StaticSwerveConstants;
-import frc.robot.utilities.TrigonPIDController;
-import frc.robot.utilities.TrigonProfiledPIDController;
 
 public class SwerveModule implements Sendable {
     private final SwerveConstants constants;
@@ -60,7 +57,7 @@ public class SwerveModule implements Sendable {
         SmartDashboard.putNumber("swerve/power", 0);
     //    setDesiredAngle(0);
 
-        logger = new Logger("Swerve test angle motor: " + angleMotor.getDeviceID(), "Power", "Velocity");
+//        logger = new Logger("Swerve test angle motor: " + angleMotor.getDeviceID(), "Power", "Velocity");
         startedLogging = false;
     }
 
@@ -82,29 +79,31 @@ public class SwerveModule implements Sendable {
                     + speedFeedforward.calculate(getDesiredVelocity()));
         else
             speedMotor.set(0);
-        // double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
-        // angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
+//         double pid = angleController.calculate(getAngle(), desiredState.angle.getDegrees());
+//         angleMotor.setVoltage(pid + angleFeedforward.calculate(angleController.getSetpoint().velocity));
         aController.setSetpoint(desiredState.angle.getDegrees());
+//        aController.setSetpoint(0);
         angleMotor.setVoltage(aController.calculate(getAngle()));
-
         // The code below is used for testing, it is very disgusting but for now it must do
         // !!!!!!!DO NOT UNCOMMENT IF NOT TESTING!!!!!WHEN FINSHED TESTING RECOMMENT!!!!!
 
     //     // double pid = angleController.calculate(getAngle(), SmartDashboard.getNumber("swerve/power", 0));
     //     System.out.println("PID: " + pid);
     //    angleMotor.setVoltage(angleFeedforward.calculate(angleController.getSetpoint().velocity) + pid);
-    //     move = SmartDashboard.getBoolean("swerve/move", false);
-    //     if (move) {
-    //        speedController.setSetpoint(SmartDashboard.getNumber("swerve/power", 0));
-    //        double speedPID = speedController.calculateWithKF(getSpeedMotorMPS());
-    //    speedMotor.setVoltage(speedPID);
-    //         // angleMotor.setVoltage(angleFeedforward.calculate(SmartDashboard.getNumber("swerve/power", 0)));
-    //        startedLogging = true;
-    //        logger.log(SmartDashboard.getNumber("swerve/power", 0), getSpeedMotorMPS());
-    //    } else if (startedLogging) {
-    //        startedLogging = false;
-    //        logger.close();
-    //    }
+//         move = SmartDashboard.getBoolean("swerve/move", false);
+//         if (move) {
+//            speedController.setSetpoint(SmartDashboard.getNumber("swerve/power", 0));
+//            double speedPID = speedController.calculateWithKF(getSpeedMotorMPS());
+//        speedMotor.setVoltage(speedPID);
+//             // angleMotor.setVoltage(angleFeedforward.calculate(SmartDashboard.getNumber("swerve/power", 0)));
+//            startedLogging = true;
+//            logger.log(getDesiredVelocity(), getSpeedMotorMPS());
+//        DriverStationLogger.logToDS(speedMotor.getDeviceID() + " - DesiredVel: " + getDesiredVelocity() + " Vel: " + getSpeedMotorMPS() + " Output in volts: " + speedController.calculate(getSpeedMotorMPS(), getDesiredVelocity())
+//                + speedFeedforward.calculate(getDesiredVelocity()));
+//        } else if (startedLogging) {
+//            startedLogging = false;
+//            logger.close();
+//        }
         if (angleMotor.getDeviceID() == 3) {
             SmartDashboard.putNumber("Front Left angleController.getSetpoint().velocity",
                     angleController.getSetpoint().velocity);

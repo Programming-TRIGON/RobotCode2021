@@ -73,11 +73,20 @@ public class ShooterCMD extends CommandBase implements Loggable {
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
         desiredVelocity = desiredVelocitySupplier.getAsDouble();
-        f = constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B;
+        if(desiredVelocity == 4100)
+            f = 8.663498374023439;
+        else if(desiredVelocity == 3500)
+            f = 7.521967587890626;
+        else if(desiredVelocity == 2070)
+            f = 4.813649619140625;
+        else
+            f = constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B;
     }
 
     @Override
     public void execute() {
+        // if(hasRecalculatedF)
+        //     System.out.println("ShooterCMD/F: " + f);
         if (isUsingLimelight) {
             if (limelight.hasTarget())
                 Shoot();
@@ -143,7 +152,8 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 SmartDashboard.putNumber("Shooter/output - f", output - constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B);
                 break;
         }
-        if (Timer.getFPGATimestamp() - lastTimeAtSetpoint > constants.TIME_AT_SETPOINT && hasRecalculatedF)
+        // if (Timer.getFPGATimestamp() - lastTimeAtSetpoint > constants.TIME_AT_SETPOINT && hasRecalculatedF)
+        if(hasRecalculatedF)
             hasSetpoint = true;
         SmartDashboard.putNumber("Shooter/f", constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B);
         SmartDashboard.putNumber("Shooter/new f", f);

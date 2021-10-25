@@ -8,6 +8,7 @@ import frc.robot.commands.command_groups.ShootWithPitcherCMDGP;
 import frc.robot.constants.RobotConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.TrigonSwerveControllerCMDGP;
+import frc.robot.subsystems.drivetrain.DriveSwerveLowerDeadbandCMD;
 import frc.robot.subsystems.drivetrain.SupplierFieldDriveCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.loader.LoaderCMD;
@@ -27,9 +28,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * by the Smartdashboard.
  */
 public class CommandContainer {
-	public static final double DRIVETRAIN_X_SENSITIVITY = 1.5;
-	public static final double DRIVETRAIN_Y_SENSITIVITY = 1.5;
-	public static final double DRIVETRAIN_Z_SENSITIVITY = 1.5;
+	public static final double DRIVETRAIN_X_SENSITIVITY = 2.25;
+	public static final double DRIVETRAIN_Y_SENSITIVITY = 2.25;
+	public static final double DRIVETRAIN_Z_SENSITIVITY = 2.25;
 
 	// CMDGP
 	public final ShootCMDGP SHOOT_CMDGP;
@@ -45,7 +46,7 @@ public class CommandContainer {
 
 	// Drivetrain
 	public final SupplierFieldDriveCMD SUPPLIER_FIELD_DRIVE_CMD;
-	public final SupplierFieldDriveCMD ENDGAME_SUPPLIER_FIELD_DRIVE_CMD;
+	public final DriveSwerveLowerDeadbandCMD ENDGAME_SUPPLIER_FIELD_DRIVE_CMD;
 	public final TurnToTargetCMD TURN_TO_TARGET_CMD;
 	public final TurnAndPositionToTargetCMD TURN_AND_POSITION_TO_TARGET_CMD;
 	public final RunWhenDisabledCommand RESET_DIRECTION;
@@ -96,14 +97,14 @@ public class CommandContainer {
 						/ DRIVETRAIN_Y_SENSITIVITY,
 				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.abs(Math.pow(driverController.getX(Hand.kLeft), 3))
 						/ DRIVETRAIN_Z_SENSITIVITY);
-		ENDGAME_SUPPLIER_FIELD_DRIVE_CMD = new SupplierFieldDriveCMD(subsystemContainer.DRIVETRAIN_SS,
+		ENDGAME_SUPPLIER_FIELD_DRIVE_CMD = new DriveSwerveLowerDeadbandCMD(subsystemContainer.DRIVETRAIN_SS,
 				robotConstants.drivetrainConstants,
 				() -> Math.signum(driverController.getX(Hand.kRight)) * Math.abs(Math.pow(driverController.getX(Hand.kRight), 3))
-						/ 5,
+						/ 10,
 				() -> Math.signum(driverController.getY(Hand.kRight)) * Math.abs(Math.pow(driverController.getY(Hand.kRight), 3))
-						/ 5,
+						/ 10,
 				() -> Math.signum(driverController.getX(Hand.kLeft)) * Math.abs(Math.pow(driverController.getX(Hand.kLeft), 3))
-						/ 5);
+						/ 10);
 		TURN_TO_TARGET_CMD = new TurnToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
 				robotConstants.visionConstants, Target.PowerPort);
 		TURN_AND_POSITION_TO_TARGET_CMD = new TurnAndPositionToTargetCMD(subsystemContainer.DRIVETRAIN_SS, limelight,
@@ -141,7 +142,7 @@ public class CommandContainer {
 				robotConstants.loaderConstants.DEFAULT_SHOOTING_VELOCITY);
 
 		// Climber
-		LIFT_CMD = new MoveMovableSubsystem(subsystemContainer.LIFT_SS, driverController::getDeltaTriggers);
+		LIFT_CMD = new MoveMovableSubsystem(subsystemContainer.LIFT_SS, () -> driverController.getDeltaTriggers());
 		WINCH_CMD = new MoveMovableSubsystem(subsystemContainer.WINCH_SS, () -> robotConstants.climberConstants.DEFAULT_WINCH_POWER);
 	}
 }
