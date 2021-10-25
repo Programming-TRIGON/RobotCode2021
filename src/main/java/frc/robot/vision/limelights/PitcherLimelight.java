@@ -49,54 +49,42 @@ public class PitcherLimelight extends VanillaLimelight {
     }
 
     /**
-     * calculates the distance of the robot from the tower based on the ration of
-     * the height the limelight sees to the distance
-     *
-     * @return distance of the robot from the tower
-     */
-    // TODO: Set correct coefs
-    public double calculateDistanceFromTower() {
-        double y = getTy();
-        if (hoodExtended())
-            return 4.15*Math.pow(Math.E, -0.0604*y) + 0.8;
-        else
-            return 4.15*Math.pow(Math.E, -0.0604*y) + 0.8;
-    }
-
-    /**
      * Calculates the desired desiredVelocity to set the motors based on the
      * distance of the robot from the tower
      *
      * @return the desired desiredVelocity of the motors
      */
     public double calculateDesiredShooterVelocity() {
-        double distanceFromTower = calculateDistanceFromTower();
-        if (hoodExtended())
-            return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
-                    + extendedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
+        if (hoodExtended()) {
+            if (getTy() < 7)
+                return extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * getTy()
+                    + extendedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
+            else
+                return 4100;
+        }
         else
-            return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * distanceFromTower
-                    + retractedConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C;
+            return retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B * getTy()
+                    + retractedConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C;
     }
 
     /**
      * @return the vector between the middle of the robot and the target.
      */
-    private Vector2d calculateVector() {
-        // This is the vector from the limelight to the target.
-        Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
-        if (hoodExtended()) {
-            limelightToTarget.rotate(getTx() + extendedConstants.LIMELIGHT_ANGLE_OFFSET);
-            // The offset is subtracted from the limelightToTarget vector in order to get
-            // the final vector.
-            return new Vector2d(limelightToTarget.x - extendedConstants.LIMELIGHT_OFFSET_X,
-                    limelightToTarget.y - extendedConstants.LIMELIGHT_OFFSET_Y);
-        } else {
-            limelightToTarget.rotate(getTx() + retractedConstants.LIMELIGHT_ANGLE_OFFSET);
-            // The offset is subtracted from the limelightToTarget vector in order to get
-            // the final vector.
-            return new Vector2d(limelightToTarget.x - retractedConstants.LIMELIGHT_OFFSET_X,
-                    limelightToTarget.y - retractedConstants.LIMELIGHT_OFFSET_Y);
-        }
-    }
+//    private Vector2d calculateVector() {
+//        // This is the vector from the limelight to the target.
+//        Vector2d limelightToTarget = new Vector2d(getTargetDistance(), 0);
+//        if (hoodExtended()) {
+//            limelightToTarget.rotate(getTx() + extendedConstants.LIMELIGHT_ANGLE_OFFSET);
+//            // The offset is subtracted from the limelightToTarget vector in order to get
+//            // the final vector.
+//            return new Vector2d(limelightToTarget.x - extendedConstants.LIMELIGHT_OFFSET_X,
+//                    limelightToTarget.y - extendedConstants.LIMELIGHT_OFFSET_Y);
+//        } else {
+//            limelightToTarget.rotate(getTx() + retractedConstants.LIMELIGHT_ANGLE_OFFSET);
+//            // The offset is subtracted from the limelightToTarget vector in order to get
+//            // the final vector.
+//            return new Vector2d(limelightToTarget.x - retractedConstants.LIMELIGHT_OFFSET_X,
+//                    limelightToTarget.y - retractedConstants.LIMELIGHT_OFFSET_Y);
+//        }
+//    }
 }

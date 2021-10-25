@@ -10,10 +10,12 @@ import io.github.oblarg.oblog.annotations.Log;
 public class PitcherSS extends SubsystemBase implements Loggable {
     private final PitcherConstants constants;
     private final TrigonDoubleSolenoid solenoid;
+    private boolean hoodExtended;
 
     public PitcherSS(PitcherConstants constants) {
         this.constants = constants;
         solenoid = constants.PCM_MAP.SOLENOID;
+        hoodExtended = true;
     }
 
     /**
@@ -22,6 +24,7 @@ public class PitcherSS extends SubsystemBase implements Loggable {
      * @param state to be set to the solenoid (true=forward false=reverse)
      */
     public void setSolenoidState(boolean state) {
+        hoodExtended = state;
         solenoid.setSolenoid(state);
     }
 
@@ -32,11 +35,13 @@ public class PitcherSS extends SubsystemBase implements Loggable {
      */
     @Log(name = "Is open")
     public boolean getSolenoidState() {
-        return solenoid.isForward();
+        // this boolean values is used instead of solinoid.isforward() because that function didn't work
+        return hoodExtended;
     }
 
     public void toggleSolenoid() {
         solenoid.setSolenoid(!getSolenoidState());
+        hoodExtended = !getSolenoidState();
     }
 
     @Override

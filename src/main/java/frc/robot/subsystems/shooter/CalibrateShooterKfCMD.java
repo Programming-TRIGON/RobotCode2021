@@ -11,7 +11,7 @@ public class CalibrateShooterKfCMD extends CommandBase {
     private final ShooterSS shooterSS;
     private final ShooterConstants constants;
     private final TBHController tbhController;
-    private final SimpleMotorFeedforward feedforward;
+//    private final SimpleMotorFeedforward feedforward;
     private Logger logger;
     private double desiredVelocity;
     private double endVelocity;
@@ -31,14 +31,14 @@ public class CalibrateShooterKfCMD extends CommandBase {
         this.shooterSS = shooterSS;
         this.constants = constants;
         this.tbhController = constants.TBH_CONTROLLER;
-        this.feedforward = constants.SIMPLE_MOTOR_FEEDFORWARD;
+//        this.feedforward = constants.SIMPLE_MOTOR_FEEDFORWARD;
         desiredVelocity = 0;
         endVelocity = 1;
     }
 
     @Override
     public void initialize() {
-        this.logger = new Logger("ShooterKFCalibration", "Velocity", "Voltage", "SimpleMotorFeedForward Voltage");
+        this.logger = new Logger("ShooterKFCalibration", "Velocity", "New Voltage", "Old Voltage (Do not use this for graph)");
         desiredVelocity = constants.KF_TESTING_INITIAL_DESIRED_VELOCITY;
         endVelocity = constants.KF_TESTING_INITIAL_DESIRED_VELOCITY
                 + constants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST * constants.KF_TESTING_TEST_AMOUNT;
@@ -78,7 +78,8 @@ public class CalibrateShooterKfCMD extends CommandBase {
             }
             if (sampleCount == constants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT) {
                 double newF = outputSum / sampleCount;
-                logger.log(desiredVelocity, newF, feedforward.calculate(desiredVelocity / 60));
+                logger.log(desiredVelocity, newF, constants.KF_COEF_A * desiredVelocity
+                        + constants.KF_COEF_B);
                 postTest = true;
             }
         }

@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.SubsystemContainer;
 import frc.robot.commands.TurnToTargetCMD;
@@ -21,12 +22,17 @@ public class ShootWithoutLimelight extends ParallelCommandGroup {
     public ShootWithoutLimelight(SubsystemContainer subsystems, RobotConstants constants, DoubleSupplier sup) {
 
         ShooterCMD shootCMD = new ShooterCMD(subsystems.SHOOTER_SS, subsystems.LED_SS, constants.shooterConstants, sup);
+        SmartDashboard.putNumber("Loader/ShootVel", constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY);
         addCommands(shootCMD,
                 new SequentialCommandGroup(
                         new WaitUntilCommand(shootCMD::isAtSetpoint),
                         new ParallelCommandGroup(
                                 new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
-                                        () -> SmartDashboard.getNumber("Loader Vel", constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY)),
-                                new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants))));
+                                        () -> SmartDashboard.getNumber("Loader/ShootVel", constants.loaderConstants.DEFAULT_SHOOTING_VELOCITY)),
+
+                                new SequentialCommandGroup(
+                                        new WaitCommand(constants.spinnerConstants.WAIT_TILL_SHOOT_TIME),
+                                        new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants,
+                                                () -> constants.spinnerConstants.DEFAULT_MOTOR_POWER, false)))));
     }
 }

@@ -7,6 +7,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.intake.IntakeCMD;
 import frc.robot.subsystems.intake_opener.IntakeOpenerCMD;
 import frc.robot.subsystems.loader.LoaderCMD;
+import frc.robot.subsystems.spinner.SpinInPulsesCMD;
 import frc.robot.subsystems.spinner.SpinnerCMD;
 
 public class CollectCMDGP extends SequentialCommandGroup {
@@ -30,7 +31,7 @@ public class CollectCMDGP extends SequentialCommandGroup {
                         new LoaderCMD(subsystems.LOADER_SS, constants.loaderConstants,
                                 () -> subsystems.SPINNER_SS.isStalled() ? 0
                                         : constants.loaderConstants.DEFAULT_MIXING_VELOCITY),
-                        new SpinnerCMD(subsystems.SPINNER_SS, constants.spinnerConstants),
-                        new IntakeCMD(subsystems.INTAKE_SS, subsystems.LED_SS, constants.intakeConstants)));
+                        new SpinInPulsesCMD(subsystems.SPINNER_SS, constants.spinnerConstants),
+                        new IntakeCMD(subsystems.INTAKE_SS, constants.intakeConstants)));
     }
 }

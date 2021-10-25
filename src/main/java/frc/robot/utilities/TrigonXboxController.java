@@ -84,6 +84,7 @@ public class TrigonXboxController extends XboxController {
      * @return positive trigger value - other trigger value.
      */
     public double getDeltaTriggers(Hand positiveHand) {
+
         if (positiveHand == Hand.kRight)
             return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
         else
@@ -95,8 +96,10 @@ public class TrigonXboxController extends XboxController {
      *
      * @return The difference between the left and right triggers.
      */
-    public double getDeltaTriggers() {
-        return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
+    public double getDeltaTriggers()
+    { if (getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft) > 0)
+        return (getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft)) * 0.95;
+        else return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
     }
 
     /**

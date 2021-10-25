@@ -4,9 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -29,10 +27,10 @@ public class RobotA extends RobotConstants {
 
         // Drivetrain constants
         drivetrainConstants.CAN_MAP = can.drivetrainMap;
-        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(215));
-        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(106));
-        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(72));
-        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(161));
+        drivetrainConstants.FRONT_LEFT_LOCATION = new Pose2d(0.29765, -0.29765, Rotation2d.fromDegrees(215 + 1));
+        drivetrainConstants.FRONT_RIGHT_LOCATION = new Pose2d(0.29765, 0.29765, Rotation2d.fromDegrees(106 + 6+7 -14 + 4 ));
+        drivetrainConstants.REAR_LEFT_LOCATION = new Pose2d(-0.29765, -0.29765, Rotation2d.fromDegrees(138 + 44 + 20 + 16.5));
+        drivetrainConstants.REAR_RIGHT_LOCATION = new Pose2d(-0.29765, 0.29765, Rotation2d.fromDegrees(161  + 2.5 ));
         drivetrainConstants.WHEEL_DIAMETER_M = 0.1016; // in meters
         drivetrainConstants.MAX_SPEED_MPS = 10; // in m/s
         drivetrainConstants.MAX_ROT_SPEED_RAD_S = 15; // in rad/s
@@ -40,7 +38,7 @@ public class RobotA extends RobotConstants {
         StaticSwerveConstants.ANGLE_TICKS_PER_REVOLUTION = 4096;
         StaticSwerveConstants.SPEED_MOTOR_TICKS_PER_REVOLUTION = 2048;
         StaticSwerveConstants.ANGLE_DEFAULT_CONFIG = new MotorConfig(.1, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(false, 10, .5, .2));
-        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.5, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(false, 12, .5, .2));
+        StaticSwerveConstants.SPEED_DEFAULT_CONFIG = new MotorConfig(.2, false, false, NeutralMode.Brake, 0, new SupplyCurrentLimitConfiguration(false, 12, .5, .2));
         StaticSwerveConstants.SPEED_GEAR_RATION = 6.86;
 
         // Sensor check constants
@@ -48,7 +46,7 @@ public class RobotA extends RobotConstants {
         testerConstants.SECONDS_TO_WAIT = 3;
 
         // Vision Constants
-        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.005, 0, 0.0, 0.08, 0.001);
+        visionConstants.ROTATION_SETTINGS = new PIDFCoefs(0.006, 0.001, 0.0, 0.08, 0.001);
         visionConstants.POSITION_SETTINGS = new PIDFCoefs(0.05, 0, 0.0, 0.16, 0.05);
         visionConstants.Y_TARGET = 3.75;
         visionConstants.TARGET_TIME_OUT = 4;
@@ -56,7 +54,7 @@ public class RobotA extends RobotConstants {
         // Loader Constants
         loaderConstants.CAN_MAP = can.loaderMap;
         loaderConstants.MOTOR_CONFIG = new MotorConfig(0.2, false, true, NeutralMode.Coast, 0);
-        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.082812504229243, 0, 0.1, 0.1, 5000, 150, 8);
+        loaderConstants.FEEDFORWARD_CONSTANTS = new FeedforwardConstants(0.001080635701083645, 200 * 0.001080635701083645, 1, 0.5, 5000, 150, 15);
         loaderConstants.PID_COEFS = new PIDFCoefs(0, 0, 0, loaderConstants.FEEDFORWARD_CONSTANTS.mCoef, 0, 0);
         loaderConstants.DEFAULT_SHOOTING_VELOCITY = 11500;
         loaderConstants.DEFAULT_MIXING_VELOCITY = -1200;
@@ -70,25 +68,27 @@ public class RobotA extends RobotConstants {
          * to TBH and the tolerance and delta tolerance constants are for deciding when
          * we are ready to shoot
          */
-        shooterConstants.PID_COEFS = new PIDFCoefs(0.0016, 0.00002, 0.000, 30, 0);
+        shooterConstants.PID_COEFS = new PIDFCoefs(0.0001, 0.00002, 0.00000001, 30, 0);
         shooterConstants.TBH_CONTROLLER = new TBHController(0.00005, shooterConstants.PID_COEFS.getTolerance());
         shooterConstants.PID_CONTROLLER = new TrigonPIDController(shooterConstants.PID_COEFS);
         shooterConstants.SIMPLE_MOTOR_FEEDFORWARD = new SimpleMotorFeedforward(0.812, 0.140, 0.00984);
-        shooterConstants.KF_COEF_A = 0.0019;
-        shooterConstants.KF_COEF_B = 0.8085;
+        shooterConstants.KF_COEF_A = 0.0018;
+        shooterConstants.KF_COEF_B = 1.1488;
         shooterConstants.SHOOTING_RAMP_RATE = .7;
         //TODO: reset to normal value
-        shooterConstants.TOLERANCE = 250;
-        shooterConstants.TIME_AT_SETPOINT = 0.25;
+        shooterConstants.TOLERANCE = 20;
+        shooterConstants.TIME_AT_SETPOINT = 0.2;
         shooterConstants.CANCEL_CMDGP_AXIS_THRESHOLD = 0.4;
         shooterConstants.MAX_NUMBER_OF_BALLS = 5;
-        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 40;
+        shooterConstants.KF_CALCULATION_SAMPLE_AMOUNT = 30;
+        shooterConstants.WAIT_AT_SETPOINT_TIME = 0.5;
+
         shooterConstants.KF_TESTING_DELTA_TOLERANCE = 5;
         shooterConstants.KF_TESTING_TOLERANCE = 10;
-        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 300;
-        shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 200;
+        shooterConstants.KF_TESTING_INITIAL_DESIRED_VELOCITY = 3000;
+        shooterConstants.KF_TESTING_VELOCITY_ACCELERATION_PER_TEST = 50;
         shooterConstants.KF_TESTING_TEST_AMOUNT = 20;
-        shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 100;
+        shooterConstants.KF_TESTING_CALCULATION_SAMPLE_AMOUNT = 200;
 
 
         // LED constants
@@ -97,16 +97,16 @@ public class RobotA extends RobotConstants {
 
         // Intake constants
         intakeConstants.CAN_MAP = can.intakeMap;
-        intakeConstants.MOTOR_CONFIG = new MotorConfig();
-        intakeConstants.DEFAULT_MOTOR_POWER = 0.3;
+        intakeConstants.MOTOR_CONFIG = new MotorConfig(0, true, false, NeutralMode.Coast, 0);
+        intakeConstants.DEFAULT_MOTOR_POWER = -0.5;
 
         // Climber constants
         climberConstants.CAN_MAP = can.climberMap;
-        climberConstants.LIFT_MOTOR_CONFIG=new MotorConfig();
-        climberConstants.RIGHT_WINCH_MOTOR_CONFIG=new MotorConfig();
-        climberConstants.LEFT_WINCH_MOTOR_CONFIG=new MotorConfig(climberConstants.RIGHT_WINCH_MOTOR_CONFIG, true);
+        climberConstants.LIFT_MOTOR_CONFIG=new MotorConfig(0.4, NeutralMode.Brake, 0);
+        climberConstants.WINCH_MOTOR_CONFIG =new MotorConfig(0, NeutralMode.Brake, 0);
         climberConstants.DEFAULT_LIFT_POWER=0.25;
-        climberConstants.DEFAULT_WINCH_POWER=0.25;
+        climberConstants.DEFAULT_WINCH_POWER= 1;
+        climberConstants.WINCH_STALL_LIMIT = 50;
 
         // Motion profile constants
         motionProfilingConstants.MAX_VELOCITY = 5;
@@ -114,14 +114,14 @@ public class RobotA extends RobotConstants {
         motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION = 0.5;
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
-        motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0, 0));
-        motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0, 0, 0));
+        motionProfilingConstants.X_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0.2, 0, 0));
+        motionProfilingConstants.Y_PID_CONTROLLER = new TrigonPIDController(new PIDFCoefs(0.2, 0, 0));
         motionProfilingConstants.THETA_PROFILED_PID_CONTROLLER = new TrigonProfiledPIDController(
                 new PIDFCoefs(0.5, 0, 0, 0, 0, new Constraints(100, 50)));
         // Pitcher constants
         pitcherConstants.PCM_MAP = pcm.pitcherMap;
         pitcherConstants.EXTENDED_TOGGLE_ANGLE = 20;
-        pitcherConstants.RETRACTED_TOGGLE_ANGLE = 10;
+        pitcherConstants.RETRACTED_TOGGLE_ANGLE = -12;
         pitcherConstants.NO_TARGET_BLINK_TIME = 5;
 
         // Intake opener constants
@@ -132,8 +132,12 @@ public class RobotA extends RobotConstants {
         spinnerConstants.I2C_MAP = i2c.spinnerMap;
         spinnerConstants.MOTOR_CONFIG = new MotorConfig(0.5, NeutralMode.Coast, 0);
         spinnerConstants.DEFAULT_MOTOR_POWER = -0.2;
+        spinnerConstants.DEFAULT_SHOOTING_POWER = -0.15;
         spinnerConstants.STALL_CURRENT_LIMIT = 15;
         spinnerConstants.STALL_CHECK_DELAY = 1;
+        spinnerConstants.PULSE_MOTOR_POWER = 0.25;
+        spinnerConstants.PULSE_LENGTH = 0.3;
+        spinnerConstants.WAIT_TILL_SHOOT_TIME = 0.2;
 
         /* Limelight Constants */
 
@@ -144,30 +148,18 @@ public class RobotA extends RobotConstants {
         extendedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
         extendedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
         extendedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
-        extendedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 1;
-        extendedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 1;
-        extendedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 1;
         extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
-        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 156;
-        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2656;
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A = 1.69 * Math.pow(10, -5);
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = -7.04 * Math.pow(10, -4);
-        extendedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 0.0137;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
+        extendedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 3500;
 
         // retracted limelight
         retractedLimelightConstants.DEFAULT_TABLE_KEY = extendedLimelightConstants.DEFAULT_TABLE_KEY;
         retractedLimelightConstants.LIMELIGHT_OFFSET_X = 0;
         retractedLimelightConstants.LIMELIGHT_OFFSET_Y = 0;
         retractedLimelightConstants.LIMELIGHT_ANGLE_OFFSET = 0;
-        retractedLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT = -17;
-        retractedLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 0;
-        retractedLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT = 24.1;
         retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_A = 0;
-        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 156;
-        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2656;
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_A =  1.69 * Math.pow(10, -5);
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_B = -7.04 * Math.pow(10, -4);
-        retractedLimelightConstants.SHOOTER_HEIGHT_TO_DISTANCE_COEF_C = 0.0137;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_B = 0;
+        retractedLimelightConstants.SHOOTER_DISTANCE_TO_VELOCITY_COEF_C = 2070;
 
         /* Robot Map */
 
@@ -178,9 +170,8 @@ public class RobotA extends RobotConstants {
         can.shooterMap.LEFT_MOTOR = new TrigonTalonFX(14, shooterConstants.LEFT_MOTOR_CONFIG);
         can.intakeMap.MOTOR = new TrigonTalonSRX(9, intakeConstants.MOTOR_CONFIG);
         can.loaderMap.MOTOR = new TrigonTalonSRX(17, loaderConstants.MOTOR_CONFIG, loaderConstants.PID_COEFS);
-        can.climberMap.LIFT_MOTOR=new TrigonTalonSRX(10,climberConstants.LIFT_MOTOR_CONFIG);
-        can.climberMap.RIGHT_WINCH_MOTOR=new TrigonTalonSRX(12, climberConstants.RIGHT_WINCH_MOTOR_CONFIG);
-        can.climberMap.LEFT_WINCH_MOTOR=new TrigonTalonSRX(15, climberConstants.LEFT_WINCH_MOTOR_CONFIG);
+        can.climberMap.LIFT_MOTOR=new TrigonTalonSRX(8,climberConstants.LIFT_MOTOR_CONFIG);
+        can.climberMap.WINCH_MOTOR =new TrigonTalonSRX(10, climberConstants.WINCH_MOTOR_CONFIG);
 
         // Drivetrain map;
 //        drivetrainConstants.SPEED_SVA_COEFS = new SVACoefs(0.557, 2.35, 0.0749);
@@ -194,7 +185,7 @@ public class RobotA extends RobotConstants {
 
         drivetrainConstants.FRONT_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(0, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
-                new TalonFXWithTalonSRXEncoder(1, 8,
+                new TalonFXWithTalonSRXEncoder(1, 9,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -203,12 +194,12 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.731, 0, 0, 0.2282866519),
                 new SVACoefs(0.799, 0.00376, 0.0718),
-                new SVACoefs(0.687, 2.37, 9.46e-5)
+                new SVACoefs(0.8433, 2.282, 9.46e-5)
         );
         drivetrainConstants.FRONT_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(2,
                         new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, false)),
-                new TalonFXWithTalonSRXEncoder(3, can.intakeMap.MOTOR,
+                new TalonFXWithTalonSRXEncoder(3, 8,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -217,11 +208,11 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.5, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0, 0.2256438875),
                 new SVACoefs(0.835, 0.00405, 0.0355),
-                new SVACoefs(0.642, 2.33, 0.000122)
+                new SVACoefs(0.6402, 2.3053, 0.000122)
         );
         drivetrainConstants.REAR_RIGHT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(4, new MotorConfig(StaticSwerveConstants.SPEED_DEFAULT_CONFIG, true)),
-                new TalonFXWithTalonSRXEncoder(5, can.climberMap.LIFT_MOTOR,
+                new TalonFXWithTalonSRXEncoder(5, can.climberMap.WINCH_MOTOR,
                         new MotorConfig(StaticSwerveConstants.ANGLE_DEFAULT_CONFIG, true,
                                 false)),
                 drivetrainConstants.WHEEL_DIAMETER_M,
@@ -230,7 +221,7 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0 ,0.2319175878),
                 new SVACoefs( 0.897, 0.0041, 0.361),
-                new SVACoefs(0.638, 2.45, 0.00011)
+                new SVACoefs(0.807, 2.296, 0.00011)
         );
         drivetrainConstants.REAR_LEFT_CONSTANTS = new SwerveConstants(
                 new TrigonTalonFX(6,
@@ -244,7 +235,7 @@ public class RobotA extends RobotConstants {
                 new PIDFCoefs(0.035, 0.4, 0.002, 1, 1, new TrapezoidProfile.Constraints(350, 1000)),
                 new PIDFCoefs(0.616, 0, 0, 0.2217712184),
                 new SVACoefs(0.697, 0.00404, 0.396),
-                new SVACoefs(0.636, 2.3, 0.000106)
+                new SVACoefs(0.63, 2.3049, 0.000106)
         );
 
         can.drivetrainMap.FRONT_RIGHT = new SwerveModule(drivetrainConstants.FRONT_RIGHT_CONSTANTS);

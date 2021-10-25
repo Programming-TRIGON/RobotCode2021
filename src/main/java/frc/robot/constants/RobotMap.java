@@ -60,8 +60,7 @@ public abstract class RobotMap {
 
         public class ClimberMap{
             public TrigonTalonSRX LIFT_MOTOR;
-            public TrigonTalonSRX RIGHT_WINCH_MOTOR;
-            public TrigonTalonSRX LEFT_WINCH_MOTOR; 
+            public TrigonTalonSRX WINCH_MOTOR;
         }
     }
 

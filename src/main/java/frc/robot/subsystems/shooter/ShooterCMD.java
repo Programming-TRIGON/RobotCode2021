@@ -72,17 +72,21 @@ public class ShooterCMD extends CommandBase implements Loggable {
         PIDController.reset();
         if (isUsingLimelight)
             limelight.startVision(Target.PowerPort);
-        if(desiredVelocitySupplier.getAsDouble() < 2000){
-            desiredVelocity = 3200;
-            DriverStationLogger.logToDS("ShooterCMD/tooLowDesiredVelocity: " + desiredVelocitySupplier.getAsDouble());
-        }
+        desiredVelocity = desiredVelocitySupplier.getAsDouble();
+        if(desiredVelocity == 4100)
+            f = 8.663498374023439;
+        else if(desiredVelocity == 3500)
+            f = 7.521967587890626;
+        else if(desiredVelocity == 2070)
+            f = 4.813649619140625;
         else
-            desiredVelocity = desiredVelocitySupplier.getAsDouble();
-        f = constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B;
+            f = constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B;
     }
 
     @Override
     public void execute() {
+        // if(hasRecalculatedF)
+        //     System.out.println("ShooterCMD/F: " + f);
         if (isUsingLimelight) {
             if (limelight.hasTarget())
                 Shoot();
@@ -93,7 +97,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
             }
         } else
             Shoot();
-        DriverStationLogger.logToDS("Shooter/setpoint Vel: " + desiredVelocitySupplier.getAsDouble());
+//        DriverStationLogger.logToDS("Shooter/setpoint Vel: " + desiredVelocitySupplier.getAsDouble());
     }
 
     private void Shoot() {
@@ -108,6 +112,7 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 && currentState == ShooterState.Default && hasRecalculatedF) {
             currentState = ShooterState.AfterShot;
             ballsShotCount++;
+            System.out.println("ballsShotCount: " + ballsShotCount);
         } else if (desiredVelocity - shooterSS.getVelocityRPM() < constants.PID_COEFS.getTolerance()
                 && currentState == ShooterState.AfterShot) {
             currentState = ShooterState.Default;
@@ -135,16 +140,23 @@ public class ShooterCMD extends CommandBase implements Loggable {
                 }
                 CalculateIfAtSetpoint();
                 SmartDashboard.putBoolean("isPID", false);
+                SmartDashboard.putNumber("Shooter/output", output);
+                SmartDashboard.putNumber("Shooter/output - f", output - f);
                 break;
             case AfterShot:
                 output = PIDController.calculate(shooterSS.getVelocityRPM()) + f;
                 shooterSS.move(output);
                 CalculateIfAtSetpoint();
                 SmartDashboard.putBoolean("isPID", true);
+                SmartDashboard.putNumber("Shooter/output", output);
+                SmartDashboard.putNumber("Shooter/output - f", output - constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B);
                 break;
         }
-        if (Timer.getFPGATimestamp() - lastTimeAtSetpoint > constants.TIME_AT_SETPOINT && hasRecalculatedF)
+        // if (Timer.getFPGATimestamp() - lastTimeAtSetpoint > constants.TIME_AT_SETPOINT && hasRecalculatedF)
+        if(hasRecalculatedF)
             hasSetpoint = true;
+        SmartDashboard.putNumber("Shooter/f", constants.KF_COEF_A * desiredVelocity + constants.KF_COEF_B);
+        SmartDashboard.putNumber("Shooter/new f", f);
     }
 
     public int getBallsShotCount() {

@@ -7,7 +7,7 @@ import frc.robot.subsystems.led.LedSS;
 import frc.robot.utilities.DriverStationLogger;
 import frc.robot.vision.limelights.PitcherLimelight;
 
-public class PitcherCMD extends CommandBase {
+public class PitcherCMD extends InstantCommand {
     private final PitcherSS pitcherSS;
     private final PitcherConstants constants;
     private final PitcherLimelight limelight;
@@ -28,7 +28,9 @@ public class PitcherCMD extends CommandBase {
     @Override
     public void initialize() {
         if (limelight.hasTarget()) {
-            pitcherSS.setSolenoidState(pitcherSS.getSolenoidState() ? limelight.getTy() > constants.EXTENDED_TOGGLE_ANGLE
+            System.out.println(pitcherSS.getSolenoidState() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
+                    : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
+            pitcherSS.setSolenoidState(pitcherSS.getSolenoidState() ? limelight.getTy() < constants.EXTENDED_TOGGLE_ANGLE
                     : limelight.getTy() < constants.RETRACTED_TOGGLE_ANGLE);
         }
         else {

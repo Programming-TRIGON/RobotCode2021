@@ -63,8 +63,10 @@ public class GenericCalibrateKF extends CommandBase {
                  * Uses calculation from Ctre to calculate the KF based on the given output and
                  * the velocity the motor got to (See CTRE Documentation for further explanation
                  * https://bit.ly/2QuAOFI")
-                 */
-                KFSum += (output * PIDF_MAX_OUTPUT) / averageVelocity;
+                //  */
+                // KFSum += (output * PIDF_MAX_OUTPUT) / averageVelocity;
+
+                KFSum += output / averageVelocity;
                 testCount++;
                 postTest = true;
             }

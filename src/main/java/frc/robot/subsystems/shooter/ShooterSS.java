@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.ShooterConstants;
@@ -22,6 +23,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, Logga
      * @param voltage to be set to the motors
      */
     public void move(double voltage) {
+        SmartDashboard.putNumber("Shooter/voltage", voltage);
         masterMotor.setVoltage(voltage);
     }
 

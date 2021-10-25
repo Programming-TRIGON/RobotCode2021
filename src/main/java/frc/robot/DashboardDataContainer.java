@@ -1,7 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants;
+import frc.robot.subsystems.shooter.ShooterCMD;
 import frc.robot.utilities.DashboardController;
 import frc.robot.vision.limelights.PitcherLimelight;
 
@@ -44,14 +46,18 @@ public class DashboardDataContainer {
 
         // Loader
         putData("Loader/Load", container.LOADER_CMD);
+        SmartDashboard.putNumber("Shooter/DVel", 0);
+        putData("Shooter/this thing", new ShooterCMD(subsystemContainer.SHOOTER_SS, null, robotConstants.shooterConstants, () -> SmartDashboard.getNumber("Shooter/DVel", 0)));
 
         // DashboardController
         dashboardController.addBoolean("Pitcher/State", subsystemContainer.PITCHER_SS::getSolenoidState);
         dashboardController.addNumber("Shooter/Velocity", subsystemContainer.SHOOTER_SS::getVelocityRPM);
         dashboardController.addNumber("Loader/Velocity", subsystemContainer.LOADER_SS::getVelocity);
-        dashboardController.addNumber("PitcherLimelight/distance", limelight::calculateDistanceFromTower);
+//        dashboardController.addNumber("PitcherLimelight/distance", limelight::calculateDistanceFromTower);
         dashboardController.addNumber("Xbox/X", driverController::getX);
         dashboardController.addNumber("Xbox/Y", driverController::getY);
+        dashboardController.addBoolean("Limelight/isExtended", limelight::hoodExtended);
+        dashboardController.addBoolean("Limelight/hasTarget", limelight::hasTarget);
     }
 
     public void updateDashboard() {

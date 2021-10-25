@@ -27,6 +27,7 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
      * but rather goes to the angle given in the final state of the trajectory.
      */
     public TrigonSwerveControllerCMDGP(DrivetrainSS drivetrainSS, MotionProfilingConstants constants, AutoPath path) {
+        constants.THETA_PROFILED_PID_CONTROLLER.enableContinuousInput(-180, 180);
         constants.THETA_PROFILED_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
         SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID X", constants.X_PID_CONTROLLER);
         SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID Y", constants.Y_PID_CONTROLLER);
